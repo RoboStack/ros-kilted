@@ -1,0 +1,173 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/prefix-dev/recipe-format/main/schema.json
+
+package:
+  name: ros-kilted-moveit-core
+  version: 2.13.2
+source:
+  git: https://github.com/ros2-gbp/moveit2-release.git
+  tag: release/kilted/moveit_core/2.13.2-2
+  target_directory: ros-kilted-moveit-core/src/work
+  patches:
+    - patch/ros-kilted-moveit-core.patch
+
+build:
+  script: ${{ '$RECIPE_DIR/build_ament_cmake.sh' if unix or wasm32 else '%RECIPE_DIR%\\bld_ament_cmake.bat' }}
+  number: 7
+  post_process:
+    - files:
+        - '*.pc'
+      regex: (?:-L|-I)?"?([^;\s]+/sysroot/)
+      replacement: $$(CONDA_BUILD_SYSROOT_S)
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/sysroot)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/MacOSX\d*\.?\d*\.sdk)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+about:
+  homepage: https://www.ros.org/
+  license: BSD-3-Clause
+  summary: |
+    Robot Operating System
+
+extra:
+  recipe-maintainers:
+    - ros-forge
+
+requirements:
+  build:
+    - ${{ compiler('cxx') }}
+    - ${{ compiler('c') }}
+    - if: target_platform!='emscripten-wasm32'
+      then:
+        - ${{ stdlib('c') }}
+    - ninja
+    - python
+    - setuptools
+    - git
+    - if: unix
+      then:
+        - patch
+        - make
+        - coreutils
+    - if: win
+      then:
+        - m2-patch
+    - if: osx
+      then:
+        - tapi
+    - if: build_platform != target_platform
+      then:
+        - pkg-config
+    - cmake
+    - cython
+    - if: build_platform != target_platform
+      then:
+        - python
+        - cross-python_${{ target_platform }}
+        - numpy
+  host:
+    - assimp
+    - if: build_platform == target_platform
+      then:
+        - pkg-config
+    - bullet
+    - eigen
+    - fcl
+    - libboost-devel
+    - libboost-python-devel
+    - numpy
+    - pip
+    - pkg-config
+    - python
+    - ros-kilted-ament-cmake
+    - ros-kilted-ament-cmake-gmock
+    - ros-kilted-ament-cmake-google-benchmark
+    - ros-kilted-ament-cmake-gtest
+    - ros-kilted-ament-index-cpp
+    - ros-kilted-angles
+    - ros-kilted-common-interfaces
+    - ros-kilted-eigen-stl-containers
+    - ros-kilted-eigen3-cmake-module
+    - ros-kilted-generate-parameter-library
+    - ros-kilted-geometric-shapes
+    - ros-kilted-geometry-msgs
+    - ros-kilted-google-benchmark-vendor
+    - ros-kilted-kdl-parser
+    - ros-kilted-launch-testing-ament-cmake
+    - ros-kilted-moveit-common
+    - ros-kilted-moveit-msgs
+    - ros-kilted-moveit-resources-panda-moveit-config
+    - ros-kilted-moveit-resources-pr2-description
+    - ros-kilted-octomap-msgs
+    - ros-kilted-orocos-kdl-vendor
+    - ros-kilted-osqp-vendor
+    - ros-kilted-pluginlib
+    - ros-kilted-random-numbers
+    - ros-kilted-rcl-interfaces
+    - ros-kilted-rclcpp
+    - ros-kilted-rclpy
+    - ros-kilted-ros-environment
+    - ros-kilted-ros-workspace
+    - ros-kilted-rsl
+    - ros-kilted-ruckig
+    - ros-kilted-sensor-msgs
+    - ros-kilted-shape-msgs
+    - ros-kilted-srdfdom
+    - ros-kilted-std-msgs
+    - ros-kilted-tf2
+    - ros-kilted-tf2-eigen
+    - ros-kilted-tf2-geometry-msgs
+    - ros-kilted-tf2-kdl
+    - ros-kilted-trajectory-msgs
+    - ros-kilted-urdf
+    - ros-kilted-urdfdom
+    - ros-kilted-urdfdom-headers
+    - ros-kilted-visualization-msgs
+    - ros2-distro-mutex 0.9.* kilted_*
+  run:
+    - assimp
+    - bullet
+    - eigen
+    - fcl
+    - libboost-devel
+    - libboost-python-devel
+    - python
+    - ros-kilted-angles
+    - ros-kilted-common-interfaces
+    - ros-kilted-eigen-stl-containers
+    - ros-kilted-eigen3-cmake-module
+    - ros-kilted-generate-parameter-library
+    - ros-kilted-geometric-shapes
+    - ros-kilted-geometry-msgs
+    - ros-kilted-google-benchmark-vendor
+    - ros-kilted-kdl-parser
+    - ros-kilted-moveit-common
+    - ros-kilted-moveit-msgs
+    - ros-kilted-octomap-msgs
+    - ros-kilted-osqp-vendor
+    - ros-kilted-pluginlib
+    - ros-kilted-random-numbers
+    - ros-kilted-rclcpp
+    - ros-kilted-ros-workspace
+    - ros-kilted-rsl
+    - ros-kilted-ruckig
+    - ros-kilted-sensor-msgs
+    - ros-kilted-shape-msgs
+    - ros-kilted-srdfdom
+    - ros-kilted-std-msgs
+    - ros-kilted-tf2
+    - ros-kilted-tf2-eigen
+    - ros-kilted-tf2-geometry-msgs
+    - ros-kilted-tf2-kdl
+    - ros-kilted-trajectory-msgs
+    - ros-kilted-urdf
+    - ros-kilted-urdfdom
+    - ros-kilted-urdfdom-headers
+    - ros-kilted-visualization-msgs
+    - ros2-distro-mutex 0.9.* kilted_*
+    - if: osx and x86_64
+      then:
+        - __osx >=${{ MACOSX_DEPLOYMENT_TARGET|default('10.14') }}

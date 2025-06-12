@@ -1,0 +1,92 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/prefix-dev/recipe-format/main/schema.json
+
+package:
+  name: ros-kilted-backward-ros
+  version: 1.0.7
+source:
+  git: https://github.com/ros2-gbp/backward_ros-release.git
+  tag: release/kilted/backward_ros/1.0.7-2
+  target_directory: ros-kilted-backward-ros/src/work
+  patches:
+    - patch/ros-kilted-backward-ros.patch
+
+build:
+  script: ${{ '$RECIPE_DIR/build_catkin.sh' if unix or wasm32 else '%RECIPE_DIR%\\bld_catkin.bat' }}
+  number: 7
+  post_process:
+    - files:
+        - '*.pc'
+      regex: (?:-L|-I)?"?([^;\s]+/sysroot/)
+      replacement: $$(CONDA_BUILD_SYSROOT_S)
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/sysroot)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/MacOSX\d*\.?\d*\.sdk)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+about:
+  homepage: https://www.ros.org/
+  license: BSD-3-Clause
+  summary: |
+    Robot Operating System
+
+extra:
+  recipe-maintainers:
+    - ros-forge
+
+requirements:
+  build:
+    - ${{ compiler('cxx') }}
+    - ${{ compiler('c') }}
+    - if: target_platform!='emscripten-wasm32'
+      then:
+        - ${{ stdlib('c') }}
+    - ninja
+    - python
+    - setuptools
+    - git
+    - if: unix
+      then:
+        - patch
+        - make
+        - coreutils
+    - if: win
+      then:
+        - m2-patch
+    - if: osx
+      then:
+        - tapi
+    - if: build_platform != target_platform
+      then:
+        - pkg-config
+    - cmake
+    - cython
+    - if: build_platform != target_platform
+      then:
+        - python
+        - cross-python_${{ target_platform }}
+        - numpy
+  host:
+    - ${{ 'binutils' if linux or (osx and x86_64) }}
+    - ${{ 'elfutils' if linux }}
+    - if: build_platform == target_platform
+      then:
+        - pkg-config
+    - elfutils
+    - numpy
+    - pip
+    - python
+    - ros-kilted-ament-cmake-libraries
+    - ros-kilted-ros-environment
+    - ros-kilted-ros-workspace
+    - ros2-distro-mutex 0.9.* kilted_*
+  run:
+    - elfutils
+    - python
+    - ros-kilted-ros-workspace
+    - ros2-distro-mutex 0.9.* kilted_*
+    - if: osx and x86_64
+      then:
+        - __osx >=${{ MACOSX_DEPLOYMENT_TARGET|default('10.14') }}

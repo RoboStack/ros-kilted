@@ -1,0 +1,136 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/prefix-dev/recipe-format/main/schema.json
+
+package:
+  name: ros-kilted-gz-gui-vendor
+  version: 0.2.1
+source:
+  git: https://github.com/ros2-gbp/gz_gui_vendor-release.git
+  tag: release/kilted/gz_gui_vendor/0.2.1-2
+  target_directory: ros-kilted-gz-gui-vendor/src/work
+  patches:
+    - patch/ros-kilted-gz-gui-vendor.patch
+
+build:
+  script: ${{ '$RECIPE_DIR/build_ament_cmake.sh' if unix or wasm32 else '%RECIPE_DIR%\\bld_ament_cmake.bat' }}
+  number: 7
+  post_process:
+    - files:
+        - '*.pc'
+      regex: (?:-L|-I)?"?([^;\s]+/sysroot/)
+      replacement: $$(CONDA_BUILD_SYSROOT_S)
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/sysroot)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/MacOSX\d*\.?\d*\.sdk)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+about:
+  homepage: https://www.ros.org/
+  license: BSD-3-Clause
+  summary: |
+    Robot Operating System
+
+extra:
+  recipe-maintainers:
+    - ros-forge
+
+requirements:
+  build:
+    - ${{ compiler('cxx') }}
+    - ${{ compiler('c') }}
+    - if: target_platform!='emscripten-wasm32'
+      then:
+        - ${{ stdlib('c') }}
+    - ninja
+    - python
+    - setuptools
+    - git
+    - if: unix
+      then:
+        - patch
+        - make
+        - coreutils
+    - if: win
+      then:
+        - m2-patch
+    - if: osx
+      then:
+        - tapi
+    - if: build_platform != target_platform
+      then:
+        - pkg-config
+    - cmake
+    - cython
+    - if: build_platform != target_platform
+      then:
+        - python
+        - cross-python_${{ target_platform }}
+        - numpy
+    - if: build_platform != target_platform
+      then:
+        - qt-main
+  host:
+    - if: build_platform == target_platform
+      then:
+        - pkg-config
+    - gz-gui8
+    - libprotobuf
+    - numpy
+    - pip
+    - protobuf
+    - python
+    - qt-main
+    - ros-kilted-ament-cmake-copyright
+    - ros-kilted-ament-cmake-core
+    - ros-kilted-ament-cmake-lint-cmake
+    - ros-kilted-ament-cmake-test
+    - ros-kilted-ament-cmake-vendor-package
+    - ros-kilted-ament-cmake-xmllint
+    - ros-kilted-gz-cmake-vendor
+    - ros-kilted-gz-common-vendor
+    - ros-kilted-gz-math-vendor
+    - ros-kilted-gz-msgs-vendor
+    - ros-kilted-gz-plugin-vendor
+    - ros-kilted-gz-rendering-vendor
+    - ros-kilted-gz-tools-vendor
+    - ros-kilted-gz-transport-vendor
+    - ros-kilted-gz-utils-vendor
+    - ros-kilted-ros-environment
+    - ros-kilted-ros-workspace
+    - ros2-distro-mutex 0.9.* kilted_*
+    - tinyxml2
+    - if: linux
+      then:
+        - libgl-devel
+        - libopengl-devel
+    - if: unix
+      then:
+        - xorg-libx11
+        - xorg-libxext
+  run:
+    - gz-gui8
+    - libprotobuf
+    - protobuf
+    - python
+    - qt-main
+    - ros-kilted-gz-cmake-vendor
+    - ros-kilted-gz-common-vendor
+    - ros-kilted-gz-math-vendor
+    - ros-kilted-gz-msgs-vendor
+    - ros-kilted-gz-plugin-vendor
+    - ros-kilted-gz-rendering-vendor
+    - ros-kilted-gz-tools-vendor
+    - ros-kilted-gz-transport-vendor
+    - ros-kilted-gz-utils-vendor
+    - ros-kilted-ros-workspace
+    - ros2-distro-mutex 0.9.* kilted_*
+    - tinyxml2
+    - if: osx and x86_64
+      then:
+        - __osx >=${{ MACOSX_DEPLOYMENT_TARGET|default('10.14') }}
+    - if: unix
+      then:
+        - xorg-libx11
+        - xorg-libxext
