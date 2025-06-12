@@ -1,0 +1,138 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/prefix-dev/recipe-format/main/schema.json
+
+package:
+  name: ros-kilted-robot-localization
+  version: 3.9.3
+source:
+  git: https://github.com/ros2-gbp/robot_localization-release.git
+  tag: release/kilted/robot_localization/3.9.3-1
+  target_directory: ros-kilted-robot-localization/src/work
+  patches:
+    - patch/ros-kilted-robot-localization.win.patch
+
+build:
+  script: ${{ '$RECIPE_DIR/build_ament_cmake.sh' if unix or wasm32 else '%RECIPE_DIR%\\bld_ament_cmake.bat' }}
+  number: 7
+  post_process:
+    - files:
+        - '*.pc'
+      regex: (?:-L|-I)?"?([^;\s]+/sysroot/)
+      replacement: $$(CONDA_BUILD_SYSROOT_S)
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/sysroot)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/MacOSX\d*\.?\d*\.sdk)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+about:
+  homepage: https://www.ros.org/
+  license: BSD-3-Clause
+  summary: |
+    Robot Operating System
+
+extra:
+  recipe-maintainers:
+    - ros-forge
+
+requirements:
+  build:
+    - ${{ compiler('cxx') }}
+    - ${{ compiler('c') }}
+    - if: target_platform!='emscripten-wasm32'
+      then:
+        - ${{ stdlib('c') }}
+    - ninja
+    - python
+    - setuptools
+    - git
+    - if: unix
+      then:
+        - patch
+        - make
+        - coreutils
+    - if: win
+      then:
+        - m2-patch
+    - if: osx
+      then:
+        - tapi
+    - if: build_platform != target_platform
+      then:
+        - pkg-config
+    - cmake
+    - cython
+    - if: build_platform != target_platform
+      then:
+        - python
+        - cross-python_${{ target_platform }}
+        - numpy
+    - if: target_platform == 'emscripten-wasm32'
+      then:
+        - ros-kilted-rosidl-default-generators
+  host:
+    - if: build_platform == target_platform
+      then:
+        - pkg-config
+    - eigen
+    - geographiclib-cpp
+    - libboost-devel
+    - numpy
+    - pip
+    - python
+    - ros-kilted-ament-cmake
+    - ros-kilted-ament-cmake-gtest
+    - ros-kilted-ament-lint-auto
+    - ros-kilted-ament-lint-common
+    - ros-kilted-angles
+    - ros-kilted-builtin-interfaces
+    - ros-kilted-diagnostic-msgs
+    - ros-kilted-diagnostic-updater
+    - ros-kilted-geographic-msgs
+    - ros-kilted-geometry-msgs
+    - ros-kilted-launch-ros
+    - ros-kilted-launch-testing-ament-cmake
+    - ros-kilted-message-filters
+    - ros-kilted-nav-msgs
+    - ros-kilted-rclcpp
+    - ros-kilted-ros-environment
+    - ros-kilted-ros-workspace
+    - ros-kilted-rosidl-default-generators
+    - ros-kilted-sensor-msgs
+    - ros-kilted-std-msgs
+    - ros-kilted-std-srvs
+    - ros-kilted-tf2
+    - ros-kilted-tf2-eigen
+    - ros-kilted-tf2-geometry-msgs
+    - ros-kilted-tf2-ros
+    - ros-kilted-yaml-cpp-vendor
+    - ros2-distro-mutex 0.9.* kilted_*
+  run:
+    - eigen
+    - geographiclib-cpp
+    - libboost-devel
+    - python
+    - ros-kilted-angles
+    - ros-kilted-builtin-interfaces
+    - ros-kilted-diagnostic-msgs
+    - ros-kilted-diagnostic-updater
+    - ros-kilted-geographic-msgs
+    - ros-kilted-geometry-msgs
+    - ros-kilted-message-filters
+    - ros-kilted-nav-msgs
+    - ros-kilted-rclcpp
+    - ros-kilted-ros-workspace
+    - ros-kilted-rosidl-default-runtime
+    - ros-kilted-sensor-msgs
+    - ros-kilted-std-msgs
+    - ros-kilted-std-srvs
+    - ros-kilted-tf2
+    - ros-kilted-tf2-eigen
+    - ros-kilted-tf2-geometry-msgs
+    - ros-kilted-tf2-ros
+    - ros-kilted-yaml-cpp-vendor
+    - ros2-distro-mutex 0.9.* kilted_*
+    - if: osx and x86_64
+      then:
+        - __osx >=${{ MACOSX_DEPLOYMENT_TARGET|default('10.14') }}

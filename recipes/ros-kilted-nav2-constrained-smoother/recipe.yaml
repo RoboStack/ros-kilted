@@ -1,0 +1,116 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/prefix-dev/recipe-format/main/schema.json
+
+package:
+  name: ros-kilted-nav2-constrained-smoother
+  version: 1.4.0
+source:
+  git: https://github.com/ros2-gbp/navigation2-release.git
+  tag: release/kilted/nav2_constrained_smoother/1.4.0-1
+  target_directory: ros-kilted-nav2-constrained-smoother/src/work
+  patches:
+    - patch/ros-kilted-nav2-constrained-smoother.win.patch
+
+build:
+  script: ${{ '$RECIPE_DIR/build_ament_cmake.sh' if unix or wasm32 else '%RECIPE_DIR%\\bld_ament_cmake.bat' }}
+  number: 7
+  post_process:
+    - files:
+        - '*.pc'
+      regex: (?:-L|-I)?"?([^;\s]+/sysroot/)
+      replacement: $$(CONDA_BUILD_SYSROOT_S)
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/sysroot)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/MacOSX\d*\.?\d*\.sdk)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+about:
+  homepage: https://www.ros.org/
+  license: BSD-3-Clause
+  summary: |
+    Robot Operating System
+
+extra:
+  recipe-maintainers:
+    - ros-forge
+
+requirements:
+  build:
+    - ${{ compiler('cxx') }}
+    - ${{ compiler('c') }}
+    - if: target_platform!='emscripten-wasm32'
+      then:
+        - ${{ stdlib('c') }}
+    - ninja
+    - python
+    - setuptools
+    - git
+    - if: unix
+      then:
+        - patch
+        - make
+        - coreutils
+    - if: win
+      then:
+        - m2-patch
+    - if: osx
+      then:
+        - tapi
+    - if: build_platform != target_platform
+      then:
+        - pkg-config
+    - cmake
+    - cython
+    - if: build_platform != target_platform
+      then:
+        - python
+        - cross-python_${{ target_platform }}
+        - numpy
+  host:
+    - ${{ 'openblas' if win }}
+    - if: build_platform == target_platform
+      then:
+        - pkg-config
+    - ceres-solver
+    - eigen
+    - numpy
+    - pip
+    - python
+    - ros-kilted-ament-cmake
+    - ros-kilted-ament-cmake-gtest
+    - ros-kilted-ament-cmake-pytest
+    - ros-kilted-ament-lint-auto
+    - ros-kilted-ament-lint-common
+    - ros-kilted-angles
+    - ros-kilted-geometry-msgs
+    - ros-kilted-nav2-common
+    - ros-kilted-nav2-core
+    - ros-kilted-nav2-costmap-2d
+    - ros-kilted-nav2-msgs
+    - ros-kilted-nav2-util
+    - ros-kilted-pluginlib
+    - ros-kilted-rclcpp
+    - ros-kilted-rclcpp-lifecycle
+    - ros-kilted-ros-environment
+    - ros-kilted-ros-workspace
+    - ros-kilted-tf2-ros
+    - ros2-distro-mutex 0.9.* kilted_*
+  run:
+    - ceres-solver
+    - python
+    - ros-kilted-geometry-msgs
+    - ros-kilted-nav2-core
+    - ros-kilted-nav2-costmap-2d
+    - ros-kilted-nav2-msgs
+    - ros-kilted-nav2-util
+    - ros-kilted-pluginlib
+    - ros-kilted-rclcpp
+    - ros-kilted-rclcpp-lifecycle
+    - ros-kilted-ros-workspace
+    - ros-kilted-tf2-ros
+    - ros2-distro-mutex 0.9.* kilted_*
+    - if: osx and x86_64
+      then:
+        - __osx >=${{ MACOSX_DEPLOYMENT_TARGET|default('10.14') }}
