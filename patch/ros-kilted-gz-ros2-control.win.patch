@@ -1,7 +1,7 @@
-diff --git a/gz_ros2_control/CMakeLists.txt b/gz_ros2_control/CMakeLists.txt
+diff --git a/CMakeLists.txt b/CMakeLists.txt
 index 196f62d5..a7bdfd01 100644
---- a/gz_ros2_control/CMakeLists.txt
-+++ b/gz_ros2_control/CMakeLists.txt
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
 @@ -24,6 +24,12 @@ find_package(pluginlib REQUIRED)
  find_package(rclcpp REQUIRED)
  find_package(yaml_cpp_vendor REQUIRED)
@@ -15,10 +15,10 @@ index 196f62d5..a7bdfd01 100644
  find_package(gz_sim_vendor REQUIRED)
  find_package(gz-sim REQUIRED)
 
-diff --git a/gz_ros2_control/src/gz_ros2_control_plugin.cpp b/gz_ros2_control/src/gz_ros2_control_plugin.cpp
+diff --git a/src/gz_ros2_control_plugin.cpp b/src/gz_ros2_control_plugin.cpp
 index d38ce556..333d42a5 100644
---- a/gz_ros2_control/src/gz_ros2_control_plugin.cpp
-+++ b/gz_ros2_control/src/gz_ros2_control_plugin.cpp
+--- a/src/gz_ros2_control_plugin.cpp
++++ b/src/gz_ros2_control_plugin.cpp
 @@ -15,5 +15,3 @@
 -#include <unistd.h>
 -
@@ -26,10 +26,10 @@ index d38ce556..333d42a5 100644
  #include <map>
  #include <memory>
 
-diff --git a/gz_ros2_control/src/gz_system.cpp b/gz_ros2_control/src/gz_system.cpp
+diff --git a/src/gz_system.cpp b/src/gz_system.cpp
 index 5c9952b9..d5554d2c 100644
---- a/gz_ros2_control/src/gz_system.cpp
-+++ b/gz_ros2_control/src/gz_system.cpp
+--- a/src/gz_system.cpp
++++ b/src/gz_system.cpp
 @@ -51,3 +51,7 @@
 +#ifdef ERROR
 +#undef ERROR

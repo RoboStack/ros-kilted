@@ -6,7 +6,7 @@ index e6e8de26..8e9ea2d3 100644
    add_compile_options(-Wall -Wextra)
  endif()
  
-+find_package(gz-cmake3 REQUIRED 3.5.2)
++find_package(gz-cmake4 REQUIRED 4.2.0)
 +gz_find_package(TINYXML2 REQUIRED PRIVATE PRETTY tinyxml2)
 +
  find_package(ament_cmake REQUIRED)
