@@ -91,7 +91,7 @@ requirements:
     - ros-kilted-ros-workspace
     - ros-kilted-rosidl-default-generators
     - ros-kilted-sensor-msgs
-    - ros2-distro-mutex 0.8.* kilted_*
+    - ros2-distro-mutex 0.9.* kilted_*
     - vtk-base
     - if: linux
       then:
@@ -111,7 +111,7 @@ requirements:
     - ros-kilted-rclcpp-components
     - ros-kilted-ros-workspace
     - ros-kilted-sensor-msgs
-    - ros2-distro-mutex 0.8.* kilted_*
+    - ros2-distro-mutex 0.9.* kilted_*
     - vtk-base
     - if: osx and x86_64
       then:

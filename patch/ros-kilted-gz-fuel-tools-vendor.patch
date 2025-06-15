@@ -1,15 +1,13 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index a4df838..24be0df 100644
+index b16ac05..f32b0fb 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -4,8 +4,8 @@ project(gz_fuel_tools_vendor)
+@@ -40,7 +40,7 @@ if(NOT $ENV{GZ_RELAX_VERSION_MATCH} STREQUAL "")
+   set(VERSION_MATCH "")
+ endif()
  
- # Project-specific settings
- set(LIB_VER_MAJOR 9)
--set(LIB_VER_MINOR 1)
--set(LIB_VER_PATCH 1)
-+set(LIB_VER_MINOR 0)
-+set(LIB_VER_PATCH 3)
- set(LIB_VER_SUFFIX "")
+-find_package(${LIB_NAME_FULL} ${VERSION_MATCH} ${LIB_VER} COMPONENTS all QUIET)
++find_package(${LIB_NAME_FULL} COMPONENTS all QUIET)
  
- # Derived variables
+ ament_vendor(${LIB_NAME_UNDERSCORE}_vendor
+   SATISFIED ${${LIB_NAME_FULL}_FOUND}

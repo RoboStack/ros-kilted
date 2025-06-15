@@ -172,53 +172,53 @@ gz_cmake_vendor:
   # https://github.com/gazebo-release/gz_cmake_vendor/blob/kilted/CMakeLists.txt#L6 for select the right major version
   # (this is true for all gz-* vendor packages) or https://github.com/gazebo-tooling/gazebodistro/blob/master/collection-harmonic.yaml
   # See https://gazebosim.org/docs/latest/ros_installation/#summary-of-compatible-ros-and-gazebo-combinations for mapping between ROS2 and Gazebo distros
-  add_host: ["gz-cmake3"]
-  add_run: ["gz-cmake3"]
+  add_host: ["gz-cmake4"]
+  add_run: ["gz-cmake4"]
 gz_common_vendor:
-  add_host: ["gz-common5"]
-  add_run: ["gz-common5"]
+  add_host: ["gz-common6"]
+  add_run: ["gz-common6"]
 gz_fuel_tools_vendor:
-  add_host: ["gz-fuel-tools9"]
-  add_run: ["gz-fuel-tools9"]
+  add_host: ["gz-fuel-tools10"]
+  add_run: ["gz-fuel-tools10"]
 gz_sim_vendor:
-  add_host: ["gz-sim8"]
-  add_run: ["gz-sim8"]
+  add_host: ["gz-sim9"]
+  add_run: ["gz-sim9"]
 gz_gui_vendor:
-  add_host: ["gz-gui8"]
-  add_run: ["gz-gui8"]
+  add_host: ["gz-gui9"]
+  add_run: ["gz-gui9"]
 gz_launch_vendor:
-  add_host: ["gz-launch7"]
-  add_run: ["gz-launch7"]
+  add_host: ["gz-launch8"]
+  add_run: ["gz-launch8"]
 gz_math_vendor:
-  add_host: ["gz-math7"]
-  add_run: ["gz-math7"]
+  add_host: ["gz-math8"]
+  add_run: ["gz-math8"]
 gz_msgs_vendor:
-  add_host: ["gz-msgs10"]
-  add_run: ["gz-msgs10"]
+  add_host: ["gz-msgs11"]
+  add_run: ["gz-msgs11"]
 gz_physics_vendor:
-  add_host: ["gz-physics7"]
-  add_run: ["gz-physics7"]
+  add_host: ["gz-physics8"]
+  add_run: ["gz-physics8"]
 gz_plugin_vendor:
-  add_host: ["gz-plugin2"]
-  add_run: ["gz-plugin2"]
+  add_host: ["gz-plugin3"]
+  add_run: ["gz-plugin3"]
 gz_rendering_vendor:
-  add_host: ["gz-rendering8", "swig"]
-  add_run: ["gz-rendering8", "swig"]
+  add_host: ["gz-rendering9", "swig"]
+  add_run: ["gz-rendering9", "swig"]
 gz_sensors_vendor:
-  add_host: ["gz-sensors8"]
-  add_run: ["gz-sensors8"]
+  add_host: ["gz-sensors9"]
+  add_run: ["gz-sensors9"]
 gz_tools_vendor:
   add_host: ["gz-tools2"]
   add_run: ["gz-tools2"]
 gz_transport_vendor:
-  add_host: ["gz-transport13"]
-  add_run: ["gz-transport13"]
+  add_host: ["gz-transport14"]
+  add_run: ["gz-transport14"]
 gz_utils_vendor:
-  add_host: ["gz-utils2"]
-  add_run: ["gz-utils2"]
+  add_host: ["gz-utils3"]
+  add_run: ["gz-utils3"]
 sdformat_vendor:
-  add_host: ["sdformat14"]
-  add_run: ["sdformat14"]
+  add_host: ["sdformat15"]
+  add_run: ["sdformat15"]
 gz_dartsim_vendor:
   add_host: ["dartsim-cpp"]
   add_run: ["dartsim-cpp"]
@@ -228,7 +228,7 @@ gz_ogre_next_vendor:
 rosx_introspection:
   add_host: ["rapidjson"]
 gz_ros2_control:
-  add_host: ["REQUIRE_OPENGL"]
+  add_host: ["REQUIRE_OPENGL", "ros-kilted-gz-sensors-vendor"]
 gz_ros2_control_demos:
   add_host: ["REQUIRE_OPENGL"]
 octomap_ros:
@@ -243,3 +243,6 @@ autoware_utils_pcl:
   add_host: ["REQUIRE_OPENGL"]
 autoware_utils_debug:
   add_host: ["fmt"]
+rclpy:
+  add_host: ["typing_extensions"]
+  add_run: ["typing_extensions"]

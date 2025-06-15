@@ -1,8 +1,8 @@
-diff --git a/gz_ros2_control/CMakeLists.txt b/gz_ros2_control/CMakeLists.txt
-index 196f62d5..a7bdfd01 100644
---- a/gz_ros2_control/CMakeLists.txt
-+++ b/gz_ros2_control/CMakeLists.txt
-@@ -24,6 +24,12 @@ find_package(pluginlib REQUIRED)
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index c0d54c9..9c70117 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -19,6 +19,12 @@ find_package(pluginlib REQUIRED)
  find_package(rclcpp REQUIRED)
  find_package(yaml_cpp_vendor REQUIRED)
  
@@ -14,4 +14,66 @@ index 196f62d5..a7bdfd01 100644
 +set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
  find_package(gz_sim_vendor REQUIRED)
  find_package(gz-sim REQUIRED)
-
+ 
+diff --git a/src/gz_ros2_control_plugin.cpp b/src/gz_ros2_control_plugin.cpp
+index 7952e78..3464bf7 100644
+--- a/src/gz_ros2_control_plugin.cpp
++++ b/src/gz_ros2_control_plugin.cpp
+@@ -209,7 +209,7 @@ GazeboSimROS2ControlPluginPrivate::GetEnabledJoints(
+         {
+           RCLCPP_INFO(
+             node_->get_logger(),
+-            "[gz_ros2_control] Fixed joint [%s] (Entity=%lu)] is skipped",
++            "[gz_ros2_control] Fixed joint [%s] (Entity=%llu)] is skipped",
+             jointName.c_str(), jointEntity);
+           continue;
+         }
+@@ -220,7 +220,7 @@ GazeboSimROS2ControlPluginPrivate::GetEnabledJoints(
+         {
+           RCLCPP_WARN(
+             node_->get_logger(),
+-            "[gz_ros2_control] Joint [%s] (Entity=%lu)] is of unsupported type."
++            "[gz_ros2_control] Joint [%s] (Entity=%llu)] is of unsupported type."
+             " Only joints with a single axis are supported.",
+             jointName.c_str(), jointEntity);
+           continue;
+@@ -229,7 +229,7 @@ GazeboSimROS2ControlPluginPrivate::GetEnabledJoints(
+         {
+           RCLCPP_WARN(
+             node_->get_logger(),
+-            "[gz_ros2_control] Joint [%s] (Entity=%lu)] is of unknown type",
++            "[gz_ros2_control] Joint [%s] (Entity=%llu)] is of unknown type",
+             jointName.c_str(), jointEntity);
+           continue;
+         }
+@@ -271,7 +271,7 @@ void GazeboSimROS2ControlPlugin::Configure(
+   if (!model.Valid(_ecm)) {
+     RCLCPP_ERROR(
+       logger,
+-      "[Gazebo ROS 2 Control] Failed to initialize because [%s] (Entity=%lu)] is not a model."
++      "[Gazebo ROS 2 Control] Failed to initialize because [%s] (Entity=%llu)] is not a model."
+       "Please make sure that Gazebo ROS 2 Control is attached to a valid model.",
+       model.Name(_ecm).c_str(), _entity);
+     return;
+@@ -453,7 +453,7 @@ void GazeboSimROS2ControlPlugin::Configure(
+       this->dataPtr->node_->get_namespace(), options));
+   this->dataPtr->executor_->add_node(this->dataPtr->controller_manager_);
+ 
+-  this->dataPtr->update_rate = this->dataPtr->controller_manager_->get_update_rate();
++  this->dataPtr->update_rate = static_cast<int>(this->dataPtr->controller_manager_->get_update_rate());
+   this->dataPtr->control_period_ = rclcpp::Duration(
+     std::chrono::duration_cast<std::chrono::nanoseconds>(
+       std::chrono::duration<double>(1.0 / static_cast<double>(this->dataPtr->update_rate))));
+diff --git a/src/gz_system.cpp b/src/gz_system.cpp
+index f99ece9..17d659c 100644
+--- a/src/gz_system.cpp
++++ b/src/gz_system.cpp
+@@ -205,7 +205,7 @@ bool GazeboSimSystem::initSim(
+     this->nh_->get_logger(), "hold_joints (system): " << this->dataPtr->hold_joints_ << std::endl);
+ 
+ 
+-  RCLCPP_DEBUG(this->nh_->get_logger(), "n_dof_ %lu", this->dataPtr->n_dof_);
++  RCLCPP_DEBUG(this->nh_->get_logger(), "n_dof_ %zu", this->dataPtr->n_dof_);
+ 
+   this->dataPtr->joints_.resize(this->dataPtr->n_dof_);
+ 
