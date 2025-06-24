@@ -1,3 +1,8 @@
+libcamera:
+  generate_dummy_package_with_run_deps:
+    dep_name: libcamera
+    # see https://git.libcamera.org/libcamera/libcamera.git/tree/meson.build?h=v0.5.1#n65
+    max_pin: 'x.x'
 image_tools:
   build_number: 8
 camera_calibration:

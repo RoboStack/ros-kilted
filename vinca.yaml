@@ -145,6 +145,10 @@ packages_select_by_deps:
     then:
       - py_binding_tools
       - livox_ros_driver2
+      # Depends on libcamera that is only available on linux
+      - camera_ros
+      # Depends on v4l that is only available on linux
+      - v4l2_camera
 
   # These packages are currently not build on Windows, but they be with some work
   - if: not win
