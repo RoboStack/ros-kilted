@@ -1,0 +1,14 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 58538a70b9..a7287ebb7c 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -5,6 +5,9 @@ project(moveit_ros_benchmarks LANGUAGES CXX)
+ find_package(moveit_common REQUIRED)
+ moveit_package()
+ 
++set(CMAKE_CXX_STANDARD 20)
++set(CMAKE_CXX_STANDARD_REQUIRED ON)
++
+ find_package(ament_cmake REQUIRED)
+ find_package(rclcpp REQUIRED)
+ find_package(tf2_eigen REQUIRED)
