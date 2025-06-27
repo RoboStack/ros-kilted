@@ -1,0 +1,12 @@
+diff --git a/src/motion_model/differential_motion_model.cpp b/src/motion_model/differential_motion_model.cpp
+index afac92bb8..5bfbe5ebc 100644
+--- a/src/motion_model/differential_motion_model.cpp
++++ b/src/motion_model/differential_motion_model.cpp
+@@ -19,6 +19,7 @@
+  *
+  */
+ 
++#include <algorithm>
+ #include <cmath>
+ 
+ #include "nav2_amcl/angleutils.hpp"
