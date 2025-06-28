@@ -54,3 +54,8 @@ gtsam:
     # the version on ros is actually an alpha, not a properly released version,
     # see https://discourse.ros.org/t/on-new-gtsam-version-without-boost/44307
     override_version: '4.2.0'
+proxsuite:
+  generate_dummy_package_with_run_deps:
+    dep_name: proxsuite
+    max_pin: 'x.x'
+    override_version: '0.7.2'
