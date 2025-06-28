@@ -127,6 +127,21 @@ packages_select_by_deps:
   - autoware_vehicle_msgs
   - autoware_cmake
   - autoware_utils
+  - autoware_component_interface_specs
+  - autoware_geography_utils
+  - autoware_global_parameter_loader
+  - autoware_interpolation
+  - autoware_kalman_filter
+  - autoware_lanelet2_utils
+  - autoware_motion_utils
+  - autoware_node
+  - autoware_object_recognition_utils
+  - autoware_osqp_interface
+  - autoware_point_types
+  - autoware_qp_interface
+  - autoware_signal_processing
+  - autoware_trajectory
+  - autoware_vehicle_info_utils
 
   - apriltag_detector
 
@@ -137,6 +152,8 @@ packages_select_by_deps:
   - gtsam
   # Requested in https://github.com/RoboStack/ros-humble/issues/325
   - data_tamer_cpp
+
+  - proxsuite
 
   # These packages are only built on Linux as they depend on Linux-specific API
   - if: linux

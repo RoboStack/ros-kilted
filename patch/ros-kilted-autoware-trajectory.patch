@@ -1,0 +1,17 @@
+diff --git a/include/autoware/trajectory/interpolator/lane_ids_interpolator.hpp b/include/autoware/trajectory/interpolator/lane_ids_interpolator.hpp
+index b2ce72b..35ba18f 100644
+--- a/include/autoware/trajectory/interpolator/lane_ids_interpolator.hpp
++++ b/include/autoware/trajectory/interpolator/lane_ids_interpolator.hpp
+@@ -21,6 +21,12 @@
+ 
+ #include <vector>
+ 
++#if defined(__GNUC__) && !defined(__clang__)
++#pragma GCC diagnostic push
++#pragma GCC diagnostic ignored "-Wstringop-overflow"
++#pragma GCC diagnostic ignored "-Warray-bounds"
++#endif
++
+ namespace autoware::experimental::trajectory::interpolator
+ {
+ 
