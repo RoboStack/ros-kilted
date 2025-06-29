@@ -142,6 +142,7 @@ packages_select_by_deps:
   - autoware_signal_processing
   - autoware_trajectory
   - autoware_vehicle_info_utils
+  - autoware_core_control
 
   - apriltag_detector
 
