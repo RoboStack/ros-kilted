@@ -1,11 +1,11 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 6d47b08..c7b66df 100644
+index e6af066..74091d3 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -10,7 +10,7 @@ find_package(tcb_span REQUIRED)
- find_package(tl_expected REQUIRED)
+@@ -11,7 +11,7 @@ find_package(tl_expected REQUIRED)
  
- if(CMAKE_CXX_COMPILER_ID MATCHES "(GNU|Clang)")
+ option(RSL_ENABLE_WARNINGS "Enable compiler warnings" OFF)
+ if(RSL_ENABLE_WARNINGS AND CMAKE_CXX_COMPILER_ID MATCHES "(GNU|Clang)")
 -    add_compile_options(-Werror -Wall -Wextra -Wpedantic -Wshadow -Wconversion -Wsign-conversion -Wold-style-cast)
 +    add_compile_options(-Wall -Wextra -Wpedantic -Wshadow -Wconversion -Wsign-conversion -Wold-style-cast)
  endif()

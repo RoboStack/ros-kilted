@@ -12,7 +12,7 @@ libc = { family="glibc", version="2.17" }
 [dependencies]
 python = ">=3.12.0,<3.13"
 # Include the latest rattler-build fixes w.r.t. to patches handling
-rattler-build = ">=0.43.0"
+rattler-build = ">=0.44.0"
 anaconda-client = ">=1.13.0"
 cmake = "<4.0"
 
@@ -24,7 +24,7 @@ git = "*"
 
 [pypi-dependencies]
 # This is tipically the latest commit on main branch
-vinca = { git ="https://github.com/RoboStack/vinca.git", rev = "8c56fc3e47a988f1c05132f8db61cfc812552dcb" }
+vinca = { git ="https://github.com/RoboStack/vinca.git", rev = "12c56c58cb1ad53a837ef6dbb691b9e7632c73a8" }
 # Uncomment this line to work with a local vinca for faster iteration, but remember to comment it back
 # (and regenerate the pixi.lock) once you push the modified commit to the repo
 #vinca = { path = "../vinca", editable = true }
@@ -33,8 +33,7 @@ vinca = { git ="https://github.com/RoboStack/vinca.git", rev = "8c56fc3e47a988f1
 remove-recipes = { cmd = "rm -rf recipes_only_patch; rm -rf recipes; mkdir recipes" }
 generate-recipes = { cmd = "vinca -m", depends-on = ["remove-recipes"] }
 check-patches = { cmd = "python check_patches_clean_apply.py", depends-on = ["generate-recipes"] }
-build_additional_recipes = { cmd = "rattler-build build --recipe-dir ./additional_recipes -m ./conda_build_config.yaml --skip-existing -c robostack-kilted -c https://repo.prefix.dev/conda-forge", depends-on = ["generate-recipes"] }
-build = { cmd = "rattler-build build --recipe-dir ./recipes -m ./conda_build_config.yaml -c robostack-kilted -c https://repo.prefix.dev/conda-forge --skip-existing", depends-on = ["build_additional_recipes", "generate-recipes"] }
+build = { cmd = "rattler-build build --recipe-dir ./recipes -m ./conda_build_config.yaml -c robostack-kilted -c https://repo.prefix.dev/conda-forge --skip-existing", depends-on = ["generate-recipes"] }
 build_one_package = { cmd = "cp ./patch/$PACKAGE.*patch ./recipes/$PACKAGE/patch/; rattler-build build --recipe ./recipes/$PACKAGE/recipe.yaml -m ./conda_build_config.yaml -c robostack-kilted -c https://repo.prefix.dev/conda-forge", env = { PACKAGE = "ros-kilted-ros-workspace" } }
 create_snapshot = { cmd = "vinca-snapshot -d kilted -o rosdistro_snapshot.yaml" }
 upload = "anaconda -t $ANACONDA_API_TOKEN upload"

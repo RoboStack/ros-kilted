@@ -9,3 +9,52 @@ livox_ros_driver2:
   # support packages that stores their package.xml under a different name. For any
   # other modification, regular patch files should be used.
   package_xml_name: package_ROS2.xml
+# TODO: remove autoware_utils and it's sub packages after they are released in kilted
+autoware_utils:
+  tag: release/jazzy/autoware_utils/1.4.2-1
+  url: https://github.com/ros2-gbp/autoware_utils-release.git
+  version: 1.4.2
+autoware_utils_debug:
+  tag: release/jazzy/autoware_utils_debug/1.4.2-1
+  url: https://github.com/ros2-gbp/autoware_utils-release.git
+  version: 1.4.2
+autoware_utils_diagnostics:
+  tag: release/jazzy/autoware_utils_diagnostics/1.4.2-1
+  url: https://github.com/ros2-gbp/autoware_utils-release.git
+  version: 1.4.2
+autoware_utils_geometry:
+  tag: release/jazzy/autoware_utils_geometry/1.4.2-1
+  url: https://github.com/ros2-gbp/autoware_utils-release.git
+  version: 1.4.2
+autoware_utils_logging:
+  tag: release/jazzy/autoware_utils_logging/1.4.2-1
+  url: https://github.com/ros2-gbp/autoware_utils-release.git
+  version: 1.4.2
+autoware_utils_math:
+  tag: release/jazzy/autoware_utils_math/1.4.2-1
+  url: https://github.com/ros2-gbp/autoware_utils-release.git
+  version: 1.4.2
+autoware_utils_pcl:
+  tag: release/jazzy/autoware_utils_pcl/1.4.2-1
+  url: https://github.com/ros2-gbp/autoware_utils-release.git
+  version: 1.4.2
+autoware_utils_rclcpp:
+  tag: release/jazzy/autoware_utils_rclcpp/1.4.2-1
+  url: https://github.com/ros2-gbp/autoware_utils-release.git
+  version: 1.4.2
+autoware_utils_system:
+  tag: release/jazzy/autoware_utils_system/1.4.2-1
+  url: https://github.com/ros2-gbp/autoware_utils-release.git
+  version: 1.4.2
+autoware_utils_tf:
+  tag: release/jazzy/autoware_utils_tf/1.4.2-1
+  url: https://github.com/ros2-gbp/autoware_utils-release.git
+  version: 1.4.2
+autoware_utils_uuid:
+  tag: release/jazzy/autoware_utils_uuid/1.4.2-1
+  url: https://github.com/ros2-gbp/autoware_utils-release.git
+  version: 1.4.2
+autoware_utils_visualization:
+  tag: release/jazzy/autoware_utils_visualization/1.4.2-1
+  url: https://github.com/ros2-gbp/autoware_utils-release.git
+  version: 1.4.2

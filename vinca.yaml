@@ -5,23 +5,23 @@ conda_index:
   - robostack.yaml
   - packages-ignore.yaml
 
-# Reminder for next full rebuild, the next build number should be 9
-build_number: 7
+# Reminder for next full rebuild, the next build number should be 11
+build_number: 10
 
-mutex_package: ros2-distro-mutex 0.9.* kilted_*
-
-skip_all_deps: false
-
-# If full rebuild, the build number of the existing package has
-# to match the selected build number for skipping
-full_rebuild: true
+mutex_package:
+  name: "ros2-distro-mutex"
+  version: "0.10.0"
+  upper_bound: "x.x"
+  run_constraints:
+    - libboost 1.86.*
+    - libboost-devel 1.86.*
+    - pcl 1.15.0.*
+    - gazebo 11.*
+    - libprotobuf 5.29.3.*
+    - libxml2 2.13.*
+    - vtk 9.4.2.*
 
 packages_skip_by_deps:
-  - cartographer
-  - urdfdom
-  - urdfdom_headers
-  - urdfdom_py
-  - octomap
   - if: not linux
     then:
       - pendulum_control
@@ -31,7 +31,6 @@ packages_skip_by_deps:
 
 
 packages_remove_from_deps:
-  - cartographer
   - if: not linux
     then:
       - pendulum_control
@@ -131,6 +130,8 @@ packages_select_by_deps:
 
   - behaviortree_cpp
 
+  - gtsam
+
   # These packages are only built on Linux as they depend on Linux-specific API
   - if: linux
     then:
@@ -140,7 +141,7 @@ packages_select_by_deps:
       - usb_cam
 
       - libcamera
-      # - camera-ros
+      - camera_ros
 
   # These packages are currently only build on Linux,
   # as trying to build them in the past on macos or Windows resulted in errors
@@ -158,8 +159,6 @@ packages_select_by_deps:
       - moveit-py
       - moveit-ros-perception
       - moveit-ros-occupancy-map-monitor
-      # todo: switch to dummy vendored package that just depends on the conda-forge's gtsam, so it works also on Windows
-      - gtsam
       # TODO on windows: fix iconv link issue
       - ffmpeg_image_transport
       - apriltag_draw
@@ -177,3 +176,4 @@ packages_select_by_deps:
 
 patch_dir: patch
 rosdistro_snapshot: rosdistro_snapshot.yaml
+rosdistro_additional_recipes: rosdistro_additional_recipes.yaml

@@ -1,8 +1,56 @@
-image_tools:
-  build_number: 8
-camera_calibration:
-  build_number: 8
-intra_process_demo:
-  build_number: 8
-image_view:
-  build_number: 8
+octomap:
+  generate_dummy_package_with_run_deps:
+    dep_name: octomap
+    max_pin: 'x.x'
+ompl:
+  generate_dummy_package_with_run_deps:
+    dep_name: ompl
+    max_pin: 'x.x'
+urdfdom_py:
+  generate_dummy_package_with_run_deps:
+    dep_name: urdfdom-py
+    max_pin: 'x.x'
+urdfdom_headers:
+  generate_dummy_package_with_run_deps:
+    dep_name: urdfdom_headers
+    max_pin: 'x.x'
+urdfdom:
+  generate_dummy_package_with_run_deps:
+    dep_name: urdfdom
+    max_pin: 'x.x'
+    # kilted is on 5.0.0, but we are waiting for
+    #  https://github.com/ros/urdfdom/issues/220
+    override_version: '4.0.1'
+cartographer:
+  generate_dummy_package_with_run_deps:
+    dep_name: cartographer
+    max_pin: 'x.x'
+hpp_fcl:
+  generate_dummy_package_with_run_deps:
+    dep_name: hpp-fcl
+    max_pin: 'x.x.x'
+    # the version on ros is outdated w.r.t. to the conda-forge one
+    override_version: '3.0.1'
+coal:
+  generate_dummy_package_with_run_deps:
+    dep_name: coal
+    max_pin: 'x.x.x'
+eigenpy:
+  generate_dummy_package_with_run_deps:
+    dep_name: eigenpy
+    max_pin: 'x.x.x'
+    # the version on ros is outdated w.r.t. to the conda-forge one
+    override_version: '3.10.0'
+pinocchio:
+  generate_dummy_package_with_run_deps:
+    dep_name: pinocchio
+    max_pin: 'x.x.x'
+    # the version on ros is outdated w.r.t. to the conda-forge one
+    override_version: '3.7.0'
+gtsam:
+  generate_dummy_package_with_run_deps:
+    dep_name: gtsam
+    max_pin: 'x.x'
+    # the version on ros is actually an alpha, not a properly released version,
+    # see https://discourse.ros.org/t/on-new-gtsam-version-without-boost/44307
+    override_version: '4.2.0'
