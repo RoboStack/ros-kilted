@@ -139,6 +139,9 @@ packages_select_by_deps:
       # Depends on v4l
       - usb_cam
 
+      - libcamera
+      - camera-ros
+
   # These packages are currently only build on Linux,
   # as trying to build them in the past on macos or Windows resulted in errors
   - if: linux
