@@ -143,6 +143,7 @@ packages_select_by_deps:
   - autoware_trajectory
   - autoware_vehicle_info_utils
   - autoware_core_control
+  - autoware_core_localization
 
   - apriltag_detector
 
