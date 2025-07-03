@@ -1,0 +1,27 @@
+jobs:
+  stage_0_job_0:
+    name: rmf-utils moveit-resources moveit-runtime moveit-ros-trajectory-cache
+    runs-on: macos-14
+    strategy:
+      fail-fast: false
+    needs: []
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-rmf-utils ros-kilted-moveit-resources ros-kilted-moveit-runtime
+        ros-kilted-moveit-ros-trajectory-cache
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-rmf-utils ros-kilted-moveit-resources ros-kilted-moveit-runtime
+          ros-kilted-moveit-ros-trajectory-cache
+        BUILD_TARGET: osx-arm64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+name: build_osx_arm64
+on:
+  push:
+    branches:
+    - buildbranch_osx_arm64
