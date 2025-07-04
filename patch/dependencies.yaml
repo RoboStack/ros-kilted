@@ -167,9 +167,9 @@ vision_msgs_rviz_plugins:
   add_host: ["REQUIRE_OPENGL"]
 velodyne_pointcloud:
   add_host: ["libboost-devel"]
-# TODO unvendor?!
 uncrustify_vendor:
-  add_build: ["vcstool"]
+  add_host: ["uncrustify"]
+  add_run: ["uncrustify"]
 mimick_vendor:
   add_build: ["vcstool"]
 gz_cmake_vendor:
@@ -252,9 +252,15 @@ rclpy:
   add_run: ["typing_extensions"]
 image_tools:
   # Depends on opencv with gui support, see https://github.com/ros2/demos/blob/8f361a1ece2daae54016959f3ea9ab2e7692ddbb/image_tools/src/showimage.cpp#L190
-  add_run: ["libopencv * *qt6*"] 
+  add_run: ["libopencv * *qt6*"]
 camera_calibration:
   # Depends on opencv with gui support, see https://github.com/ros-perception/image_pipeline/blob/746268fcfd21b389bc39ae60bb6345a53c838558/camera_calibration/src/camera_calibration/camera_calibrator.py#L286
   add_run: ["libopencv * *qt6*"]
 livox_ros_driver2:
   add_host: ["livox-sdk2"]
+spdlog_vendor:
+  add_host: ["spdlog"]
+  add_run: ["spdlog"]
+console_bridge_vendor:
+  add_host: ["console_bridge"]
+  add_run: ["console_bridge"]
