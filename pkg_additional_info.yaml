@@ -59,3 +59,5 @@ gtsam:
     # the version on ros is actually an alpha, not a properly released version,
     # see https://discourse.ros.org/t/on-new-gtsam-version-without-boost/44307
     override_version: '4.2.0'
+data_tamer_cpp:
+  additional_cmake_args: "-DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=ON"
