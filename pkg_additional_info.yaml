@@ -1,3 +1,8 @@
+libcamera:
+  generate_dummy_package_with_run_deps:
+    dep_name: libcamera
+    # see https://git.libcamera.org/libcamera/libcamera.git/tree/meson.build?h=v0.5.1#n65
+    max_pin: 'x.x'
 octomap:
   generate_dummy_package_with_run_deps:
     dep_name: octomap
@@ -58,3 +63,5 @@ libcamera:
   generate_dummy_package_with_run_deps:
     dep_name: libcamera
     max_pin: 'x.x'
+data_tamer_cpp:
+  additional_cmake_args: "-DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=ON"
