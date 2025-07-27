@@ -54,3 +54,7 @@ gtsam:
     # the version on ros is actually an alpha, not a properly released version,
     # see https://discourse.ros.org/t/on-new-gtsam-version-without-boost/44307
     override_version: '4.2.0'
+libcamera:
+  generate_dummy_package_with_run_deps:
+    dep_name: libcamera
+    max_pin: 'x.x'
