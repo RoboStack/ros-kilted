@@ -1,0 +1,12 @@
+diff --git a/common/autoware_interpolation/include/autoware/interpolation/interpolation_utils.hpp b/common/autoware_interpolation/include/autoware/interpolation/interpolation_utils.hpp
+index 1c0913c884..c72480103e 100644
+--- a/common/autoware_interpolation/include/autoware/interpolation/interpolation_utils.hpp
++++ b/common/autoware_interpolation/include/autoware/interpolation/interpolation_utils.hpp
+@@ -19,6 +19,7 @@
+ #include <array>
+ #include <stdexcept>
+ #include <vector>
++#include <string>
+ 
+ namespace autoware::interpolation
+ {
