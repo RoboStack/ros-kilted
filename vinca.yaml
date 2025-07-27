@@ -65,6 +65,10 @@ packages_select_by_deps:
   - moveit-planners-chomp
   - moveit-servo
   - moveit-visual-tools
+  - moveit-ros-trajectory-cache
+  # Requested in https://www.linkedin.com/feed/update/urn:li:activity:7346559234177703938/
+  - moveit-chomp-optimizer-adapter
+  - moveit-ros-control-interface
 
   - ros2_control
   - ros2_controllers
@@ -147,6 +151,8 @@ packages_select_by_deps:
   - behaviortree_cpp
 
   - gtsam
+  # Requested in https://github.com/RoboStack/ros-humble/issues/325
+  - data_tamer_cpp
 
   - proxsuite
 
@@ -158,12 +164,18 @@ packages_select_by_deps:
       # Depends on v4l
       - usb_cam
 
+      - libcamera
+
   # These packages are currently only build on Linux,
   # as trying to build them in the past on macos or Windows resulted in errors
   - if: linux
     then:
       - py_binding_tools
       - livox_ros_driver2
+      # Depends on libcamera that is only available on linux
+      - camera_ros
+      # Depends on v4l that is only available on linux
+      - v4l2_camera
 
   # These packages are currently not build on Windows, but they be with some work
   - if: not win
@@ -174,6 +186,7 @@ packages_select_by_deps:
       - moveit-py
       - moveit-ros-perception
       - moveit-ros-occupancy-map-monitor
+      - moveit-runtime
       # TODO on windows: fix iconv link issue
       - ffmpeg_image_transport
       - apriltag_draw
@@ -188,6 +201,8 @@ packages_select_by_deps:
       - odom_to_tf_ros2
       # TODO on windows: cannot open pcl_io.lib
       - ouster_ros
+      # Windows error: error C3861: '__builtin_unreachable': identifier not found 
+      - moveit-hybrid-planning
 
 patch_dir: patch
 rosdistro_snapshot: rosdistro_snapshot.yaml
