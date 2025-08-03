@@ -205,6 +205,7 @@ packages_select_by_deps:
       # Windows error: error C2765: 'function' : an explicit specialization of a function template cannot have any default arguments
       - autoware_motion_utils
       - autoware_trajectory
+      - autoware_pose_initializer
 
 patch_dir: patch
 rosdistro_snapshot: rosdistro_snapshot.yaml
