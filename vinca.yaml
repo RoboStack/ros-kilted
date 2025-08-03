@@ -140,7 +140,6 @@ packages_select_by_deps:
   - autoware_qp_interface
   - autoware_signal_processing
   - autoware_vehicle_info_utils
-  - autoware_core_localization
 
   - apriltag_detector
 
@@ -203,9 +202,14 @@ packages_select_by_deps:
       - moveit-hybrid-planning
       # Windows error: error C2765: 'function' : an explicit specialization of a function template cannot have any default arguments
       - autoware_motion_utils
+      # depends on autoware_motion_utils
       - autoware_trajectory
       - autoware_pose_initializer
       - autoware_core_control
+      # Windows error: error C2338: static_assert failed: 'First argument to logging macros must be an rclcpp::Logger'
+      - autoware_ekf_localizer
+      # depends on autoware_ekf_localizer
+      - autoware_core_localization
 
 patch_dir: patch
 rosdistro_snapshot: rosdistro_snapshot.yaml
