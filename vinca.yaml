@@ -140,7 +140,6 @@ packages_select_by_deps:
   - autoware_qp_interface
   - autoware_signal_processing
   - autoware_vehicle_info_utils
-  - autoware_core_control
   - autoware_core_localization
 
   - apriltag_detector
@@ -206,6 +205,7 @@ packages_select_by_deps:
       - autoware_motion_utils
       - autoware_trajectory
       - autoware_pose_initializer
+      - autoware_core_control
 
 patch_dir: patch
 rosdistro_snapshot: rosdistro_snapshot.yaml
