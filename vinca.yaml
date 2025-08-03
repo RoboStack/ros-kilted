@@ -133,14 +133,12 @@ packages_select_by_deps:
   - autoware_interpolation
   - autoware_kalman_filter
   - autoware_lanelet2_utils
-  - autoware_motion_utils
   - autoware_node
   - autoware_object_recognition_utils
   - autoware_osqp_interface
   - autoware_point_types
   - autoware_qp_interface
   - autoware_signal_processing
-  - autoware_trajectory
   - autoware_vehicle_info_utils
   - autoware_core_control
   - autoware_core_localization
@@ -204,6 +202,9 @@ packages_select_by_deps:
       - ouster_ros
       # Windows error: error C3861: '__builtin_unreachable': identifier not found 
       - moveit-hybrid-planning
+      # Windows error: error C2765: 'function' : an explicit specialization of a function template cannot have any default arguments
+      - autoware_motion_utils
+      - autoware_trajectory
 
 patch_dir: patch
 rosdistro_snapshot: rosdistro_snapshot.yaml
