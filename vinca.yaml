@@ -132,7 +132,6 @@ packages_select_by_deps:
   - autoware_global_parameter_loader
   - autoware_interpolation
   - autoware_kalman_filter
-  - autoware_lanelet2_utils
   - autoware_node
   - autoware_object_recognition_utils
   - autoware_osqp_interface
@@ -210,6 +209,9 @@ packages_select_by_deps:
       - autoware_ekf_localizer
       # depends on autoware_ekf_localizer
       - autoware_core_localization
+      # Windows error: error C3546: '...': there are no parameter packs available to expand
+      # Windows error: error C2678: binary '|': no operator found which takes a left-hand operand of type 'ranges::transform_view<ranges::ref_view<const T>,Arg>'
+      - autoware_lanlet2_utils
 
 patch_dir: patch
 rosdistro_snapshot: rosdistro_snapshot.yaml
