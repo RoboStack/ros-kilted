@@ -127,6 +127,16 @@ packages_select_by_deps:
   - autoware_vehicle_msgs
   - autoware_cmake
   - autoware_utils
+  - autoware_component_interface_specs
+  - autoware_geography_utils
+  - autoware_global_parameter_loader
+  - autoware_interpolation
+  - autoware_kalman_filter
+  - autoware_node
+  - autoware_object_recognition_utils
+  - autoware_point_types
+  - autoware_signal_processing
+  - autoware_vehicle_info_utils
 
   - apriltag_detector
 
@@ -137,6 +147,8 @@ packages_select_by_deps:
   - gtsam
   # Requested in https://github.com/RoboStack/ros-humble/issues/325
   - data_tamer_cpp
+
+  - proxsuite
 
   # These packages are only built on Linux as they depend on Linux-specific API
   - if: linux
@@ -185,6 +197,21 @@ packages_select_by_deps:
       - ouster_ros
       # Windows error: error C3861: '__builtin_unreachable': identifier not found 
       - moveit-hybrid-planning
+      # Windows error: error C2765: 'function' : an explicit specialization of a function template cannot have any default arguments
+      - autoware_motion_utils
+      # depends on autoware_motion_utils
+      - autoware_trajectory
+      - autoware_pose_initializer
+      - autoware_core_control
+      # Windows error: error C2338: static_assert failed: 'First argument to logging macros must be an rclcpp::Logger'
+      - autoware_ekf_localizer
+      # depends on autoware_ekf_localizer
+      - autoware_core_localization
+      # Windows error: error C3546: '...': there are no parameter packs available to expand
+      # Windows error: error C2678: binary '|': no operator found which takes a left-hand operand of type 'ranges::transform_view<ranges::ref_view<const T>,Arg>'
+      - autoware_lanlet2_utils
+      - autoware_osqp_interface
+      - autoware_qp_interface
 
 patch_dir: patch
 rosdistro_snapshot: rosdistro_snapshot.yaml
