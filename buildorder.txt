@@ -1,0 +1,8 @@
+ros-kilted-autoware-localization-msgs
+ros-kilted-autoware-trajectory
+ros-kilted-autoware-downsample-filters
+ros-kilted-autoware-simple-pure-pursuit
+ros-kilted-autoware-component-interface-specs
+ros-kilted-autoware-core-control
+ros-kilted-autoware-pose-initializer
+ros-kilted-autoware-core-localization
