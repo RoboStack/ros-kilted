@@ -134,9 +134,7 @@ packages_select_by_deps:
   - autoware_kalman_filter
   - autoware_node
   - autoware_object_recognition_utils
-  - autoware_osqp_interface
   - autoware_point_types
-  - autoware_qp_interface
   - autoware_signal_processing
   - autoware_vehicle_info_utils
 
@@ -212,6 +210,8 @@ packages_select_by_deps:
       # Windows error: error C3546: '...': there are no parameter packs available to expand
       # Windows error: error C2678: binary '|': no operator found which takes a left-hand operand of type 'ranges::transform_view<ranges::ref_view<const T>,Arg>'
       - autoware_lanlet2_utils
+      - autoware_osqp_interface
+      - autoware_qp_interface
 
 patch_dir: patch
 rosdistro_snapshot: rosdistro_snapshot.yaml
