@@ -106,7 +106,3 @@ proxsuite:
     dep_name: proxsuite
     max_pin: 'x.x'
     override_version: '0.7.2'
-autoware_localization_msgs:
-  build_number: 11
-autoware_component_interface_specs:
-  build_number: 11
