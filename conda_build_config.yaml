@@ -17,7 +17,7 @@ graphviz:
 
 # Workaround for https://github.com/RoboStack/ros-kilted/pull/40#issuecomment-2782226697
 cmake:
-  - 3.* 
+  - 3.*
 
 cdt_name:  # [linux]
   - conda  # [linux]
