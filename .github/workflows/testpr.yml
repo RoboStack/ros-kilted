@@ -4,6 +4,8 @@ on:
 
 env:
   ROS_VERSION: 2
+  # Change to 'true' to enable the cache upload as artifacts
+  SAVE_CACHE_AS_ARTIFACT: 'true'
 
 jobs:
   build:
@@ -13,14 +15,19 @@ jobs:
         include:
           - os: ubuntu-latest
             platform: linux-64
+            folder_cache: 'output/linux-64'
           - os: ubuntu-24.04-arm
             platform: linux-aarch64
+            folder_cache: 'output/linux-aarch64'
           - os: macos-13
             platform: osx-64
+            folder_cache: 'output/osx-64'
           - os: macos-14
             platform: osx-arm64
+            folder_cache: 'output/osx-arm64'
           - os: windows-2022
             platform: win-64
+            folder_cache: 'C:/bld/win-64'
 
     runs-on: ${{ matrix.os }}
 
@@ -32,7 +39,6 @@ jobs:
 
     - uses: prefix-dev/setup-pixi@v0.8.10
       with:
-        pixi-version: v0.44.0
         frozen: true
 
     # Workaround for https://github.com/RoboStack/ros-humble/pull/141#issuecomment-1941919816
@@ -79,7 +85,45 @@ jobs:
       run: |
         pixi run python check_patches_clean_apply.py
 
+    - name: Restore build cache
+      id: cache-restore
+      uses: actions/cache/restore@v4
+      with:
+        path: |
+          ${{ matrix.folder_cache }}
+        key: ${{ runner.os }}-${{ matrix.platform }}-pr-${{ github.event.pull_request.number }}
+        # allow a later run to pick up a cache that has an extra suffix
+        restore-keys: |
+          ${{ runner.os }}-${{ matrix.platform }}-pr-${{ github.event.pull_request.number }}-
+
+    - name: See packages restored by cache
+      shell: bash -l {0}
+      run: |
+        ls ${{ matrix.folder_cache }} || true
+
     - name: Build recipes
       shell: bash -l {0}
       run: |
         pixi run rattler-build build --recipe-dir recipes --target-platform ${{ matrix.platform }} -m ./conda_build_config.yaml -c robostack-kilted -c conda-forge --skip-existing
+
+    - name: See packages that will be saved in cache
+      shell: bash -l {0}
+      if: always()
+      run: |
+        ls ${{ matrix.folder_cache }} || true
+
+    - name: Save build cache
+      uses: actions/cache/save@v4
+      if: always()
+      with:
+        path: |
+          ${{ matrix.folder_cache }}
+        key: ${{ runner.os }}-${{ matrix.platform }}-pr-${{ github.event.pull_request.number }}-${{ github.run_id }}-${{ github.run_attempt }}
+
+    - name: Upload build cache as artifact
+      if: ${{ always() && env.SAVE_CACHE_AS_ARTIFACT == 'true' }}
+      uses: actions/upload-artifact@v4
+      with:
+        name: cache-${{ matrix.platform }}-${{ github.run_id }}
+        path: ${{ matrix.folder_cache }}
+        retention-days: 7
