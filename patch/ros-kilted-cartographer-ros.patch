@@ -1,5 +1,5 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index f7f4762..530125a 100644
+index f7f4762..7ab580a 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
 @@ -28,16 +28,19 @@ endif()
@@ -17,7 +17,7 @@ index f7f4762..530125a 100644
 +find_package(gflags REQUIRED)
 +find_package(glog REQUIRED)
  find_package(nav_msgs REQUIRED)
-+find_package(PCL REQUIRED COMPONENTS common)
++find_package(PCL REQUIRED COMPONENTS common io)
  find_package(pcl_conversions REQUIRED)
  find_package(rclcpp REQUIRED)
 +find_package(ros_environment REQUIRED)
@@ -59,7 +59,7 @@ index f7f4762..530125a 100644
    src/assets_writer.cpp
    src/map_builder_bridge.cpp
    src/msg_conversion.cpp
-@@ -78,69 +91,172 @@ add_library(${PROJECT_NAME}
+@@ -78,69 +91,173 @@ add_library(${PROJECT_NAME}
    src/metrics/family_factory.cpp
    src/metrics/internal/family.cpp
    src/metrics/internal/histogram.cpp
@@ -119,6 +119,7 @@ index f7f4762..530125a 100644
 +target_link_libraries(${PROJECT_NAME} PRIVATE
 +  ${CAIRO_LIBRARIES}
 +  pcl_common
++  pcl_io
 +  ${std_msgs_TARGETS}
 +  tf2::tf2
 +  tf2_eigen::tf2_eigen
@@ -271,7 +272,7 @@ index f7f4762..530125a 100644
    ARCHIVE DESTINATION lib
    LIBRARY DESTINATION lib
    RUNTIME DESTINATION bin
-@@ -158,16 +274,30 @@ install(TARGETS
+@@ -158,16 +275,30 @@ install(TARGETS
  )
  
  install(DIRECTORY include/
