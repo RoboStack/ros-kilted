@@ -1,11 +1,41 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index f7f476296..0725a05d5 100644
+index f7f4762..8dccc7c 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -50,6 +50,16 @@ find_package(urdf REQUIRED)
- find_package(urdfdom_headers REQUIRED)
+@@ -28,16 +28,19 @@ endif()
+ 
+ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+ 
++find_package(absl REQUIRED)
+ find_package(builtin_interfaces REQUIRED)
+ find_package(cartographer REQUIRED)
+ find_package(cartographer_ros_msgs REQUIRED)
+ find_package(Eigen3 REQUIRED)
+ find_package(geometry_msgs REQUIRED)
+-find_package(absl REQUIRED)
+-find_package(PCL REQUIRED COMPONENTS common)
++find_package(gflags REQUIRED)
++find_package(glog REQUIRED)
+ find_package(nav_msgs REQUIRED)
++find_package(PCL REQUIRED COMPONENTS common)
+ find_package(pcl_conversions REQUIRED)
+ find_package(rclcpp REQUIRED)
++find_package(ros_environment REQUIRED)
+ find_package(rosbag2_cpp REQUIRED)
+ find_package(rosbag2_storage REQUIRED)
+ find_package(sensor_msgs REQUIRED)
+@@ -47,17 +50,23 @@ find_package(tf2_eigen REQUIRED)
+ find_package(tf2_msgs REQUIRED)
+ find_package(tf2_ros REQUIRED)
+ find_package(urdf REQUIRED)
+-find_package(urdfdom_headers REQUIRED)
  find_package(visualization_msgs REQUIRED)
-
+ 
+-include_directories(
+-  include
+-  ${PCL_INCLUDE_DIRS}
+-  ${urdfdom_headers_INCLUDE_DIRS}
+-)
 +set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 +# glog is not linked, however we look for it to detect the glog version
 +# and use a different code path if glog >= 0.7.0 is detected
@@ -16,41 +46,261 @@ index f7f476296..0725a05d5 100644
 +  endif()
 +endif()
 +
- include_directories(
-   include
-   ${PCL_INCLUDE_DIRS}
-diff --git a/src/ros_log_sink.cpp b/src/ros_log_sink.cpp
-index 1396381d4..9e189c690 100644
---- a/src/ros_log_sink.cpp
-+++ b/src/ros_log_sink.cpp
-@@ -33,6 +33,11 @@ const char* GetBasename(const char* filepath) {
-   return base ? (base + 1) : filepath;
- }
-
-+std::chrono::system_clock::time_point ConvertTmToTimePoint(const std::tm& tm) {
-+    std::time_t timeT = std::mktime(const_cast<std::tm*>(&tm)); // Convert std::tm to time_t
-+    return std::chrono::system_clock::from_time_t(timeT);      // Convert time_t to time_point
-+}
-+
- }  // namespace
-
- ScopedRosLogSink::ScopedRosLogSink() : will_die_(false) { AddLogSink(this); }
-@@ -46,10 +51,13 @@ void ScopedRosLogSink::send(const ::google::LogSeverity severity,
-                             const size_t message_len) {
-   (void) base_filename; // TODO: remove unused arg ?
-
-+#if defined(ROS_CARTOGRAPHER_GLOG_GE_070)
-+  const std::string message_string = ::google::LogSink::ToString(
-+      severity, GetBasename(filename), line, ::google::LogMessageTime(ConvertTmToTimePoint(*tm_time)), message, message_len);
-   // Google glog broke the ToString API, but has no way to tell what version it is using.
-   // To support both newer and older glog versions, use a nasty hack were we infer the
-   // version based on whether GOOGLE_GLOG_DLL_DECL is defined
--#if defined(GOOGLE_GLOG_DLL_DECL)
-+#elif defined(GOOGLE_GLOG_DLL_DECL)
-   const std::string message_string = ::google::LogSink::ToString(
-       severity, GetBasename(filename), line, tm_time, message, message_len);
- #else
-
++include(FindPkgConfig)
++pkg_search_module(CAIRO REQUIRED cairo>=1.12.16)
+ 
+ # Library
+-add_library(${PROJECT_NAME}
++add_library(${PROJECT_NAME} SHARED
+   src/assets_writer.cpp
+   src/map_builder_bridge.cpp
+   src/msg_conversion.cpp
+@@ -78,69 +87,172 @@ add_library(${PROJECT_NAME}
+   src/metrics/family_factory.cpp
+   src/metrics/internal/family.cpp
+   src/metrics/internal/histogram.cpp
+-  )
++)
++target_include_directories(${PROJECT_NAME} PUBLIC
++  "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
++  "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include>"
++  "$<INSTALL_INTERFACE:include/${PROJECT_NAME}>"
++  ${CAIRO_INCLUDE_DIRS}
++  ${pcl_conversions_INCLUDE_DIRS}
++)
++if ("$ENV{ROS_DISTRO}" STRLESS "kilted")
++  # In Kilted, pcl_conversions was converted over to an INTERFACE target,
++  # but prior to it it is only available as the INCLUDE_DIRS.  So we have this
++  # compatibility hack to deal with that difference.
++  target_include_directories(${PROJECT_NAME} PRIVATE ${pcl_conversions_INCLUDE_DIRS})
++  # In Kilted, urdf/model.h was deprecated in favor of urdf/model.hpp.
++  # Deal with the difference here so we have no warnings.
++  target_compile_definitions(${PROJECT_NAME} PRIVATE "-DUSE_URDF_H_FILES")
++else()
++  target_link_libraries(${PROJECT_NAME} PRIVATE pcl_conversions::pcl_conversions)
++endif()
+ 
+-set(dependencies
+-  builtin_interfaces
++target_link_libraries(${PROJECT_NAME} PUBLIC
++  absl::synchronization
++  ${builtin_interfaces_TARGETS}
+   cartographer
+-  cartographer_ros_msgs
+-  geometry_msgs
+-  nav_msgs
+-  pcl_conversions
+-  rclcpp
+-  sensor_msgs
+-  std_msgs
+-  tf2
+-  tf2_eigen
+-  tf2_msgs
+-  tf2_ros
+-  visualization_msgs
+-  rosbag2_cpp
+-  rosbag2_storage
+-  urdf
+-  urdfdom
++  ${cartographer_ros_msgs_TARGETS}
++  ${geometry_msgs_TARGETS}
++  ${nav_msgs_TARGETS}
++  rclcpp::rclcpp
++  rosbag2_cpp::rosbag2_cpp
++  rosbag2_storage::rosbag2_storage
++  ${sensor_msgs_TARGETS}
++  tf2_ros::tf2_ros
++  ${visualization_msgs_TARGETS}
++)
++target_link_libraries(${PROJECT_NAME} PRIVATE
++  ${CAIRO_LIBRARIES}
++  pcl_common
++  ${std_msgs_TARGETS}
++  tf2::tf2
++  tf2_eigen::tf2_eigen
++  ${tf2_msgs_TARGETS}
++  urdf::urdf
+ )
+-ament_target_dependencies(${PROJECT_NAME}
+-  ${dependencies}
+-  )
+-target_link_libraries(${PROJECT_NAME} cartographer ${PCL_LIBRARIES})
+ 
+ # Executables
+ add_executable(cartographer_node src/node_main.cpp)
+-target_link_libraries(cartographer_node ${PROJECT_NAME})
+-ament_target_dependencies(cartographer_node ${dependencies})
++target_include_directories(cartographer_node PRIVATE
++  "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
++  "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include>"
++  "$<INSTALL_INTERFACE:include/${PROJECT_NAME}>"
++)
++target_link_libraries(cartographer_node PRIVATE
++  ${PROJECT_NAME}
++  absl::memory
++  cartographer
++  gflags
++  rclcpp::rclcpp
++  tf2_ros::tf2_ros
++)
+ 
+ add_executable(cartographer_occupancy_grid_node src/occupancy_grid_node_main.cpp)
+-target_link_libraries(cartographer_occupancy_grid_node ${PROJECT_NAME})
+-ament_target_dependencies(cartographer_occupancy_grid_node ${dependencies})
++target_include_directories(cartographer_occupancy_grid_node PRIVATE
++  "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
++  "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include>"
++  "$<INSTALL_INTERFACE:include/${PROJECT_NAME}>"
++  ${CAIRO_INCLUDE_DIRS}
++)
++target_link_libraries(cartographer_occupancy_grid_node PRIVATE
++  ${PROJECT_NAME}
++  absl::synchronization
++  cartographer
++  ${cartographer_ros_msgs_TARGETS}
++  Eigen3::Eigen
++  gflags
++  ${nav_msgs_TARGETS}
++  rclcpp::rclcpp
++)
+ 
+ add_executable(cartographer_offline_node src/offline_node_main.cpp)
+-target_link_libraries(cartographer_offline_node ${PROJECT_NAME})
+-ament_target_dependencies(cartographer_offline_node ${dependencies})
++target_include_directories(cartographer_offline_node PRIVATE
++  "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
++  "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include>"
++  "$<INSTALL_INTERFACE:include/${PROJECT_NAME}>"
++)
++target_link_libraries(cartographer_offline_node PRIVATE
++  ${PROJECT_NAME}
++  cartographer
++  gflags
++  rclcpp::rclcpp
++)
+ 
+ add_executable(cartographer_assets_writer src/assets_writer_main.cpp)
+-target_link_libraries(cartographer_assets_writer ${PROJECT_NAME})
+-ament_target_dependencies(cartographer_assets_writer ${dependencies})
++target_include_directories(cartographer_assets_writer PRIVATE
++  "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
++  "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include>"
++  "$<INSTALL_INTERFACE:include/${PROJECT_NAME}>"
++)
++target_link_libraries(cartographer_assets_writer PRIVATE
++  ${PROJECT_NAME}
++  gflags
++  glog::glog
++  rclcpp::rclcpp
++)
+ 
+ add_executable(cartographer_pbstream_map_publisher src/pbstream_map_publisher_main.cpp)
+-target_link_libraries(cartographer_pbstream_map_publisher ${PROJECT_NAME})
+-ament_target_dependencies(cartographer_pbstream_map_publisher ${dependencies})
++target_include_directories(cartographer_pbstream_map_publisher PRIVATE
++  "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
++  "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include>"
++  "$<INSTALL_INTERFACE:include/${PROJECT_NAME}>"
++)
++target_link_libraries(cartographer_pbstream_map_publisher PRIVATE
++  ${PROJECT_NAME}
++  cartographer
++  gflags
++  glog::glog
++  ${nav_msgs_TARGETS}
++  rclcpp::rclcpp
++)
+ 
+ add_executable(cartographer_pbstream_to_ros_map src/pbstream_to_ros_map_main.cpp)
+-target_link_libraries(cartographer_pbstream_to_ros_map ${PROJECT_NAME})
+-ament_target_dependencies(cartographer_pbstream_to_ros_map ${dependencies})
++target_include_directories(cartographer_pbstream_to_ros_map PRIVATE
++  "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
++  "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include>"
++  "$<INSTALL_INTERFACE:include/${PROJECT_NAME}>"
++)
++target_link_libraries(cartographer_pbstream_to_ros_map PRIVATE
++  ${PROJECT_NAME}
++  cartographer
++  gflags
++  glog::glog
++  rclcpp::rclcpp
++)
+ 
+ add_executable(cartographer_rosbag_validate src/rosbag_validate_main.cpp)
+-target_link_libraries(cartographer_rosbag_validate ${PROJECT_NAME})
+-ament_target_dependencies(cartographer_rosbag_validate ${dependencies})
++target_include_directories(cartographer_rosbag_validate PRIVATE
++  "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
++  "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include>"
++  "$<INSTALL_INTERFACE:include/${PROJECT_NAME}>"
++)
++if ("$ENV{ROS_DISTRO}" STRLESS "kilted")
++  target_compile_definitions(cartographer_rosbag_validate PRIVATE "-DUSE_URDF_H_FILES")
++endif()
++target_link_libraries(cartographer_rosbag_validate
++  ${PROJECT_NAME}
++  absl::memory
++  cartographer
++  gflags
++  glog::glog
++  ${nav_msgs_TARGETS}
++  rclcpp::rclcpp
++  rosbag2_cpp::rosbag2_cpp
++  ${sensor_msgs_TARGETS}
++  tf2_eigen::tf2_eigen
++  ${tf2_msgs_TARGETS}
++  tf2_ros::tf2_ros
++  urdf::urdf
++  tf2::tf2
++)
+ 
+ if($ENV{ROS_DISTRO} MATCHES "humble" OR $ENV{ROS_DISTRO} MATCHES "iron")
+   target_compile_definitions(${PROJECT_NAME} PRIVATE PRE_JAZZY_SERIALIZED_BAG_MSG_FIELD_NAME)
+   target_compile_definitions(cartographer_rosbag_validate PRIVATE PRE_JAZZY_SERIALIZED_BAG_MSG_FIELD_NAME)
+ endif()
+ 
+-install(TARGETS
+-  ${PROJECT_NAME}
++install(TARGETS ${PROJECT_NAME}
++  EXPORT ${PROJECT_NAME}
+   ARCHIVE DESTINATION lib
+   LIBRARY DESTINATION lib
+   RUNTIME DESTINATION bin
+@@ -158,16 +270,30 @@ install(TARGETS
+ )
+ 
+ install(DIRECTORY include/
+-  DESTINATION include/
++  DESTINATION include/${PROJECT_NAME}
+ )
+ 
+ install(DIRECTORY configuration_files urdf launch
+   DESTINATION share/${PROJECT_NAME}/
+ )
+ 
+-ament_export_include_directories(include)
++ament_export_targets(${PROJECT_NAME})
++ament_export_include_directories(include/${PROJECT_NAME})
+ ament_export_libraries(${PROJECT_NAME})
+-ament_export_dependencies(${dependencies})
++ament_export_dependencies(
++  absl
++  builtin_interfaces
++  cartographer
++  cartographer_ros_msgs
++  geometry_msgs
++  nav_msgs
++  rclcpp
++  rosbag2_cpp
++  rosbag2_storage
++  sensor_msgs
++  tf2_ros
++  visualization_msgs
++)
+ ament_package()
+ 
+ # Non converted bin:
 diff --git a/include/cartographer_ros/map_builder_bridge.h b/include/cartographer_ros/map_builder_bridge.h
 index b2c00b7..9c1befd 100644
 --- a/include/cartographer_ros/map_builder_bridge.h
@@ -130,11 +380,63 @@ index f3527ca..f9fb9fb 100644
  
    rclcpp::Node::SharedPtr node_;
    ::rclcpp::Publisher<::cartographer_ros_msgs::msg::SubmapList>::SharedPtr submap_list_publisher_;
+diff --git a/package.xml b/package.xml
+index 154ba58..6dac98f 100644
+--- a/package.xml
++++ b/package.xml
+@@ -81,6 +81,7 @@
+   <depend>eigen</depend>
+   <depend>geometry_msgs</depend>
+   <depend>libabsl-dev</depend>
++  <depend>libcairo2-dev</depend>
+   <depend>libgflags-dev</depend>
+   <depend>libgoogle-glog-dev</depend>
+   <depend>libpcl-all-dev</depend>
+diff --git a/src/assets_writer.cpp b/src/assets_writer.cpp
+index 49ca8a9..3a776fe 100644
+--- a/src/assets_writer.cpp
++++ b/src/assets_writer.cpp
+@@ -45,7 +45,11 @@
+ #include "tf2_eigen/tf2_eigen.hpp"
+ #include "tf2_msgs/msg/tf_message.hpp"
+ #include "tf2_ros/buffer.h"
++#ifdef USE_URDF_H_FILES
+ #include "urdf/model.h"
++#else
++#include "urdf/model.hpp"
++#endif
+ 
+ namespace cartographer_ros {
+ namespace {
+diff --git a/src/assets_writer_main.cpp b/src/assets_writer_main.cpp
+index eaa8422..1a37b59 100644
+--- a/src/assets_writer_main.cpp
++++ b/src/assets_writer_main.cpp
+@@ -17,6 +17,7 @@
+ #include "cartographer_ros/assets_writer.h"
+ #include "gflags/gflags.h"
+ #include "glog/logging.h"
++#include "rclcpp/rclcpp.hpp"
+ #include <regex>
+ #include <string>
+ 
+diff --git a/src/node_main.cpp b/src/node_main.cpp
+index f403be0..bdf33b8 100644
+--- a/src/node_main.cpp
++++ b/src/node_main.cpp
+@@ -20,6 +20,7 @@
+ #include "cartographer_ros/node_options.h"
+ #include "cartographer_ros/ros_log_sink.h"
+ #include "gflags/gflags.h"
++#include "rclcpp/rclcpp.hpp"
+ #include "tf2_ros/transform_listener.h"
+ 
+ DEFINE_bool(collect_metrics, false,
 diff --git a/src/occupancy_grid_node_main.cpp b/src/occupancy_grid_node_main.cpp
-index 324426b..443dac2 100644
+index 282b890..6139979 100644
 --- a/src/occupancy_grid_node_main.cpp
 +++ b/src/occupancy_grid_node_main.cpp
-@@ -73,10 +73,10 @@ class Node : public rclcpp::Node
+@@ -74,10 +74,10 @@ class Node : public rclcpp::Node
    absl::Mutex mutex_;
    rclcpp::CallbackGroup::SharedPtr callback_group_;
    rclcpp::executors::SingleThreadedExecutor::SharedPtr callback_group_executor_;
@@ -149,4 +451,87 @@ index 324426b..443dac2 100644
    rclcpp::TimerBase::SharedPtr occupancy_grid_publisher_timer_;
    std::string last_frame_id_;
    rclcpp::Time last_timestamp_;
-
+diff --git a/src/offline_node.cpp b/src/offline_node.cpp
+index 94df3b0..4b3f60e 100644
+--- a/src/offline_node.cpp
++++ b/src/offline_node.cpp
+@@ -31,7 +31,11 @@
+ #include "gflags/gflags.h"
+ #include "rosgraph_msgs/msg/clock.hpp"
+ #include "tf2_ros/static_transform_broadcaster.h"
++#ifdef USE_URDF_H_FILES
+ #include "urdf/model.h"
++#else
++#include "urdf/model.hpp"
++#endif
+ #include "rclcpp/exceptions.hpp"
+ #include <regex>
+ #include <string>
+diff --git a/src/ros_log_sink.cpp b/src/ros_log_sink.cpp
+index 1396381..ba050f3 100644
+--- a/src/ros_log_sink.cpp
++++ b/src/ros_log_sink.cpp
+@@ -33,6 +33,13 @@ const char* GetBasename(const char* filepath) {
+   return base ? (base + 1) : filepath;
+ }
+ 
++#if defined(ROS_CARTOGRAPHER_GLOG_GE_070)
++std::chrono::system_clock::time_point ConvertTmToTimePoint(const std::tm& tm) {
++    std::time_t timeT = std::mktime(const_cast<std::tm*>(&tm)); // Convert std::tm to time_t
++    return std::chrono::system_clock::from_time_t(timeT);      // Convert time_t to time_point
++}
++#endif
++
+ }  // namespace
+ 
+ ScopedRosLogSink::ScopedRosLogSink() : will_die_(false) { AddLogSink(this); }
+@@ -46,10 +53,13 @@ void ScopedRosLogSink::send(const ::google::LogSeverity severity,
+                             const size_t message_len) {
+   (void) base_filename; // TODO: remove unused arg ?
+ 
++#if defined(ROS_CARTOGRAPHER_GLOG_GE_070)
++  const std::string message_string = ::google::LogSink::ToString(
++      severity, GetBasename(filename), line, ::google::LogMessageTime(ConvertTmToTimePoint(*tm_time)), message, message_len);
+   // Google glog broke the ToString API, but has no way to tell what version it is using.
+   // To support both newer and older glog versions, use a nasty hack were we infer the
+   // version based on whether GOOGLE_GLOG_DLL_DECL is defined
+-#if defined(GOOGLE_GLOG_DLL_DECL)
++#elif defined(GOOGLE_GLOG_DLL_DECL)
+   const std::string message_string = ::google::LogSink::ToString(
+       severity, GetBasename(filename), line, tm_time, message, message_len);
+ #else
+diff --git a/src/rosbag_validate_main.cpp b/src/rosbag_validate_main.cpp
+index 1c7ba2a..61e16a3 100644
+--- a/src/rosbag_validate_main.cpp
++++ b/src/rosbag_validate_main.cpp
+@@ -36,8 +36,12 @@
+ #include "tf2_eigen/tf2_eigen.hpp"
+ #include "tf2_msgs/msg/tf_message.hpp"
+ #include "tf2_ros/buffer.h"
++#ifdef USE_URDF_H_FILES
+ #include "urdf/model.h"
+-#include <tf2/utils.h>
++#else
++#include "urdf/model.hpp"
++#endif
++#include <tf2/utils.hpp>
+ 
+ DEFINE_string(bag_filename, "", "Bag to process.");
+ DEFINE_bool(dump_timing, false,
+diff --git a/src/urdf_reader.cpp b/src/urdf_reader.cpp
+index d2380cd..c15582e 100644
+--- a/src/urdf_reader.cpp
++++ b/src/urdf_reader.cpp
+@@ -20,7 +20,12 @@
+ #include <vector>
+ 
+ #include "cartographer_ros/msg_conversion.h"
++#include "geometry_msgs/msg/transform_stamped.hpp"
++#ifdef USE_URDF_H_FILES
+ #include "urdf/model.h"
++#else
++#include "urdf/model.hpp"
++#endif
+ 
+ namespace cartographer_ros {
+ 
