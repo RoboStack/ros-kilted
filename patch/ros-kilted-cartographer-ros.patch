@@ -1,5 +1,5 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index f7f4762..5d583b5 100644
+index f7f4762..7ab580a 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
 @@ -28,16 +28,19 @@ endif()
@@ -24,7 +24,7 @@ index f7f4762..5d583b5 100644
  find_package(rosbag2_cpp REQUIRED)
  find_package(rosbag2_storage REQUIRED)
  find_package(sensor_msgs REQUIRED)
-@@ -47,17 +50,29 @@ find_package(tf2_eigen REQUIRED)
+@@ -47,17 +50,27 @@ find_package(tf2_eigen REQUIRED)
  find_package(tf2_msgs REQUIRED)
  find_package(tf2_ros REQUIRED)
  find_package(urdf REQUIRED)
@@ -52,8 +52,6 @@ index f7f4762..5d583b5 100644
 +else()
 +  find_library(CAIRO_LIBRARIES cairo)
 +endif()
-+
-+find_package(ZLIB REQUIRED)
  
  # Library
 -add_library(${PROJECT_NAME}
@@ -61,7 +59,7 @@ index f7f4762..5d583b5 100644
    src/assets_writer.cpp
    src/map_builder_bridge.cpp
    src/msg_conversion.cpp
-@@ -78,69 +93,174 @@ add_library(${PROJECT_NAME}
+@@ -78,69 +91,173 @@ add_library(${PROJECT_NAME}
    src/metrics/family_factory.cpp
    src/metrics/internal/family.cpp
    src/metrics/internal/histogram.cpp
@@ -127,7 +125,6 @@ index f7f4762..5d583b5 100644
 +  tf2_eigen::tf2_eigen
 +  ${tf2_msgs_TARGETS}
 +  urdf::urdf
-+  ZLIB::ZLIB
  )
 -ament_target_dependencies(${PROJECT_NAME}
 -  ${dependencies}
@@ -275,7 +272,7 @@ index f7f4762..5d583b5 100644
    ARCHIVE DESTINATION lib
    LIBRARY DESTINATION lib
    RUNTIME DESTINATION bin
-@@ -158,16 +278,30 @@ install(TARGETS
+@@ -158,16 +275,30 @@ install(TARGETS
  )
  
  install(DIRECTORY include/
