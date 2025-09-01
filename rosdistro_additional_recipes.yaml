@@ -59,262 +59,266 @@ autoware_utils_visualization:
   url: https://github.com/ros2-gbp/autoware_utils-release.git
   version: 1.4.2
 # TODO: remove autoware_core and it's sub packages after they are released in kilted
-autoware_core_vehicle:
-  tag: release/humble/autoware_core_vehicle/1.3.0-1
-  url: https://github.com/wep21/autoware_core-release.git
-  version: 1.3.0
-autoware_planning_topic_converter:
-  tag: release/humble/autoware_planning_topic_converter/1.3.0-1
-  url: https://github.com/wep21/autoware_core-release.git
-  version: 1.3.0
-autoware_objects_of_interest_marker_interface:
-  tag: release/humble/autoware_objects_of_interest_marker_interface/1.3.0-1
-  url: https://github.com/wep21/autoware_core-release.git
-  version: 1.3.0
-autoware_behavior_velocity_planner:
-  tag: release/humble/autoware_behavior_velocity_planner/1.3.0-1
-  url: https://github.com/wep21/autoware_core-release.git
-  version: 1.3.0
-autoware_behavior_velocity_stop_line_module:
-  tag: release/humble/autoware_behavior_velocity_stop_line_module/1.3.0-1
-  url: https://github.com/wep21/autoware_core-release.git
-  version: 1.3.0
-autoware_behavior_velocity_planner_common:
-  tag: release/humble/autoware_behavior_velocity_planner_common/1.3.0-1
-  url: https://github.com/wep21/autoware_core-release.git
-  version: 1.3.0
-autoware_mission_planner:
-  tag: release/humble/autoware_mission_planner/1.3.0-1
-  url: https://github.com/wep21/autoware_core-release.git
-  version: 1.3.0
-autoware_velocity_smoother:
-  tag: release/humble/autoware_velocity_smoother/1.3.0-1
-  url: https://github.com/wep21/autoware_core-release.git
-  version: 1.3.0
-autoware_core_planning:
-  tag: release/humble/autoware_core_planning/1.3.0-1
-  url: https://github.com/wep21/autoware_core-release.git
-  version: 1.3.0
-autoware_path_generator:
-  tag: release/humble/autoware_path_generator/1.3.0-1
-  url: https://github.com/wep21/autoware_core-release.git
-  version: 1.3.0
-autoware_motion_velocity_obstacle_stop_module:
-  tag: release/humble/autoware_motion_velocity_obstacle_stop_module/1.3.0-1
-  url: https://github.com/wep21/autoware_core-release.git
-  version: 1.3.0
-autoware_motion_velocity_planner:
-  tag: release/humble/autoware_motion_velocity_planner/1.3.0-1
-  url: https://github.com/wep21/autoware_core-release.git
-  version: 1.3.0
-autoware_motion_velocity_planner_common:
-  tag: release/humble/autoware_motion_velocity_planner_common/1.3.0-1
-  url: https://github.com/wep21/autoware_core-release.git
-  version: 1.3.0
-autoware_route_handler:
-  tag: release/humble/autoware_route_handler/1.3.0-1
-  url: https://github.com/wep21/autoware_core-release.git
-  version: 1.3.0
-autoware_planning_factor_interface:
-  tag: release/humble/autoware_planning_factor_interface/1.3.0-1
-  url: https://github.com/wep21/autoware_core-release.git
-  version: 1.3.0
-autoware_test_utils:
-  tag: release/humble/autoware_test_utils/1.3.0-1
-  url: https://github.com/wep21/autoware_core-release.git
-  version: 1.3.0
-autoware_pyplot:
-  tag: release/humble/autoware_pyplot/1.3.0-1
-  url: https://github.com/wep21/autoware_core-release.git
-  version: 1.3.0
-autoware_test_node:
-  tag: release/humble/autoware_test_node/1.3.0-1
-  url: https://github.com/wep21/autoware_core-release.git
-  version: 1.3.0
-autoware_planning_test_manager:
-  tag: release/humble/autoware_planning_test_manager/1.3.0-1
-  url: https://github.com/wep21/autoware_core-release.git
-  version: 1.3.0
-autoware_testing:
-  tag: release/humble/autoware_testing/1.3.0-1
-  url: https://github.com/wep21/autoware_core-release.git
-  version: 1.3.0
-autoware_osqp_interface:
-  tag: release/humble/autoware_osqp_interface/1.3.0-1
-  url: https://github.com/wep21/autoware_core-release.git
-  version: 1.3.0
-autoware_global_parameter_loader:
-  tag: release/humble/autoware_global_parameter_loader/1.3.0-1
-  url: https://github.com/wep21/autoware_core-release.git
-  version: 1.3.0
-autoware_geography_utils:
-  tag: release/humble/autoware_geography_utils/1.3.0-1
-  url: https://github.com/wep21/autoware_core-release.git
-  version: 1.3.0
-autoware_qp_interface:
-  tag: release/humble/autoware_qp_interface/1.3.0-1
-  url: https://github.com/wep21/autoware_core-release.git
-  version: 1.3.0
-autoware_node:
-  tag: release/humble/autoware_node/1.3.0-1
-  url: https://github.com/wep21/autoware_core-release.git
-  version: 1.3.0
-autoware_vehicle_info_utils:
-  tag: release/humble/autoware_vehicle_info_utils/1.3.0-1
-  url: https://github.com/wep21/autoware_core-release.git
-  version: 1.3.0
-autoware_interpolation:
-  tag: release/humble/autoware_interpolation/1.3.0-1
-  url: https://github.com/wep21/autoware_core-release.git
-  version: 1.3.0
-autoware_motion_utils:
-  tag: release/humble/autoware_motion_utils/1.3.0-1
-  url: https://github.com/wep21/autoware_core-release.git
-  version: 1.3.0
-autoware_kalman_filter:
-  tag: release/humble/autoware_kalman_filter/1.3.0-1
-  url: https://github.com/wep21/autoware_core-release.git
-  version: 1.3.0
-autoware_signal_processing:
-  tag: release/humble/autoware_signal_processing/1.3.0-1
-  url: https://github.com/wep21/autoware_core-release.git
-  version: 1.3.0
-autoware_trajectory:
-  tag: release/humble/autoware_trajectory/1.3.0-1
-  url: https://github.com/wep21/autoware_core-release.git
-  version: 1.3.0
-autoware_object_recognition_utils:
-  tag: release/humble/autoware_object_recognition_utils/1.3.0-1
-  url: https://github.com/wep21/autoware_core-release.git
-  version: 1.3.0
-autoware_lanelet2_utils:
-  tag: release/humble/autoware_lanelet2_utils/1.3.0-1
-  url: https://github.com/wep21/autoware_core-release.git
-  version: 1.3.0
-autoware_point_types:
-  tag: release/humble/autoware_point_types/1.3.0-1
-  url: https://github.com/wep21/autoware_core-release.git
-  version: 1.3.0
-autoware_component_interface_specs:
-  tag: release/humble/autoware_component_interface_specs/1.3.0-1
-  url: https://github.com/wep21/autoware_core-release.git
-  version: 1.3.0
-autoware_map_loader:
-  tag: release/humble/autoware_map_loader/1.3.0-1
-  url: https://github.com/wep21/autoware_core-release.git
-  version: 1.3.0
-autoware_core_map:
-  tag: release/humble/autoware_core_map/1.3.0-1
-  url: https://github.com/wep21/autoware_core-release.git
-  version: 1.3.0
-autoware_map_height_fitter:
-  tag: release/humble/autoware_map_height_fitter/1.3.0-1
-  url: https://github.com/wep21/autoware_core-release.git
-  version: 1.3.0
-autoware_lanelet2_map_visualizer:
-  tag: release/humble/autoware_lanelet2_map_visualizer/1.3.0-1
-  url: https://github.com/wep21/autoware_core-release.git
-  version: 1.3.0
-autoware_map_projection_loader:
-  tag: release/humble/autoware_map_projection_loader/1.3.0-1
-  url: https://github.com/wep21/autoware_core-release.git
-  version: 1.3.0
-autoware_core:
-  tag: release/humble/autoware_core/1.3.0-1
-  url: https://github.com/wep21/autoware_core-release.git
-  version: 1.3.0
-autoware_adapi_specs:
-  tag: release/humble/autoware_adapi_specs/1.3.0-1
-  url: https://github.com/wep21/autoware_core-release.git
-  version: 1.3.0
-autoware_core_api:
-  tag: release/humble/autoware_core_api/1.3.0-1
-  url: https://github.com/wep21/autoware_core-release.git
-  version: 1.3.0
-autoware_default_adapi:
-  tag: release/humble/autoware_default_adapi/1.3.0-1
-  url: https://github.com/wep21/autoware_core-release.git
-  version: 1.3.0
 autoware_adapi_adaptors:
-  tag: release/humble/autoware_adapi_adaptors/1.3.0-1
-  url: https://github.com/wep21/autoware_core-release.git
-  version: 1.3.0
-autoware_euclidean_cluster_object_detector:
-  tag: release/humble/autoware_euclidean_cluster_object_detector/1.3.0-1
-  url: https://github.com/wep21/autoware_core-release.git
-  version: 1.3.0
-autoware_ground_filter:
-  tag: release/humble/autoware_ground_filter/1.3.0-1
-  url: https://github.com/wep21/autoware_core-release.git
-  version: 1.3.0
-autoware_perception_objects_converter:
-  tag: release/humble/autoware_perception_objects_converter/1.3.0-1
-  url: https://github.com/wep21/autoware_core-release.git
-  version: 1.3.0
-autoware_core_perception:
-  tag: release/humble/autoware_core_perception/1.3.0-1
-  url: https://github.com/wep21/autoware_core-release.git
-  version: 1.3.0
-autoware_gnss_poser:
-  tag: release/humble/autoware_gnss_poser/1.3.0-1
-  url: https://github.com/wep21/autoware_core-release.git
-  version: 1.3.0
-autoware_vehicle_velocity_converter:
-  tag: release/humble/autoware_vehicle_velocity_converter/1.3.0-1
-  url: https://github.com/wep21/autoware_core-release.git
-  version: 1.3.0
-autoware_crop_box_filter:
-  tag: release/humble/autoware_crop_box_filter/1.3.0-1
-  url: https://github.com/wep21/autoware_core-release.git
-  version: 1.3.0
-autoware_core_sensing:
-  tag: release/humble/autoware_core_sensing/1.3.0-1
-  url: https://github.com/wep21/autoware_core-release.git
-  version: 1.3.0
-autoware_downsample_filters:
-  tag: release/humble/autoware_downsample_filters/1.3.0-1
-  url: https://github.com/wep21/autoware_core-release.git
-  version: 1.3.0
-autoware_simple_pure_pursuit:
-  tag: release/humble/autoware_simple_pure_pursuit/1.3.0-1
-  url: https://github.com/wep21/autoware_core-release.git
-  version: 1.3.0
+  tag: release/humble/autoware_adapi_adaptors/1.4.0-1
+  url: https://github.com/ros2-gbp/autoware_core-release.git
+  version: 1.4.0
+autoware_adapi_specs:
+  tag: release/humble/autoware_adapi_specs/1.4.0-1
+  url: https://github.com/ros2-gbp/autoware_core-release.git
+  version: 1.4.0
+autoware_behavior_velocity_planner:
+  tag: release/humble/autoware_behavior_velocity_planner/1.4.0-1
+  url: https://github.com/ros2-gbp/autoware_core-release.git
+  version: 1.4.0
+autoware_behavior_velocity_planner_common:
+  tag: release/humble/autoware_behavior_velocity_planner_common/1.4.0-1
+  url: https://github.com/ros2-gbp/autoware_core-release.git
+  version: 1.4.0
+autoware_behavior_velocity_stop_line_module:
+  tag: release/humble/autoware_behavior_velocity_stop_line_module/1.4.0-1
+  url: https://github.com/ros2-gbp/autoware_core-release.git
+  version: 1.4.0
+autoware_component_interface_specs:
+  tag: release/humble/autoware_component_interface_specs/1.4.0-1
+  url: https://github.com/ros2-gbp/autoware_core-release.git
+  version: 1.4.0
+autoware_core:
+  tag: release/humble/autoware_core/1.4.0-1
+  url: https://github.com/ros2-gbp/autoware_core-release.git
+  version: 1.4.0
+autoware_core_api:
+  tag: release/humble/autoware_core_api/1.4.0-1
+  url: https://github.com/ros2-gbp/autoware_core-release.git
+  version: 1.4.0
 autoware_core_control:
-  tag: release/humble/autoware_core_control/1.3.0-1
-  url: https://github.com/wep21/autoware_core-release.git
-  version: 1.3.0
+  tag: release/humble/autoware_core_control/1.4.0-1
+  url: https://github.com/ros2-gbp/autoware_core-release.git
+  version: 1.4.0
 autoware_core_localization:
-  tag: release/humble/autoware_core_localization/1.3.0-1
-  url: https://github.com/wep21/autoware_core-release.git
-  version: 1.3.0
-autoware_gyro_odometer:
-  tag: release/humble/autoware_gyro_odometer/1.3.0-1
-  url: https://github.com/wep21/autoware_core-release.git
-  version: 1.3.0
-autoware_stop_filter:
-  tag: release/humble/autoware_stop_filter/1.3.0-1
-  url: https://github.com/wep21/autoware_core-release.git
-  version: 1.3.0
-autoware_twist2accel:
-  tag: release/humble/autoware_twist2accel/1.3.0-1
-  url: https://github.com/wep21/autoware_core-release.git
-  version: 1.3.0
-autoware_localization_util:
-  tag: release/humble/autoware_localization_util/1.3.0-1
-  url: https://github.com/wep21/autoware_core-release.git
-  version: 1.3.0
-autoware_pose_initializer:
-  tag: release/humble/autoware_pose_initializer/1.3.0-1
-  url: https://github.com/wep21/autoware_core-release.git
-  version: 1.3.0
-autoware_ndt_scan_matcher:
-  tag: release/humble/autoware_ndt_scan_matcher/1.3.0-1
-  url: https://github.com/wep21/autoware_core-release.git
-  version: 1.3.0
+  tag: release/humble/autoware_core_localization/1.4.0-1
+  url: https://github.com/ros2-gbp/autoware_core-release.git
+  version: 1.4.0
+autoware_core_map:
+  tag: release/humble/autoware_core_map/1.4.0-1
+  url: https://github.com/ros2-gbp/autoware_core-release.git
+  version: 1.4.0
+autoware_core_perception:
+  tag: release/humble/autoware_core_perception/1.4.0-1
+  url: https://github.com/ros2-gbp/autoware_core-release.git
+  version: 1.4.0
+autoware_core_planning:
+  tag: release/humble/autoware_core_planning/1.4.0-1
+  url: https://github.com/ros2-gbp/autoware_core-release.git
+  version: 1.4.0
+autoware_core_sensing:
+  tag: release/humble/autoware_core_sensing/1.4.0-1
+  url: https://github.com/ros2-gbp/autoware_core-release.git
+  version: 1.4.0
+autoware_core_vehicle:
+  tag: release/humble/autoware_core_vehicle/1.4.0-1
+  url: https://github.com/ros2-gbp/autoware_core-release.git
+  version: 1.4.0
+autoware_crop_box_filter:
+  tag: release/humble/autoware_crop_box_filter/1.4.0-1
+  url: https://github.com/ros2-gbp/autoware_core-release.git
+  version: 1.4.0
+autoware_default_adapi:
+  tag: release/humble/autoware_default_adapi/1.4.0-1
+  url: https://github.com/ros2-gbp/autoware_core-release.git
+  version: 1.4.0
+autoware_downsample_filters:
+  tag: release/humble/autoware_downsample_filters/1.4.0-1
+  url: https://github.com/ros2-gbp/autoware_core-release.git
+  version: 1.4.0
 autoware_ekf_localizer:
-  tag: release/humble/autoware_ekf_localizer/1.3.0-1
-  url: https://github.com/wep21/autoware_core-release.git
-  version: 1.3.0
+  tag: release/humble/autoware_ekf_localizer/1.4.0-1
+  url: https://github.com/ros2-gbp/autoware_core-release.git
+  version: 1.4.0
+autoware_euclidean_cluster_object_detector:
+  tag: release/humble/autoware_euclidean_cluster_object_detector/1.4.0-1
+  url: https://github.com/ros2-gbp/autoware_core-release.git
+  version: 1.4.0
+autoware_geography_utils:
+  tag: release/humble/autoware_geography_utils/1.4.0-1
+  url: https://github.com/ros2-gbp/autoware_core-release.git
+  version: 1.4.0
+autoware_global_parameter_loader:
+  tag: release/humble/autoware_global_parameter_loader/1.4.0-1
+  url: https://github.com/ros2-gbp/autoware_core-release.git
+  version: 1.4.0
+autoware_gnss_poser:
+  tag: release/humble/autoware_gnss_poser/1.4.0-1
+  url: https://github.com/ros2-gbp/autoware_core-release.git
+  version: 1.4.0
+autoware_ground_filter:
+  tag: release/humble/autoware_ground_filter/1.4.0-1
+  url: https://github.com/ros2-gbp/autoware_core-release.git
+  version: 1.4.0
+autoware_gyro_odometer:
+  tag: release/humble/autoware_gyro_odometer/1.4.0-1
+  url: https://github.com/ros2-gbp/autoware_core-release.git
+  version: 1.4.0
+autoware_interpolation:
+  tag: release/humble/autoware_interpolation/1.4.0-1
+  url: https://github.com/ros2-gbp/autoware_core-release.git
+  version: 1.4.0
+autoware_kalman_filter:
+  tag: release/humble/autoware_kalman_filter/1.4.0-1
+  url: https://github.com/ros2-gbp/autoware_core-release.git
+  version: 1.4.0
+autoware_lanelet2_map_visualizer:
+  tag: release/humble/autoware_lanelet2_map_visualizer/1.4.0-1
+  url: https://github.com/ros2-gbp/autoware_core-release.git
+  version: 1.4.0
+autoware_lanelet2_utils:
+  tag: release/humble/autoware_lanelet2_utils/1.4.0-1
+  url: https://github.com/ros2-gbp/autoware_core-release.git
+  version: 1.4.0
+autoware_localization_util:
+  tag: release/humble/autoware_localization_util/1.4.0-1
+  url: https://github.com/ros2-gbp/autoware_core-release.git
+  version: 1.4.0
+autoware_map_height_fitter:
+  tag: release/humble/autoware_map_height_fitter/1.4.0-1
+  url: https://github.com/ros2-gbp/autoware_core-release.git
+  version: 1.4.0
+autoware_map_loader:
+  tag: release/humble/autoware_map_loader/1.4.0-1
+  url: https://github.com/ros2-gbp/autoware_core-release.git
+  version: 1.4.0
+autoware_map_projection_loader:
+  tag: release/humble/autoware_map_projection_loader/1.4.0-1
+  url: https://github.com/ros2-gbp/autoware_core-release.git
+  version: 1.4.0
+autoware_marker_utils:
+  tag: release/humble/autoware_marker_utils/1.4.0-1
+  url: https://github.com/ros2-gbp/autoware_core-release.git
+  version: 1.4.0
+autoware_mission_planner:
+  tag: release/humble/autoware_mission_planner/1.4.0-1
+  url: https://github.com/ros2-gbp/autoware_core-release.git
+  version: 1.4.0
+autoware_motion_utils:
+  tag: release/humble/autoware_motion_utils/1.4.0-1
+  url: https://github.com/ros2-gbp/autoware_core-release.git
+  version: 1.4.0
+autoware_motion_velocity_obstacle_stop_module:
+  tag: release/humble/autoware_motion_velocity_obstacle_stop_module/1.4.0-1
+  url: https://github.com/ros2-gbp/autoware_core-release.git
+  version: 1.4.0
+autoware_motion_velocity_planner:
+  tag: release/humble/autoware_motion_velocity_planner/1.4.0-1
+  url: https://github.com/ros2-gbp/autoware_core-release.git
+  version: 1.4.0
+autoware_motion_velocity_planner_common:
+  tag: release/humble/autoware_motion_velocity_planner_common/1.4.0-1
+  url: https://github.com/ros2-gbp/autoware_core-release.git
+  version: 1.4.0
+autoware_ndt_scan_matcher:
+  tag: release/humble/autoware_ndt_scan_matcher/1.4.0-1
+  url: https://github.com/ros2-gbp/autoware_core-release.git
+  version: 1.4.0
+autoware_node:
+  tag: release/humble/autoware_node/1.4.0-1
+  url: https://github.com/ros2-gbp/autoware_core-release.git
+  version: 1.4.0
+autoware_object_recognition_utils:
+  tag: release/humble/autoware_object_recognition_utils/1.4.0-1
+  url: https://github.com/ros2-gbp/autoware_core-release.git
+  version: 1.4.0
+autoware_objects_of_interest_marker_interface:
+  tag: release/humble/autoware_objects_of_interest_marker_interface/1.4.0-1
+  url: https://github.com/ros2-gbp/autoware_core-release.git
+  version: 1.4.0
+autoware_osqp_interface:
+  tag: release/humble/autoware_osqp_interface/1.4.0-1
+  url: https://github.com/ros2-gbp/autoware_core-release.git
+  version: 1.4.0
+autoware_path_generator:
+  tag: release/humble/autoware_path_generator/1.4.0-1
+  url: https://github.com/ros2-gbp/autoware_core-release.git
+  version: 1.4.0
+autoware_perception_objects_converter:
+  tag: release/humble/autoware_perception_objects_converter/1.4.0-1
+  url: https://github.com/ros2-gbp/autoware_core-release.git
+  version: 1.4.0
+autoware_planning_factor_interface:
+  tag: release/humble/autoware_planning_factor_interface/1.4.0-1
+  url: https://github.com/ros2-gbp/autoware_core-release.git
+  version: 1.4.0
+autoware_planning_test_manager:
+  tag: release/humble/autoware_planning_test_manager/1.4.0-1
+  url: https://github.com/ros2-gbp/autoware_core-release.git
+  version: 1.4.0
+autoware_planning_topic_converter:
+  tag: release/humble/autoware_planning_topic_converter/1.4.0-1
+  url: https://github.com/ros2-gbp/autoware_core-release.git
+  version: 1.4.0
+autoware_point_types:
+  tag: release/humble/autoware_point_types/1.4.0-1
+  url: https://github.com/ros2-gbp/autoware_core-release.git
+  version: 1.4.0
+autoware_pose_initializer:
+  tag: release/humble/autoware_pose_initializer/1.4.0-1
+  url: https://github.com/ros2-gbp/autoware_core-release.git
+  version: 1.4.0
+autoware_pyplot:
+  tag: release/humble/autoware_pyplot/1.4.0-1
+  url: https://github.com/ros2-gbp/autoware_core-release.git
+  version: 1.4.0
+autoware_qp_interface:
+  tag: release/humble/autoware_qp_interface/1.4.0-1
+  url: https://github.com/ros2-gbp/autoware_core-release.git
+  version: 1.4.0
+autoware_route_handler:
+  tag: release/humble/autoware_route_handler/1.4.0-1
+  url: https://github.com/ros2-gbp/autoware_core-release.git
+  version: 1.4.0
+autoware_signal_processing:
+  tag: release/humble/autoware_signal_processing/1.4.0-1
+  url: https://github.com/ros2-gbp/autoware_core-release.git
+  version: 1.4.0
+autoware_simple_pure_pursuit:
+  tag: release/humble/autoware_simple_pure_pursuit/1.4.0-1
+  url: https://github.com/ros2-gbp/autoware_core-release.git
+  version: 1.4.0
+autoware_stop_filter:
+  tag: release/humble/autoware_stop_filter/1.4.0-1
+  url: https://github.com/ros2-gbp/autoware_core-release.git
+  version: 1.4.0
+autoware_test_node:
+  tag: release/humble/autoware_test_node/1.4.0-1
+  url: https://github.com/ros2-gbp/autoware_core-release.git
+  version: 1.4.0
+autoware_test_utils:
+  tag: release/humble/autoware_test_utils/1.4.0-1
+  url: https://github.com/ros2-gbp/autoware_core-release.git
+  version: 1.4.0
+autoware_testing:
+  tag: release/humble/autoware_testing/1.4.0-1
+  url: https://github.com/ros2-gbp/autoware_core-release.git
+  version: 1.4.0
+autoware_trajectory:
+  tag: release/humble/autoware_trajectory/1.4.0-1
+  url: https://github.com/ros2-gbp/autoware_core-release.git
+  version: 1.4.0
+autoware_twist2accel:
+  tag: release/humble/autoware_twist2accel/1.4.0-1
+  url: https://github.com/ros2-gbp/autoware_core-release.git
+  version: 1.4.0
+autoware_vehicle_info_utils:
+  tag: release/humble/autoware_vehicle_info_utils/1.4.0-1
+  url: https://github.com/ros2-gbp/autoware_core-release.git
+  version: 1.4.0
+autoware_vehicle_velocity_converter:
+  tag: release/humble/autoware_vehicle_velocity_converter/1.4.0-1
+  url: https://github.com/ros2-gbp/autoware_core-release.git
+  version: 1.4.0
+autoware_velocity_smoother:
+  tag: release/humble/autoware_velocity_smoother/1.4.0-1
+  url: https://github.com/ros2-gbp/autoware_core-release.git
+  version: 1.4.0
 # TODO: remove autoware_internal_localization_msgs and it's sub packages after they are released in kilted
 autoware_internal_localization_msgs:
   tag: release/jazzy/autoware_internal_localization_msgs/1.10.0-1
