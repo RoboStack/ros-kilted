@@ -1,20 +1,19 @@
-diff --git a/include/hardware_interface/handle.hpp b/include/hardware_interface/handle.hpp
-index 6fbb547e6..372895a18 100644
---- a/include/hardware_interface/handle.hpp
-+++ b/include/hardware_interface/handle.hpp
-@@ -39,10 +39,15 @@ namespace
- template <typename T>
- std::string get_type_name()
- {
-+#ifdef _MSC_VER
-+  const char* name = typeid(T).name();
-+  return std::string(name);
-+#else
-   int status = 0;
-   std::unique_ptr<char[], void (*)(void *)> res{
-     abi::__cxa_demangle(typeid(T).name(), nullptr, nullptr, &status), std::free};
-   return (status == 0) ? res.get() : typeid(T).name();
-+#endif
- }
- }  // namespace
+diff --git a/include/hardware_interface/hardware_info.hpp b/include/hardware_interface/hardware_info.hpp
+index 801dd0ff2..d265ff8be 100644
+--- a/include/hardware_interface/hardware_info.hpp
++++ b/include/hardware_interface/hardware_info.hpp
+@@ -21,6 +21,14 @@
  
+ #include "joint_limits/joint_limits.hpp"
+ 
++#ifdef TRUE
++#undef TRUE
++#endif
++
++#ifdef FALSE
++#undef FALSE
++#endif
++
+ namespace hardware_interface
+ {
+ /**
