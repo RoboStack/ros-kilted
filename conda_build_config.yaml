@@ -18,6 +18,8 @@ vtk:
   - 9.4.2
 pcl:
   - 1.15.0
+ffmpeg:
+  - 8
 
 # Workaround for https://github.com/RoboStack/ros-kilted/pull/40#issuecomment-2782226697
 cmake:
