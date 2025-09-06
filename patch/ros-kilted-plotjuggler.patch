@@ -12,7 +12,7 @@ index 23f774e5..ed25d0a9 100644
      QString type_qname = QString::fromStdString(type_name);
      info.descriptors.insert({ type_qname, descriptor });
 diff --git a/plotjuggler_plugins/ParserProtobuf/protobuf_parser.cpp b/plotjuggler_plugins/ParserProtobuf/protobuf_parser.cpp
-index 467dfbaf..899e9c90 100644
+index 467dfbaf..8814b3ce 100644
 --- a/plotjuggler_plugins/ParserProtobuf/protobuf_parser.cpp
 +++ b/plotjuggler_plugins/ParserProtobuf/protobuf_parser.cpp
 @@ -56,7 +56,7 @@ bool ProtobufParser::parseMessage(const MessageRef serialized_msg, double& times
@@ -24,3 +24,12 @@ index 467dfbaf..899e9c90 100644
        if (is_map)
        {
          // Map messages only have 2 fields: key and value. The key will be represented in
+@@ -156,7 +156,7 @@ bool ProtobufParser::parseMessage(const MessageRef serialized_msg, double& times
+                                    reflection->GetRepeatedEnum(msg, field, index);
+ 
+             auto& series = this->getStringSeries(key + suffix);
+-            series.pushBack({ timestamp, tmp->name() });
++            series.pushBack({ timestamp, std::string(tmp->name()) });
+             is_double = false;
+           }
+           break;
