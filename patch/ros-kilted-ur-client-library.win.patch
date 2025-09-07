@@ -32,10 +32,10 @@ index 7745da9..ebf128e 100644
  
  namespace urcl
 diff --git a/include/ur_client_library/control/reverse_interface.h b/include/ur_client_library/control/reverse_interface.h
-index e68acd9..aa9d1c1 100644
+index dbfb407..90fc40c 100644
 --- a/include/ur_client_library/control/reverse_interface.h
 +++ b/include/ur_client_library/control/reverse_interface.h
-@@ -29,13 +29,13 @@
+@@ -29,6 +29,7 @@
  #ifndef UR_CLIENT_LIBRARY_REVERSE_INTERFACE_H_INCLUDED
  #define UR_CLIENT_LIBRARY_REVERSE_INTERFACE_H_INCLUDED
  
@@ -43,8 +43,9 @@ index e68acd9..aa9d1c1 100644
  #include "ur_client_library/comm/tcp_server.h"
  #include "ur_client_library/comm/control_mode.h"
  #include "ur_client_library/types.h"
- #include "ur_client_library/log.h"
+@@ -36,7 +37,6 @@
  #include "ur_client_library/ur/robot_receive_timeout.h"
+ #include "ur_client_library/ur/version_information.h"
  #include <cstring>
 -#include <endian.h>
  #include <condition_variable>
@@ -186,7 +187,7 @@ index f910a08..066e004 100644
  #include "ur_client_library/comm/package_serializer.h"
  
 diff --git a/src/comm/tcp_socket.cpp b/src/comm/tcp_socket.cpp
-index 778e5f1..55f60c8 100644
+index de18910..829f619 100644
 --- a/src/comm/tcp_socket.cpp
 +++ b/src/comm/tcp_socket.cpp
 @@ -20,7 +20,6 @@

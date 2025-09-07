@@ -1,0 +1,27 @@
+diff --git a/omni_wheel_drive_controller/src/odometry.cpp b/omni_wheel_drive_controller/src/odometry.cpp
+index d78caebbf4..0ec266a6af 100644
+--- a/omni_wheel_drive_controller/src/odometry.cpp
++++ b/omni_wheel_drive_controller/src/odometry.cpp
+@@ -12,6 +12,8 @@
+ // See the License for the specific language governing permissions and
+ // limitations under the License.
+ 
++#define _USE_MATH_DEFINES
++
+ #include "omni_wheel_drive_controller/odometry.hpp"
+ 
+ #include <cmath>
+
+diff --git a/omni_wheel_drive_controller/src/omni_wheel_drive_controller.cpp b/omni_wheel_drive_controller/src/omni_wheel_drive_controller.cpp
+index 966232898c..0009c4632f 100644
+--- a/omni_wheel_drive_controller/src/omni_wheel_drive_controller.cpp
++++ b/omni_wheel_drive_controller/src/omni_wheel_drive_controller.cpp
+@@ -12,6 +12,8 @@
+ // See the License for the specific language governing permissions and
+ // limitations under the License.
+ 
++#define _USE_MATH_DEFINES
++
+ #include "omni_wheel_drive_controller/omni_wheel_drive_controller.hpp"
+ 
+ #include <cmath>
