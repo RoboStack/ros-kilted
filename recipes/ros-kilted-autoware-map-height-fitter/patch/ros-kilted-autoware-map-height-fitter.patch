@@ -1,0 +1,44 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 4678d7e..b6a6e53 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -13,7 +13,12 @@ target_link_libraries(${PROJECT_NAME} ${PCL_LIBRARIES})
+ 
+ # When adding `<depend>autoware_lanelet2_extension</depend>` to package.xml, many warnings are generated.
+ # These are treated as errors in compile, so pedantic warnings are disabled for this package.
+-target_compile_options(${PROJECT_NAME} PRIVATE -Wno-pedantic)
++if(NOT MSVC)
++  target_compile_options(${PROJECT_NAME}
++    PRIVATE -Wno-pedantic
++    PUBLIC -Wno-deprecated-declarations
++  )
++endif()
+ 
+ rclcpp_components_register_node(${PROJECT_NAME}
+   PLUGIN "autoware::map_height_fitter::MapHeightFitterNode"
+@@ -21,6 +26,12 @@ rclcpp_components_register_node(${PROJECT_NAME}
+   EXECUTOR MultiThreadedExecutor
+ )
+ 
++if(NOT MSVC)
++  target_compile_options(${PROJECT_NAME}_node
++    PUBLIC -Wno-deprecated-declarations
++  )
++endif()
++
+ ament_auto_package(
+   INSTALL_TO_SHARE
+   launch
+diff --git a/src/map_height_fitter.cpp b/src/map_height_fitter.cpp
+index e86674c..fbdd15d 100644
+--- a/src/map_height_fitter.cpp
++++ b/src/map_height_fitter.cpp
+@@ -82,7 +82,7 @@ MapHeightFitter::Impl::Impl(rclcpp::Node * node) : tf2_listener_(tf2_buffer_), n
+         if (partial_load) {
+           group_ = node_->create_callback_group(rclcpp::CallbackGroupType::MutuallyExclusive);
+           cli_pcd_map_ = node_->create_client<autoware_map_msgs::srv::GetPartialPointCloudMap>(
+-            "~/partial_map_load", rmw_qos_profile_default, group_);
++            "~/partial_map_load", rclcpp::QoS(rclcpp::QoSInitialization::from_rmw(rmw_qos_profile_default)), group_);
+         } else {
+           const auto durable_qos = rclcpp::QoS(1).transient_local();
+           sub_pcd_map_ = node_->create_subscription<sensor_msgs::msg::PointCloud2>(
