@@ -212,6 +212,7 @@ packages_select_by_deps:
       - autoware_lanlet2_utils
       - autoware_osqp_interface
       - autoware_qp_interface
+      - autoware_core
 
 patch_dir: patch
 rosdistro_snapshot: rosdistro_snapshot.yaml
