@@ -1,0 +1,4301 @@
+jobs:
+  stage_0_job_0:
+    name: mutex ament-package ament-cmake-core
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs: []
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros2-distro-mutex ros-kilted-ament-package ros-kilted-ament-cmake-core
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros2-distro-mutex ros-kilted-ament-package ros-kilted-ament-cmake-core
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_1_job_1:
+    name: ros-workspace ros-environment
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_0_job_0
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-ros-workspace ros-kilted-ros-environment
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-ros-workspace ros-kilted-ros-environment
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_2_job_2:
+    name: ament-lint ament-cmake-python gtest-vendor ament-cmake-libraries ament-cmake-include-directories
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_1_job_1
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-ament-lint ros-kilted-ament-cmake-python ros-kilted-gtest-vendor
+        ros-kilted-ament-cmake-libraries ros-kilted-ament-cmake-include-directories
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-ament-lint ros-kilted-ament-cmake-python ros-kilted-gtest-vendor
+          ros-kilted-ament-cmake-libraries ros-kilted-ament-cmake-include-directories
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_2_job_3:
+    name: ament-cmake-export-libraries ament-cmake-version ament-cmake-export-link-flags
+      ament-cmake-export-include-directories ament-cmake-export-definitions
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_1_job_1
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-ament-cmake-export-libraries ros-kilted-ament-cmake-version
+        ros-kilted-ament-cmake-export-link-flags ros-kilted-ament-cmake-export-include-directories
+        ros-kilted-ament-cmake-export-definitions
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-ament-cmake-export-libraries ros-kilted-ament-cmake-version
+          ros-kilted-ament-cmake-export-link-flags ros-kilted-ament-cmake-export-include-directories
+          ros-kilted-ament-cmake-export-definitions
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_2_job_4:
+    name: osrf-pycommon google-benchmark-vendor osrf-testing-tools-cpp test-interface-files
+      iceoryx-hoofs
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_1_job_1
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-osrf-pycommon ros-kilted-google-benchmark-vendor ros-kilted-osrf-testing-tools-cpp
+        ros-kilted-test-interface-files ros-kilted-iceoryx-hoofs
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-osrf-pycommon ros-kilted-google-benchmark-vendor
+          ros-kilted-osrf-testing-tools-cpp ros-kilted-test-interface-files ros-kilted-iceoryx-hoofs
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_2_job_5:
+    name: urdfdom-headers sdformat-test-files ruckig proxsuite gtsam
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_1_job_1
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-urdfdom-headers ros-kilted-sdformat-test-files ros-kilted-ruckig
+        ros-kilted-proxsuite ros-kilted-gtsam
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-urdfdom-headers ros-kilted-sdformat-test-files
+          ros-kilted-ruckig ros-kilted-proxsuite ros-kilted-gtsam
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_2_job_6:
+    name: ros-industrial-cmake-boilerplate ompl cartographer libcamera apriltag
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_1_job_1
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-ros-industrial-cmake-boilerplate ros-kilted-ompl ros-kilted-cartographer
+        ros-kilted-libcamera ros-kilted-apriltag
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-ros-industrial-cmake-boilerplate ros-kilted-ompl
+          ros-kilted-cartographer ros-kilted-libcamera ros-kilted-apriltag
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_2_job_7:
+    name: apriltag-mit
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_1_job_1
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-apriltag-mit
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-apriltag-mit
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_3_job_8:
+    name: ament-flake8 ament-cmake-test ament-cmake-export-dependencies ament-cmake-target-dependencies
+      ament-cmake-export-targets
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_2_job_2
+    - stage_2_job_3
+    - stage_2_job_4
+    - stage_2_job_5
+    - stage_2_job_6
+    - stage_2_job_7
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-ament-flake8 ros-kilted-ament-cmake-test ros-kilted-ament-cmake-export-dependencies
+        ros-kilted-ament-cmake-target-dependencies ros-kilted-ament-cmake-export-targets
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-ament-flake8 ros-kilted-ament-cmake-test ros-kilted-ament-cmake-export-dependencies
+          ros-kilted-ament-cmake-target-dependencies ros-kilted-ament-cmake-export-targets
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_3_job_9:
+    name: ament-cmake-export-interfaces gmock-vendor iceoryx-posh backward-ros mrt-cmake-modules
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_2_job_2
+    - stage_2_job_3
+    - stage_2_job_4
+    - stage_2_job_5
+    - stage_2_job_6
+    - stage_2_job_7
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-ament-cmake-export-interfaces ros-kilted-gmock-vendor
+        ros-kilted-iceoryx-posh ros-kilted-backward-ros ros-kilted-mrt-cmake-modules
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-ament-cmake-export-interfaces ros-kilted-gmock-vendor
+          ros-kilted-iceoryx-posh ros-kilted-backward-ros ros-kilted-mrt-cmake-modules
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_3_job_10:
+    name: stomp
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_2_job_2
+    - stage_2_job_3
+    - stage_2_job_4
+    - stage_2_job_5
+    - stage_2_job_6
+    - stage_2_job_7
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-stomp
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-stomp
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_4_job_11:
+    name: ament-pep257 ament-cmake-gtest ament-cmake-vendor-package ament-lint-auto
+      ament-cmake-pytest
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_3_job_8
+    - stage_3_job_9
+    - stage_3_job_10
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-ament-pep257 ros-kilted-ament-cmake-gtest ros-kilted-ament-cmake-vendor-package
+        ros-kilted-ament-lint-auto ros-kilted-ament-cmake-pytest
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-ament-pep257 ros-kilted-ament-cmake-gtest ros-kilted-ament-cmake-vendor-package
+          ros-kilted-ament-lint-auto ros-kilted-ament-cmake-pytest
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_4_job_12:
+    name: ament-cmake-google-benchmark iceoryx-binding-c lanelet2-core ament-cmake-catch2
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_3_job_8
+    - stage_3_job_9
+    - stage_3_job_10
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-ament-cmake-google-benchmark ros-kilted-iceoryx-binding-c
+        ros-kilted-lanelet2-core ros-kilted-ament-cmake-catch2
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-ament-cmake-google-benchmark ros-kilted-iceoryx-binding-c
+          ros-kilted-lanelet2-core ros-kilted-ament-cmake-catch2
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_5_job_13:
+    name: ament-copyright ament-cmake-gen-version-h ament-cmake-gmock cyclonedds lanelet2-traffic-rules
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_4_job_11
+    - stage_4_job_12
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-ament-copyright ros-kilted-ament-cmake-gen-version-h
+        ros-kilted-ament-cmake-gmock ros-kilted-cyclonedds ros-kilted-lanelet2-traffic-rules
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-ament-copyright ros-kilted-ament-cmake-gen-version-h
+          ros-kilted-ament-cmake-gmock ros-kilted-cyclonedds ros-kilted-lanelet2-traffic-rules
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_5_job_14:
+    name: lanelet2-io lanelet2-maps tf-transformations
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_4_job_11
+    - stage_4_job_12
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-lanelet2-io ros-kilted-lanelet2-maps ros-kilted-tf-transformations
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-lanelet2-io ros-kilted-lanelet2-maps ros-kilted-tf-transformations
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_6_job_15:
+    name: ament-xmllint ament-cmake generate-parameter-library-py lanelet2-routing
+      lanelet2-projection
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_5_job_13
+    - stage_5_job_14
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-ament-xmllint ros-kilted-ament-cmake ros-kilted-generate-parameter-library-py
+        ros-kilted-lanelet2-routing ros-kilted-lanelet2-projection
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-ament-xmllint ros-kilted-ament-cmake ros-kilted-generate-parameter-library-py
+          ros-kilted-lanelet2-routing ros-kilted-lanelet2-projection
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_7_job_16:
+    name: ament-lint-cmake ament-mypy uncrustify-vendor ament-pycodestyle ament-cpplint
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_6_job_15
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-ament-lint-cmake ros-kilted-ament-mypy ros-kilted-uncrustify-vendor
+        ros-kilted-ament-pycodestyle ros-kilted-ament-cpplint
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-ament-lint-cmake ros-kilted-ament-mypy ros-kilted-uncrustify-vendor
+          ros-kilted-ament-pycodestyle ros-kilted-ament-cpplint
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_7_job_17:
+    name: fastcdr zenoh-cpp-vendor pybind11-vendor tl-expected tcb-span
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_6_job_15
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-fastcdr ros-kilted-zenoh-cpp-vendor ros-kilted-pybind11-vendor
+        ros-kilted-tl-expected ros-kilted-tcb-span
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-fastcdr ros-kilted-zenoh-cpp-vendor ros-kilted-pybind11-vendor
+          ros-kilted-tl-expected ros-kilted-tcb-span
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_7_job_18:
+    name: tinyxml2-vendor ament-cmake-auto ros2-control-test-assets yaml-cpp-vendor
+      zstd-vendor
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_6_job_15
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-tinyxml2-vendor ros-kilted-ament-cmake-auto ros-kilted-ros2-control-test-assets
+        ros-kilted-yaml-cpp-vendor ros-kilted-zstd-vendor
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-tinyxml2-vendor ros-kilted-ament-cmake-auto ros-kilted-ros2-control-test-assets
+          ros-kilted-yaml-cpp-vendor ros-kilted-zstd-vendor
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_7_job_19:
+    name: liblz4-vendor ament-clang-format domain-coordinator sqlite3-vendor libcurl-vendor
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_6_job_15
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-liblz4-vendor ros-kilted-ament-clang-format ros-kilted-domain-coordinator
+        ros-kilted-sqlite3-vendor ros-kilted-libcurl-vendor
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-liblz4-vendor ros-kilted-ament-clang-format ros-kilted-domain-coordinator
+          ros-kilted-sqlite3-vendor ros-kilted-libcurl-vendor
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_7_job_20:
+    name: moveit-resources-panda-description eigen-stl-containers moveit-resources-pr2-description
+      moveit-common angles
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_6_job_15
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-moveit-resources-panda-description ros-kilted-eigen-stl-containers
+        ros-kilted-moveit-resources-pr2-description ros-kilted-moveit-common ros-kilted-angles
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-moveit-resources-panda-description ros-kilted-eigen-stl-containers
+          ros-kilted-moveit-resources-pr2-description ros-kilted-moveit-common ros-kilted-angles
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_7_job_21:
+    name: moveit-resources-fanuc-description lanelet2-validation sdl2-vendor ament-black
+      ur-client-library
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_6_job_15
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-moveit-resources-fanuc-description ros-kilted-lanelet2-validation
+        ros-kilted-sdl2-vendor ros-kilted-ament-black ros-kilted-ur-client-library
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-moveit-resources-fanuc-description ros-kilted-lanelet2-validation
+          ros-kilted-sdl2-vendor ros-kilted-ament-black ros-kilted-ur-client-library
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_7_job_22:
+    name: ublox-serialization dynamixel-sdk lanelet2-matching
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_6_job_15
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-ublox-serialization ros-kilted-dynamixel-sdk ros-kilted-lanelet2-matching
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-ublox-serialization ros-kilted-dynamixel-sdk ros-kilted-lanelet2-matching
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_8_job_23:
+    name: ament-cmake-lint-cmake ament-index-python ament-uncrustify ament-cppcheck
+      rosidl-cli
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_7_job_16
+    - stage_7_job_17
+    - stage_7_job_18
+    - stage_7_job_19
+    - stage_7_job_20
+    - stage_7_job_21
+    - stage_7_job_22
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-ament-cmake-lint-cmake ros-kilted-ament-index-python
+        ros-kilted-ament-uncrustify ros-kilted-ament-cppcheck ros-kilted-rosidl-cli
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-ament-cmake-lint-cmake ros-kilted-ament-index-python
+          ros-kilted-ament-uncrustify ros-kilted-ament-cppcheck ros-kilted-rosidl-cli
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_8_job_24:
+    name: rpyutils mcap-vendor lanelet2-python ament-pyflakes
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_7_job_16
+    - stage_7_job_17
+    - stage_7_job_18
+    - stage_7_job_19
+    - stage_7_job_20
+    - stage_7_job_21
+    - stage_7_job_22
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-rpyutils ros-kilted-mcap-vendor ros-kilted-lanelet2-python
+        ros-kilted-ament-pyflakes
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-rpyutils ros-kilted-mcap-vendor ros-kilted-lanelet2-python
+          ros-kilted-ament-pyflakes
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_9_job_25:
+    name: ament-cmake-copyright launch xacro
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_8_job_23
+    - stage_8_job_24
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-ament-cmake-copyright ros-kilted-launch ros-kilted-xacro
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-ament-cmake-copyright ros-kilted-launch ros-kilted-xacro
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_10_job_26:
+    name: ament-cmake-xmllint ament-cmake-uncrustify ament-cmake-pep257 ament-cmake-flake8
+      ament-cmake-cpplint
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_9_job_25
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-ament-cmake-xmllint ros-kilted-ament-cmake-uncrustify
+        ros-kilted-ament-cmake-pep257 ros-kilted-ament-cmake-flake8 ros-kilted-ament-cmake-cpplint
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-ament-cmake-xmllint ros-kilted-ament-cmake-uncrustify
+          ros-kilted-ament-cmake-pep257 ros-kilted-ament-cmake-flake8 ros-kilted-ament-cmake-cpplint
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_10_job_27:
+    name: ament-cmake-cppcheck launch-yaml launch-xml ament-cmake-mypy eigen3-cmake-module
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_9_job_25
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-ament-cmake-cppcheck ros-kilted-launch-yaml ros-kilted-launch-xml
+        ros-kilted-ament-cmake-mypy ros-kilted-eigen3-cmake-module
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-ament-cmake-cppcheck ros-kilted-launch-yaml ros-kilted-launch-xml
+          ros-kilted-ament-cmake-mypy ros-kilted-eigen3-cmake-module
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_10_job_28:
+    name: ament-cmake-clang-format random-numbers moveit-resources-prbt-support ament-cmake-pyflakes
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_9_job_25
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-ament-cmake-clang-format ros-kilted-random-numbers ros-kilted-moveit-resources-prbt-support
+        ros-kilted-ament-cmake-pyflakes
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-ament-cmake-clang-format ros-kilted-random-numbers
+          ros-kilted-moveit-resources-prbt-support ros-kilted-ament-cmake-pyflakes
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_11_job_29:
+    name: ament-lint-common launch-testing foonathan-memory-vendor gz-cmake-vendor
+      autoware-lint-common
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_10_job_26
+    - stage_10_job_27
+    - stage_10_job_28
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-ament-lint-common ros-kilted-launch-testing ros-kilted-foonathan-memory-vendor
+        ros-kilted-gz-cmake-vendor ros-kilted-autoware-lint-common
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-ament-lint-common ros-kilted-launch-testing ros-kilted-foonathan-memory-vendor
+          ros-kilted-gz-cmake-vendor ros-kilted-autoware-lint-common
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_11_job_30:
+    name: rviz-ogre-vendor rviz-assimp-vendor rmf-utils gz-ogre-next-vendor gz-dartsim-vendor
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_10_job_26
+    - stage_10_job_27
+    - stage_10_job_28
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-rviz-ogre-vendor ros-kilted-rviz-assimp-vendor ros-kilted-rmf-utils
+        ros-kilted-gz-ogre-next-vendor ros-kilted-gz-dartsim-vendor
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-rviz-ogre-vendor ros-kilted-rviz-assimp-vendor
+          ros-kilted-rmf-utils ros-kilted-gz-ogre-next-vendor ros-kilted-gz-dartsim-vendor
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_11_job_31:
+    name: ament-cmake-black
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_10_job_26
+    - stage_10_job_27
+    - stage_10_job_28
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-ament-cmake-black
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-ament-cmake-black
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_12_job_32:
+    name: rosidl-adapter performance-test-fixture launch-testing-ament-cmake ament-cmake-ros-core
+      rosidl-typesupport-interface
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_11_job_29
+    - stage_11_job_30
+    - stage_11_job_31
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-rosidl-adapter ros-kilted-performance-test-fixture ros-kilted-launch-testing-ament-cmake
+        ros-kilted-ament-cmake-ros-core ros-kilted-rosidl-typesupport-interface
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-rosidl-adapter ros-kilted-performance-test-fixture
+          ros-kilted-launch-testing-ament-cmake ros-kilted-ament-cmake-ros-core ros-kilted-rosidl-typesupport-interface
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_12_job_33:
+    name: fastdds rti-connext-dds-cmake-module ament-index-cpp rmw-implementation-cmake
+      spdlog-vendor
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_11_job_29
+    - stage_11_job_30
+    - stage_11_job_31
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-fastdds ros-kilted-rti-connext-dds-cmake-module ros-kilted-ament-index-cpp
+        ros-kilted-rmw-implementation-cmake ros-kilted-spdlog-vendor
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-fastdds ros-kilted-rti-connext-dds-cmake-module
+          ros-kilted-ament-index-cpp ros-kilted-rmw-implementation-cmake ros-kilted-spdlog-vendor
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_12_job_34:
+    name: gz-tools-vendor ros2-control-cmake orocos-kdl-vendor python-qt-binding autoware-cmake
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_11_job_29
+    - stage_11_job_30
+    - stage_11_job_31
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-gz-tools-vendor ros-kilted-ros2-control-cmake ros-kilted-orocos-kdl-vendor
+        ros-kilted-python-qt-binding ros-kilted-autoware-cmake
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-gz-tools-vendor ros-kilted-ros2-control-cmake
+          ros-kilted-orocos-kdl-vendor ros-kilted-python-qt-binding ros-kilted-autoware-cmake
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_12_job_35:
+    name: smclib osqp-vendor python-cmake-module keyboard-handler tango-icons-vendor
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_11_job_29
+    - stage_11_job_30
+    - stage_11_job_31
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-smclib ros-kilted-osqp-vendor ros-kilted-python-cmake-module
+        ros-kilted-keyboard-handler ros-kilted-tango-icons-vendor
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-smclib ros-kilted-osqp-vendor ros-kilted-python-cmake-module
+          ros-kilted-keyboard-handler ros-kilted-tango-icons-vendor
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_12_job_36:
+    name: launch-pytest tlsf rttest mimick-vendor
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_11_job_29
+    - stage_11_job_30
+    - stage_11_job_31
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-launch-pytest ros-kilted-tlsf ros-kilted-rttest ros-kilted-mimick-vendor
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-launch-pytest ros-kilted-tlsf ros-kilted-rttest
+          ros-kilted-mimick-vendor
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_13_job_37:
+    name: rosidl-parser rcutils tracetools libyaml-vendor console-bridge-vendor
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_12_job_32
+    - stage_12_job_33
+    - stage_12_job_34
+    - stage_12_job_35
+    - stage_12_job_36
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-rosidl-parser ros-kilted-rcutils ros-kilted-tracetools
+        ros-kilted-libyaml-vendor ros-kilted-console-bridge-vendor
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-rosidl-parser ros-kilted-rcutils ros-kilted-tracetools
+          ros-kilted-libyaml-vendor ros-kilted-console-bridge-vendor
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_13_job_38:
+    name: gz-utils-vendor python-orocos-kdl-vendor autoware-utils-math qt-gui qt-gui-py-common
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_12_job_32
+    - stage_12_job_33
+    - stage_12_job_34
+    - stage_12_job_35
+    - stage_12_job_36
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-gz-utils-vendor ros-kilted-python-orocos-kdl-vendor ros-kilted-autoware-utils-math
+        ros-kilted-qt-gui ros-kilted-qt-gui-py-common
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-gz-utils-vendor ros-kilted-python-orocos-kdl-vendor
+          ros-kilted-autoware-utils-math ros-kilted-qt-gui ros-kilted-qt-gui-py-common
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_13_job_39:
+    name: qt-dotgraph
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_12_job_32
+    - stage_12_job_33
+    - stage_12_job_34
+    - stage_12_job_35
+    - stage_12_job_36
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-qt-dotgraph
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-qt-dotgraph
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_14_job_40:
+    name: rosidl-pycommon rosidl-runtime-c rosidl-generator-type-description rcpputils
+      urdfdom
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_13_job_37
+    - stage_13_job_38
+    - stage_13_job_39
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-rosidl-pycommon ros-kilted-rosidl-runtime-c ros-kilted-rosidl-generator-type-description
+        ros-kilted-rcpputils ros-kilted-urdfdom
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-rosidl-pycommon ros-kilted-rosidl-runtime-c ros-kilted-rosidl-generator-type-description
+          ros-kilted-rcpputils ros-kilted-urdfdom
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_14_job_41:
+    name: gz-math-vendor gz-plugin-vendor
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_13_job_37
+    - stage_13_job_38
+    - stage_13_job_39
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-gz-math-vendor ros-kilted-gz-plugin-vendor
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-gz-math-vendor ros-kilted-gz-plugin-vendor
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_15_job_42:
+    name: rosidl-cmake rosidl-runtime-cpp rosidl-dynamic-typesupport sdformat-vendor
+      gz-msgs-vendor
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_14_job_40
+    - stage_14_job_41
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-rosidl-cmake ros-kilted-rosidl-runtime-cpp ros-kilted-rosidl-dynamic-typesupport
+        ros-kilted-sdformat-vendor ros-kilted-gz-msgs-vendor
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-rosidl-cmake ros-kilted-rosidl-runtime-cpp ros-kilted-rosidl-dynamic-typesupport
+          ros-kilted-sdformat-vendor ros-kilted-gz-msgs-vendor
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_15_job_43:
+    name: gz-common-vendor
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_14_job_40
+    - stage_14_job_41
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-gz-common-vendor
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-gz-common-vendor
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_16_job_44:
+    name: rosidl-generator-c rmw rosidl-dynamic-typesupport-fastrtps gz-transport-vendor
+      gz-rendering-vendor
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_15_job_42
+    - stage_15_job_43
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-rosidl-generator-c ros-kilted-rmw ros-kilted-rosidl-dynamic-typesupport-fastrtps
+        ros-kilted-gz-transport-vendor ros-kilted-gz-rendering-vendor
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-rosidl-generator-c ros-kilted-rmw ros-kilted-rosidl-dynamic-typesupport-fastrtps
+          ros-kilted-gz-transport-vendor ros-kilted-gz-rendering-vendor
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_16_job_45:
+    name: gz-physics-vendor gz-fuel-tools-vendor
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_15_job_42
+    - stage_15_job_43
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-gz-physics-vendor ros-kilted-gz-fuel-tools-vendor
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-gz-physics-vendor ros-kilted-gz-fuel-tools-vendor
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_17_job_46:
+    name: rosidl-generator-cpp rosidl-typesupport-introspection-c rmw-security-common
+      rmw-test-fixture gz-sensors-vendor
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_16_job_44
+    - stage_16_job_45
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-rosidl-generator-cpp ros-kilted-rosidl-typesupport-introspection-c
+        ros-kilted-rmw-security-common ros-kilted-rmw-test-fixture ros-kilted-gz-sensors-vendor
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-rosidl-generator-cpp ros-kilted-rosidl-typesupport-introspection-c
+          ros-kilted-rmw-security-common ros-kilted-rmw-test-fixture ros-kilted-gz-sensors-vendor
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_17_job_47:
+    name: gz-gui-vendor
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_16_job_44
+    - stage_16_job_45
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-gz-gui-vendor
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-gz-gui-vendor
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_18_job_48:
+    name: rosidl-typesupport-fastrtps-cpp rosidl-typesupport-introspection-cpp gz-sim-vendor
+      rosidl-typesupport-fastrtps-c
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_17_job_46
+    - stage_17_job_47
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-rosidl-typesupport-fastrtps-cpp ros-kilted-rosidl-typesupport-introspection-cpp
+        ros-kilted-gz-sim-vendor ros-kilted-rosidl-typesupport-fastrtps-c
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-rosidl-typesupport-fastrtps-cpp ros-kilted-rosidl-typesupport-introspection-cpp
+          ros-kilted-gz-sim-vendor ros-kilted-rosidl-typesupport-fastrtps-c
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_19_job_49:
+    name: rosidl-typesupport-c rmw-zenoh-cpp rosidl-typesupport-cpp rosidl-generator-py
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_18_job_48
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-rosidl-typesupport-c ros-kilted-rmw-zenoh-cpp ros-kilted-rosidl-typesupport-cpp
+        ros-kilted-rosidl-generator-py
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-rosidl-typesupport-c ros-kilted-rmw-zenoh-cpp
+          ros-kilted-rosidl-typesupport-cpp ros-kilted-rosidl-generator-py
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_20_job_50:
+    name: rosidl-core-runtime rosidl-core-generators builtin-interfaces unique-identifier-msgs
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_19_job_49
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-rosidl-core-runtime ros-kilted-rosidl-core-generators
+        ros-kilted-builtin-interfaces ros-kilted-unique-identifier-msgs
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-rosidl-core-runtime ros-kilted-rosidl-core-generators
+          ros-kilted-builtin-interfaces ros-kilted-unique-identifier-msgs
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_21_job_51:
+    name: service-msgs autoware-utils-uuid action-msgs type-description-interfaces
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_20_job_50
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-service-msgs ros-kilted-autoware-utils-uuid ros-kilted-action-msgs
+        ros-kilted-type-description-interfaces
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-service-msgs ros-kilted-autoware-utils-uuid ros-kilted-action-msgs
+          ros-kilted-type-description-interfaces
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_22_job_52:
+    name: rosidl-default-runtime rosidl-default-generators
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_21_job_51
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-rosidl-default-runtime ros-kilted-rosidl-default-generators
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-rosidl-default-runtime ros-kilted-rosidl-default-generators
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_23_job_53:
+    name: rmw-dds-common test-msgs rcl-interfaces std-msgs statistics-msgs
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_22_job_52
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-rmw-dds-common ros-kilted-test-msgs ros-kilted-rcl-interfaces
+        ros-kilted-std-msgs ros-kilted-statistics-msgs
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-rmw-dds-common ros-kilted-test-msgs ros-kilted-rcl-interfaces
+          ros-kilted-std-msgs ros-kilted-statistics-msgs
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_23_job_54:
+    name: lifecycle-msgs rosgraph-msgs std-srvs example-interfaces ros2cli-test-interfaces
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_22_job_52
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-lifecycle-msgs ros-kilted-rosgraph-msgs ros-kilted-std-srvs
+        ros-kilted-example-interfaces ros-kilted-ros2cli-test-interfaces
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-lifecycle-msgs ros-kilted-rosgraph-msgs ros-kilted-std-srvs
+          ros-kilted-example-interfaces ros-kilted-ros2cli-test-interfaces
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_23_job_55:
+    name: rosbag2-test-msgdefs topic-tools-interfaces autoware-common-msgs rosbag2-interfaces
+      autoware-internal-metric-msgs
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_22_job_52
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-rosbag2-test-msgdefs ros-kilted-topic-tools-interfaces
+        ros-kilted-autoware-common-msgs ros-kilted-rosbag2-interfaces ros-kilted-autoware-internal-metric-msgs
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-rosbag2-test-msgdefs ros-kilted-topic-tools-interfaces
+          ros-kilted-autoware-common-msgs ros-kilted-rosbag2-interfaces ros-kilted-autoware-internal-metric-msgs
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_23_job_56:
+    name: rviz-resource-interfaces autoware-control-msgs ur-dashboard-msgs data-tamer-msgs
+      turtlesim-msgs
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_22_job_52
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-rviz-resource-interfaces ros-kilted-autoware-control-msgs
+        ros-kilted-ur-dashboard-msgs ros-kilted-data-tamer-msgs ros-kilted-turtlesim-msgs
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-rviz-resource-interfaces ros-kilted-autoware-control-msgs
+          ros-kilted-ur-dashboard-msgs ros-kilted-data-tamer-msgs ros-kilted-turtlesim-msgs
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_23_job_57:
+    name: pendulum-msgs twist-mux-msgs
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_22_job_52
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-pendulum-msgs ros-kilted-twist-mux-msgs
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-pendulum-msgs ros-kilted-twist-mux-msgs
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_24_job_58:
+    name: rmw-fastrtps-shared-cpp rmw-connextdds-common rmw-cyclonedds-cpp composition-interfaces
+      geometry-msgs
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_23_job_53
+    - stage_23_job_54
+    - stage_23_job_55
+    - stage_23_job_56
+    - stage_23_job_57
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-rmw-fastrtps-shared-cpp ros-kilted-rmw-connextdds-common
+        ros-kilted-rmw-cyclonedds-cpp ros-kilted-composition-interfaces ros-kilted-geometry-msgs
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-rmw-fastrtps-shared-cpp ros-kilted-rmw-connextdds-common
+          ros-kilted-rmw-cyclonedds-cpp ros-kilted-composition-interfaces ros-kilted-geometry-msgs
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_24_job_59:
+    name: rosidl-runtime-py pal-statistics-msgs controller-manager-msgs actionlib-msgs
+      bond
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_23_job_53
+    - stage_23_job_54
+    - stage_23_job_55
+    - stage_23_job_56
+    - stage_23_job_57
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-rosidl-runtime-py ros-kilted-pal-statistics-msgs ros-kilted-controller-manager-msgs
+        ros-kilted-actionlib-msgs ros-kilted-bond
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-rosidl-runtime-py ros-kilted-pal-statistics-msgs
+          ros-kilted-controller-manager-msgs ros-kilted-actionlib-msgs ros-kilted-bond
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_24_job_60:
+    name: autoware-internal-debug-msgs gps-msgs actuator-msgs velodyne-msgs ackermann-msgs
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_23_job_53
+    - stage_23_job_54
+    - stage_23_job_55
+    - stage_23_job_56
+    - stage_23_job_57
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-autoware-internal-debug-msgs ros-kilted-gps-msgs ros-kilted-actuator-msgs
+        ros-kilted-velodyne-msgs ros-kilted-ackermann-msgs
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-autoware-internal-debug-msgs ros-kilted-gps-msgs
+          ros-kilted-actuator-msgs ros-kilted-velodyne-msgs ros-kilted-ackermann-msgs
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_24_job_61:
+    name: ffmpeg-image-transport-msgs apriltag-msgs ros2-socketcan-msgs can-msgs plotjuggler-msgs
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_23_job_53
+    - stage_23_job_54
+    - stage_23_job_55
+    - stage_23_job_56
+    - stage_23_job_57
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-ffmpeg-image-transport-msgs ros-kilted-apriltag-msgs
+        ros-kilted-ros2-socketcan-msgs ros-kilted-can-msgs ros-kilted-plotjuggler-msgs
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-ffmpeg-image-transport-msgs ros-kilted-apriltag-msgs
+          ros-kilted-ros2-socketcan-msgs ros-kilted-can-msgs ros-kilted-plotjuggler-msgs
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_24_job_62:
+    name: ouster-sensor-msgs
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_23_job_53
+    - stage_23_job_54
+    - stage_23_job_55
+    - stage_23_job_56
+    - stage_23_job_57
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-ouster-sensor-msgs
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-ouster-sensor-msgs
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_25_job_63:
+    name: rmw-fastrtps-dynamic-cpp rmw-fastrtps-cpp rmw-connextdds sensor-msgs trajectory-msgs
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_24_job_58
+    - stage_24_job_59
+    - stage_24_job_60
+    - stage_24_job_61
+    - stage_24_job_62
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-rmw-fastrtps-dynamic-cpp ros-kilted-rmw-fastrtps-cpp
+        ros-kilted-rmw-connextdds ros-kilted-sensor-msgs ros-kilted-trajectory-msgs
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-rmw-fastrtps-dynamic-cpp ros-kilted-rmw-fastrtps-cpp
+          ros-kilted-rmw-connextdds ros-kilted-sensor-msgs ros-kilted-trajectory-msgs
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_25_job_64:
+    name: diagnostic-msgs tf2-msgs shape-msgs nav-msgs octomap-msgs
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_24_job_58
+    - stage_24_job_59
+    - stage_24_job_60
+    - stage_24_job_61
+    - stage_24_job_62
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-diagnostic-msgs ros-kilted-tf2-msgs ros-kilted-shape-msgs
+        ros-kilted-nav-msgs ros-kilted-octomap-msgs
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-diagnostic-msgs ros-kilted-tf2-msgs ros-kilted-shape-msgs
+          ros-kilted-nav-msgs ros-kilted-octomap-msgs
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_25_job_65:
+    name: autoware-perception-msgs geographic-msgs autoware-localization-msgs nav-2d-msgs
+      vision-msgs
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_24_job_58
+    - stage_24_job_59
+    - stage_24_job_60
+    - stage_24_job_61
+    - stage_24_job_62
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-autoware-perception-msgs ros-kilted-geographic-msgs ros-kilted-autoware-localization-msgs
+        ros-kilted-nav-2d-msgs ros-kilted-vision-msgs
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-autoware-perception-msgs ros-kilted-geographic-msgs
+          ros-kilted-autoware-localization-msgs ros-kilted-nav-2d-msgs ros-kilted-vision-msgs
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_25_job_66:
+    name: ros-gz-interfaces autoware-internal-localization-msgs cartographer-ros-msgs
+      turtlebot3-msgs graph-msgs
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_24_job_58
+    - stage_24_job_59
+    - stage_24_job_60
+    - stage_24_job_61
+    - stage_24_job_62
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-ros-gz-interfaces ros-kilted-autoware-internal-localization-msgs
+        ros-kilted-cartographer-ros-msgs ros-kilted-turtlebot3-msgs ros-kilted-graph-msgs
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-ros-gz-interfaces ros-kilted-autoware-internal-localization-msgs
+          ros-kilted-cartographer-ros-msgs ros-kilted-turtlebot3-msgs ros-kilted-graph-msgs
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_25_job_67:
+    name: slg-msgs autoware-v2x-msgs autoware-sensing-msgs
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_24_job_58
+    - stage_24_job_59
+    - stage_24_job_60
+    - stage_24_job_61
+    - stage_24_job_62
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-slg-msgs ros-kilted-autoware-v2x-msgs ros-kilted-autoware-sensing-msgs
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-slg-msgs ros-kilted-autoware-v2x-msgs ros-kilted-autoware-sensing-msgs
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_26_job_68:
+    name: rmw-implementation control-msgs object-recognition-msgs visualization-msgs
+      stereo-msgs
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_25_job_63
+    - stage_25_job_64
+    - stage_25_job_65
+    - stage_25_job_66
+    - stage_25_job_67
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-rmw-implementation ros-kilted-control-msgs ros-kilted-object-recognition-msgs
+        ros-kilted-visualization-msgs ros-kilted-stereo-msgs
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-rmw-implementation ros-kilted-control-msgs ros-kilted-object-recognition-msgs
+          ros-kilted-visualization-msgs ros-kilted-stereo-msgs
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_26_job_69:
+    name: autoware-planning-msgs pcl-msgs autoware-internal-perception-msgs sensor-msgs-py
+      autoware-map-msgs
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_25_job_63
+    - stage_25_job_64
+    - stage_25_job_65
+    - stage_25_job_66
+    - stage_25_job_67
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-autoware-planning-msgs ros-kilted-pcl-msgs ros-kilted-autoware-internal-perception-msgs
+        ros-kilted-sensor-msgs-py ros-kilted-autoware-map-msgs
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-autoware-planning-msgs ros-kilted-pcl-msgs ros-kilted-autoware-internal-perception-msgs
+          ros-kilted-sensor-msgs-py ros-kilted-autoware-map-msgs
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_26_job_70:
+    name: map-msgs autoware-adapi-v1-msgs autoware-system-msgs dwb-msgs point-cloud-msg-wrapper
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_25_job_63
+    - stage_25_job_64
+    - stage_25_job_65
+    - stage_25_job_66
+    - stage_25_job_67
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-map-msgs ros-kilted-autoware-adapi-v1-msgs ros-kilted-autoware-system-msgs
+        ros-kilted-dwb-msgs ros-kilted-point-cloud-msg-wrapper
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-map-msgs ros-kilted-autoware-adapi-v1-msgs ros-kilted-autoware-system-msgs
+          ros-kilted-dwb-msgs ros-kilted-point-cloud-msg-wrapper
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_27_job_71:
+    name: rmw-test-fixture-implementation moveit-msgs common-interfaces autoware-internal-planning-msgs
+      autoware-vehicle-msgs
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_26_job_68
+    - stage_26_job_69
+    - stage_26_job_70
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-rmw-test-fixture-implementation ros-kilted-moveit-msgs
+        ros-kilted-common-interfaces ros-kilted-autoware-internal-planning-msgs ros-kilted-autoware-vehicle-msgs
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-rmw-test-fixture-implementation ros-kilted-moveit-msgs
+          ros-kilted-common-interfaces ros-kilted-autoware-internal-planning-msgs
+          ros-kilted-autoware-vehicle-msgs
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_27_job_72:
+    name: ur-msgs foxglove-msgs
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_26_job_68
+    - stage_26_job_69
+    - stage_26_job_70
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-ur-msgs ros-kilted-foxglove-msgs
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-ur-msgs ros-kilted-foxglove-msgs
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_28_job_73:
+    name: ament-cmake-ros autoware-internal-msgs
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_27_job_71
+    - stage_27_job_72
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-ament-cmake-ros ros-kilted-autoware-internal-msgs
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-ament-cmake-ros ros-kilted-autoware-internal-msgs
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_29_job_74:
+    name: rcl-logging-interface rcl-yaml-param-parser class-loader urdf-parser-plugin
+      tf2
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_28_job_73
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-rcl-logging-interface ros-kilted-rcl-yaml-param-parser
+        ros-kilted-class-loader ros-kilted-urdf-parser-plugin ros-kilted-tf2
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-rcl-logging-interface ros-kilted-rcl-yaml-param-parser
+          ros-kilted-class-loader ros-kilted-urdf-parser-plugin ros-kilted-tf2
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_29_job_75:
+    name: resource-retriever autoware-pyplot image-geometry tracetools-image-pipeline
+      rosapi-msgs
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_28_job_73
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-resource-retriever ros-kilted-autoware-pyplot ros-kilted-image-geometry
+        ros-kilted-tracetools-image-pipeline ros-kilted-rosapi-msgs
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-resource-retriever ros-kilted-autoware-pyplot
+          ros-kilted-image-geometry ros-kilted-tracetools-image-pipeline ros-kilted-rosapi-msgs
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_29_job_76:
+    name: rosbridge-msgs autoware-kalman-filter ublox-msgs
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_28_job_73
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-rosbridge-msgs ros-kilted-autoware-kalman-filter ros-kilted-ublox-msgs
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-rosbridge-msgs ros-kilted-autoware-kalman-filter
+          ros-kilted-ublox-msgs
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_30_job_77:
+    name: rcl-logging-spdlog pluginlib rviz-rendering tf2-eigen-kdl
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_29_job_74
+    - stage_29_job_75
+    - stage_29_job_76
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-rcl-logging-spdlog ros-kilted-pluginlib ros-kilted-rviz-rendering
+        ros-kilted-tf2-eigen-kdl
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-rcl-logging-spdlog ros-kilted-pluginlib ros-kilted-rviz-rendering
+          ros-kilted-tf2-eigen-kdl
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_31_job_78:
+    name: rcl urdf rviz-rendering-tests qt-gui-cpp
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_30_job_77
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-rcl ros-kilted-urdf ros-kilted-rviz-rendering-tests ros-kilted-qt-gui-cpp
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-rcl ros-kilted-urdf ros-kilted-rviz-rendering-tests
+          ros-kilted-qt-gui-cpp
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_32_job_79:
+    name: libstatistics-collector rcl-lifecycle rcl-action sdformat-urdf kdl-parser
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_31_job_78
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-libstatistics-collector ros-kilted-rcl-lifecycle ros-kilted-rcl-action
+        ros-kilted-sdformat-urdf ros-kilted-kdl-parser
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-libstatistics-collector ros-kilted-rcl-lifecycle
+          ros-kilted-rcl-action ros-kilted-sdformat-urdf ros-kilted-kdl-parser
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_32_job_80:
+    name: turtlebot3-description
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_31_job_78
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-turtlebot3-description
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-turtlebot3-description
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_33_job_81:
+    name: rclcpp rclpy
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_32_job_79
+    - stage_32_job_80
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-rclcpp ros-kilted-rclpy
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-rclcpp ros-kilted-rclpy
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_34_job_82:
+    name: rsl launch-ros rclcpp-lifecycle rclcpp-action ros2cli
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_33_job_81
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-rsl ros-kilted-launch-ros ros-kilted-rclcpp-lifecycle
+        ros-kilted-rclcpp-action ros-kilted-ros2cli
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-rsl ros-kilted-launch-ros ros-kilted-rclcpp-lifecycle
+          ros-kilted-rclcpp-action ros-kilted-ros2cli
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_34_job_83:
+    name: rclcpp-components tf2-py urdfdom-py geometric-shapes autoware-utils-system
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_33_job_81
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-rclcpp-components ros-kilted-tf2-py ros-kilted-urdfdom-py
+        ros-kilted-geometric-shapes ros-kilted-autoware-utils-system
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-rclcpp-components ros-kilted-tf2-py ros-kilted-urdfdom-py
+          ros-kilted-geometric-shapes ros-kilted-autoware-utils-system
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_34_job_84:
+    name: launch-param-builder cv-bridge laser-geometry behaviortree-cpp autoware-utils-visualization
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_33_job_81
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-launch-param-builder ros-kilted-cv-bridge ros-kilted-laser-geometry
+        ros-kilted-behaviortree-cpp ros-kilted-autoware-utils-visualization
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-launch-param-builder ros-kilted-cv-bridge ros-kilted-laser-geometry
+          ros-kilted-behaviortree-cpp ros-kilted-autoware-utils-visualization
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_34_job_85:
+    name: autoware-utils-rclcpp autoware-utils-diagnostics autoware-component-interface-specs
+      rqt-gui filters
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_33_job_81
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-autoware-utils-rclcpp ros-kilted-autoware-utils-diagnostics
+        ros-kilted-autoware-component-interface-specs ros-kilted-rqt-gui ros-kilted-filters
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-autoware-utils-rclcpp ros-kilted-autoware-utils-diagnostics
+          ros-kilted-autoware-component-interface-specs ros-kilted-rqt-gui ros-kilted-filters
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_34_job_86:
+    name: rqt-py-common rosbridge-test-msgs camera-calibration-parsers rqt-gui-cpp
+      teleop-twist-keyboard
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_33_job_81
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-rqt-py-common ros-kilted-rosbridge-test-msgs ros-kilted-camera-calibration-parsers
+        ros-kilted-rqt-gui-cpp ros-kilted-teleop-twist-keyboard
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-rqt-py-common ros-kilted-rosbridge-test-msgs ros-kilted-camera-calibration-parsers
+          ros-kilted-rqt-gui-cpp ros-kilted-teleop-twist-keyboard
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_34_job_87:
+    name: tlsf-cpp dummy-sensors dummy-map-server autoware-signal-processing hls-lfcd-lds-driver
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_33_job_81
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-tlsf-cpp ros-kilted-dummy-sensors ros-kilted-dummy-map-server
+        ros-kilted-autoware-signal-processing ros-kilted-hls-lfcd-lds-driver
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-tlsf-cpp ros-kilted-dummy-sensors ros-kilted-dummy-map-server
+          ros-kilted-autoware-signal-processing ros-kilted-hls-lfcd-lds-driver
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_34_job_88:
+    name: demo-nodes-py quality-of-service-demo-py examples-rclpy-minimal-subscriber
+      examples-rclpy-minimal-service examples-rclpy-minimal-publisher
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_33_job_81
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-demo-nodes-py ros-kilted-quality-of-service-demo-py ros-kilted-examples-rclpy-minimal-subscriber
+        ros-kilted-examples-rclpy-minimal-service ros-kilted-examples-rclpy-minimal-publisher
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-demo-nodes-py ros-kilted-quality-of-service-demo-py
+          ros-kilted-examples-rclpy-minimal-subscriber ros-kilted-examples-rclpy-minimal-service
+          ros-kilted-examples-rclpy-minimal-publisher
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_34_job_89:
+    name: examples-rclpy-minimal-client examples-rclpy-minimal-action-server examples-rclpy-minimal-action-client
+      examples-rclpy-executors examples-rclcpp-multithreaded-executor
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_33_job_81
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-examples-rclpy-minimal-client ros-kilted-examples-rclpy-minimal-action-server
+        ros-kilted-examples-rclpy-minimal-action-client ros-kilted-examples-rclpy-executors
+        ros-kilted-examples-rclcpp-multithreaded-executor
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-examples-rclpy-minimal-client ros-kilted-examples-rclpy-minimal-action-server
+          ros-kilted-examples-rclpy-minimal-action-client ros-kilted-examples-rclpy-executors
+          ros-kilted-examples-rclcpp-multithreaded-executor
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_34_job_90:
+    name: examples-rclcpp-minimal-timer examples-rclcpp-minimal-service examples-rclcpp-minimal-publisher
+      examples-rclcpp-minimal-client action-tutorials-py
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_33_job_81
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-examples-rclcpp-minimal-timer ros-kilted-examples-rclcpp-minimal-service
+        ros-kilted-examples-rclcpp-minimal-publisher ros-kilted-examples-rclcpp-minimal-client
+        ros-kilted-action-tutorials-py
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-examples-rclcpp-minimal-timer ros-kilted-examples-rclcpp-minimal-service
+          ros-kilted-examples-rclcpp-minimal-publisher ros-kilted-examples-rclcpp-minimal-client
+          ros-kilted-action-tutorials-py
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_34_job_91:
+    name: turtlebot3-teleop turtlebot3-example autoware-node py-binding-tools
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_33_job_81
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-turtlebot3-teleop ros-kilted-turtlebot3-example ros-kilted-autoware-node
+        ros-kilted-py-binding-tools
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-turtlebot3-teleop ros-kilted-turtlebot3-example
+          ros-kilted-autoware-node ros-kilted-py-binding-tools
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_35_job_92:
+    name: parameter-traits launch-testing-ros realtime-tools message-filters pal-statistics
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_34_job_82
+    - stage_34_job_83
+    - stage_34_job_84
+    - stage_34_job_85
+    - stage_34_job_86
+    - stage_34_job_87
+    - stage_34_job_88
+    - stage_34_job_89
+    - stage_34_job_90
+    - stage_34_job_91
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-parameter-traits ros-kilted-launch-testing-ros ros-kilted-realtime-tools
+        ros-kilted-message-filters ros-kilted-pal-statistics
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-parameter-traits ros-kilted-launch-testing-ros
+          ros-kilted-realtime-tools ros-kilted-message-filters ros-kilted-pal-statistics
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_35_job_93:
+    name: rosbag2-test-common ros2lifecycle-test-fixtures ros2multicast tf2-ros-py
+      topic-tools
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_34_job_82
+    - stage_34_job_83
+    - stage_34_job_84
+    - stage_34_job_85
+    - stage_34_job_86
+    - stage_34_job_87
+    - stage_34_job_88
+    - stage_34_job_89
+    - stage_34_job_90
+    - stage_34_job_91
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-rosbag2-test-common ros-kilted-ros2lifecycle-test-fixtures
+        ros-kilted-ros2multicast ros-kilted-tf2-ros-py ros-kilted-topic-tools
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-rosbag2-test-common ros-kilted-ros2lifecycle-test-fixtures
+          ros-kilted-ros2multicast ros-kilted-tf2-ros-py ros-kilted-topic-tools
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_35_job_94:
+    name: nav2-common srdfdom bondcpp autoware-utils-debug autoware-qp-interface
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_34_job_82
+    - stage_34_job_83
+    - stage_34_job_84
+    - stage_34_job_85
+    - stage_34_job_86
+    - stage_34_job_87
+    - stage_34_job_88
+    - stage_34_job_89
+    - stage_34_job_90
+    - stage_34_job_91
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-nav2-common ros-kilted-srdfdom ros-kilted-bondcpp ros-kilted-autoware-utils-debug
+        ros-kilted-autoware-qp-interface
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-nav2-common ros-kilted-srdfdom ros-kilted-bondcpp
+          ros-kilted-autoware-utils-debug ros-kilted-autoware-qp-interface
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_35_job_95:
+    name: autoware-osqp-interface rqt-gui-py ros-gz-bridge kinematics-interface rosbridge-library
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_34_job_82
+    - stage_34_job_83
+    - stage_34_job_84
+    - stage_34_job_85
+    - stage_34_job_86
+    - stage_34_job_87
+    - stage_34_job_88
+    - stage_34_job_89
+    - stage_34_job_90
+    - stage_34_job_91
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-autoware-osqp-interface ros-kilted-rqt-gui-py ros-kilted-ros-gz-bridge
+        ros-kilted-kinematics-interface ros-kilted-rosbridge-library
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-autoware-osqp-interface ros-kilted-rqt-gui-py
+          ros-kilted-ros-gz-bridge ros-kilted-kinematics-interface ros-kilted-rosbridge-library
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_35_job_96:
+    name: joy camera-info-manager velodyne-laserscan data-tamer-cpp vision-opencv
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_34_job_82
+    - stage_34_job_83
+    - stage_34_job_84
+    - stage_34_job_85
+    - stage_34_job_86
+    - stage_34_job_87
+    - stage_34_job_88
+    - stage_34_job_89
+    - stage_34_job_90
+    - stage_34_job_91
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-joy ros-kilted-camera-info-manager ros-kilted-velodyne-laserscan
+        ros-kilted-data-tamer-cpp ros-kilted-vision-opencv
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-joy ros-kilted-camera-info-manager ros-kilted-velodyne-laserscan
+          ros-kilted-data-tamer-cpp ros-kilted-vision-opencv
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_35_job_97:
+    name: turtlesim topic-monitor quality-of-service-demo-cpp examples-rclcpp-minimal-subscriber
+      examples-rclcpp-minimal-composition
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_34_job_82
+    - stage_34_job_83
+    - stage_34_job_84
+    - stage_34_job_85
+    - stage_34_job_86
+    - stage_34_job_87
+    - stage_34_job_88
+    - stage_34_job_89
+    - stage_34_job_90
+    - stage_34_job_91
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-turtlesim ros-kilted-topic-monitor ros-kilted-quality-of-service-demo-cpp
+        ros-kilted-examples-rclcpp-minimal-subscriber ros-kilted-examples-rclcpp-minimal-composition
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-turtlesim ros-kilted-topic-monitor ros-kilted-quality-of-service-demo-cpp
+          ros-kilted-examples-rclcpp-minimal-subscriber ros-kilted-examples-rclcpp-minimal-composition
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_35_job_98:
+    name: examples-rclcpp-minimal-action-server examples-rclcpp-minimal-action-client
+      depthimage-to-laserscan action-tutorials-cpp autoware-twist2accel
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_34_job_82
+    - stage_34_job_83
+    - stage_34_job_84
+    - stage_34_job_85
+    - stage_34_job_86
+    - stage_34_job_87
+    - stage_34_job_88
+    - stage_34_job_89
+    - stage_34_job_90
+    - stage_34_job_91
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-examples-rclcpp-minimal-action-server ros-kilted-examples-rclcpp-minimal-action-client
+        ros-kilted-depthimage-to-laserscan ros-kilted-action-tutorials-cpp ros-kilted-autoware-twist2accel
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-examples-rclcpp-minimal-action-server ros-kilted-examples-rclcpp-minimal-action-client
+          ros-kilted-depthimage-to-laserscan ros-kilted-action-tutorials-cpp ros-kilted-autoware-twist2accel
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_35_job_99:
+    name: autoware-stop-filter lanelet2-examples ffmpeg-encoder-decoder ros2-socketcan
+      laser-segmentation
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_34_job_82
+    - stage_34_job_83
+    - stage_34_job_84
+    - stage_34_job_85
+    - stage_34_job_86
+    - stage_34_job_87
+    - stage_34_job_88
+    - stage_34_job_89
+    - stage_34_job_90
+    - stage_34_job_91
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-autoware-stop-filter ros-kilted-lanelet2-examples ros-kilted-ffmpeg-encoder-decoder
+        ros-kilted-ros2-socketcan ros-kilted-laser-segmentation
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-autoware-stop-filter ros-kilted-lanelet2-examples
+          ros-kilted-ffmpeg-encoder-decoder ros-kilted-ros2-socketcan ros-kilted-laser-segmentation
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_35_job_100:
+    name: flex-sync
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_34_job_82
+    - stage_34_job_83
+    - stage_34_job_84
+    - stage_34_job_85
+    - stage_34_job_86
+    - stage_34_job_87
+    - stage_34_job_88
+    - stage_34_job_89
+    - stage_34_job_90
+    - stage_34_job_91
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-flex-sync
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-flex-sync
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_36_job_101:
+    name: generate-parameter-library ros2topic ros2pkg ros2node tf2-ros
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_35_job_92
+    - stage_35_job_93
+    - stage_35_job_94
+    - stage_35_job_95
+    - stage_35_job_96
+    - stage_35_job_97
+    - stage_35_job_98
+    - stage_35_job_99
+    - stage_35_job_100
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-generate-parameter-library ros-kilted-ros2topic ros-kilted-ros2pkg
+        ros-kilted-ros2node ros-kilted-tf2-ros
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-generate-parameter-library ros-kilted-ros2topic
+          ros-kilted-ros2pkg ros-kilted-ros2node ros-kilted-tf2-ros
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_36_job_102:
+    name: rosbag2-storage ros2test diagnostic-updater ros2interface ros2doctor
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_35_job_92
+    - stage_35_job_93
+    - stage_35_job_94
+    - stage_35_job_95
+    - stage_35_job_96
+    - stage_35_job_97
+    - stage_35_job_98
+    - stage_35_job_99
+    - stage_35_job_100
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-rosbag2-storage ros-kilted-ros2test ros-kilted-diagnostic-updater
+        ros-kilted-ros2interface ros-kilted-ros2doctor
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-rosbag2-storage ros-kilted-ros2test ros-kilted-diagnostic-updater
+          ros-kilted-ros2interface ros-kilted-ros2doctor
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_36_job_103:
+    name: ros2action nav2-msgs pcl-conversions moveit-configs-utils logging-demo
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_35_job_92
+    - stage_35_job_93
+    - stage_35_job_94
+    - stage_35_job_95
+    - stage_35_job_96
+    - stage_35_job_97
+    - stage_35_job_98
+    - stage_35_job_99
+    - stage_35_job_100
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-ros2action ros-kilted-nav2-msgs ros-kilted-pcl-conversions
+        ros-kilted-moveit-configs-utils ros-kilted-logging-demo
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-ros2action ros-kilted-nav2-msgs ros-kilted-pcl-conversions
+          ros-kilted-moveit-configs-utils ros-kilted-logging-demo
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_36_job_104:
+    name: nav2-voxel-grid point-cloud-transport image-transport rqt-console kinematics-interface-kdl
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_35_job_92
+    - stage_35_job_93
+    - stage_35_job_94
+    - stage_35_job_95
+    - stage_35_job_96
+    - stage_35_job_97
+    - stage_35_job_98
+    - stage_35_job_99
+    - stage_35_job_100
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-nav2-voxel-grid ros-kilted-point-cloud-transport ros-kilted-image-transport
+        ros-kilted-rqt-console ros-kilted-kinematics-interface-kdl
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-nav2-voxel-grid ros-kilted-point-cloud-transport
+          ros-kilted-image-transport ros-kilted-rqt-console ros-kilted-kinematics-interface-kdl
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_36_job_105:
+    name: tf2-tools rqt-plot ros2-controllers-test-nodes teleop-twist-joy camera-calibration
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_35_job_92
+    - stage_35_job_93
+    - stage_35_job_94
+    - stage_35_job_95
+    - stage_35_job_96
+    - stage_35_job_97
+    - stage_35_job_98
+    - stage_35_job_99
+    - stage_35_job_100
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-tf2-tools ros-kilted-rqt-plot ros-kilted-ros2-controllers-test-nodes
+        ros-kilted-teleop-twist-joy ros-kilted-camera-calibration
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-tf2-tools ros-kilted-rqt-plot ros-kilted-ros2-controllers-test-nodes
+          ros-kilted-teleop-twist-joy ros-kilted-camera-calibration
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_36_job_106:
+    name: rqt-shell rqt-service-caller rqt-py-console rqt-publisher rqt-graph
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_35_job_92
+    - stage_35_job_93
+    - stage_35_job_94
+    - stage_35_job_95
+    - stage_35_job_96
+    - stage_35_job_97
+    - stage_35_job_98
+    - stage_35_job_99
+    - stage_35_job_100
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-rqt-shell ros-kilted-rqt-service-caller ros-kilted-rqt-py-console
+        ros-kilted-rqt-publisher ros-kilted-rqt-graph
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-rqt-shell ros-kilted-rqt-service-caller ros-kilted-rqt-py-console
+          ros-kilted-rqt-publisher ros-kilted-rqt-graph
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_36_job_107:
+    name: diagnostic-aggregator intra-process-demo image-tools demo-nodes-cpp-native
+      demo-nodes-cpp
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_35_job_92
+    - stage_35_job_93
+    - stage_35_job_94
+    - stage_35_job_95
+    - stage_35_job_96
+    - stage_35_job_97
+    - stage_35_job_98
+    - stage_35_job_99
+    - stage_35_job_100
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-diagnostic-aggregator ros-kilted-intra-process-demo ros-kilted-image-tools
+        ros-kilted-demo-nodes-cpp-native ros-kilted-demo-nodes-cpp
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-diagnostic-aggregator ros-kilted-intra-process-demo
+          ros-kilted-image-tools ros-kilted-demo-nodes-cpp-native ros-kilted-demo-nodes-cpp
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_36_job_108:
+    name: composition plotjuggler lanelet2
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_35_job_92
+    - stage_35_job_93
+    - stage_35_job_94
+    - stage_35_job_95
+    - stage_35_job_96
+    - stage_35_job_97
+    - stage_35_job_98
+    - stage_35_job_99
+    - stage_35_job_100
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-composition ros-kilted-plotjuggler ros-kilted-lanelet2
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-composition ros-kilted-plotjuggler ros-kilted-lanelet2
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_37_job_109:
+    name: joint-limits ros2service ros2run robot-state-publisher rosbag2-storage-sqlite3
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_36_job_101
+    - stage_36_job_102
+    - stage_36_job_103
+    - stage_36_job_104
+    - stage_36_job_105
+    - stage_36_job_106
+    - stage_36_job_107
+    - stage_36_job_108
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-joint-limits ros-kilted-ros2service ros-kilted-ros2run
+        ros-kilted-robot-state-publisher ros-kilted-rosbag2-storage-sqlite3
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-joint-limits ros-kilted-ros2service ros-kilted-ros2run
+          ros-kilted-robot-state-publisher ros-kilted-rosbag2-storage-sqlite3
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_37_job_110:
+    name: rosbag2-storage-mcap ros-testing ros2launch joint-state-publisher tf2-kdl
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_36_job_101
+    - stage_36_job_102
+    - stage_36_job_103
+    - stage_36_job_104
+    - stage_36_job_105
+    - stage_36_job_106
+    - stage_36_job_107
+    - stage_36_job_108
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-rosbag2-storage-mcap ros-kilted-ros-testing ros-kilted-ros2launch
+        ros-kilted-joint-state-publisher ros-kilted-tf2-kdl
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-rosbag2-storage-mcap ros-kilted-ros-testing ros-kilted-ros2launch
+          ros-kilted-joint-state-publisher ros-kilted-tf2-kdl
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_37_job_111:
+    name: tf2-geometry-msgs tf2-eigen rviz-common tf2-sensor-msgs autoware-utils-logging
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_36_job_101
+    - stage_36_job_102
+    - stage_36_job_103
+    - stage_36_job_104
+    - stage_36_job_105
+    - stage_36_job_106
+    - stage_36_job_107
+    - stage_36_job_108
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-tf2-geometry-msgs ros-kilted-tf2-eigen ros-kilted-rviz-common
+        ros-kilted-tf2-sensor-msgs ros-kilted-autoware-utils-logging
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-tf2-geometry-msgs ros-kilted-tf2-eigen ros-kilted-rviz-common
+          ros-kilted-tf2-sensor-msgs ros-kilted-autoware-utils-logging
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_37_job_112:
+    name: opennav-docking-core ros-gz-sim ros-gz-image nav2-simple-commander tf2-bullet
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_36_job_101
+    - stage_36_job_102
+    - stage_36_job_103
+    - stage_36_job_104
+    - stage_36_job_105
+    - stage_36_job_106
+    - stage_36_job_107
+    - stage_36_job_108
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-opennav-docking-core ros-kilted-ros-gz-sim ros-kilted-ros-gz-image
+        ros-kilted-nav2-simple-commander ros-kilted-tf2-bullet
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-opennav-docking-core ros-kilted-ros-gz-sim ros-kilted-ros-gz-image
+          ros-kilted-nav2-simple-commander ros-kilted-tf2-bullet
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_37_job_113:
+    name: rqt-msg velodyne-pointcloud velodyne-driver zstd-image-transport theora-image-transport
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_36_job_101
+    - stage_36_job_102
+    - stage_36_job_103
+    - stage_36_job_104
+    - stage_36_job_105
+    - stage_36_job_106
+    - stage_36_job_107
+    - stage_36_job_108
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-rqt-msg ros-kilted-velodyne-pointcloud ros-kilted-velodyne-driver
+        ros-kilted-zstd-image-transport ros-kilted-theora-image-transport
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-rqt-msg ros-kilted-velodyne-pointcloud ros-kilted-velodyne-driver
+          ros-kilted-zstd-image-transport ros-kilted-theora-image-transport
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_37_job_114:
+    name: compressed-image-transport compressed-depth-image-transport image-view image-publisher
+      rqt-topic
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_36_job_101
+    - stage_36_job_102
+    - stage_36_job_103
+    - stage_36_job_104
+    - stage_36_job_105
+    - stage_36_job_106
+    - stage_36_job_107
+    - stage_36_job_108
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-compressed-image-transport ros-kilted-compressed-depth-image-transport
+        ros-kilted-image-view ros-kilted-image-publisher ros-kilted-rqt-topic
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-compressed-image-transport ros-kilted-compressed-depth-image-transport
+          ros-kilted-image-view ros-kilted-image-publisher ros-kilted-rqt-topic
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_37_job_115:
+    name: rqt-reconfigure rqt-image-view turtlebot3-node image-common ublox-gps
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_36_job_101
+    - stage_36_job_102
+    - stage_36_job_103
+    - stage_36_job_104
+    - stage_36_job_105
+    - stage_36_job_106
+    - stage_36_job_107
+    - stage_36_job_108
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-rqt-reconfigure ros-kilted-rqt-image-view ros-kilted-turtlebot3-node
+        ros-kilted-image-common ros-kilted-ublox-gps
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-rqt-reconfigure ros-kilted-rqt-image-view ros-kilted-turtlebot3-node
+          ros-kilted-image-common ros-kilted-ublox-gps
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_37_job_116:
+    name: self-test diagnostic-common-diagnostics apriltag-draw apriltag-detector
+      v4l2-camera
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_36_job_101
+    - stage_36_job_102
+    - stage_36_job_103
+    - stage_36_job_104
+    - stage_36_job_105
+    - stage_36_job_106
+    - stage_36_job_107
+    - stage_36_job_108
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-self-test ros-kilted-diagnostic-common-diagnostics ros-kilted-apriltag-draw
+        ros-kilted-apriltag-detector ros-kilted-v4l2-camera
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-self-test ros-kilted-diagnostic-common-diagnostics
+          ros-kilted-apriltag-draw ros-kilted-apriltag-detector ros-kilted-v4l2-camera
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_37_job_117:
+    name: twist-mux rqt-tf-tree foxglove-compressed-video-transport ffmpeg-image-transport
+      apriltag-ros
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_36_job_101
+    - stage_36_job_102
+    - stage_36_job_103
+    - stage_36_job_104
+    - stage_36_job_105
+    - stage_36_job_106
+    - stage_36_job_107
+    - stage_36_job_108
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-twist-mux ros-kilted-rqt-tf-tree ros-kilted-foxglove-compressed-video-transport
+        ros-kilted-ffmpeg-image-transport ros-kilted-apriltag-ros
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-twist-mux ros-kilted-rqt-tf-tree ros-kilted-foxglove-compressed-video-transport
+          ros-kilted-ffmpeg-image-transport ros-kilted-apriltag-ros
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_38_job_118:
+    name: hardware-interface ros2param rosbag2-storage-default-plugins sros2 ros2lifecycle
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_37_job_109
+    - stage_37_job_110
+    - stage_37_job_111
+    - stage_37_job_112
+    - stage_37_job_113
+    - stage_37_job_114
+    - stage_37_job_115
+    - stage_37_job_116
+    - stage_37_job_117
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-hardware-interface ros-kilted-ros2param ros-kilted-rosbag2-storage-default-plugins
+        ros-kilted-sros2 ros-kilted-ros2lifecycle
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-hardware-interface ros-kilted-ros2param ros-kilted-rosbag2-storage-default-plugins
+          ros-kilted-sros2 ros-kilted-ros2lifecycle
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_38_job_119:
+    name: joint-state-publisher-gui autoware-utils-geometry nav2-util rviz-visual-testing-framework
+      interactive-markers
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_37_job_109
+    - stage_37_job_110
+    - stage_37_job_111
+    - stage_37_job_112
+    - stage_37_job_113
+    - stage_37_job_114
+    - stage_37_job_115
+    - stage_37_job_116
+    - stage_37_job_117
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-joint-state-publisher-gui ros-kilted-autoware-utils-geometry
+        ros-kilted-nav2-util ros-kilted-rviz-visual-testing-framework ros-kilted-interactive-markers
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-joint-state-publisher-gui ros-kilted-autoware-utils-geometry
+          ros-kilted-nav2-util ros-kilted-rviz-visual-testing-framework ros-kilted-interactive-markers
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_38_job_120:
+    name: autoware-lanelet2-extension warehouse-ros control-toolbox robot-localization
+      nav2-minimal-tb4-description
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_37_job_109
+    - stage_37_job_110
+    - stage_37_job_111
+    - stage_37_job_112
+    - stage_37_job_113
+    - stage_37_job_114
+    - stage_37_job_115
+    - stage_37_job_116
+    - stage_37_job_117
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-autoware-lanelet2-extension ros-kilted-warehouse-ros
+        ros-kilted-control-toolbox ros-kilted-robot-localization ros-kilted-nav2-minimal-tb4-description
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-autoware-lanelet2-extension ros-kilted-warehouse-ros
+          ros-kilted-control-toolbox ros-kilted-robot-localization ros-kilted-nav2-minimal-tb4-description
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_38_job_121:
+    name: image-proc laser-filters nav2-minimal-tb3-sim rosapi geometry2
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_37_job_109
+    - stage_37_job_110
+    - stage_37_job_111
+    - stage_37_job_112
+    - stage_37_job_113
+    - stage_37_job_114
+    - stage_37_job_115
+    - stage_37_job_116
+    - stage_37_job_117
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-image-proc ros-kilted-laser-filters ros-kilted-nav2-minimal-tb3-sim
+        ros-kilted-rosapi ros-kilted-geometry2
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-image-proc ros-kilted-laser-filters ros-kilted-nav2-minimal-tb3-sim
+          ros-kilted-rosapi ros-kilted-geometry2
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_38_job_122:
+    name: image-rotate rqt-srv rqt-action rviz-imu-plugin autoware-localization-util
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_37_job_109
+    - stage_37_job_110
+    - stage_37_job_111
+    - stage_37_job_112
+    - stage_37_job_113
+    - stage_37_job_114
+    - stage_37_job_115
+    - stage_37_job_116
+    - stage_37_job_117
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-image-rotate ros-kilted-rqt-srv ros-kilted-rqt-action
+        ros-kilted-rviz-imu-plugin ros-kilted-autoware-localization-util
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-image-rotate ros-kilted-rqt-srv ros-kilted-rqt-action
+          ros-kilted-rviz-imu-plugin ros-kilted-autoware-localization-util
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_38_job_123:
+    name: velodyne image-transport-plugins pendulum-control lifecycle dummy-robot-bringup
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_37_job_109
+    - stage_37_job_110
+    - stage_37_job_111
+    - stage_37_job_112
+    - stage_37_job_113
+    - stage_37_job_114
+    - stage_37_job_115
+    - stage_37_job_116
+    - stage_37_job_117
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-velodyne ros-kilted-image-transport-plugins ros-kilted-pendulum-control
+        ros-kilted-lifecycle ros-kilted-dummy-robot-bringup
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-velodyne ros-kilted-image-transport-plugins ros-kilted-pendulum-control
+          ros-kilted-lifecycle ros-kilted-dummy-robot-bringup
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_38_job_124:
+    name: ublox pointcloud-to-laserscan odom-to-tf-ros2 diagnostics camera-ros
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_37_job_109
+    - stage_37_job_110
+    - stage_37_job_111
+    - stage_37_job_112
+    - stage_37_job_113
+    - stage_37_job_114
+    - stage_37_job_115
+    - stage_37_job_116
+    - stage_37_job_117
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-ublox ros-kilted-pointcloud-to-laserscan ros-kilted-odom-to-tf-ros2
+        ros-kilted-diagnostics ros-kilted-camera-ros
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-ublox ros-kilted-pointcloud-to-laserscan ros-kilted-odom-to-tf-ros2
+          ros-kilted-diagnostics ros-kilted-camera-ros
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_38_job_125:
+    name: apriltag-detector-umich apriltag-detector-mit
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_37_job_109
+    - stage_37_job_110
+    - stage_37_job_111
+    - stage_37_job_112
+    - stage_37_job_113
+    - stage_37_job_114
+    - stage_37_job_115
+    - stage_37_job_116
+    - stage_37_job_117
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-apriltag-detector-umich ros-kilted-apriltag-detector-mit
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-apriltag-detector-umich ros-kilted-apriltag-detector-mit
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_39_job_126:
+    name: hardware-interface-testing controller-interface ros2component rosbag2-cpp
+      autoware-utils-tf
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_38_job_118
+    - stage_38_job_119
+    - stage_38_job_120
+    - stage_38_job_121
+    - stage_38_job_122
+    - stage_38_job_123
+    - stage_38_job_124
+    - stage_38_job_125
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-hardware-interface-testing ros-kilted-controller-interface
+        ros-kilted-ros2component ros-kilted-rosbag2-cpp ros-kilted-autoware-utils-tf
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-hardware-interface-testing ros-kilted-controller-interface
+          ros-kilted-ros2component ros-kilted-rosbag2-cpp ros-kilted-autoware-utils-tf
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_39_job_127:
+    name: nav2-map-server nav2-lifecycle-manager autoware-interpolation nav2-behavior-tree
+      rviz-default-plugins
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_38_job_118
+    - stage_38_job_119
+    - stage_38_job_120
+    - stage_38_job_121
+    - stage_38_job_122
+    - stage_38_job_123
+    - stage_38_job_124
+    - stage_38_job_125
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-nav2-map-server ros-kilted-nav2-lifecycle-manager ros-kilted-autoware-interpolation
+        ros-kilted-nav2-behavior-tree ros-kilted-rviz-default-plugins
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-nav2-map-server ros-kilted-nav2-lifecycle-manager
+          ros-kilted-autoware-interpolation ros-kilted-nav2-behavior-tree ros-kilted-rviz-default-plugins
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_39_job_128:
+    name: autoware-test-utils nav-2d-utils autoware-lanelet2-utils nav2-velocity-smoother
+      nav2-amcl
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_38_job_118
+    - stage_38_job_119
+    - stage_38_job_120
+    - stage_38_job_121
+    - stage_38_job_122
+    - stage_38_job_123
+    - stage_38_job_124
+    - stage_38_job_125
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-autoware-test-utils ros-kilted-nav-2d-utils ros-kilted-autoware-lanelet2-utils
+        ros-kilted-nav2-velocity-smoother ros-kilted-nav2-amcl
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-autoware-test-utils ros-kilted-nav-2d-utils ros-kilted-autoware-lanelet2-utils
+          ros-kilted-nav2-velocity-smoother ros-kilted-nav2-amcl
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_39_job_129:
+    name: sros2-cmake autoware-geography-utils nav2-minimal-tb4-sim transmission-interface
+      stereo-image-proc
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_38_job_118
+    - stage_38_job_119
+    - stage_38_job_120
+    - stage_38_job_121
+    - stage_38_job_122
+    - stage_38_job_123
+    - stage_38_job_124
+    - stage_38_job_125
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-sros2-cmake ros-kilted-autoware-geography-utils ros-kilted-nav2-minimal-tb4-sim
+        ros-kilted-transmission-interface ros-kilted-stereo-image-proc
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-sros2-cmake ros-kilted-autoware-geography-utils
+          ros-kilted-nav2-minimal-tb4-sim ros-kilted-transmission-interface ros-kilted-stereo-image-proc
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_39_job_130:
+    name: depth-image-proc autoware-map-height-fitter warehouse-ros-sqlite rosbridge-server
+      autoware-ekf-localizer
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_38_job_118
+    - stage_38_job_119
+    - stage_38_job_120
+    - stage_38_job_121
+    - stage_38_job_122
+    - stage_38_job_123
+    - stage_38_job_124
+    - stage_38_job_125
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-depth-image-proc ros-kilted-autoware-map-height-fitter
+        ros-kilted-warehouse-ros-sqlite ros-kilted-rosbridge-server ros-kilted-autoware-ekf-localizer
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-depth-image-proc ros-kilted-autoware-map-height-fitter
+          ros-kilted-warehouse-ros-sqlite ros-kilted-rosbridge-server ros-kilted-autoware-ekf-localizer
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_39_job_131:
+    name: usb-cam
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_38_job_118
+    - stage_38_job_119
+    - stage_38_job_120
+    - stage_38_job_121
+    - stage_38_job_122
+    - stage_38_job_123
+    - stage_38_job_124
+    - stage_38_job_125
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-usb-cam
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-usb-cam
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_40_job_132:
+    name: controller-manager ros2cli-common-extensions rosbag2-compression nav2-costmap-2d
+      autoware-motion-utils
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_39_job_126
+    - stage_39_job_127
+    - stage_39_job_128
+    - stage_39_job_129
+    - stage_39_job_130
+    - stage_39_job_131
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-controller-manager ros-kilted-ros2cli-common-extensions
+        ros-kilted-rosbag2-compression ros-kilted-nav2-costmap-2d ros-kilted-autoware-motion-utils
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-controller-manager ros-kilted-ros2cli-common-extensions
+          ros-kilted-rosbag2-compression ros-kilted-nav2-costmap-2d ros-kilted-autoware-motion-utils
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_40_job_133:
+    name: rviz2 slam-toolbox cartographer-ros image-pipeline rosx-introspection
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_39_job_126
+    - stage_39_job_127
+    - stage_39_job_128
+    - stage_39_job_129
+    - stage_39_job_130
+    - stage_39_job_131
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-rviz2 ros-kilted-slam-toolbox ros-kilted-cartographer-ros
+        ros-kilted-image-pipeline ros-kilted-rosx-introspection
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-rviz2 ros-kilted-slam-toolbox ros-kilted-cartographer-ros
+          ros-kilted-image-pipeline ros-kilted-rosx-introspection
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_40_job_134:
+    name: rviz-satellite rosbridge-suite
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_39_job_126
+    - stage_39_job_127
+    - stage_39_job_128
+    - stage_39_job_129
+    - stage_39_job_130
+    - stage_39_job_131
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-rviz-satellite ros-kilted-rosbridge-suite
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-rviz-satellite ros-kilted-rosbridge-suite
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_41_job_135:
+    name: forward-command-controller rosbag2-compression-zstd nav2-core costmap-queue
+      joint-trajectory-controller
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_40_job_132
+    - stage_40_job_133
+    - stage_40_job_134
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-forward-command-controller ros-kilted-rosbag2-compression-zstd
+        ros-kilted-nav2-core ros-kilted-costmap-queue ros-kilted-joint-trajectory-controller
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-forward-command-controller ros-kilted-rosbag2-compression-zstd
+          ros-kilted-nav2-core ros-kilted-costmap-queue ros-kilted-joint-trajectory-controller
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_41_job_136:
+    name: nav2-collision-monitor steering-controllers-library joint-state-broadcaster
+      diff-drive-controller pose-broadcaster
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_40_job_132
+    - stage_40_job_133
+    - stage_40_job_134
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-nav2-collision-monitor ros-kilted-steering-controllers-library
+        ros-kilted-joint-state-broadcaster ros-kilted-diff-drive-controller ros-kilted-pose-broadcaster
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-nav2-collision-monitor ros-kilted-steering-controllers-library
+          ros-kilted-joint-state-broadcaster ros-kilted-diff-drive-controller ros-kilted-pose-broadcaster
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_41_job_137:
+    name: force-torque-sensor-broadcaster ur-description tricycle-controller range-sensor-broadcaster
+      pid-controller
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_40_job_132
+    - stage_40_job_133
+    - stage_40_job_134
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-force-torque-sensor-broadcaster ros-kilted-ur-description
+        ros-kilted-tricycle-controller ros-kilted-range-sensor-broadcaster ros-kilted-pid-controller
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-force-torque-sensor-broadcaster ros-kilted-ur-description
+          ros-kilted-tricycle-controller ros-kilted-range-sensor-broadcaster ros-kilted-pid-controller
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_41_job_138:
+    name: parallel-gripper-controller omni-wheel-drive-controller mecanum-drive-controller
+      imu-sensor-broadcaster gps-sensor-broadcaster
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_40_job_132
+    - stage_40_job_133
+    - stage_40_job_134
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-parallel-gripper-controller ros-kilted-omni-wheel-drive-controller
+        ros-kilted-mecanum-drive-controller ros-kilted-imu-sensor-broadcaster ros-kilted-gps-sensor-broadcaster
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-parallel-gripper-controller ros-kilted-omni-wheel-drive-controller
+          ros-kilted-mecanum-drive-controller ros-kilted-imu-sensor-broadcaster ros-kilted-gps-sensor-broadcaster
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_41_job_139:
+    name: gpio-controllers admittance-controller ros2controlcli ros-core autoware-trajectory
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_40_job_132
+    - stage_40_job_133
+    - stage_40_job_134
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-gpio-controllers ros-kilted-admittance-controller ros-kilted-ros2controlcli
+        ros-kilted-ros-core ros-kilted-autoware-trajectory
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-gpio-controllers ros-kilted-admittance-controller
+          ros-kilted-ros2controlcli ros-kilted-ros-core ros-kilted-autoware-trajectory
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_41_job_140:
+    name: gz-ros2-control autoware-pose-initializer turtlebot3-cartographer turtlebot3-bringup
+      ros-gz-sim-demos
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_40_job_132
+    - stage_40_job_133
+    - stage_40_job_134
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-gz-ros2-control ros-kilted-autoware-pose-initializer
+        ros-kilted-turtlebot3-cartographer ros-kilted-turtlebot3-bringup ros-kilted-ros-gz-sim-demos
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-gz-ros2-control ros-kilted-autoware-pose-initializer
+          ros-kilted-turtlebot3-cartographer ros-kilted-turtlebot3-bringup ros-kilted-ros-gz-sim-demos
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_41_job_141:
+    name: rviz-visual-tools foxglove-bridge
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_40_job_132
+    - stage_40_job_133
+    - stage_40_job_134
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-rviz-visual-tools ros-kilted-foxglove-bridge
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-rviz-visual-tools ros-kilted-foxglove-bridge
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_42_job_142:
+    name: position-controllers rosbag2-transport nav2-controller dwb-core nav2-route
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_41_job_135
+    - stage_41_job_136
+    - stage_41_job_137
+    - stage_41_job_138
+    - stage_41_job_139
+    - stage_41_job_140
+    - stage_41_job_141
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-position-controllers ros-kilted-rosbag2-transport ros-kilted-nav2-controller
+        ros-kilted-dwb-core ros-kilted-nav2-route
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-position-controllers ros-kilted-rosbag2-transport
+          ros-kilted-nav2-controller ros-kilted-dwb-core ros-kilted-nav2-route
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_42_job_143:
+    name: nav2-regulated-pure-pursuit-controller opennav-docking-bt nav2-waypoint-follower
+      nav2-theta-star-planner nav2-smoother
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_41_job_135
+    - stage_41_job_136
+    - stage_41_job_137
+    - stage_41_job_138
+    - stage_41_job_139
+    - stage_41_job_140
+    - stage_41_job_141
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-nav2-regulated-pure-pursuit-controller ros-kilted-opennav-docking-bt
+        ros-kilted-nav2-waypoint-follower ros-kilted-nav2-theta-star-planner ros-kilted-nav2-smoother
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-nav2-regulated-pure-pursuit-controller ros-kilted-opennav-docking-bt
+          ros-kilted-nav2-waypoint-follower ros-kilted-nav2-theta-star-planner ros-kilted-nav2-smoother
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_42_job_144:
+    name: nav2-smac-planner nav2-planner nav2-navfn-planner nav2-mppi-controller nav2-constrained-smoother
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_41_job_135
+    - stage_41_job_136
+    - stage_41_job_137
+    - stage_41_job_138
+    - stage_41_job_139
+    - stage_41_job_140
+    - stage_41_job_141
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-nav2-smac-planner ros-kilted-nav2-planner ros-kilted-nav2-navfn-planner
+        ros-kilted-nav2-mppi-controller ros-kilted-nav2-constrained-smoother
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-nav2-smac-planner ros-kilted-nav2-planner ros-kilted-nav2-navfn-planner
+          ros-kilted-nav2-mppi-controller ros-kilted-nav2-constrained-smoother
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_42_job_145:
+    name: nav2-bt-navigator nav2-behaviors velocity-controllers ur-controllers tricycle-steering-controller
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_41_job_135
+    - stage_41_job_136
+    - stage_41_job_137
+    - stage_41_job_138
+    - stage_41_job_139
+    - stage_41_job_140
+    - stage_41_job_141
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-nav2-bt-navigator ros-kilted-nav2-behaviors ros-kilted-velocity-controllers
+        ros-kilted-ur-controllers ros-kilted-tricycle-steering-controller
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-nav2-bt-navigator ros-kilted-nav2-behaviors ros-kilted-velocity-controllers
+          ros-kilted-ur-controllers ros-kilted-tricycle-steering-controller
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_42_job_146:
+    name: effort-controllers bicycle-steering-controller ackermann-steering-controller
+      ros2-control ros-gz
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_41_job_135
+    - stage_41_job_136
+    - stage_41_job_137
+    - stage_41_job_138
+    - stage_41_job_139
+    - stage_41_job_140
+    - stage_41_job_141
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-effort-controllers ros-kilted-bicycle-steering-controller
+        ros-kilted-ackermann-steering-controller ros-kilted-ros2-control ros-kilted-ros-gz
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-effort-controllers ros-kilted-bicycle-steering-controller
+          ros-kilted-ackermann-steering-controller ros-kilted-ros2-control ros-kilted-ros-gz
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_43_job_147:
+    name: moveit-resources-panda-moveit-config pcl-ros moveit-resources-fanuc-moveit-config
+      rosbag2-py nav2-graceful-controller
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_42_job_142
+    - stage_42_job_143
+    - stage_42_job_144
+    - stage_42_job_145
+    - stage_42_job_146
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-moveit-resources-panda-moveit-config ros-kilted-pcl-ros
+        ros-kilted-moveit-resources-fanuc-moveit-config ros-kilted-rosbag2-py ros-kilted-nav2-graceful-controller
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-moveit-resources-panda-moveit-config ros-kilted-pcl-ros
+          ros-kilted-moveit-resources-fanuc-moveit-config ros-kilted-rosbag2-py ros-kilted-nav2-graceful-controller
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_43_job_148:
+    name: dwb-plugins dwb-critics nav2-rviz-plugins nav2-rotation-shim-controller
+      ur-robot-driver
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_42_job_142
+    - stage_42_job_143
+    - stage_42_job_144
+    - stage_42_job_145
+    - stage_42_job_146
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-dwb-plugins ros-kilted-dwb-critics ros-kilted-nav2-rviz-plugins
+        ros-kilted-nav2-rotation-shim-controller ros-kilted-ur-robot-driver
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-dwb-plugins ros-kilted-dwb-critics ros-kilted-nav2-rviz-plugins
+          ros-kilted-nav2-rotation-shim-controller ros-kilted-ur-robot-driver
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_43_job_149:
+    name: ros2-controllers plotjuggler-ros gz-ros2-control-demos apriltag-tools
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_42_job_142
+    - stage_42_job_143
+    - stage_42_job_144
+    - stage_42_job_145
+    - stage_42_job_146
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-ros2-controllers ros-kilted-plotjuggler-ros ros-kilted-gz-ros2-control-demos
+        ros-kilted-apriltag-tools
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-ros2-controllers ros-kilted-plotjuggler-ros ros-kilted-gz-ros2-control-demos
+          ros-kilted-apriltag-tools
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_44_job_150:
+    name: moveit-core autoware-utils-pcl ros2bag autoware-object-recognition-utils
+      opennav-docking
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_43_job_147
+    - stage_43_job_148
+    - stage_43_job_149
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-moveit-core ros-kilted-autoware-utils-pcl ros-kilted-ros2bag
+        ros-kilted-autoware-object-recognition-utils ros-kilted-opennav-docking
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-moveit-core ros-kilted-autoware-utils-pcl ros-kilted-ros2bag
+          ros-kilted-autoware-object-recognition-utils ros-kilted-opennav-docking
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_44_job_151:
+    name: nav2-dwb-controller rqt-bag autoware-point-types perception-pcl ur-calibration
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_43_job_147
+    - stage_43_job_148
+    - stage_43_job_149
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-nav2-dwb-controller ros-kilted-rqt-bag ros-kilted-autoware-point-types
+        ros-kilted-perception-pcl ros-kilted-ur-calibration
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-nav2-dwb-controller ros-kilted-rqt-bag ros-kilted-autoware-point-types
+          ros-kilted-perception-pcl ros-kilted-ur-calibration
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_44_job_152:
+    name: moveit-resources ouster-ros dual-laser-merger
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_43_job_147
+    - stage_43_job_148
+    - stage_43_job_149
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-moveit-resources ros-kilted-ouster-ros ros-kilted-dual-laser-merger
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-moveit-resources ros-kilted-ouster-ros ros-kilted-dual-laser-merger
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_45_job_153:
+    name: moveit-ros-occupancy-map-monitor autoware-utils moveit-simple-controller-manager
+      moveit-resources-prbt-ikfast-manipulator-plugin rosbag2-tests
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_44_job_150
+    - stage_44_job_151
+    - stage_44_job_152
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-moveit-ros-occupancy-map-monitor ros-kilted-autoware-utils
+        ros-kilted-moveit-simple-controller-manager ros-kilted-moveit-resources-prbt-ikfast-manipulator-plugin
+        ros-kilted-rosbag2-tests
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-moveit-ros-occupancy-map-monitor ros-kilted-autoware-utils
+          ros-kilted-moveit-simple-controller-manager ros-kilted-moveit-resources-prbt-ikfast-manipulator-plugin
+          ros-kilted-rosbag2-tests
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_45_job_154:
+    name: pilz-industrial-motion-planner-testutils chomp-motion-planner moveit-planners-stomp
+      navigation2 autoware-ndt-scan-matcher
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_44_job_150
+    - stage_44_job_151
+    - stage_44_job_152
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-pilz-industrial-motion-planner-testutils ros-kilted-chomp-motion-planner
+        ros-kilted-moveit-planners-stomp ros-kilted-navigation2 ros-kilted-autoware-ndt-scan-matcher
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-pilz-industrial-motion-planner-testutils ros-kilted-chomp-motion-planner
+          ros-kilted-moveit-planners-stomp ros-kilted-navigation2 ros-kilted-autoware-ndt-scan-matcher
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_45_job_155:
+    name: autoware-downsample-filters
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_44_job_150
+    - stage_44_job_151
+    - stage_44_job_152
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-autoware-downsample-filters
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-autoware-downsample-filters
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_46_job_156:
+    name: moveit-ros-planning autoware-vehicle-info-utils rosbag2 moveit-planners-chomp
+      nav2-bringup
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_45_job_153
+    - stage_45_job_154
+    - stage_45_job_155
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-moveit-ros-planning ros-kilted-autoware-vehicle-info-utils
+        ros-kilted-rosbag2 ros-kilted-moveit-planners-chomp ros-kilted-nav2-bringup
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-moveit-ros-planning ros-kilted-autoware-vehicle-info-utils
+          ros-kilted-rosbag2 ros-kilted-moveit-planners-chomp ros-kilted-nav2-bringup
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_46_job_157:
+    name: moveit-plugins autoware-core-localization moveit-ros-control-interface
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_45_job_153
+    - stage_45_job_154
+    - stage_45_job_155
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-moveit-plugins ros-kilted-autoware-core-localization
+        ros-kilted-moveit-ros-control-interface
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-moveit-plugins ros-kilted-autoware-core-localization
+          ros-kilted-moveit-ros-control-interface
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_47_job_158:
+    name: moveit-kinematics moveit-ros-warehouse moveit-ros-robot-interaction moveit-planners-ompl
+      rqt-bag-plugins
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_46_job_156
+    - stage_46_job_157
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-moveit-kinematics ros-kilted-moveit-ros-warehouse ros-kilted-moveit-ros-robot-interaction
+        ros-kilted-moveit-planners-ompl ros-kilted-rqt-bag-plugins
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-moveit-kinematics ros-kilted-moveit-ros-warehouse
+          ros-kilted-moveit-ros-robot-interaction ros-kilted-moveit-planners-ompl
+          ros-kilted-rqt-bag-plugins
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_47_job_159:
+    name: autoware-global-parameter-loader ros-base autoware-simple-pure-pursuit turtlebot3-navigation2
+      moveit-ros-perception
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_46_job_156
+    - stage_46_job_157
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-autoware-global-parameter-loader ros-kilted-ros-base
+        ros-kilted-autoware-simple-pure-pursuit ros-kilted-turtlebot3-navigation2
+        ros-kilted-moveit-ros-perception
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-autoware-global-parameter-loader ros-kilted-ros-base
+          ros-kilted-autoware-simple-pure-pursuit ros-kilted-turtlebot3-navigation2
+          ros-kilted-moveit-ros-perception
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_47_job_160:
+    name: moveit-visual-tools livox-ros-driver2
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_46_job_156
+    - stage_46_job_157
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-moveit-visual-tools ros-kilted-livox-ros-driver2
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-moveit-visual-tools ros-kilted-livox-ros-driver2
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_48_job_161:
+    name: moveit-ros-move-group moveit-ros-benchmarks rqt-common-plugins simulation
+      perception
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_47_job_158
+    - stage_47_job_159
+    - stage_47_job_160
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-moveit-ros-move-group ros-kilted-moveit-ros-benchmarks
+        ros-kilted-rqt-common-plugins ros-kilted-simulation ros-kilted-perception
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-moveit-ros-move-group ros-kilted-moveit-ros-benchmarks
+          ros-kilted-rqt-common-plugins ros-kilted-simulation ros-kilted-perception
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_48_job_162:
+    name: autoware-core-control turtlebot3
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_47_job_158
+    - stage_47_job_159
+    - stage_47_job_160
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-autoware-core-control ros-kilted-turtlebot3
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-autoware-core-control ros-kilted-turtlebot3
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_49_job_163:
+    name: moveit-ros-planning-interface moveit-resources-prbt-moveit-config desktop
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_48_job_161
+    - stage_48_job_162
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-moveit-ros-planning-interface ros-kilted-moveit-resources-prbt-moveit-config
+        ros-kilted-desktop
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-moveit-ros-planning-interface ros-kilted-moveit-resources-prbt-moveit-config
+          ros-kilted-desktop
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_50_job_164:
+    name: moveit-ros-visualization moveit-resources-prbt-pg70-support moveit-py moveit-hybrid-planning
+      desktop-full
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_49_job_163
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-moveit-ros-visualization ros-kilted-moveit-resources-prbt-pg70-support
+        ros-kilted-moveit-py ros-kilted-moveit-hybrid-planning ros-kilted-desktop-full
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-moveit-ros-visualization ros-kilted-moveit-resources-prbt-pg70-support
+          ros-kilted-moveit-py ros-kilted-moveit-hybrid-planning ros-kilted-desktop-full
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_51_job_165:
+    name: moveit-setup-framework pilz-industrial-motion-planner moveit-servo moveit-ros
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_50_job_164
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-moveit-setup-framework ros-kilted-pilz-industrial-motion-planner
+        ros-kilted-moveit-servo ros-kilted-moveit-ros
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-moveit-setup-framework ros-kilted-pilz-industrial-motion-planner
+          ros-kilted-moveit-servo ros-kilted-moveit-ros
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_52_job_166:
+    name: moveit-setup-core-plugins moveit-setup-controllers moveit-setup-app-plugins
+      moveit-setup-srdf-plugins moveit-planners
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_51_job_165
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-moveit-setup-core-plugins ros-kilted-moveit-setup-controllers
+        ros-kilted-moveit-setup-app-plugins ros-kilted-moveit-setup-srdf-plugins ros-kilted-moveit-planners
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-moveit-setup-core-plugins ros-kilted-moveit-setup-controllers
+          ros-kilted-moveit-setup-app-plugins ros-kilted-moveit-setup-srdf-plugins
+          ros-kilted-moveit-planners
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_52_job_167:
+    name: moveit-ros-trajectory-cache
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_51_job_165
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-moveit-ros-trajectory-cache
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-moveit-ros-trajectory-cache
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_53_job_168:
+    name: moveit-setup-assistant ur-moveit-config moveit-runtime
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_52_job_166
+    - stage_52_job_167
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-moveit-setup-assistant ros-kilted-ur-moveit-config ros-kilted-moveit-runtime
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-moveit-setup-assistant ros-kilted-ur-moveit-config
+          ros-kilted-moveit-runtime
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_54_job_169:
+    name: ur-simulation-gz ur moveit
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_53_job_168
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-ur-simulation-gz ros-kilted-ur ros-kilted-moveit
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-ur-simulation-gz ros-kilted-ur ros-kilted-moveit
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+name: build_linux_aarch64
+on:
+  push:
+    branches:
+    - buildbranch_linux_aarch64
