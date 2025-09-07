@@ -1,0 +1,122 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/prefix-dev/recipe-format/main/schema.json
+
+package:
+  name: ros-kilted-rosidl-generator-py
+  version: 0.24.1
+source:
+  git: https://github.com/ros2-gbp/rosidl_python-release.git
+  tag: release/kilted/rosidl_generator_py/0.24.1-2
+  target_directory: ros-kilted-rosidl-generator-py/src/work
+
+build:
+  script: ${{ '$RECIPE_DIR/build_ament_cmake.sh' if unix or wasm32 else '%RECIPE_DIR%\\bld_ament_cmake.bat' }}
+  number: 12
+  post_process:
+    - files:
+        - '*.pc'
+      regex: (?:-L|-I)?"?([^;\s]+/sysroot/)
+      replacement: $$(CONDA_BUILD_SYSROOT_S)
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/sysroot)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/MacOSX\d*\.?\d*\.sdk)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+about:
+  homepage: https://www.ros.org/
+  license: BSD-3-Clause
+  summary: |
+    Robot Operating System
+
+extra:
+  recipe-maintainers:
+    - ros-forge
+
+requirements:
+  build:
+    - ${{ compiler('cxx') }}
+    - ${{ compiler('c') }}
+    - if: target_platform!='emscripten-wasm32'
+      then:
+        - ${{ stdlib('c') }}
+    - ninja
+    - python
+    - setuptools
+    - git
+    - git-lfs
+    - if: unix
+      then:
+        - patch
+        - make
+        - coreutils
+    - if: win
+      then:
+        - m2-patch
+    - if: osx
+      then:
+        - tapi
+    - if: build_platform != target_platform
+      then:
+        - pkg-config
+    - cmake
+    - cython
+    - if: build_platform != target_platform
+      then:
+        - python
+        - cross-python_${{ target_platform }}
+        - numpy
+  host:
+    - if: build_platform == target_platform
+      then:
+        - pkg-config
+    - numpy
+    - pip
+    - pytest
+    - python
+    - ros-kilted-ament-cmake
+    - ros-kilted-ament-cmake-pytest
+    - ros-kilted-ament-index-python
+    - ros-kilted-ament-lint-auto
+    - ros-kilted-ament-lint-common
+    - ros-kilted-rmw
+    - ros-kilted-ros-environment
+    - ros-kilted-ros-workspace
+    - ros-kilted-rosidl-cmake
+    - ros-kilted-rosidl-generator-c
+    - ros-kilted-rosidl-generator-cpp
+    - ros-kilted-rosidl-parser
+    - ros-kilted-rosidl-pycommon
+    - ros-kilted-rosidl-runtime-c
+    - ros-kilted-rosidl-typesupport-c
+    - ros-kilted-rosidl-typesupport-fastrtps-c
+    - ros-kilted-rosidl-typesupport-interface
+    - ros-kilted-rosidl-typesupport-introspection-c
+    - ros-kilted-rpyutils
+    - ros-kilted-test-interface-files
+    - ros2-distro-mutex 0.11.* kilted_*
+  run:
+    - numpy
+    - python
+    - ros-kilted-ament-cmake
+    - ros-kilted-ament-cmake-cppcheck
+    - ros-kilted-ament-cmake-cpplint
+    - ros-kilted-ament-cmake-flake8
+    - ros-kilted-ament-cmake-pep257
+    - ros-kilted-ament-cmake-uncrustify
+    - ros-kilted-ament-index-python
+    - ros-kilted-rmw
+    - ros-kilted-ros-workspace
+    - ros-kilted-rosidl-cli
+    - ros-kilted-rosidl-generator-c
+    - ros-kilted-rosidl-parser
+    - ros-kilted-rosidl-pycommon
+    - ros-kilted-rosidl-runtime-c
+    - ros-kilted-rosidl-typesupport-c
+    - ros-kilted-rosidl-typesupport-interface
+    - ros-kilted-rpyutils
+    - ros2-distro-mutex 0.11.* kilted_*
+    - if: osx and x86_64
+      then:
+        - __osx >=${{ MACOSX_DEPLOYMENT_TARGET|default('10.14') }}
