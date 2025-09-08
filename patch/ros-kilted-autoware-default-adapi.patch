@@ -1,0 +1,45 @@
+diff --git a/src/localization.cpp b/src/localization.cpp
+index e4eca71..ce8f46a 100644
+--- a/src/localization.cpp
++++ b/src/localization.cpp
+@@ -37,7 +37,7 @@ LocalizationNode::LocalizationNode(const rclcpp::NodeOptions & options)
+   srv_initialize_ = create_service<autoware::adapi_specs::localization::Initialize::Service>(
+     autoware::adapi_specs::localization::Initialize::name,
+     std::bind(&LocalizationNode::on_initialize, this, std::placeholders::_1, std::placeholders::_2),
+-    rmw_qos_profile_services_default, group_cli_);
++    rclcpp::ServicesQoS(), group_cli_);
+ 
+   // Component Interface
+   sub_state_ = create_subscription<
+diff --git a/src/routing.cpp b/src/routing.cpp
+index 1528db6..15580d0 100644
+--- a/src/routing.cpp
++++ b/src/routing.cpp
+@@ -100,15 +100,15 @@ RoutingNode::RoutingNode(const rclcpp::NodeOptions & options)
+   cli_clear_route_ =
+     create_client<autoware::component_interface_specs::planning::ClearRoute::Service>(
+       autoware::component_interface_specs::planning::ClearRoute::name,
+-      rmw_qos_profile_services_default, group_cli_);
++      rclcpp::ServicesQoS(), group_cli_);
+   cli_set_waypoint_route_ =
+     create_client<autoware::component_interface_specs::planning::SetWaypointRoute::Service>(
+       autoware::component_interface_specs::planning::SetWaypointRoute::name,
+-      rmw_qos_profile_services_default, group_cli_);
++      rclcpp::ServicesQoS(), group_cli_);
+   cli_set_lanelet_route_ =
+     create_client<autoware::component_interface_specs::planning::SetLaneletRoute::Service>(
+       autoware::component_interface_specs::planning::SetLaneletRoute::name,
+-      rmw_qos_profile_services_default, group_cli_);
++      rclcpp::ServicesQoS(), group_cli_);
+   sub_operation_mode_ =
+     create_subscription<autoware::component_interface_specs::system::OperationModeState::Message>(
+       autoware::component_interface_specs::system::OperationModeState::name,
+@@ -119,7 +119,7 @@ RoutingNode::RoutingNode(const rclcpp::NodeOptions & options)
+   cli_operation_mode_ =
+     create_client<autoware::component_interface_specs::system::ChangeOperationMode::Service>(
+       autoware::component_interface_specs::system::ChangeOperationMode::name,
+-      rmw_qos_profile_services_default, group_cli_);
++      rclcpp::ServicesQoS(), group_cli_);
+ 
+   is_autoware_control_ = false;
+   is_auto_mode_ = false;

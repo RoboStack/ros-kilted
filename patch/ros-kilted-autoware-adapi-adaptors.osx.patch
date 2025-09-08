@@ -1,0 +1,25 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index a9f443e..519ab41 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -15,10 +15,20 @@ rclcpp_components_register_node(${PROJECT_NAME}
+   EXECUTOR MultiThreadedExecutor
+ )
+ 
++target_compile_options(initial_pose_adaptor_node
++  PRIVATE
++    -Wno-deprecated-declarations
++)
++
+ rclcpp_components_register_node(${PROJECT_NAME}
+   PLUGIN "autoware::adapi_adaptors::RoutingAdaptor"
+   EXECUTABLE routing_adaptor_node
+   EXECUTOR SingleThreadedExecutor
+ )
+ 
++target_compile_options(routing_adaptor_node
++  PRIVATE
++    -Wno-deprecated-declarations
++)
++
+ ament_auto_package(INSTALL_TO_SHARE config launch)
