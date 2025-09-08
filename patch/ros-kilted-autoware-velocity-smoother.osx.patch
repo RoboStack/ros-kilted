@@ -1,0 +1,16 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index ebde146..55e4b7a 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -45,6 +45,11 @@ rclcpp_components_register_node(${PROJECT_NAME}_node
+   EXECUTABLE velocity_smoother_node
+ )
+ 
++target_compile_options(velocity_smoother_node
++  PRIVATE
++    -Wno-deprecated-declarations
++)
++
+ if(BUILD_TESTING)
+   ament_add_ros_isolated_gmock(test_smoother_base_functions
+   test/test_smoother_base_functions.cpp
