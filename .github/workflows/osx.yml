@@ -1,0 +1,201 @@
+jobs:
+  stage_0_job_0:
+    name: moveit-ros-move-group rqt-bag-plugins moveit-ros-benchmarks simulation perception
+    runs-on: macos-13
+    strategy:
+      fail-fast: false
+    needs: []
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-moveit-ros-move-group ros-kilted-rqt-bag-plugins ros-kilted-moveit-ros-benchmarks
+        ros-kilted-simulation ros-kilted-perception
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-moveit-ros-move-group ros-kilted-rqt-bag-plugins
+          ros-kilted-moveit-ros-benchmarks ros-kilted-simulation ros-kilted-perception
+        BUILD_TARGET: osx-64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_0_job_1:
+    name: autoware-core-control turtlebot3
+    runs-on: macos-13
+    strategy:
+      fail-fast: false
+    needs: []
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-autoware-core-control ros-kilted-turtlebot3
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-autoware-core-control ros-kilted-turtlebot3
+        BUILD_TARGET: osx-64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_1_job_2:
+    name: moveit-ros-planning-interface moveit-resources-prbt-moveit-config rqt-common-plugins
+    runs-on: macos-13
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_0_job_0
+    - stage_0_job_1
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-moveit-ros-planning-interface ros-kilted-moveit-resources-prbt-moveit-config
+        ros-kilted-rqt-common-plugins
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-moveit-ros-planning-interface ros-kilted-moveit-resources-prbt-moveit-config
+          ros-kilted-rqt-common-plugins
+        BUILD_TARGET: osx-64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_2_job_3:
+    name: moveit-ros-visualization moveit-resources-prbt-pg70-support desktop moveit-py
+      moveit-hybrid-planning
+    runs-on: macos-13
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_1_job_2
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-moveit-ros-visualization ros-kilted-moveit-resources-prbt-pg70-support
+        ros-kilted-desktop ros-kilted-moveit-py ros-kilted-moveit-hybrid-planning
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-moveit-ros-visualization ros-kilted-moveit-resources-prbt-pg70-support
+          ros-kilted-desktop ros-kilted-moveit-py ros-kilted-moveit-hybrid-planning
+        BUILD_TARGET: osx-64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_3_job_4:
+    name: moveit-setup-framework pilz-industrial-motion-planner moveit-servo moveit-ros
+      desktop-full
+    runs-on: macos-13
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_2_job_3
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-moveit-setup-framework ros-kilted-pilz-industrial-motion-planner
+        ros-kilted-moveit-servo ros-kilted-moveit-ros ros-kilted-desktop-full
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-moveit-setup-framework ros-kilted-pilz-industrial-motion-planner
+          ros-kilted-moveit-servo ros-kilted-moveit-ros ros-kilted-desktop-full
+        BUILD_TARGET: osx-64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_4_job_5:
+    name: moveit-setup-core-plugins moveit-setup-controllers moveit-setup-app-plugins
+      moveit-setup-srdf-plugins moveit-planners
+    runs-on: macos-13
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_3_job_4
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-moveit-setup-core-plugins ros-kilted-moveit-setup-controllers
+        ros-kilted-moveit-setup-app-plugins ros-kilted-moveit-setup-srdf-plugins ros-kilted-moveit-planners
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-moveit-setup-core-plugins ros-kilted-moveit-setup-controllers
+          ros-kilted-moveit-setup-app-plugins ros-kilted-moveit-setup-srdf-plugins
+          ros-kilted-moveit-planners
+        BUILD_TARGET: osx-64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_4_job_6:
+    name: moveit-ros-trajectory-cache
+    runs-on: macos-13
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_3_job_4
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-moveit-ros-trajectory-cache
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-moveit-ros-trajectory-cache
+        BUILD_TARGET: osx-64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_5_job_7:
+    name: moveit-setup-assistant ur-moveit-config moveit-runtime
+    runs-on: macos-13
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_4_job_5
+    - stage_4_job_6
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-moveit-setup-assistant ros-kilted-ur-moveit-config ros-kilted-moveit-runtime
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-moveit-setup-assistant ros-kilted-ur-moveit-config
+          ros-kilted-moveit-runtime
+        BUILD_TARGET: osx-64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_6_job_8:
+    name: ur-simulation-gz ur moveit
+    runs-on: macos-13
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_5_job_7
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-ur-simulation-gz ros-kilted-ur ros-kilted-moveit
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-ur-simulation-gz ros-kilted-ur ros-kilted-moveit
+        BUILD_TARGET: osx-64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+name: build_osx_64
+on:
+  push:
+    branches:
+    - buildbranch_osx
