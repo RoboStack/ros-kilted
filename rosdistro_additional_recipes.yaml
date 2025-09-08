@@ -336,3 +336,7 @@ autoware_planning_msgs:
   tag: release/humble/autoware_planning_msgs/1.9.0-1
   url: https://github.com/ros2-gbp/autoware_msgs-release.git
   version: 1.9.0
+autoware_system_msgs:
+  tag: release/humble/autoware_system_msgs/1.9.0-1
+  url: https://github.com/ros2-gbp/autoware_msgs-release.git
+  version: 1.9.0
