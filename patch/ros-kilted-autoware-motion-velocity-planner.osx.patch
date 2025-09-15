@@ -1,0 +1,16 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 00233ed..2d75cc6 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -15,6 +15,11 @@ rclcpp_components_register_node(${PROJECT_NAME}_lib
+   EXECUTABLE ${PROJECT_NAME}_node
+ )
+ 
++target_compile_options(${PROJECT_NAME}_node
++  PRIVATE
++    -Wno-deprecated-declarations
++)
++
+ ament_auto_package(INSTALL_TO_SHARE
+   launch
+   config
