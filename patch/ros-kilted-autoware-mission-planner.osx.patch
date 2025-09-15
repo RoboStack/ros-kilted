@@ -1,0 +1,28 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 007b246..3145354 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -13,6 +13,11 @@ rclcpp_components_register_node(goal_pose_visualizer_component
+   EXECUTABLE goal_pose_visualizer
+ )
+ 
++target_compile_options(goal_pose_visualizer
++  PRIVATE
++    -Wno-deprecated-declarations
++)
++
+ ament_auto_add_library(${PROJECT_NAME}_component SHARED
+   src/mission_planner/arrival_checker.cpp
+   src/mission_planner/service_utils.cpp
+@@ -24,6 +29,11 @@ rclcpp_components_register_node(${PROJECT_NAME}_component
+   EXECUTABLE mission_planner
+ )
+ 
++target_compile_options(mission_planner
++  PRIVATE
++    -Wno-deprecated-declarations
++)
++
+ ament_auto_add_library(${PROJECT_NAME}_lanelet2_plugins SHARED
+   src/lanelet2_plugins/default_planner.cpp
+   src/lanelet2_plugins/utility_functions.cpp
