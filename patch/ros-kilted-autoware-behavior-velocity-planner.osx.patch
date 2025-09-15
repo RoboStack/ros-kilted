@@ -1,0 +1,16 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index a520b02..775eed9 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -16,6 +16,11 @@ rclcpp_components_register_node(${PROJECT_NAME}_lib
+   EXECUTABLE ${PROJECT_NAME}_node
+ )
+ 
++target_compile_options(${PROJECT_NAME}_node
++  PRIVATE
++    -Wno-deprecated-declarations
++)
++
+ if(BUILD_TESTING)
+   ament_add_ros_isolated_gtest(test_${PROJECT_NAME}
+     test/test_node_interface.cpp
