@@ -11,30 +11,6 @@ index 9f8f868..bfa9cde 100644
  
  target_include_directories(pointcloud_map_loader_node
    SYSTEM PUBLIC
-@@ -27,6 +27,11 @@ rclcpp_components_register_node(pointcloud_map_loader_node
-   EXECUTABLE autoware_pointcloud_map_loader
- )
- 
-+target_compile_options(autoware_pointcloud_map_loader
-+  PRIVATE
-+    -Wno-deprecated-declarations
-+)
-+
- ament_auto_add_library(lanelet2_map_loader_node SHARED
-   src/lanelet2_map_loader/lanelet2_map_loader_node.cpp
- )
-@@ -36,6 +41,11 @@ rclcpp_components_register_node(lanelet2_map_loader_node
-   EXECUTABLE autoware_lanelet2_map_loader
- )
- 
-+target_compile_options(autoware_lanelet2_map_loader
-+  PRIVATE
-+    -Wno-deprecated-declarations
-+)
-+
- if(BUILD_TESTING)
-   add_launch_test(
-     test/lanelet2_map_loader_launch.test.py
 diff --git a/src/lanelet2_map_loader/lanelet2_map_loader_node.cpp b/src/lanelet2_map_loader/lanelet2_map_loader_node.cpp
 index 54e9432..62ae5f6 100644
 --- a/src/lanelet2_map_loader/lanelet2_map_loader_node.cpp

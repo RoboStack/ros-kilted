@@ -156,3 +156,5 @@ autoware_lanelet2_extension:
   build_number: 13
 autoware_lanelet2_extension_python:
   build_number: 13
+rosidl_runtime_cpp:
+  build_number: 13
