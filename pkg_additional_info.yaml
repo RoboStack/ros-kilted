@@ -158,3 +158,5 @@ autoware_lanelet2_extension_python:
   build_number: 13
 rosidl_runtime_cpp:
   build_number: 13
+rclcpp_components:
+  build_number: 13
