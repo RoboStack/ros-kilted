@@ -148,3 +148,11 @@ proxsuite:
     override_version: '0.7.2'
 autoware_internal_planning_msgs:
   build_number: 13
+autoware_planning_msgs:
+  build_number: 13
+autoware_system_msgs:
+  build_number: 13
+autoware_lanelet2_extension:
+  build_number: 13
+autoware_lanelet2_extension_python:
+  build_number: 13
