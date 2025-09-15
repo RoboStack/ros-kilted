@@ -1,12 +1,12 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 9f8f868..4ada06a 100644
+index 9f8f868..6f502a4 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
 @@ -27,6 +27,11 @@ rclcpp_components_register_node(pointcloud_map_loader_node
    EXECUTABLE autoware_pointcloud_map_loader
  )
  
-+target_compile_options(pointcloud_map_loader_node
++target_compile_options(autoware_pointcloud_map_loader
 +  PRIVATE
 +    -Wno-deprecated-declarations
 +)
@@ -18,7 +18,7 @@ index 9f8f868..4ada06a 100644
    EXECUTABLE autoware_lanelet2_map_loader
  )
  
-+target_compile_options(lanelet2_map_loader_node
++target_compile_options(autoware_lanelet2_map_loader
 +  PRIVATE
 +    -Wno-deprecated-declarations
 +)
