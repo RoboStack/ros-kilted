@@ -1,5 +1,5 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 9f8f868..b030133 100644
+index 9f8f868..bfa9cde 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
 @@ -15,7 +15,7 @@ ament_auto_add_library(pointcloud_map_loader_node SHARED
@@ -7,7 +7,7 @@ index 9f8f868..b030133 100644
  )
  target_link_libraries(pointcloud_map_loader_node ${PCL_LIBRARIES})
 -target_link_libraries(pointcloud_map_loader_node yaml-cpp)
-+target_link_libraries(pointcloud_map_loader_node yaml-cpp::yaml-cpp)
++target_link_libraries(pointcloud_map_loader_node yaml-cpp::yaml-cpp fmt::fmt)
  
  target_include_directories(pointcloud_map_loader_node
    SYSTEM PUBLIC
