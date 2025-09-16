@@ -1,0 +1,277 @@
+jobs:
+  stage_0_job_0:
+    name: rosidl-runtime-cpp autoware-planning-msgs autoware-system-msgs autoware-adapi-version-msgs
+      autoware-adapi-specs
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs: []
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-rosidl-runtime-cpp ros-kilted-autoware-planning-msgs
+        ros-kilted-autoware-system-msgs ros-kilted-autoware-adapi-version-msgs ros-kilted-autoware-adapi-specs
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-rosidl-runtime-cpp ros-kilted-autoware-planning-msgs
+          ros-kilted-autoware-system-msgs ros-kilted-autoware-adapi-version-msgs ros-kilted-autoware-adapi-specs
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_0_job_1:
+    name: autoware-core-vehicle
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs: []
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-autoware-core-vehicle
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-autoware-core-vehicle
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_1_job_2:
+    name: rclcpp autoware-internal-planning-msgs
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_0_job_0
+    - stage_0_job_1
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-rclcpp ros-kilted-autoware-internal-planning-msgs
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-rclcpp ros-kilted-autoware-internal-planning-msgs
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_2_job_3:
+    name: autoware-lanelet2-extension autoware-planning-test-manager autoware-planning-factor-interface
+      autoware-objects-of-interest-marker-interface autoware-crop-box-filter
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_1_job_2
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-autoware-lanelet2-extension ros-kilted-autoware-planning-test-manager
+        ros-kilted-autoware-planning-factor-interface ros-kilted-autoware-objects-of-interest-marker-interface
+        ros-kilted-autoware-crop-box-filter
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-autoware-lanelet2-extension ros-kilted-autoware-planning-test-manager
+          ros-kilted-autoware-planning-factor-interface ros-kilted-autoware-objects-of-interest-marker-interface
+          ros-kilted-autoware-crop-box-filter
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_2_job_4:
+    name: autoware-vehicle-velocity-converter autoware-planning-topic-converter autoware-perception-objects-converter
+      autoware-ground-filter autoware-default-adapi
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_1_job_2
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-autoware-vehicle-velocity-converter ros-kilted-autoware-planning-topic-converter
+        ros-kilted-autoware-perception-objects-converter ros-kilted-autoware-ground-filter
+        ros-kilted-autoware-default-adapi
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-autoware-vehicle-velocity-converter ros-kilted-autoware-planning-topic-converter
+          ros-kilted-autoware-perception-objects-converter ros-kilted-autoware-ground-filter
+          ros-kilted-autoware-default-adapi
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_2_job_5:
+    name: autoware-adapi-adaptors
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_1_job_2
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-autoware-adapi-adaptors
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-autoware-adapi-adaptors
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_3_job_6:
+    name: autoware-velocity-smoother autoware-route-handler autoware-map-loader autoware-path-generator
+      autoware-euclidean-cluster-object-detector
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_2_job_3
+    - stage_2_job_4
+    - stage_2_job_5
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-autoware-velocity-smoother ros-kilted-autoware-route-handler
+        ros-kilted-autoware-map-loader ros-kilted-autoware-path-generator ros-kilted-autoware-euclidean-cluster-object-detector
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-autoware-velocity-smoother ros-kilted-autoware-route-handler
+          ros-kilted-autoware-map-loader ros-kilted-autoware-path-generator ros-kilted-autoware-euclidean-cluster-object-detector
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_3_job_7:
+    name: autoware-map-projection-loader autoware-core-sensing autoware-core-api
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_2_job_3
+    - stage_2_job_4
+    - stage_2_job_5
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-autoware-map-projection-loader ros-kilted-autoware-core-sensing
+        ros-kilted-autoware-core-api
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-autoware-map-projection-loader ros-kilted-autoware-core-sensing
+          ros-kilted-autoware-core-api
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_4_job_8:
+    name: autoware-behavior-velocity-planner-common autoware-mission-planner autoware-lanelet2-map-visualizer
+      autoware-core-perception
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_3_job_6
+    - stage_3_job_7
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-autoware-behavior-velocity-planner-common ros-kilted-autoware-mission-planner
+        ros-kilted-autoware-lanelet2-map-visualizer ros-kilted-autoware-core-perception
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-autoware-behavior-velocity-planner-common ros-kilted-autoware-mission-planner
+          ros-kilted-autoware-lanelet2-map-visualizer ros-kilted-autoware-core-perception
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_5_job_9:
+    name: autoware-motion-velocity-planner-common autoware-behavior-velocity-planner
+      autoware-core-map
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_4_job_8
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-autoware-motion-velocity-planner-common ros-kilted-autoware-behavior-velocity-planner
+        ros-kilted-autoware-core-map
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-autoware-motion-velocity-planner-common ros-kilted-autoware-behavior-velocity-planner
+          ros-kilted-autoware-core-map
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_6_job_10:
+    name: autoware-motion-velocity-planner autoware-behavior-velocity-stop-line-module
+      autoware-motion-velocity-obstacle-stop-module autoware-core-planning
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_5_job_9
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-autoware-motion-velocity-planner ros-kilted-autoware-behavior-velocity-stop-line-module
+        ros-kilted-autoware-motion-velocity-obstacle-stop-module ros-kilted-autoware-core-planning
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-autoware-motion-velocity-planner ros-kilted-autoware-behavior-velocity-stop-line-module
+          ros-kilted-autoware-motion-velocity-obstacle-stop-module ros-kilted-autoware-core-planning
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+  stage_7_job_11:
+    name: autoware-core
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_6_job_10
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Build ros-kilted-autoware-core
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-autoware-core
+        BUILD_TARGET: linux-aarch64
+      run: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_unix.sh --target $BUILD_TARGET
+name: build_linux_aarch64
+on:
+  push:
+    branches:
+    - buildbranch_linux_aarch64
