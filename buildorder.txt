@@ -1,0 +1,6 @@
+ros-kilted-rosidl-runtime-cpp
+ros-kilted-autoware-planning-msgs
+ros-kilted-autoware-system-msgs
+ros-kilted-rclcpp
+ros-kilted-autoware-internal-planning-msgs
+ros-kilted-autoware-lanelet2-extension
