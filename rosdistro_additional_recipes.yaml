@@ -319,12 +319,32 @@ autoware_velocity_smoother:
   tag: release/humble/autoware_velocity_smoother/1.4.0-1
   url: https://github.com/ros2-gbp/autoware_core-release.git
   version: 1.4.0
-# TODO: remove autoware_internal_localization_msgs and it's sub packages after they are released in kilted
+# TODO: remove autoware msgs and it's sub packages after they are released in kilted
 autoware_internal_localization_msgs:
   tag: release/jazzy/autoware_internal_localization_msgs/1.10.0-1
   url: https://github.com/ros2-gbp/autoware_internal_msgs-release.git
   version: 1.10.0
+autoware_internal_planning_msgs:
+  tag: release/humble/autoware_internal_planning_msgs/1.12.0-1
+  url: https://github.com/ros2-gbp/autoware_internal_msgs-release.git
+  version: 1.12.0
 autoware_localization_msgs:
   tag: release/humble/autoware_localization_msgs/1.9.0-1
   url: https://github.com/ros2-gbp/autoware_msgs-release.git
-  version: 1.10.0
+  version: 1.9.0
+autoware_planning_msgs:
+  tag: release/humble/autoware_planning_msgs/1.9.0-1
+  url: https://github.com/ros2-gbp/autoware_msgs-release.git
+  version: 1.9.0
+autoware_system_msgs:
+  tag: release/humble/autoware_system_msgs/1.9.0-1
+  url: https://github.com/ros2-gbp/autoware_msgs-release.git
+  version: 1.9.0
+autoware_lanelet2_extension:
+  tag: release/humble/autoware_lanelet2_extension/0.8.0-1
+  url: https://github.com/ros2-gbp/autoware_lanelet2_extension-release.git
+  version: 0.8.0
+autoware_lanelet2_extension_python:
+  tag: release/humble/autoware_lanelet2_extension_python/0.8.0-1
+  url: https://github.com/ros2-gbp/autoware_lanelet2_extension-release.git
+  version: 0.8.0

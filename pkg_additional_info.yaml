@@ -146,3 +146,17 @@ proxsuite:
     dep_name: proxsuite
     max_pin: 'x.x'
     override_version: '0.7.2'
+autoware_internal_planning_msgs:
+  build_number: 13
+autoware_planning_msgs:
+  build_number: 13
+autoware_system_msgs:
+  build_number: 13
+autoware_lanelet2_extension:
+  build_number: 13
+autoware_lanelet2_extension_python:
+  build_number: 13
+rclcpp:
+  build_number: 13
+rosidl_runtime_cpp:
+  build_number: 13

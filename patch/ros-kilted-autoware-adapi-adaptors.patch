@@ -1,0 +1,32 @@
+diff --git a/src/initial_pose_adaptor.cpp b/src/initial_pose_adaptor.cpp
+index 3b9aaab..044e314 100644
+--- a/src/initial_pose_adaptor.cpp
++++ b/src/initial_pose_adaptor.cpp
+@@ -43,7 +43,7 @@ InitialPoseAdaptor::InitialPoseAdaptor(const rclcpp::NodeOptions & options)
+     std::bind(&InitialPoseAdaptor::on_initial_pose, this, std::placeholders::_1));
+ 
+   cli_initialize_ =
+-    create_client<Initialize::Service>(Initialize::name, rmw_qos_profile_services_default);
++    create_client<Initialize::Service>(Initialize::name, rclcpp::ServicesQoS());
+ }
+ 
+ void InitialPoseAdaptor::on_initial_pose(const PoseWithCovarianceStamped::ConstSharedPtr msg)
+diff --git a/src/routing_adaptor.cpp b/src/routing_adaptor.cpp
+index 9c89e2b..415f570 100644
+--- a/src/routing_adaptor.cpp
++++ b/src/routing_adaptor.cpp
+@@ -34,11 +34,11 @@ RoutingAdaptor::RoutingAdaptor(const rclcpp::NodeOptions & options)
+     "~/input/waypoint", 10, std::bind(&RoutingAdaptor::on_waypoint, this, _1));
+ 
+   cli_reroute_ = create_client<ChangeRoutePoints::Service>(
+-    ChangeRoutePoints::name, rmw_qos_profile_services_default);
++    ChangeRoutePoints::name, rclcpp::ServicesQoS());
+   cli_route_ =
+-    create_client<SetRoutePoints::Service>(SetRoutePoints::name, rmw_qos_profile_services_default);
++    create_client<SetRoutePoints::Service>(SetRoutePoints::name, rclcpp::ServicesQoS());
+   cli_clear_ =
+-    create_client<ClearRoute::Service>(ClearRoute::name, rmw_qos_profile_services_default);
++    create_client<ClearRoute::Service>(ClearRoute::name, rclcpp::ServicesQoS());
+ 
+   const auto state_qos = rclcpp::QoS{RouteState::depth}
+                            .reliability(RouteState::reliability)

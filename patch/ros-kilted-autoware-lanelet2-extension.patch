@@ -17,16 +17,3 @@ index a3ec429..6a64b82 100644
  ament_auto_add_executable(${PROJECT_NAME}_sample src/sample_code.cpp)
  target_link_libraries(${PROJECT_NAME}_sample
    ${PROJECT_NAME}_lib
-diff --git a/lib/query.cpp b/lib/query.cpp
-index 4c61bba..11a9cca 100644
---- a/lib/query.cpp
-+++ b/lib/query.cpp
-@@ -32,7 +32,7 @@
- #include <lanelet2_core/geometry/Lanelet.h>
- #include <lanelet2_core/primitives/Lanelet.h>
- #include <lanelet2_routing/RoutingGraph.h>
--#include <tf2/utils.h>
-+#include <tf2/utils.hpp>
- 
- #include <iostream>
- #include <utility>
