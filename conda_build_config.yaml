@@ -15,9 +15,9 @@ libxml2:
 graphviz:
   - 13.*
 vtk:
-  - 9.4.2
+  - 9.5.1
 pcl:
-  - 1.15.0
+  - 1.15.1
 ffmpeg:
   - 8
 
