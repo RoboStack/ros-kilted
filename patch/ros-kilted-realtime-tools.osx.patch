@@ -1,96 +1,13 @@
-diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 06bec49..32d1cc8 100644
---- a/CMakeLists.txt
-+++ b/CMakeLists.txt
-@@ -45,7 +45,7 @@ target_include_directories(realtime_tools PUBLIC
-   $<INSTALL_INTERFACE:include/realtime_tools>
- )
- target_link_libraries(realtime_tools PUBLIC rclcpp::rclcpp rclcpp_action::rclcpp_action rcpputils::rcpputils Threads::Threads Boost::boost)
--if(UNIX)
-+if(UNIX AND NOT APPLE)
-   target_link_libraries(realtime_tools PUBLIC cap)
- endif()
- 
-@@ -59,7 +59,7 @@ target_include_directories(thread_priority PUBLIC
-   $<INSTALL_INTERFACE:include/realtime_tools>
- )
- target_link_libraries(thread_priority PUBLIC rclcpp::rclcpp rclcpp_action::rclcpp_action rcpputils::rcpputils Threads::Threads)
--if(UNIX)
-+if(UNIX AND NOT APPLE)
-   target_link_libraries(thread_priority PUBLIC cap)
- endif()
- 
 diff --git a/include/realtime_tools/realtime_thread_safe_box.hpp b/include/realtime_tools/realtime_thread_safe_box.hpp
-index 8d652a2..fd09cb1 100644
+index a1eb9c9..1ec73e9 100644
 --- a/include/realtime_tools/realtime_thread_safe_box.hpp
 +++ b/include/realtime_tools/realtime_thread_safe_box.hpp
 @@ -40,7 +40,7 @@
  #include <utility>
  
- #include "rcpputils/pointer_traits.hpp"
+ #include <rcpputils/pointer_traits.hpp>
 -#ifndef _WIN32
 +#if !defined(_WIN32) && !defined(__APPLE__)
  #include "realtime_tools/mutex.hpp"
  #define DEFAULT_MUTEX realtime_tools::prio_inherit_mutex
  #define RECURSIVE_MUTEX realtime_tools::prio_inherit_recursive_mutex
-diff --git a/src/realtime_helpers.cpp b/src/realtime_helpers.cpp
-index daf0aa0..0e5de7c 100644
---- a/src/realtime_helpers.cpp
-+++ b/src/realtime_helpers.cpp
-@@ -32,13 +32,16 @@
- #include <windows.h>
- #else
- #include <sched.h>
--#include <sys/capability.h>
- #include <sys/mman.h>
- #include <sys/utsname.h>
- 
- #include <unistd.h>
- #endif
- 
-+#if defined(__unix__)
-+#include <sys/capability.h>
-+#endif
-+
- #include <cstring>
- #include <fstream>
- #include <iostream>
-@@ -75,6 +78,19 @@ bool configure_sched_fifo(int priority)
- #ifdef _WIN32
-   HANDLE thread = GetCurrentThread();
-   return SetThreadPriority(thread, priority);
-+#elif defined(__APPLE__)
-+    pthread_t thread = pthread_self();
-+    struct sched_param schedp;
-+    memset(&schedp, 0, sizeof(schedp));
-+    schedp.sched_priority = priority;
-+
-+    int policy = SCHED_FIFO;
-+    if (pthread_setschedparam(thread, policy, &schedp) == 0) {
-+        return true;
-+    } else {
-+        // Optionally log strerror(errno) for debugging
-+        return false;
-+    }
- #else
-   struct sched_param schedp;
-   memset(&schedp, 0, sizeof(schedp));
-@@ -87,6 +103,8 @@ std::pair<bool, std::string> lock_memory()
- {
- #ifdef _WIN32
-   return {false, "Memory locking is not supported on Windows."};
-+#elif defined(__APPLE__)
-+  return {false, "Memory locking is not supported on MacOS."};
- #else
-   auto is_capable = [](cap_value_t v) -> bool {
-     bool rc = false;
-@@ -139,6 +157,9 @@ std::pair<bool, std::string> set_thread_affinity(
- #ifdef _WIN32
-   message = "Thread affinity is not supported on Windows.";
-   return std::make_pair(false, message);
-+#elif defined(__APPLE__)
-+  message = "Memory locking is not supported on MacOS.";
-+  return std::make_pair(false, message);
- #else
-   auto set_affinity_result_message = [](int result, std::string & msg) -> bool {
-     if (result == 0) {
