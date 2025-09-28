@@ -264,3 +264,6 @@ spdlog_vendor:
 console_bridge_vendor:
   add_host: ["console_bridge"]
   add_run: ["console_bridge"]
+grid_map_octomap:
+  add_host: ["octomap"]
+  add_run: ["octomap"]
