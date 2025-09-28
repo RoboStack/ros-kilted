@@ -3,6 +3,9 @@ libcamera:
     dep_name: libcamera
     # see https://git.libcamera.org/libcamera/libcamera.git/tree/meson.build?h=v0.5.1#n65
     max_pin: 'x.x'
+    # the version on ros in the current snapshot is 0.5.2, while in conda-forge
+    # for now we only have 0.5.1, at least until https://github.com/conda-forge/libcamera-feedstock/pull/16
+    override_version: '0.5.1'
 octomap:
   generate_dummy_package_with_run_deps:
     dep_name: octomap
@@ -47,13 +50,13 @@ eigenpy:
     dep_name: eigenpy
     max_pin: 'x.x.x'
     # the version on ros is outdated w.r.t. to the conda-forge one
-    override_version: '3.10.0'
+    override_version: '3.12.0'
 pinocchio:
   generate_dummy_package_with_run_deps:
     dep_name: pinocchio
     max_pin: 'x.x.x'
     # the version on ros is outdated w.r.t. to the conda-forge one
-    override_version: '3.7.0'
+    override_version: '3.8.0'
 gtsam:
   generate_dummy_package_with_run_deps:
     dep_name: gtsam
@@ -65,6 +68,9 @@ librealsense2:
   generate_dummy_package_with_run_deps:
     dep_name: librealsense
     max_pin: 'x.x'
+    # the version on ros in the current snapshot is 2.56.4, while in conda-forge
+    # we do not have 2.56.4 but only 2.56.5
+    override_version: '2.56.5'
 libcurl_vendor:
   additional_cmake_args: "-DAMENT_VENDOR_POLICY=NEVER_VENDOR_IGNORE_SATISFIED_CHECK"
 gz_cmake_vendor:
