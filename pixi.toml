@@ -36,4 +36,4 @@ check-patches = { cmd = "python check_patches_clean_apply.py", depends-on = ["ge
 build = { cmd = "rattler-build build --recipe-dir ./recipes -m ./conda_build_config.yaml -c robostack-kilted -c https://repo.prefix.dev/conda-forge --skip-existing", depends-on = ["generate-recipes"] }
 build_one_package = { cmd = "cp ./patch/$PACKAGE.*patch ./recipes/$PACKAGE/patch/; rattler-build build --recipe ./recipes/$PACKAGE/recipe.yaml -m ./conda_build_config.yaml -c robostack-kilted -c https://repo.prefix.dev/conda-forge", env = { PACKAGE = "ros-kilted-ros-workspace" } }
 create_snapshot = { cmd = "vinca-snapshot -d kilted -o rosdistro_snapshot.yaml" }
-upload = "anaconda -t $ANACONDA_API_TOKEN upload"
+upload = "rattler-build upload anaconda -o robostack-kilted -a $ANACONDA_API_TOKEN"
