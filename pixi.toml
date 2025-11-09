@@ -1,4 +1,4 @@
-[project]
+[workspace]
 name = "ros-kilted"
 description = "RoboStack repo to package ros-kilted packages as conda packages"
 authors = ["Tobias Fischer <tobias.fischer@qut.edu.au>", "Wolf Vollprecht <w.vollprecht@gmail.com>", "Silvio Traversaro <silvio@traversaro.it>"]
@@ -23,8 +23,8 @@ m2-patch = "*"
 git = "*"
 
 [pypi-dependencies]
-# This is tipically the latest commit on main branch
-vinca = { git ="https://github.com/RoboStack/vinca.git", rev = "7d3a05e01d6898201a66ba2cf6ea771250671f58" }
+# This is typically the latest commit on main branch
+vinca = { git ="https://github.com/RoboStack/vinca.git", rev = "38e639a0bb390d99f58cde09a0d772d1d855fb29" }
 # Uncomment this line to work with a local vinca for faster iteration, but remember to comment it back
 # (and regenerate the pixi.lock) once you push the modified commit to the repo
 # vinca = { path = "../vinca", editable = true }
