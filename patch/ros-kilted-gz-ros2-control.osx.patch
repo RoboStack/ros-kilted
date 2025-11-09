@@ -1,20 +1,3 @@
-diff --git a/CMakeLists.txt b/CMakeLists.txt
-index c0d54c9..9c70117 100644
---- a/CMakeLists.txt
-+++ b/CMakeLists.txt
-@@ -19,6 +19,12 @@ find_package(pluginlib REQUIRED)
- find_package(rclcpp REQUIRED)
- find_package(yaml_cpp_vendor REQUIRED)
- 
-+# Compatibility with https://github.com/gazebosim/gz-cmake/blob/eb1c510e6278935eb742ed92c6a6d1388439f8bd/cmake/FindTINYXML2.cmake#L4
-+if(NOT TARGET TINYXML2::TINYXML2)
-+  add_library(TINYXML2::TINYXML2 INTERFACE IMPORTED)
-+  set_property(TARGET tinyxml2::tinyxml2 PROPERTY INTERFACE_LINK_LIBRARIES tinyxml2::tinyxml2)
-+endif()
-+set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
- find_package(gz_sim_vendor REQUIRED)
- find_package(gz-sim REQUIRED)
- 
 diff --git a/src/gz_ros2_control_plugin.cpp b/src/gz_ros2_control_plugin.cpp
 index 7952e78..3464bf7 100644
 --- a/src/gz_ros2_control_plugin.cpp
@@ -55,15 +38,6 @@ index 7952e78..3464bf7 100644
        "Please make sure that Gazebo ROS 2 Control is attached to a valid model.",
        model.Name(_ecm).c_str(), _entity);
      return;
-@@ -453,7 +453,7 @@ void GazeboSimROS2ControlPlugin::Configure(
-       this->dataPtr->node_->get_namespace(), options));
-   this->dataPtr->executor_->add_node(this->dataPtr->controller_manager_);
- 
--  this->dataPtr->update_rate = this->dataPtr->controller_manager_->get_update_rate();
-+  this->dataPtr->update_rate = static_cast<int>(this->dataPtr->controller_manager_->get_update_rate());
-   this->dataPtr->control_period_ = rclcpp::Duration(
-     std::chrono::duration_cast<std::chrono::nanoseconds>(
-       std::chrono::duration<double>(1.0 / static_cast<double>(this->dataPtr->update_rate))));
 diff --git a/src/gz_system.cpp b/src/gz_system.cpp
 index f99ece9..17d659c 100644
 --- a/src/gz_system.cpp
