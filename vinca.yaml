@@ -19,7 +19,7 @@ mutex_package:
     - gazebo 11.*
     - libprotobuf 6.31.1.*
     - libxml2 2.14.*
-    - vtk 9.4.2.*
+    - vtk 9.5.1.*
 
 packages_skip_by_deps:
   - if: not linux
