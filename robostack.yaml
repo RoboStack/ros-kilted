@@ -1083,6 +1083,16 @@ wget:
   robostack: [wget]
 xsimd:
   robostack: [xsimd]
+libarchive-dev:
+  robostack: [libarchive]
+libarchive:
+  robostack: [libarchive]
+magic_enum:
+  robostack: [magic_enum]
+semver:
+  robostack: [neargye-semver]
+httplib:
+  robostack: [cpp-httplib]
 xtensor:
   robostack: [xtensor ==0.24.7]
 wx-common:

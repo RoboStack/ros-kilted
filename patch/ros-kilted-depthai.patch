@@ -1,0 +1,245 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index b233062..9dfd1fd 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -875,10 +875,10 @@ if(DEPTHAI_HAS_APRIL_TAG)
+ endif()
+ 
+ # Add Backward dependency if enabled (On by default)
+-if(DEPTHAI_ENABLE_BACKWARD)
+-    target_compile_definitions(${TARGET_CORE_NAME} PRIVATE DEPTHAI_ENABLE_BACKWARD)
+-    target_link_libraries(${TARGET_CORE_NAME} PRIVATE Backward::Backward)
+-endif()
++# if(DEPTHAI_ENABLE_BACKWARD)
++#     target_compile_definitions(${TARGET_CORE_NAME} PRIVATE DEPTHAI_ENABLE_BACKWARD)
++#     target_link_libraries(${TARGET_CORE_NAME} PRIVATE Backward::Backward)
++# endif()
+ 
+ # Add patch only mode definition
+ if(DEPTHAI_USB2_PATCH_ONLY_MODE)
+diff --git a/cmake/DepthaiBootloaderDownloader.cmake b/cmake/DepthaiBootloaderDownloader.cmake
+index 5d15401..56bb191 100644
+--- a/cmake/DepthaiBootloaderDownloader.cmake
++++ b/cmake/DepthaiBootloaderDownloader.cmake
+@@ -1,6 +1,7 @@
+ # This script downloads depthai device side artifacts
+ 
+ function(DepthaiBootloaderDownload)
++    return()
+ 
+     ### VARIABLES
+     # Artifactory
+diff --git a/cmake/DepthaiDeviceKbDownloader.cmake b/cmake/DepthaiDeviceKbDownloader.cmake
+index 2cd26d5..76c975c 100644
+--- a/cmake/DepthaiDeviceKbDownloader.cmake
++++ b/cmake/DepthaiDeviceKbDownloader.cmake
+@@ -1,6 +1,7 @@
+ # This script downloads depthai device side artifacts for different device types
+ include(DownloadAndChecksum)
+ function(DepthaiDeviceDownloader)
++    return()
+ 
+     ### VARIABLES
+     # Artifactory
+diff --git a/cmake/DepthaiDownloader.cmake b/cmake/DepthaiDownloader.cmake
+index 66d555e..5b0cec9 100644
+--- a/cmake/DepthaiDownloader.cmake
++++ b/cmake/DepthaiDownloader.cmake
+@@ -1,6 +1,7 @@
+ # This script downloads depthai device side artifacts
+ include(DownloadAndChecksum)
+ function(DepthaiDownload)
++    return()
+ 
+     ### VARIABLES
+     # Artifactory 
+diff --git a/cmake/DepthaiVisualizerDownloader.cmake b/cmake/DepthaiVisualizerDownloader.cmake
+index b830096..fc42b7c 100644
+--- a/cmake/DepthaiVisualizerDownloader.cmake
++++ b/cmake/DepthaiVisualizerDownloader.cmake
+@@ -1,6 +1,7 @@
+ # This script downloads depthai device side artifacts for different device types
+ include(DownloadAndChecksum)
+ function(DepthaiVisualizerDownloader)
++    return()
+ 
+     ### VARIABLES
+     # Artifactory
+diff --git a/cmake/depthaiDependencies.cmake b/cmake/depthaiDependencies.cmake
+index 1ab5a4d..89241cd 100644
+--- a/cmake/depthaiDependencies.cmake
++++ b/cmake/depthaiDependencies.cmake
+@@ -38,7 +38,18 @@ if(NOT CONFIG_MODE OR (CONFIG_MODE AND NOT DEPTHAI_SHARED_LIBS))
+     # BZip2 (for bspatch)
+     find_package(BZip2 ${_QUIET}  REQUIRED)
+ 
+-    find_package(lz4 CONFIG REQUIRED)
++    find_package(lz4 QUIET)
++    if(NOT lz4_FOUND)
++        find_package(PkgConfig REQUIRED)
++        pkg_check_modules(lz4 REQUIRED liblz4)
++    endif()
++    if(NOT TARGET lz4::lz4)
++        add_library(lz4::lz4 INTERFACE IMPORTED)
++        set_target_properties(lz4::lz4 PROPERTIES
++            INTERFACE_INCLUDE_DIRECTORIES "${lz4_INCLUDE_DIRS}"
++            INTERFACE_LINK_LIBRARIES "${lz4_LIBRARIES}"
++        )
++    endif()
+     # FP16 for conversions
+     find_path(FP16_INCLUDE_DIR NAMES fp16.h)
+ 
+@@ -47,21 +58,38 @@ if(NOT CONFIG_MODE OR (CONFIG_MODE AND NOT DEPTHAI_SHARED_LIBS))
+     endif()
+     # libarchive for firmware packages
+     find_package(LibArchive ${_QUIET}  REQUIRED)
+-    find_package(liblzma ${_QUIET} CONFIG REQUIRED)
++    find_package(LibLZMA QUIET)
++    if(NOT LIBLZMA_FOUND)
++        find_package(PkgConfig REQUIRED)
++        pkg_check_modules(liblzma REQUIRED liblzma)
++    endif()
++    if(NOT TARGET liblzma::liblzma)
++        add_library(liblzma::liblzma INTERFACE IMPORTED)
++        if(LIBLZMA_FOUND)
++            set_target_properties(liblzma::liblzma PROPERTIES
++                INTERFACE_LINK_LIBRARIES LibLZMA::LibLZMA
++            )
++        else()
++            set_target_properties(liblzma::liblzma PROPERTIES
++                INTERFACE_INCLUDE_DIRECTORIES "${liblzma_INCLUDE_DIRS}"
++                INTERFACE_LINK_LIBRARIES "${liblzma_LIBRARIES}"
++            )
++        endif()
++    endif()
+     # httplib for Gate communication
+-    find_package(httplib ${_QUIET} CONFIG REQUIRED)
++    find_package(httplib ${_QUIET} REQUIRED)
+     # ZLIB for compressing Apps
+     find_package(ZLIB REQUIRED)
+-    find_package(Eigen3 ${_QUIET} CONFIG REQUIRED)
++    find_package(Eigen3 ${_QUIET} REQUIRED)
+ 
+     # spdlog for library and device logging
+-    find_package(spdlog ${_QUIET} CONFIG REQUIRED)
++    find_package(spdlog ${_QUIET} REQUIRED)
+ 
+     find_package(OpenSSL REQUIRED)
+     # Log collection dependencies
+     if(DEPTHAI_ENABLE_CURL)
+-        find_package(CURL ${_QUIET} CONFIG REQUIRED)
+-        find_package(cpr ${_QUIET} CONFIG REQUIRED)
++        find_package(CURL ${_QUIET} REQUIRED)
++        find_package(cpr ${_QUIET} REQUIRED)
+     endif()
+ 
+     # Backward
+@@ -69,15 +97,15 @@ if(NOT CONFIG_MODE OR (CONFIG_MODE AND NOT DEPTHAI_SHARED_LIBS))
+         # Disable automatic check for additional stack unwinding libraries
+         # Just use the default compiler one
+         set(STACK_DETAILS_AUTO_DETECT FALSE CACHE BOOL "Auto detect backward's stack details dependencies")
+-        find_package(Backward ${_QUIET} CONFIG REQUIRED)
++        find_package(Backward ${_QUIET} REQUIRED)
+         unset(STACK_DETAILS_AUTO_DETECT)
+     endif()
+-    find_package(yaml-cpp ${_QUIET} CONFIG REQUIRED)
+-    find_package(semver ${_QUIET} CONFIG REQUIRED)
++    find_package(yaml-cpp ${_QUIET} REQUIRED)
++    find_package(semver ${_QUIET} REQUIRED)
+     if(DEPTHAI_HAS_APRIL_TAG)
+-        find_package(apriltag ${_QUIET} CONFIG REQUIRED)
++        find_package(apriltag ${_QUIET} REQUIRED)
+     endif()
+-    find_package(magic_enum ${_QUIET} CONFIG REQUIRED)
++    find_package(magic_enum ${_QUIET} REQUIRED)
+ endif()
+ 
+ # Xtensor
+@@ -169,8 +197,11 @@ set(BUILD_SHARED_LIBS OFF)
+ set(XLINK_ENABLE_LIBUSB ${DEPTHAI_ENABLE_LIBUSB} CACHE BOOL "Enable libusb" FORCE)
+ set(XLINK_INSTALL_PUBLIC_ONLY ON CACHE BOOL "Install only public headers" FORCE)
+ if(DEPTHAI_ENABLE_LIBUSB)
+-    find_package(PkgConfig REQUIRED)
+-    pkg_check_modules(libusb REQUIRED libusb-1.0)
++    find_package(usb-1.0 QUIET)
++    if(NOT usb-1.0_FOUND)
++        find_package(PkgConfig REQUIRED)
++        pkg_check_modules(libusb REQUIRED libusb-1.0)
++    endif()
+ endif()
+ set(XLINK_LIBUSB_SYSTEM ON)
+ if(DEPTHAI_XLINK_LOCAL AND (NOT CONFIG_MODE))
+diff --git a/cmake/depthaiOptions.cmake b/cmake/depthaiOptions.cmake
+index d5eba89..b6af4bd 100644
+--- a/cmake/depthaiOptions.cmake
++++ b/cmake/depthaiOptions.cmake
+@@ -40,7 +40,7 @@ option(DEPTHAI_NEW_FIND_PYTHON "Use new FindPython module" ON)
+ option(DEPTHAI_INSTALL "Enable install target for depthai-core targets" ON)
+ 
+ # ---------- Dependency Management -------------
+-option(DEPTHAI_BOOTSTRAP_VCPKG "Automatically bootstrap VCPKG" ON)
++option(DEPTHAI_BOOTSTRAP_VCPKG "Automatically bootstrap VCPKG" OFF)
+ option(DEPTHAI_VCPKG_INTERNAL_ONLY "Use VCPKG internally, but not for interface libraries" ON)
+ 
+ set(USE_EXTERNAL_INTERFACE_LIBS_DEFAULT ON)
+@@ -48,11 +48,11 @@ if(DEPTHAI_VCPKG_INTERNAL_ONLY)
+     set(USE_EXTERNAL_INTERFACE_LIBS_DEFAULT OFF)
+ endif()
+ 
+-option(DEPTHAI_JSON_EXTERNAL "Use external nlohmann_json library" ${USE_EXTERNAL_INTERFACE_LIBS_DEFAULT})
+-option(DEPTHAI_LIBNOP_EXTERNAL "Use external libnop library" ${USE_EXTERNAL_INTERFACE_LIBS_DEFAULT})
+-option(DEPTHAI_XTENSOR_EXTERNAL "Use external xtensor library" ${USE_EXTERNAL_INTERFACE_LIBS_DEFAULT})
++option(DEPTHAI_JSON_EXTERNAL "Use external nlohmann_json library" ON)
++option(DEPTHAI_LIBNOP_EXTERNAL "Use external libnop library" OFF)
++option(DEPTHAI_XTENSOR_EXTERNAL "Use external xtensor library" ON)
+ 
+-option(DEPTHAI_DYNAMIC_CALIBRATION_SUPPORT "Enable Dynamic Calibration support" ${DEPTHAI_DEFAULT_DYNAMIC_CALIBRATION_SUPPORT})
++option(DEPTHAI_DYNAMIC_CALIBRATION_SUPPORT "Enable Dynamic Calibration support" OFF)
+ 
+ # ---------- Platform / Compiler Tweaks ---------
+ if(CMAKE_SIZEOF_VOID_P EQUAL 4 AND DEPTHAI_DYNAMIC_CALIBRATION_SUPPORT)
+@@ -77,7 +77,7 @@ if(ANDROID OR EMSCRIPTEN)
+     # Backward not supported currently on Android
+     set(DEPTHAI_ENABLE_BACKWARD OFF CACHE BOOL "" FORCE)
+ else()
+-    option(DEPTHAI_ENABLE_BACKWARD "Enable stacktrace printing on crash using Backward" ON)
++    option(DEPTHAI_ENABLE_BACKWARD "Enable stacktrace printing on crash using Backward" OFF)
+ endif()
+ 
+ if(WIN32)
+@@ -101,16 +101,16 @@ else()
+ endif()
+ 
+ if(DEPTHAI_ENABLE_REMOTE_CONNECTION)
+-    option(DEPTHAI_EMBED_FRONTEND "Embed frontend resources into library" ON)
++    option(DEPTHAI_EMBED_FRONTEND "Embed frontend resources into library" OFF)
+ else()
+     option(DEPTHAI_EMBED_FRONTEND "Embed frontend resources into library" OFF)
+ endif()
+ 
+ # ---------- Embedded firmware  ---------------------------
+-option(DEPTHAI_ENABLE_DEVICE_FW "Enable MyriadX Device FW" ON)
+-option(DEPTHAI_ENABLE_DEVICE_BOOTLOADER_FW "Enable MyriadX Device Bootloader FW" ON)
++option(DEPTHAI_ENABLE_DEVICE_FW "Enable MyriadX Device FW" OFF)
++option(DEPTHAI_ENABLE_DEVICE_BOOTLOADER_FW "Enable MyriadX Device Bootloader FW" OFF)
+ option(DEPTHAI_ENABLE_DEVICE_RVC3_FW "Enable RVC3 Device FW" OFF)
+-option(DEPTHAI_ENABLE_DEVICE_RVC4_FW "Enable RVC4 Device FW" ON)
++option(DEPTHAI_ENABLE_DEVICE_RVC4_FW "Enable RVC4 Device FW" OFF)
+ option(DEPTHAI_BINARIES_RESOURCE_COMPILE "Compile Depthai device side binaries into library" ON)
+ 
+ # ---------- Development Aids -------------------
+diff --git a/package.xml b/package.xml
+index 20e0dce..6c97400 100644
+--- a/package.xml
++++ b/package.xml
+@@ -18,6 +18,10 @@
+     <depend>libopencv-dev</depend>
+     <depend>nlohmann-json-dev</depend>
+     <depend>curl</depend>
++    <depend>libarchive</depend>
++    <depend>httplib</depend>
++    <depend>semver</depend>
++    <depend>magic_enum</depend>
+     <depend>zip</depend>
+     <depend>tar</depend>
+     <depend>unzip</depend>

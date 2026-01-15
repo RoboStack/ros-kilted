@@ -215,6 +215,15 @@ packages_select_by_deps:
       # see https://github.com/RoboStack/ros-jazzy/pull/79#issuecomment-2993499990
       - grid_map
 
+  - depthai
+  - depthai-ros
+  - depthai_bridge
+  - depthai_descriptions
+  - depthai_examples
+  - depthai_filters
+  - depthai_ros_driver
+  - depthai_ros_msgs
+
 patch_dir: patch
 rosdistro_snapshot: rosdistro_snapshot.yaml
 rosdistro_additional_recipes: rosdistro_additional_recipes.yaml

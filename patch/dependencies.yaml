@@ -1,5 +1,6 @@
 ament_package:
   add_host: ['importlib_resources']
+depthai: {}
 foxglove_bridge:
   add_host: ["ros-kilted-ament-cmake"]
 ros_ign_interfaces:
