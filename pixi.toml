@@ -1,4 +1,4 @@
-[project]
+[workspace]
 name = "ros-kilted"
 description = "RoboStack repo to package ros-kilted packages as conda packages"
 authors = ["Tobias Fischer <tobias.fischer@qut.edu.au>", "Wolf Vollprecht <w.vollprecht@gmail.com>", "Silvio Traversaro <silvio@traversaro.it>"]
