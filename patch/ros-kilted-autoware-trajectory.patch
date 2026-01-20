@@ -1,3 +1,15 @@
+diff --git a/include/autoware/trajectory/interpolator/detail/interpolator_common_interface.hpp b/include/autoware/trajectory/interpolator/detail/interpolator_common_interface.hpp
+index e339508816..67faba08c8 100644
+--- a/include/autoware/trajectory/interpolator/detail/interpolator_common_interface.hpp
++++ b/include/autoware/trajectory/interpolator/detail/interpolator_common_interface.hpp
+@@ -21,6 +21,7 @@
+ 
+ #include <utility>
+ #include <vector>
++#include <algorithm>
+ 
+ namespace autoware::experimental::trajectory::interpolator::detail
+ {
 diff --git a/include/autoware/trajectory/interpolator/lane_ids_interpolator.hpp b/include/autoware/trajectory/interpolator/lane_ids_interpolator.hpp
 index b2ce72b..35ba18f 100644
 --- a/include/autoware/trajectory/interpolator/lane_ids_interpolator.hpp
