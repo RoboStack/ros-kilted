@@ -55,12 +55,12 @@ packages_select_by_deps:
   - diagnostics
   - teleop
   - robot
+tmp_skip:
   - perception
   - navigation2
   - simulation
   - desktop_full
 
-packages_temp_skip:
   - moveit
   - moveit-planners-chomp
   - moveit-servo
