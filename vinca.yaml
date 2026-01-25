@@ -47,7 +47,7 @@ packages_select_by_deps:
   - ament_cmake_catch2
   - ament_cmake_mypy
 
-  - desktop
+  # - desktop
   - ros_base
   - ros_environment
   - ros_workspace
