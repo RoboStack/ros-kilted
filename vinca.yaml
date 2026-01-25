@@ -55,7 +55,6 @@ packages_select_by_deps:
   - diagnostics
   - teleop
   - robot
-tmp_skip:
   - perception
   - navigation2
   - simulation
