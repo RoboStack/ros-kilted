@@ -60,7 +60,7 @@ packages_select_by_deps:
 
   - desktop
   - desktop_full
-tmp_skip:
+
   - moveit
   - moveit-planners-chomp
   - moveit-servo
