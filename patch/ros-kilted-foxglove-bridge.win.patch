@@ -2,6 +2,15 @@ diff --git a/CMakeLists.txt b/CMakeLists.txt
 index a72a85b..8b69dda 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
+@@ -18,7 +18,7 @@ option(USE_LOCAL_SDK "Use pre-built Foxglove SDK binaries from local source tree
+ 
+ macro(enable_strict_compiler_warnings target)
+   if (MSVC)
+-    target_compile_options(${target} PRIVATE /WX /W4)
++    target_compile_options(${target} PRIVATE /W4)
+   elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+     target_compile_options(${target} PRIVATE -Wall -Wextra -Wpedantic -Werror -Wold-style-cast -Wfloat-equal -Wmost -Wunused-exception-parameter)
+   else()
 @@ -91,7 +103,16 @@ else()
    file(GLOB_RECURSE FOXGLOVE_SDK_SOURCES CONFIGURE_DEPENDS "${foxglove_sdk_SOURCE_DIR}/src/*.cpp")
    target_sources(foxglove_cpp_static PRIVATE ${FOXGLOVE_SDK_SOURCES})
