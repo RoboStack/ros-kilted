@@ -20,6 +20,41 @@ index a72a85b..8b69dda 100644
  endif()
  
  find_program(GIT_SCM git DOC "Git version control")
+diff --git a/src/message_definition_cache.cpp b/src/message_definition_cache.cpp
+index f338db9..d766894 100644
+--- a/src/message_definition_cache.cpp
++++ b/src/message_definition_cache.cpp
+@@ -225,16 +225,16 @@ const MessageSpec& MessageDefinitionCache::load_message_spec(
+ 
+   // Find the first line that ends with the filename we're looking for
+   const auto lines = split_string(index_contents);
+-  const auto it = std::find_if(lines.begin(), lines.end(), [&filename](const std::string& line) {
++  const auto line_it = std::find_if(lines.begin(), lines.end(), [&filename](const std::string& line) {
+     std::filesystem::path filePath(line);
+     return filePath.filename() == filename;
+   });
+-  if (it == lines.end()) {
++  if (line_it == lines.end()) {
+     throw DefinitionNotFoundError(definition_identifier.package_resource_name);
+   }
+ 
+   // Read the file
+-  const std::string full_path = share_dir + std::filesystem::path::preferred_separator + *it;
++  const std::filesystem::path full_path = std::filesystem::path(share_dir) / *line_it;
+   std::ifstream file{full_path};
+   if (!file.good()) {
+     throw DefinitionNotFoundError(definition_identifier.package_resource_name);
+@@ -376,8 +376,8 @@ std::pair<MessageDefinitionFormat, const std::string&> MessageDefinitionCache::g
+     result = delimiter(root_definition_identifier) + append_recursive(root_definition_identifier);
+   }
+ 
+-  auto [it, _] = full_text_cache_.emplace(root_package_resource_name, result);
+-  return {format, it->second};
++  auto [cache_it, _] = full_text_cache_.emplace(root_package_resource_name, result);
++  return {format, cache_it->second};
+ }
+ 
+ }  // namespace foxglove_bridge
 diff --git a/src/ros2_foxglove_bridge.cpp b/src/ros2_foxglove_bridge.cpp
 index 978c732..83dce52 100644
 --- a/src/ros2_foxglove_bridge.cpp
