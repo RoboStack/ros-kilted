@@ -28,7 +28,6 @@ packages_skip_by_deps:
       - tlsf
       - tlsf_cpp
 
-
 packages_remove_from_deps:
   - if: not linux
     then:
@@ -36,7 +35,6 @@ packages_remove_from_deps:
       - rttest
       - tlsf
       - tlsf_cpp
-
 
 skip_existing:
   # - output
