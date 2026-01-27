@@ -1,0 +1,122 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/prefix-dev/recipe-format/main/schema.json
+
+package:
+  name: ros-kilted-autoware-lanelet2-extension
+  version: 0.8.0
+source:
+  git: https://github.com/ros2-gbp/autoware_lanelet2_extension-release.git
+  tag: release/humble/autoware_lanelet2_extension/0.8.0-1
+  target_directory: ros-kilted-autoware-lanelet2-extension/src/work
+  patches:
+    - patch/ros-kilted-autoware-lanelet2-extension.patch
+
+build:
+  script: ${{ '$RECIPE_DIR/build_ament_cmake.sh' if unix or wasm32 else '%RECIPE_DIR%\\bld_ament_cmake.bat' }}
+  number: 15
+  post_process:
+    - files:
+        - '*.pc'
+      regex: (?:-L|-I)?"?([^;\s]+/sysroot/)
+      replacement: $$(CONDA_BUILD_SYSROOT_S)
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/sysroot)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/MacOSX\d*\.?\d*\.sdk)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+about:
+  license: Apache-2.0
+  summary: The autoware_lanelet2_extension package contains libraries to handle Lanelet2 format data.
+extra:
+  recipe-maintainers:
+    - ros-forge
+
+requirements:
+  build:
+    - ${{ compiler('cxx') }}
+    - ${{ compiler('c') }}
+    - if: target_platform!='emscripten-wasm32'
+      then:
+        - ${{ stdlib('c') }}
+    - ninja
+    - python
+    - setuptools
+    - git
+    - git-lfs
+    - if: unix
+      then:
+        - patch
+        - make
+        - coreutils
+    - if: win
+      then:
+        - m2-patch
+    - if: osx
+      then:
+        - tapi
+    - if: build_platform != target_platform
+      then:
+        - pkg-config
+    - cmake
+    - cython
+    - if: build_platform != target_platform
+      then:
+        - python
+        - cross-python_${{ target_platform }}
+        - numpy
+  host:
+    - if: build_platform == target_platform
+      then:
+        - pkg-config
+    - geographiclib-cpp
+    - numpy
+    - pip
+    - pugixml
+    - python
+    - range-v3
+    - ros-kilted-ament-cmake-auto
+    - ros-kilted-ament-cmake-ros
+    - ros-kilted-autoware-cmake
+    - ros-kilted-autoware-map-msgs
+    - ros-kilted-autoware-planning-msgs
+    - ros-kilted-geometry-msgs
+    - ros-kilted-lanelet2-core
+    - ros-kilted-lanelet2-io
+    - ros-kilted-lanelet2-maps
+    - ros-kilted-lanelet2-projection
+    - ros-kilted-lanelet2-routing
+    - ros-kilted-lanelet2-traffic-rules
+    - ros-kilted-lanelet2-validation
+    - ros-kilted-rclcpp
+    - ros-kilted-ros-environment
+    - ros-kilted-ros-workspace
+    - ros-kilted-tf2
+    - ros-kilted-tf2-geometry-msgs
+    - ros-kilted-visualization-msgs
+    - ros2-distro-mutex 0.13.* kilted_*
+  run:
+    - geographiclib-cpp
+    - pugixml
+    - python
+    - range-v3
+    - ros-kilted-autoware-map-msgs
+    - ros-kilted-autoware-planning-msgs
+    - ros-kilted-geometry-msgs
+    - ros-kilted-lanelet2-core
+    - ros-kilted-lanelet2-io
+    - ros-kilted-lanelet2-maps
+    - ros-kilted-lanelet2-projection
+    - ros-kilted-lanelet2-routing
+    - ros-kilted-lanelet2-traffic-rules
+    - ros-kilted-lanelet2-validation
+    - ros-kilted-rclcpp
+    - ros-kilted-ros-workspace
+    - ros-kilted-tf2
+    - ros-kilted-tf2-geometry-msgs
+    - ros-kilted-visualization-msgs
+    - ros2-distro-mutex 0.13.* kilted_*
+    - if: osx and x86_64
+      then:
+        - __osx >=${{ MACOSX_DEPLOYMENT_TARGET|default('10.14') }}
