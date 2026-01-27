@@ -1,0 +1,12 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 3e70189..ef0ebad 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -39,6 +39,7 @@ find_package(Eigen3 REQUIRED)
+ 
+ find_package(ament_cmake REQUIRED)
+ find_package(assimp REQUIRED)
++find_package(Boost REQUIRED COMPONENTS thread)
+ find_package(console_bridge REQUIRED)
+ find_package(console_bridge_vendor REQUIRED)
+ find_package(eigen_stl_containers REQUIRED)

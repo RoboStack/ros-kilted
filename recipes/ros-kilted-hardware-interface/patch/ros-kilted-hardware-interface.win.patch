@@ -1,0 +1,19 @@
+diff --git a/include/hardware_interface/hardware_info.hpp b/include/hardware_interface/hardware_info.hpp
+index 801dd0ff2..d265ff8be 100644
+--- a/include/hardware_interface/hardware_info.hpp
++++ b/include/hardware_interface/hardware_info.hpp
+@@ -21,6 +21,14 @@
+ 
+ #include "joint_limits/joint_limits.hpp"
+ 
++#ifdef TRUE
++#undef TRUE
++#endif
++
++#ifdef FALSE
++#undef FALSE
++#endif
++
+ namespace hardware_interface
+ {
+ /**

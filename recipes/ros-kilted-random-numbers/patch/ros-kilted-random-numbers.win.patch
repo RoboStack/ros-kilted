@@ -1,0 +1,13 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index b532d3b..4232532 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -11,7 +11,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC
+     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+     $<INSTALL_INTERFACE:include/${PROJECT_NAME}>
+ )
+-target_link_libraries(${PROJECT_NAME} PUBLIC Boost::random)
++target_link_libraries(${PROJECT_NAME} PUBLIC Boost::random Boost::thread)
+ ament_export_targets(export_${PROJECT_NAME} HAS_LIBRARY_TARGET)
+ 
+ set_target_properties(${PROJECT_NAME} PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS TRUE)

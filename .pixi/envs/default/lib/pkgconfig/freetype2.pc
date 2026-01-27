@@ -1,0 +1,14 @@
+prefix=/home/runner/work/ros-kilted/ros-kilted/.pixi/envs/default
+exec_prefix=/home/runner/work/ros-kilted/ros-kilted/.pixi/envs/default
+libdir=/home/runner/work/ros-kilted/ros-kilted/.pixi/envs/default/lib
+includedir=/home/runner/work/ros-kilted/ros-kilted/.pixi/envs/default/include
+
+Name: FreeType 2
+URL: https://freetype.org
+Description: A free, high-quality, and portable font engine.
+Version: 26.2.20
+Requires: 
+Requires.private: zlib, libpng
+Libs: -L/home/runner/work/ros-kilted/ros-kilted/.pixi/envs/default/lib -lfreetype
+Libs.private: 
+Cflags: -I${includedir}/freetype2

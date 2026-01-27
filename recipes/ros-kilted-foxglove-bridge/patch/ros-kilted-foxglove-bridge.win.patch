@@ -1,0 +1,76 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index a72a85b..8b69dda 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -18,7 +18,7 @@ option(USE_LOCAL_SDK "Use pre-built Foxglove SDK binaries from local source tree
+ 
+ macro(enable_strict_compiler_warnings target)
+   if (MSVC)
+-    target_compile_options(${target} PRIVATE /WX /W4)
++    target_compile_options(${target} PRIVATE /W4)
+   elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+     target_compile_options(${target} PRIVATE -Wall -Wextra -Wpedantic -Werror -Wold-style-cast -Wfloat-equal -Wmost -Wunused-exception-parameter)
+   else()
+@@ -91,7 +103,16 @@ else()
+   file(GLOB_RECURSE FOXGLOVE_SDK_SOURCES CONFIGURE_DEPENDS "${foxglove_sdk_SOURCE_DIR}/src/*.cpp")
+   target_sources(foxglove_cpp_static PRIVATE ${FOXGLOVE_SDK_SOURCES})
+   set_target_properties(foxglove_cpp_static PROPERTIES POSITION_INDEPENDENT_CODE ON)
+-  target_link_libraries(foxglove_cpp_static PRIVATE ${foxglove_sdk_SOURCE_DIR}/lib/libfoxglove.a)
++  if(MSVC)
++    target_link_libraries(foxglove_cpp_static PRIVATE
++      ${foxglove_sdk_SOURCE_DIR}/lib/foxglove.lib
++      Ws2_32.lib
++      Userenv.lib
++      Ntdll.lib
++    )
++  else()
++    target_link_libraries(foxglove_cpp_static PRIVATE ${foxglove_sdk_SOURCE_DIR}/lib/libfoxglove.a)
++  endif()
+ endif()
+ 
+ find_program(GIT_SCM git DOC "Git version control")
+diff --git a/src/message_definition_cache.cpp b/src/message_definition_cache.cpp
+index f338db9..d766894 100644
+--- a/src/message_definition_cache.cpp
++++ b/src/message_definition_cache.cpp
+@@ -235,16 +235,16 @@ const MessageSpec& MessageDefinitionCache::load_message_spec(
+ 
+   // Find the first line that ends with the filename we're looking for
+   const auto lines = split_string(index_contents);
+-  const auto it = std::find_if(lines.begin(), lines.end(), [&filename](const std::string& line) {
++  const auto line_it = std::find_if(lines.begin(), lines.end(), [&filename](const std::string& line) {
+     std::filesystem::path filePath(line);
+     return filePath.filename() == filename;
+   });
+-  if (it == lines.end()) {
++  if (line_it == lines.end()) {
+     throw DefinitionNotFoundError(definition_identifier.package_resource_name);
+   }
+ 
+   // Read the file
+-  const std::string full_path = share_dir + std::filesystem::path::preferred_separator + *it;
++  const std::filesystem::path full_path = std::filesystem::path(share_dir) / *line_it;
+   std::ifstream file{full_path};
+   if (!file.good()) {
+     throw DefinitionNotFoundError(definition_identifier.package_resource_name);
+@@ -386,9 +386,9 @@ std::pair<MessageDefinitionFormat, const std::string&> MessageDefinitionCache::g
+     result = delimiter(root_definition_identifier) + append_recursive(root_definition_identifier);
+   }
+ 
+-  auto [it, _] =
++  auto [cache_it, _] =
+     full_text_cache_.emplace(root_package_resource_name, std::make_pair(format, result));
+-  return it->second;
++  return cache_it->second;
+ }
+ 
+ }  // namespace foxglove_bridge
+diff --git a/src/ros2_foxglove_bridge.cpp b/src/ros2_foxglove_bridge.cpp
+index 978c732..83dce52 100644
+--- a/src/ros2_foxglove_bridge.cpp
++++ b/src/ros2_foxglove_bridge.cpp
+@@ -1,3 +1,4 @@
++#define _CRT_SECURE_NO_WARNINGS
+ #include <filesystem>
+ #include <fstream>
+ #include <unordered_set>
