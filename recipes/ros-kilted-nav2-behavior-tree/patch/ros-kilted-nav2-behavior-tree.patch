@@ -1,0 +1,13 @@
+diff --git a/include/nav2_behavior_tree/utils/loop_rate.hpp b/include/nav2_behavior_tree/utils/loop_rate.hpp
+index d7ebd5b4a..265771427 100644
+--- a/include/nav2_behavior_tree/utils/loop_rate.hpp
++++ b/include/nav2_behavior_tree/utils/loop_rate.hpp
+@@ -61,7 +61,7 @@ public:
+     auto time_to_sleep = next_interval - now;
+     std::chrono::nanoseconds time_to_sleep_ns(time_to_sleep.nanoseconds());
+     // Sleep (can get interrupted by emitWakeUpSignal())
+-    tree_->sleep(time_to_sleep_ns);
++    tree_->sleep(std::chrono::duration_cast<std::chrono::system_clock::duration>(time_to_sleep_ns));
+     return true;
+   }
+ 

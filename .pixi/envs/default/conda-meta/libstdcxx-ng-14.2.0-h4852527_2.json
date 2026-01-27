@@ -1,0 +1,33 @@
+{
+  "arch": "x86_64",
+  "build": "h4852527_2",
+  "build_number": 2,
+  "depends": [
+    "libstdcxx 14.2.0 h8f9b012_2"
+  ],
+  "license": "GPL-3.0-only WITH GCC-exception-3.1",
+  "license_family": "GPL",
+  "md5": "c75da67f045c2627f59e6fcb5f4e3a9b",
+  "name": "libstdcxx-ng",
+  "platform": "linux",
+  "purls": [],
+  "sha256": "e86f38b007cf97cc2c67cd519f2de12a313c4ee3f5ef11652ad08932a5e34189",
+  "size": 53830,
+  "subdir": "linux-64",
+  "timestamp": 1740240722530,
+  "version": "14.2.0",
+  "fn": "libstdcxx-ng-14.2.0-h4852527_2.conda",
+  "url": "https://repo.prefix.dev/conda-forge/linux-64/libstdcxx-ng-14.2.0-h4852527_2.conda",
+  "channel": "https://repo.prefix.dev/conda-forge/",
+  "extracted_package_dir": "/home/runner/.cache/rattler/cache/pkgs/libstdcxx-ng-14.2.0-h4852527_2",
+  "requested_specs": [],
+  "files": [],
+  "paths_data": {
+    "paths_version": 1,
+    "paths": []
+  },
+  "link": {
+    "source": "/home/runner/.cache/rattler/cache/pkgs/libstdcxx-ng-14.2.0-h4852527_2",
+    "type": 1
+  }
+}
