@@ -146,11 +146,14 @@ packages_select_by_deps:
 
   - proxsuite
 
+  - asio_cmake_module
   - battery_state_broadcaster
   - nobleo_socketcan_bridge
   - polygon_msgs
   - ros2_fmt_logger
   - rplidar_ros
+  - serial_driver
+  - swri_console
 
   # These packages are only built on Linux as they depend on Linux-specific API
   - if: linux
