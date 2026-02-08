@@ -148,7 +148,6 @@ packages_select_by_deps:
 
   - asio_cmake_module
   - battery_state_broadcaster
-  - nobleo_socketcan_bridge
   - polygon_msgs
   - ros2_fmt_logger
   - rplidar_ros
@@ -159,6 +158,7 @@ packages_select_by_deps:
   - if: linux
     then:
       # Depends on socketcan
+      - nobleo_socketcan_bridge
       - ros2_socketcan
       # Depends on v4l
       - usb_cam
