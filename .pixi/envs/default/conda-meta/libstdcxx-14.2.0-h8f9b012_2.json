@@ -1,0 +1,66 @@
+{
+  "arch": "x86_64",
+  "build": "h8f9b012_2",
+  "build_number": 2,
+  "depends": [
+    "__glibc >=2.17,<3.0.a0",
+    "libgcc 14.2.0 h767d61c_2"
+  ],
+  "license": "GPL-3.0-only WITH GCC-exception-3.1",
+  "license_family": "GPL",
+  "md5": "a78c856b6dc6bf4ea8daeb9beaaa3fb0",
+  "name": "libstdcxx",
+  "platform": "linux",
+  "purls": [],
+  "sha256": "8f5bd92e4a24e1d35ba015c5252e8f818898478cb3bc50bd8b12ab54707dc4da",
+  "size": 3884556,
+  "subdir": "linux-64",
+  "timestamp": 1740240685253,
+  "version": "14.2.0",
+  "fn": "libstdcxx-14.2.0-h8f9b012_2.conda",
+  "url": "https://repo.prefix.dev/conda-forge/linux-64/libstdcxx-14.2.0-h8f9b012_2.conda",
+  "channel": "https://repo.prefix.dev/conda-forge/",
+  "extracted_package_dir": "/home/runner/.cache/rattler/cache/pkgs/libstdcxx-14.2.0-h8f9b012_2",
+  "requested_specs": [],
+  "files": [
+    "share/licenses/libstdc++/RUNTIME.LIBRARY.EXCEPTION",
+    "lib/libstdc++.so",
+    "lib/libstdc++.so.6",
+    "lib/libstdc++.so.6.0.33"
+  ],
+  "paths_data": {
+    "paths_version": 1,
+    "paths": [
+      {
+        "_path": "share/licenses/libstdc++/RUNTIME.LIBRARY.EXCEPTION",
+        "path_type": "hardlink",
+        "sha256": "9d6b43ce4d8de0c878bf16b54d8e7a10d9bd42b75178153e3af6a815bdc90f74",
+        "size_in_bytes": 3324
+      },
+      {
+        "_path": "lib/libstdc++.so",
+        "path_type": "softlink",
+        "sha256": "629e62ae3ccde6c48b8910e7152f82ea90c12fc8a539146a96be8e1b0719c1b0",
+        "sha256_in_prefix": "6bf7890d9fe68d69e6b517a675d1b691105ecfdca457ad7eeec76eee59221b3c",
+        "size_in_bytes": 13992560
+      },
+      {
+        "_path": "lib/libstdc++.so.6",
+        "path_type": "softlink",
+        "sha256": "629e62ae3ccde6c48b8910e7152f82ea90c12fc8a539146a96be8e1b0719c1b0",
+        "sha256_in_prefix": "6bf7890d9fe68d69e6b517a675d1b691105ecfdca457ad7eeec76eee59221b3c",
+        "size_in_bytes": 13992560
+      },
+      {
+        "_path": "lib/libstdc++.so.6.0.33",
+        "path_type": "hardlink",
+        "sha256": "629e62ae3ccde6c48b8910e7152f82ea90c12fc8a539146a96be8e1b0719c1b0",
+        "size_in_bytes": 13992560
+      }
+    ]
+  },
+  "link": {
+    "source": "/home/runner/.cache/rattler/cache/pkgs/libstdcxx-14.2.0-h8f9b012_2",
+    "type": 1
+  }
+}

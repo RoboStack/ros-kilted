@@ -1,0 +1,44 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/prefix-dev/recipe-format/main/schema.json
+
+package:
+  name: ros-kilted-magic-enum
+  version: 0.9.7
+
+build:
+  number: 15
+  script: ''
+  post_process:
+    - files:
+        - '*.pc'
+      regex: (?:-L|-I)?"?([^;\s]+/sysroot/)
+      replacement: $$(CONDA_BUILD_SYSROOT_S)
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/sysroot)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/MacOSX\d*\.?\d*\.sdk)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+about:
+  license: MIT
+  summary: Static reflection for enums (to string, from string, iteration) for modern C++, work with any enum type without any macro or boilerplate code
+extra:
+  recipe-maintainers:
+    - ros-forge
+
+requirements:
+  build: []
+  host:
+    - python
+    - ros-kilted-ros-environment
+    - ros-kilted-ros-workspace
+    - ros2-distro-mutex 0.13.* kilted_*
+  run:
+    - magic_enum >=0.9.7, <0.10.0a0
+    - python
+    - ros-kilted-ros-workspace
+    - ros2-distro-mutex 0.13.* kilted_*
+    - if: osx and x86_64
+      then:
+        - __osx >=${{ MACOSX_DEPLOYMENT_TARGET|default('10.14') }}
