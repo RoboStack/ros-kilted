@@ -150,7 +150,6 @@ packages_select_by_deps:
   - battery_state_broadcaster
   - polygon_msgs
   - ros2_fmt_logger
-  - rplidar_ros
   - serial_driver
   - swri_console
 
@@ -181,6 +180,7 @@ packages_select_by_deps:
     then:
       - plotjuggler-ros
       - foxglove_compressed_video_transport
+      - rplidar_ros
       - velodyne
       - moveit-py
       - moveit-ros-perception
