@@ -1,0 +1,276 @@
+{
+  "arch": "x86_64",
+  "build": "hb9d3cd8_0",
+  "build_number": 0,
+  "depends": [
+    "__glibc >=2.17,<3.0.a0",
+    "libgcc >=13"
+  ],
+  "license": "MIT",
+  "license_family": "MIT",
+  "md5": "9af0e7981755f09c81421946c4bcea04",
+  "name": "rhash",
+  "platform": "linux",
+  "purls": [],
+  "sha256": "04677caac29ec64a5d41d0cca8dbec5f60fa166d5458ff5a4393e4dc08a4799e",
+  "size": 186921,
+  "subdir": "linux-64",
+  "timestamp": 1728886721623,
+  "version": "1.4.5",
+  "fn": "rhash-1.4.5-hb9d3cd8_0.conda",
+  "url": "https://repo.prefix.dev/conda-forge/linux-64/rhash-1.4.5-hb9d3cd8_0.conda",
+  "channel": "https://repo.prefix.dev/conda-forge/",
+  "extracted_package_dir": "/home/runner/.cache/rattler/cache/pkgs/rhash-1.4.5-hb9d3cd8_0",
+  "requested_specs": [],
+  "files": [
+    "include/rhash.h",
+    "include/rhash_torrent.h",
+    "etc/rhashrc",
+    "lib/librhash.so",
+    "lib/librhash.so.1",
+    "lib/librhash.so.1.4.5",
+    "bin/ed2k-link",
+    "bin/edonr256-hash",
+    "bin/edonr512-hash",
+    "bin/gost12-256-hash",
+    "bin/gost12-512-hash",
+    "bin/has160-hash",
+    "bin/magnet-link",
+    "bin/rhash",
+    "bin/sfv-hash",
+    "bin/tiger-hash",
+    "bin/tth-hash",
+    "bin/whirlpool-hash",
+    "share/man/man1/ed2k-link.1",
+    "share/man/man1/edonr256-hash.1",
+    "share/man/man1/edonr512-hash.1",
+    "share/man/man1/gost12-256-hash.1",
+    "share/man/man1/gost12-512-hash.1",
+    "share/man/man1/has160-hash.1",
+    "share/man/man1/magnet-link.1",
+    "share/man/man1/rhash.1",
+    "share/man/man1/sfv-hash.1",
+    "share/man/man1/tiger-hash.1",
+    "share/man/man1/tth-hash.1",
+    "share/man/man1/whirlpool-hash.1"
+  ],
+  "paths_data": {
+    "paths_version": 1,
+    "paths": [
+      {
+        "_path": "include/rhash.h",
+        "path_type": "hardlink",
+        "sha256": "3ea605d303922e3a7205937945f9fdc667644f6a1b54704eb19a9d18b4ede174",
+        "size_in_bytes": 19935
+      },
+      {
+        "_path": "include/rhash_torrent.h",
+        "path_type": "hardlink",
+        "sha256": "9eee78aeb3058cfc72344d04f7098fa7d85082d480ea331e7cb7ef94d972f058",
+        "size_in_bytes": 3072
+      },
+      {
+        "_path": "etc/rhashrc",
+        "path_type": "hardlink",
+        "sha256": "8f1f9acb492a6b7a454baa107d6aff21d92a6f5303be2cc4445602bec55295b3",
+        "size_in_bytes": 523
+      },
+      {
+        "_path": "lib/librhash.so",
+        "path_type": "softlink",
+        "sha256": "37ba323de8c7711b76a147d7fae7a6a74485a94e0d6fd5874711662c8ae4a13b",
+        "sha256_in_prefix": "f8baf8362d3fd0d6dd1f08dbc3099951018a82e2460fb4aefbd6af1cead41635",
+        "size_in_bytes": 221840
+      },
+      {
+        "_path": "lib/librhash.so.1",
+        "path_type": "softlink",
+        "sha256": "37ba323de8c7711b76a147d7fae7a6a74485a94e0d6fd5874711662c8ae4a13b",
+        "sha256_in_prefix": "f8baf8362d3fd0d6dd1f08dbc3099951018a82e2460fb4aefbd6af1cead41635",
+        "size_in_bytes": 221840
+      },
+      {
+        "_path": "lib/librhash.so.1.4.5",
+        "path_type": "hardlink",
+        "sha256": "37ba323de8c7711b76a147d7fae7a6a74485a94e0d6fd5874711662c8ae4a13b",
+        "size_in_bytes": 221840
+      },
+      {
+        "_path": "bin/ed2k-link",
+        "path_type": "softlink",
+        "sha256": "7721e27d4c6a68cd03937c272c106e07886cc7daf228d46f7919c890206dd779",
+        "sha256_in_prefix": "ab02ef99a70954aafbc4e6153ce293d4ac59504665c2266b190e0a546e705dac",
+        "size_in_bytes": 113656
+      },
+      {
+        "_path": "bin/edonr256-hash",
+        "path_type": "softlink",
+        "sha256": "7721e27d4c6a68cd03937c272c106e07886cc7daf228d46f7919c890206dd779",
+        "sha256_in_prefix": "ab02ef99a70954aafbc4e6153ce293d4ac59504665c2266b190e0a546e705dac",
+        "size_in_bytes": 113656
+      },
+      {
+        "_path": "bin/edonr512-hash",
+        "path_type": "softlink",
+        "sha256": "7721e27d4c6a68cd03937c272c106e07886cc7daf228d46f7919c890206dd779",
+        "sha256_in_prefix": "ab02ef99a70954aafbc4e6153ce293d4ac59504665c2266b190e0a546e705dac",
+        "size_in_bytes": 113656
+      },
+      {
+        "_path": "bin/gost12-256-hash",
+        "path_type": "softlink",
+        "sha256": "7721e27d4c6a68cd03937c272c106e07886cc7daf228d46f7919c890206dd779",
+        "sha256_in_prefix": "ab02ef99a70954aafbc4e6153ce293d4ac59504665c2266b190e0a546e705dac",
+        "size_in_bytes": 113656
+      },
+      {
+        "_path": "bin/gost12-512-hash",
+        "path_type": "softlink",
+        "sha256": "7721e27d4c6a68cd03937c272c106e07886cc7daf228d46f7919c890206dd779",
+        "sha256_in_prefix": "ab02ef99a70954aafbc4e6153ce293d4ac59504665c2266b190e0a546e705dac",
+        "size_in_bytes": 113656
+      },
+      {
+        "_path": "bin/has160-hash",
+        "path_type": "softlink",
+        "sha256": "7721e27d4c6a68cd03937c272c106e07886cc7daf228d46f7919c890206dd779",
+        "sha256_in_prefix": "ab02ef99a70954aafbc4e6153ce293d4ac59504665c2266b190e0a546e705dac",
+        "size_in_bytes": 113656
+      },
+      {
+        "_path": "bin/magnet-link",
+        "path_type": "softlink",
+        "sha256": "7721e27d4c6a68cd03937c272c106e07886cc7daf228d46f7919c890206dd779",
+        "sha256_in_prefix": "ab02ef99a70954aafbc4e6153ce293d4ac59504665c2266b190e0a546e705dac",
+        "size_in_bytes": 113656
+      },
+      {
+        "_path": "bin/rhash",
+        "path_type": "hardlink",
+        "sha256": "7721e27d4c6a68cd03937c272c106e07886cc7daf228d46f7919c890206dd779",
+        "sha256_in_prefix": "67811caa0f42eb336ee54853e78bc570afc9ce60c980a16d6b1fcfcc08878aeb",
+        "size_in_bytes": 113656,
+        "file_mode": "binary",
+        "prefix_placeholder": "/home/conda/feedstock_root/build_artifacts/rhash_1728886586053/_h_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_place"
+      },
+      {
+        "_path": "bin/sfv-hash",
+        "path_type": "softlink",
+        "sha256": "7721e27d4c6a68cd03937c272c106e07886cc7daf228d46f7919c890206dd779",
+        "sha256_in_prefix": "ab02ef99a70954aafbc4e6153ce293d4ac59504665c2266b190e0a546e705dac",
+        "size_in_bytes": 113656
+      },
+      {
+        "_path": "bin/tiger-hash",
+        "path_type": "softlink",
+        "sha256": "7721e27d4c6a68cd03937c272c106e07886cc7daf228d46f7919c890206dd779",
+        "sha256_in_prefix": "ab02ef99a70954aafbc4e6153ce293d4ac59504665c2266b190e0a546e705dac",
+        "size_in_bytes": 113656
+      },
+      {
+        "_path": "bin/tth-hash",
+        "path_type": "softlink",
+        "sha256": "7721e27d4c6a68cd03937c272c106e07886cc7daf228d46f7919c890206dd779",
+        "sha256_in_prefix": "ab02ef99a70954aafbc4e6153ce293d4ac59504665c2266b190e0a546e705dac",
+        "size_in_bytes": 113656
+      },
+      {
+        "_path": "bin/whirlpool-hash",
+        "path_type": "softlink",
+        "sha256": "7721e27d4c6a68cd03937c272c106e07886cc7daf228d46f7919c890206dd779",
+        "sha256_in_prefix": "ab02ef99a70954aafbc4e6153ce293d4ac59504665c2266b190e0a546e705dac",
+        "size_in_bytes": 113656
+      },
+      {
+        "_path": "share/man/man1/ed2k-link.1",
+        "path_type": "softlink",
+        "sha256": "c15495cdbd926a434ce021cedd116a9426662cfe524fc463369a0d5990e473f5",
+        "sha256_in_prefix": "8925590b2d8e86a1f8f95630c2252445519696f20d4e6fd53362280512addcff",
+        "size_in_bytes": 13952
+      },
+      {
+        "_path": "share/man/man1/edonr256-hash.1",
+        "path_type": "softlink",
+        "sha256": "c15495cdbd926a434ce021cedd116a9426662cfe524fc463369a0d5990e473f5",
+        "sha256_in_prefix": "8925590b2d8e86a1f8f95630c2252445519696f20d4e6fd53362280512addcff",
+        "size_in_bytes": 13952
+      },
+      {
+        "_path": "share/man/man1/edonr512-hash.1",
+        "path_type": "softlink",
+        "sha256": "c15495cdbd926a434ce021cedd116a9426662cfe524fc463369a0d5990e473f5",
+        "sha256_in_prefix": "8925590b2d8e86a1f8f95630c2252445519696f20d4e6fd53362280512addcff",
+        "size_in_bytes": 13952
+      },
+      {
+        "_path": "share/man/man1/gost12-256-hash.1",
+        "path_type": "softlink",
+        "sha256": "c15495cdbd926a434ce021cedd116a9426662cfe524fc463369a0d5990e473f5",
+        "sha256_in_prefix": "8925590b2d8e86a1f8f95630c2252445519696f20d4e6fd53362280512addcff",
+        "size_in_bytes": 13952
+      },
+      {
+        "_path": "share/man/man1/gost12-512-hash.1",
+        "path_type": "softlink",
+        "sha256": "c15495cdbd926a434ce021cedd116a9426662cfe524fc463369a0d5990e473f5",
+        "sha256_in_prefix": "8925590b2d8e86a1f8f95630c2252445519696f20d4e6fd53362280512addcff",
+        "size_in_bytes": 13952
+      },
+      {
+        "_path": "share/man/man1/has160-hash.1",
+        "path_type": "softlink",
+        "sha256": "c15495cdbd926a434ce021cedd116a9426662cfe524fc463369a0d5990e473f5",
+        "sha256_in_prefix": "8925590b2d8e86a1f8f95630c2252445519696f20d4e6fd53362280512addcff",
+        "size_in_bytes": 13952
+      },
+      {
+        "_path": "share/man/man1/magnet-link.1",
+        "path_type": "softlink",
+        "sha256": "c15495cdbd926a434ce021cedd116a9426662cfe524fc463369a0d5990e473f5",
+        "sha256_in_prefix": "8925590b2d8e86a1f8f95630c2252445519696f20d4e6fd53362280512addcff",
+        "size_in_bytes": 13952
+      },
+      {
+        "_path": "share/man/man1/rhash.1",
+        "path_type": "hardlink",
+        "sha256": "c15495cdbd926a434ce021cedd116a9426662cfe524fc463369a0d5990e473f5",
+        "sha256_in_prefix": "0fbfbf23c7c0f87d30176a57c66e6588d2312247d2c12588ee829cc6c39065db",
+        "size_in_bytes": 13755,
+        "file_mode": "text",
+        "prefix_placeholder": "/home/conda/feedstock_root/build_artifacts/rhash_1728886586053/_h_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_place"
+      },
+      {
+        "_path": "share/man/man1/sfv-hash.1",
+        "path_type": "softlink",
+        "sha256": "c15495cdbd926a434ce021cedd116a9426662cfe524fc463369a0d5990e473f5",
+        "sha256_in_prefix": "8925590b2d8e86a1f8f95630c2252445519696f20d4e6fd53362280512addcff",
+        "size_in_bytes": 13952
+      },
+      {
+        "_path": "share/man/man1/tiger-hash.1",
+        "path_type": "softlink",
+        "sha256": "c15495cdbd926a434ce021cedd116a9426662cfe524fc463369a0d5990e473f5",
+        "sha256_in_prefix": "8925590b2d8e86a1f8f95630c2252445519696f20d4e6fd53362280512addcff",
+        "size_in_bytes": 13952
+      },
+      {
+        "_path": "share/man/man1/tth-hash.1",
+        "path_type": "softlink",
+        "sha256": "c15495cdbd926a434ce021cedd116a9426662cfe524fc463369a0d5990e473f5",
+        "sha256_in_prefix": "8925590b2d8e86a1f8f95630c2252445519696f20d4e6fd53362280512addcff",
+        "size_in_bytes": 13952
+      },
+      {
+        "_path": "share/man/man1/whirlpool-hash.1",
+        "path_type": "softlink",
+        "sha256": "c15495cdbd926a434ce021cedd116a9426662cfe524fc463369a0d5990e473f5",
+        "sha256_in_prefix": "8925590b2d8e86a1f8f95630c2252445519696f20d4e6fd53362280512addcff",
+        "size_in_bytes": 13952
+      }
+    ]
+  },
+  "link": {
+    "source": "/home/runner/.cache/rattler/cache/pkgs/rhash-1.4.5-hb9d3cd8_0",
+    "type": 1
+  }
+}

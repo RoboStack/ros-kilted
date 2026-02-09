@@ -1,0 +1,47 @@
+{
+  "arch": "x86_64",
+  "build": "hbcca054_0",
+  "build_number": 0,
+  "depends": [],
+  "license": "ISC",
+  "md5": "19f3a56f68d2fd06c516076bff482c52",
+  "name": "ca-certificates",
+  "platform": "linux",
+  "purls": [],
+  "sha256": "bf832198976d559ab44d6cdb315642655547e26d826e34da67cbee6624cda189",
+  "size": 158144,
+  "subdir": "linux-64",
+  "timestamp": 1738298224464,
+  "version": "2025.1.31",
+  "fn": "ca-certificates-2025.1.31-hbcca054_0.conda",
+  "url": "https://repo.prefix.dev/conda-forge/linux-64/ca-certificates-2025.1.31-hbcca054_0.conda",
+  "channel": "https://repo.prefix.dev/conda-forge/",
+  "extracted_package_dir": "/home/runner/.cache/rattler/cache/pkgs/ca-certificates-2025.1.31-hbcca054_0",
+  "requested_specs": [],
+  "files": [
+    "ssl/cacert.pem",
+    "ssl/cert.pem"
+  ],
+  "paths_data": {
+    "paths_version": 1,
+    "paths": [
+      {
+        "_path": "ssl/cacert.pem",
+        "path_type": "hardlink",
+        "sha256": "c55b21f907f7f86d48add093552fb5651749ff5f860508ccbb423d6c1fbd80c7",
+        "size_in_bytes": 297255
+      },
+      {
+        "_path": "ssl/cert.pem",
+        "path_type": "softlink",
+        "sha256": "c55b21f907f7f86d48add093552fb5651749ff5f860508ccbb423d6c1fbd80c7",
+        "sha256_in_prefix": "0ebfd54889b22df75fcaac3a16c2262216c3036f967e7ecc2ed2bdf0956c16ee",
+        "size_in_bytes": 297255
+      }
+    ]
+  },
+  "link": {
+    "source": "/home/runner/.cache/rattler/cache/pkgs/ca-certificates-2025.1.31-hbcca054_0",
+    "type": 1
+  }
+}
