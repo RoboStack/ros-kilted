@@ -494,6 +494,8 @@ libsqlite3-dev:
   robostack: [sqlite 3.*]
 libssl-dev:
   robostack: [openssl]
+libsystemd-dev:
+  robostack: [libsystemd]
 libtheora:
   robostack: [libtheora]
 libtool:
@@ -538,7 +540,7 @@ libvtk:
 libvtk-qt:
   robostack: [vtk]
 libvulkan-dev:
-  robostack: 
+  robostack:
     linux: [libvulkan-headers, libvulkan-loader]
     osx: []
     win64: [libvulkan-headers, libvulkan-loader]
