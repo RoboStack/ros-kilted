@@ -150,7 +150,6 @@ packages_select_by_deps:
   - battery_state_broadcaster
   - polygon_msgs
   - ros2_fmt_logger
-  - swri_console
 
   # These packages are only built on Linux as they depend on Linux-specific API
   - if: linux
@@ -186,6 +185,7 @@ packages_select_by_deps:
       - moveit-ros-occupancy-map-monitor
       - moveit-runtime
       - serial_driver
+      - swri_console  # At least until: https://github.com/swri-robotics/swri_console/pull/75
       # TODO on windows: fix iconv link issue
       - ffmpeg_image_transport
       - apriltag_draw
