@@ -155,7 +155,6 @@ packages_select_by_deps:
   - if: linux
     then:
       # Depends on socketcan
-      - nobleo_socketcan_bridge
       - ros2_socketcan
       # Depends on v4l
       - usb_cam
