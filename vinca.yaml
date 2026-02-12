@@ -148,6 +148,7 @@ packages_select_by_deps:
 
   - asio_cmake_module
   - battery_state_broadcaster
+  - nobleo_socketcan_bridge
   - polygon_msgs
   - ros2_fmt_logger
 
