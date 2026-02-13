@@ -30,10 +30,22 @@ vinca = { git ="https://github.com/RoboStack/vinca.git", rev = "78be54199102f9eb
 # vinca = { path = "../vinca", editable = true }
 
 [tasks]
-remove-recipes = { cmd = "rm -rf recipes_only_patch; rm -rf recipes; mkdir recipes" }
 generate-recipes = { cmd = "vinca -m", depends-on = ["remove-recipes"] }
 check-patches = { cmd = "python check_patches_clean_apply.py", depends-on = ["generate-recipes"] }
-build = { cmd = "rattler-build build --recipe-dir ./recipes -m ./conda_build_config.yaml -c robostack-kilted -c https://repo.prefix.dev/conda-forge --skip-existing", depends-on = ["generate-recipes"] }
-build_one_package = { cmd = "cp ./patch/$PACKAGE.*patch ./recipes/$PACKAGE/patch/; rattler-build build --recipe ./recipes/$PACKAGE/recipe.yaml -m ./conda_build_config.yaml -c robostack-kilted -c https://repo.prefix.dev/conda-forge", env = { PACKAGE = "ros-kilted-ros-workspace" } }
 create_snapshot = { cmd = "vinca-snapshot -d kilted -o rosdistro_snapshot.yaml" }
 upload = "rattler-build upload anaconda -o robostack-kilted -a $ANACONDA_API_TOKEN"
+
+[tasks.build]
+cmd = "rattler-build build --recipe-dir ./recipes -m ./conda_build_config.yaml -c https://prefix.dev/robostack-kilted -c https://prefix.dev/conda-forge --skip-existing"
+depends-on = ["generate-recipes"]
+description = "Build all packages, from the ./recipes dir. This will skip already existing packages, so it can be used to build only a subset of packages by first removing the recipes of the packages you want to rebuild (see `pixi remove-recipes`)."
+
+[tasks.remove-recipes]
+cmd = "rm -rf recipes_only_patch; rm -rf recipes; mkdir recipes"
+description = "Remove all generated recipes, before regenerating them."
+
+[tasks.build-one]
+cmd = "cp ./patch/{{ PACKAGE }}.*patch ./recipes/{{ PACKAGE }}/patch/; rattler-build build --recipe ./recipes/{{ PACKAGE }}/recipe.yaml -m ./conda_build_config.yaml -c https://prefix.dev/robostack-kilted -c https://prefix.dev/conda-forge"
+args = [{ arg = "PACKAGE", default = "ros-kilted-ros-workspace" }]
+description = "Build a single package, from the ./recipes dir. Add the `ros-kilted-` prefix to the package name, e.g. `pixi build-one --package ros-kilted-ros-workspace`"
+
