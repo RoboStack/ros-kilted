@@ -152,6 +152,7 @@ packages_select_by_deps:
   - ros2_fmt_logger
 
   - magic_enum
+  - rslidar_sdk
 
   # These packages are only built on Linux as they depend on Linux-specific API
   - if: linux
