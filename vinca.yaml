@@ -153,6 +153,16 @@ packages_select_by_deps:
 
   - magic_enum
 
+  - mocap4r2_control
+  - mocap4r2_control_msgs
+  - rqt_mocap4r2_control
+  - mocap4r2_dummy_driver
+  - mocap4r2_marker_publisher
+  - mocap4r2_marker_viz
+  - mocap4r2_marker_viz_srvs
+  - mocap4r2_robot_gt
+  - mocap4r2_robot_gt_msgs
+
   # These packages are only built on Linux as they depend on Linux-specific API
   - if: linux
     then:
