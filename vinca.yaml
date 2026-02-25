@@ -153,16 +153,6 @@ packages_select_by_deps:
 
   - magic_enum
 
-  - mocap4r2_control
-  - mocap4r2_control_msgs
-  - rqt_mocap4r2_control
-  - mocap4r2_dummy_driver
-  - mocap4r2_marker_publisher
-  - mocap4r2_marker_viz
-  - mocap4r2_marker_viz_srvs
-  - mocap4r2_robot_gt
-  - mocap4r2_robot_gt_msgs
-
   # These packages are only built on Linux as they depend on Linux-specific API
   - if: linux
     then:
@@ -232,6 +222,16 @@ packages_select_by_deps:
       # most of the dep of grid_map work on Windows, but there are some rviz linking problems in octomap_rviz_plugins,
       # see https://github.com/RoboStack/ros-jazzy/pull/79#issuecomment-2993499990
       - grid_map
+      # mocap4r2 packages
+      - mocap4r2_control
+      - mocap4r2_control_msgs
+      - rqt_mocap4r2_control
+      - mocap4r2_dummy_driver
+      - mocap4r2_marker_publisher
+      - mocap4r2_marker_viz
+      - mocap4r2_marker_viz_srvs
+      - mocap4r2_robot_gt
+      - mocap4r2_robot_gt_msgs
 
 patch_dir: patch
 rosdistro_snapshot: rosdistro_snapshot.yaml
