@@ -150,7 +150,6 @@ packages_select_by_deps:
   - battery_state_broadcaster
   - polygon_msgs
   - ros2_fmt_logger
-  - swri_serial_util
 
   - magic_enum
 
@@ -174,6 +173,8 @@ packages_select_by_deps:
       - camera_ros
       # Depends on v4l that is only available on linux
       - v4l2_camera
+      # Serial communication only implemented for linux
+      - swri_serial_util
 
   # These packages are currently not build on Windows, but they be with some work
   - if: not win
