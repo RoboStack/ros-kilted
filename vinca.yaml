@@ -150,6 +150,7 @@ packages_select_by_deps:
   - battery_state_broadcaster
   - polygon_msgs
   - ros2_fmt_logger
+  - swri_serial_util
 
   - magic_enum
 
