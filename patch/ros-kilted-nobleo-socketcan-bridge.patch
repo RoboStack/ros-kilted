@@ -1,0 +1,43 @@
+diff --git a/package.xml b/package.xml
+index c0e3fe7..d8cccf0 100644
+--- a/package.xml
++++ b/package.xml
+@@ -20,6 +20,8 @@ SPDX-License-Identifier: Apache-2.0
+   <buildtool_depend>ament_cmake</buildtool_depend>
+
+   <build_depend>ament_cmake_ros</build_depend>
++  <build_depend>linux-kernel-headers</build_depend>
++  <build_export_depend>linux-kernel-headers</build_export_depend>
+
+   <depend>can_msgs</depend>
+   <depend>diagnostic_msgs</depend>
+diff --git a/src/socketcan_bridge.cpp b/src/socketcan_bridge.cpp
+index 8a4dab0..1f40924 100644
+--- a/src/socketcan_bridge.cpp
++++ b/src/socketcan_bridge.cpp
+@@ -6,6 +6,7 @@
+
+ #include <fmt/core.h>
+ #include <fmt/ostream.h>
++#include <fmt/ranges.h>
+ #include <linux/can.h>
+ #include <linux/can/error.h>
+ #include <linux/can/raw.h>
+@@ -199,7 +200,7 @@ can_frame from_msg(const can_msgs::msg::Frame & msg)
+
+   can_frame frame;
+   frame.can_id = id;
+-  frame.len = msg.dlc;
++  frame.can_dlc = msg.dlc;  // Conda defaults to ancient 4.18 kernel headers
+   std::ranges::copy(msg.data, frame.data);
+   return frame;
+ }
+@@ -211,7 +212,7 @@ can_msgs::msg::Frame to_msg(const can_frame & frame)
+   msg.is_extended = (frame.can_id & CAN_EFF_FLAG) == CAN_EFF_FLAG;
+   msg.is_error = (frame.can_id & CAN_ERR_FLAG) == CAN_ERR_FLAG;
+   msg.id = frame.can_id & (msg.is_extended ? CAN_EFF_MASK : CAN_SFF_MASK);
+-  msg.dlc = frame.len;
++  msg.dlc = frame.can_dlc;
+   std::copy_n(frame.data, sizeof(frame.data), msg.data.begin());
+   return msg;
+ }
