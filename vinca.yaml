@@ -157,6 +157,7 @@ packages_select_by_deps:
   - if: linux
     then:
       # Depends on socketcan
+      - nobleo_socketcan_bridge
       - ros2_socketcan
       # Depends on v4l
       - usb_cam
@@ -223,6 +224,16 @@ packages_select_by_deps:
       # see https://github.com/RoboStack/ros-jazzy/pull/79#issuecomment-2993499990
       - grid_map
       - rslidar_sdk
+      # mocap4r2 packages
+      - mocap4r2_control
+      - mocap4r2_control_msgs
+      - rqt_mocap4r2_control
+      - mocap4r2_dummy_driver
+      - mocap4r2_marker_publisher
+      - mocap4r2_marker_viz
+      - mocap4r2_marker_viz_srvs
+      - mocap4r2_robot_gt
+      - mocap4r2_robot_gt_msgs
 
 patch_dir: patch
 rosdistro_snapshot: rosdistro_snapshot.yaml

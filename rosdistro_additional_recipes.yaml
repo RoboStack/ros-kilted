@@ -352,3 +352,49 @@ rslidar_sdk:
   tag: v1.5.18
   url: https://github.com/RoboSense-LiDAR/rslidar_sdk.git
   version: 1.5.18
+# mocap4r2
+mocap4r2_control:
+  tag: 0.0.7
+  url: https://github.com/MOCAP4ROS2-Project/mocap4r2.git
+  version: 0.0.7
+  additional_folder: mocap4r2_control/mocap4r2_control
+mocap4r2_control_msgs:
+  tag: 0.0.7
+  url: https://github.com/MOCAP4ROS2-Project/mocap4r2.git
+  version: 0.0.7
+  additional_folder: mocap4r2_control/mocap4r2_control_msgs
+rqt_mocap4r2_control:
+  tag: 0.0.7
+  url: https://github.com/MOCAP4ROS2-Project/mocap4r2.git
+  version: 0.0.7
+  additional_folder: mocap4r2_control/rqt_mocap4r2_control
+mocap4r2_marker_publisher:
+  tag: 0.0.7
+  url: https://github.com/MOCAP4ROS2-Project/mocap4r2.git
+  version: 0.0.7
+  additional_folder: mocap4r2_marker_viz/mocap4r2_marker_publisher
+mocap4r2_dummy_driver:
+  tag: 0.0.7
+  url: https://github.com/MOCAP4ROS2-Project/mocap4r2.git
+  version: 0.0.7
+  additional_folder: mocap4r2_dummy_driver
+mocap4r2_marker_viz:
+  tag: 0.0.7
+  url: https://github.com/MOCAP4ROS2-Project/mocap4r2.git
+  version: 0.0.7
+  additional_folder: mocap4r2_marker_viz/mocap4r2_marker_viz
+mocap4r2_marker_viz_srvs:
+  tag: 0.0.7
+  url: https://github.com/MOCAP4ROS2-Project/mocap4r2.git
+  version: 0.0.7
+  additional_folder: mocap4r2_marker_viz/mocap4r2_marker_viz_srvs
+mocap4r2_robot_gt:
+  tag: 0.0.7
+  url: https://github.com/MOCAP4ROS2-Project/mocap4r2.git
+  version: 0.0.7
+  additional_folder: mocap4r2_robot_gt/mocap4r2_robot_gt
+mocap4r2_robot_gt_msgs:
+  tag: 0.0.7
+  url: https://github.com/MOCAP4ROS2-Project/mocap4r2.git
+  version: 0.0.7
+  additional_folder: mocap4r2_robot_gt/mocap4r2_robot_gt_msgs
