@@ -348,6 +348,11 @@ autoware_lanelet2_extension_python:
   tag: release/humble/autoware_lanelet2_extension_python/0.8.0-1
   url: https://github.com/ros2-gbp/autoware_lanelet2_extension-release.git
   version: 0.8.0
+rslidar_sdk:
+  tag: v1.5.18
+  url: https://github.com/RoboSense-LiDAR/rslidar_sdk.git
+  version: 1.5.18
+# mocap4r2
 mocap4r2_control:
   tag: 0.0.7
   url: https://github.com/MOCAP4ROS2-Project/mocap4r2.git
