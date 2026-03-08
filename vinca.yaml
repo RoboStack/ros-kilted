@@ -174,6 +174,8 @@ packages_select_by_deps:
       - camera_ros
       # Depends on v4l that is only available on linux
       - v4l2_camera
+      # Serial communication only implemented for linux
+      - swri_serial_util
 
   # These packages are currently not build on Windows, but they be with some work
   - if: not win
@@ -187,7 +189,7 @@ packages_select_by_deps:
       - moveit-ros-occupancy-map-monitor
       - moveit-runtime
       - serial_driver
-      - swri_console  # At least until: https://github.com/swri-robotics/swri_console/pull/75
+      - swri_console  # Until sync of: https://github.com/ros/rosdistro/pull/49750
       # TODO on windows: fix iconv link issue
       - ffmpeg_image_transport
       - apriltag_draw
