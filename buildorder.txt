@@ -1,0 +1,4 @@
+ros-kilted-eigenpy
+ros-kilted-jrl-cmakemodules
+ros-kilted-hpp-fcl
+ros-kilted-pinocchio

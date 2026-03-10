@@ -1,0 +1,82 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/prefix-dev/recipe-format/main/schema.json
+
+package:
+  name: ros-kilted-pinocchio
+  version: 3.9.0
+
+build:
+  number: 15
+  script: ''
+  post_process:
+    - files:
+        - '*.pc'
+      regex: (?:-L|-I)?"?([^;\s]+/sysroot/)
+      replacement: $$(CONDA_BUILD_SYSROOT_S)
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/sysroot)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+    - files:
+        - '*.cmake'
+      regex: ([^;\s"]+/MacOSX\d*\.?\d*\.sdk)
+      replacement: $$ENV{CONDA_BUILD_SYSROOT}
+about:
+  homepage: https://github.com/stack-of-tasks/pinocchio
+  license: BSD-2-Clause
+  summary: A fast and flexible implementation of Rigid Body Dynamics algorithms and their analytical derivatives.
+extra:
+  recipe-maintainers:
+    - ros-forge
+
+requirements:
+  build:
+    - if: build_platform != target_platform
+      then:
+        - git
+    - if: build_platform != target_platform
+      then:
+        - doxygen
+  host:
+    - eigen
+    - graphviz
+    - libboost-devel
+    - libboost-python-devel
+    - numpy
+    - python
+    - ros-kilted-eigenpy
+    - ros-kilted-hpp-fcl
+    - ros-kilted-jrl-cmakemodules
+    - ros-kilted-ros-environment
+    - ros-kilted-ros-workspace
+    - ros-kilted-urdfdom
+    - ros2-distro-mutex 0.13.* kilted_*
+    - if: build_platform == target_platform
+      then:
+        - git
+    - if: build_platform == target_platform
+      then:
+        - doxygen
+  run:
+    - eigen
+    - libboost-devel
+    - libboost-python-devel
+    - numpy
+    - pinocchio >=3.9.0, <3.9.1a0
+    - python
+    - ros-kilted-eigenpy
+    - ros-kilted-hpp-fcl
+    - ros-kilted-ros-environment
+    - ros-kilted-ros-workspace
+    - ros-kilted-urdfdom
+    - ros2-distro-mutex 0.13.* kilted_*
+    - if: osx and x86_64
+      then:
+        - __osx >=${{ MACOSX_DEPLOYMENT_TARGET|default('10.14') }}
+tests:
+  - script:
+      - cmake-package-check pinocchio --targets pinocchio::pinocchio
+    requirements:
+      run:
+        - cmake-package-check
+        - ${{ compiler('c') }}
+        - ${{ compiler('cxx') }}
