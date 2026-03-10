@@ -188,6 +188,7 @@ packages_select_by_deps:
       - moveit-ros-perception
       - moveit-ros-occupancy-map-monitor
       - moveit-runtime
+      - pinocchio
       - serial_driver
       - swri_console  # Until sync of: https://github.com/ros/rosdistro/pull/49750
       # TODO on windows: fix iconv link issue
