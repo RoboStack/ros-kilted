@@ -1,0 +1,60 @@
+{
+  "arch": "x86_64",
+  "build": "h58526e2_0",
+  "build_number": 0,
+  "depends": [
+    "libgcc-ng >=7.5.0",
+    "libstdcxx-ng >=7.5.0"
+  ],
+  "license": "GPL-3.0-or-later",
+  "license_family": "GPL",
+  "md5": "ba76a6a448819560b5f8b08a9c74f415",
+  "name": "patchelf",
+  "platform": "linux",
+  "purls": [],
+  "sha256": "eb355ac225be2f698e19dba4dcab7cb0748225677a9799e9cc8e4cadc3cb738f",
+  "size": 94048,
+  "subdir": "linux-64",
+  "timestamp": 1673473024463,
+  "version": "0.17.2",
+  "fn": "patchelf-0.17.2-h58526e2_0.conda",
+  "url": "https://repo.prefix.dev/conda-forge/linux-64/patchelf-0.17.2-h58526e2_0.conda",
+  "channel": "https://repo.prefix.dev/conda-forge/",
+  "extracted_package_dir": "/home/runner/.cache/rattler/cache/pkgs/patchelf-0.17.2-h58526e2_0",
+  "requested_specs": [],
+  "files": [
+    "share/man/man1/patchelf.1",
+    "bin/patchelf",
+    "share/doc/patchelf/README.md"
+  ],
+  "paths_data": {
+    "paths_version": 1,
+    "paths": [
+      {
+        "_path": "share/man/man1/patchelf.1",
+        "path_type": "hardlink",
+        "sha256": "54e4acca2f0c5c4631ce27f20b5da9c7ad08fabe4f272becbc0feabff00cc312",
+        "size_in_bytes": 4466
+      },
+      {
+        "_path": "bin/patchelf",
+        "path_type": "hardlink",
+        "sha256": "65c8301b3f31077afffc4985d79a44632aac89d1467b82868ca23a90183ebb0b",
+        "sha256_in_prefix": "bb7965d36e6db1549e94c582e5f06f183f1e63ff771ef96fa3a141fff2434d5f",
+        "size_in_bytes": 217320,
+        "file_mode": "binary",
+        "prefix_placeholder": "/home/conda/feedstock_root/build_artifacts/patchelf_1673472916716/_h_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_pl"
+      },
+      {
+        "_path": "share/doc/patchelf/README.md",
+        "path_type": "hardlink",
+        "sha256": "ea103a890991bc00a3f7879ac2296a7fe558893585e59c65038ad6599ac0ddd7",
+        "size_in_bytes": 3196
+      }
+    ]
+  },
+  "link": {
+    "source": "/home/runner/.cache/rattler/cache/pkgs/patchelf-0.17.2-h58526e2_0",
+    "type": 1
+  }
+}
