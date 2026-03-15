@@ -31,9 +31,11 @@ vinca = { git ="https://github.com/RoboStack/vinca.git", rev = "78be54199102f9eb
 
 [tasks]
 generate-recipes = { cmd = "vinca -m", depends-on = ["remove-recipes"] }
+generate-gha-workflows = { cmd = "vinca-gha --trigger-branch dummy_build_branch_as_it_is_unused -d ./recipes", depends-on = ["generate-recipes"] }
 check-patches = { cmd = "python check_patches_clean_apply.py", depends-on = ["generate-recipes"] }
 create_snapshot = { cmd = "vinca-snapshot -d kilted -o rosdistro_snapshot.yaml" }
 upload = "rattler-build upload anaconda -o robostack-kilted -a $ANACONDA_API_TOKEN"
+build_continue_on_failure = { cmd = "rattler-build build --recipe-dir ./recipes -m ./conda_build_config.yaml -c robostack-kilted -c https://repo.prefix.dev/conda-forge --continue-on-failure --skip-existing", depends-on = ["generate-recipes"] }
 
 [tasks.build]
 cmd = "rattler-build build --recipe-dir ./recipes -m ./conda_build_config.yaml -c https://prefix.dev/robostack-kilted -c https://prefix.dev/conda-forge --skip-existing"
