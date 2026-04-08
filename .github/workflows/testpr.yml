@@ -134,6 +134,12 @@ jobs:
       run: |
         pixi run vinca-gha --platform ${{ matrix.platform }} --trigger-branch dummy_build_branch_as_it_is_unused -d ./recipes
 
+    - name: Verify platform outputs are complete before publish
+      if: success()
+      shell: bash -l {0}
+      run: |
+        pixi run python publish_conda_outputs.py --dry-run --platform ${{ matrix.platform }} --output-dir "${{ matrix.folder_cache }}/.."
+
     - name: Upload build cache as artifact
       if: ${{ always() && env.SAVE_CACHE_AS_ARTIFACT == 'true' }}
       uses: actions/upload-artifact@v6
