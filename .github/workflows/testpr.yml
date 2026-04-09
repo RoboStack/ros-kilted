@@ -135,7 +135,7 @@ jobs:
         pixi run vinca-gha --platform ${{ matrix.platform }} --trigger-branch dummy_build_branch_as_it_is_unused -d ./recipes
 
     - name: Verify platform outputs are complete before publish
-      if: success()
+      if: ${{ success() && env.IGNORE_CACHE_AND_DO_FULL_REBUILD == 'true' }}
       shell: bash -l {0}
       run: |
         pixi run python publish_conda_outputs.py --dry-run --platform ${{ matrix.platform }} --output-dir "${{ matrix.folder_cache }}/.."
