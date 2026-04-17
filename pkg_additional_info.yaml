@@ -165,3 +165,6 @@ ublox_gps:
   additional_cmake_args: "-DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=ON"
 rosx_introspection:
   additional_cmake_args: "-DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=ON"
+# Remove all lines after this one on new full rebuild
+rosbridge_library:
+  build_number: 18
