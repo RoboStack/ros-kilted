@@ -160,6 +160,8 @@ packages_select_by_deps:
   - py-trees-ros
   - py-trees-ros-viewer
 
+  - rtest
+
   # These packages are only built on Linux as they depend on Linux-specific API
   - if: linux
     then:
