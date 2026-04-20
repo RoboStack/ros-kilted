@@ -987,6 +987,8 @@ python3-tk:
   robostack: [tk]
 python3-tornado:
   robostack: [tornado]
+python3-transforms3d:
+  robostack: [transforms3d]
 python3-twisted:
   robostack: [twisted]
 python3-typeguard:

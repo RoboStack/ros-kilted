@@ -168,3 +168,5 @@ rosx_introspection:
 # Remove all lines after this one on new full rebuild
 rosbridge_library:
   build_number: 18
+tf_transformations:
+  build_number: 18
