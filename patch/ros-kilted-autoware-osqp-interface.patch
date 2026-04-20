@@ -1,0 +1,43 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 72ba975..3333333 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -1,10 +1,11 @@
+ cmake_minimum_required(VERSION 3.14)
+ project(autoware_osqp_interface)
+ 
++find_package(Eigen3 REQUIRED)
++get_target_property(EIGEN3_INCLUDE_DIR Eigen3::Eigen INTERFACE_INCLUDE_DIRECTORIES)
+ find_package(autoware_cmake REQUIRED)
+ autoware_package()
+ 
+-find_package(Eigen3 REQUIRED)
+-
+ # after find_package(osqp_vendor) in ament_auto_find_build_dependencies
+ find_package(osqp REQUIRED)
+ get_target_property(OSQP_INCLUDE_SUB_DIR osqp::osqp INTERFACE_INCLUDE_DIRECTORIES)
+diff --git a/src/csc_matrix_conv.cpp b/src/csc_matrix_conv.cpp
+index 8f77f8c..2222222 100644
+--- a/src/csc_matrix_conv.cpp
++++ b/src/csc_matrix_conv.cpp
+@@ -22,9 +22,9 @@ namespace autoware::osqp_interface
+ {
+ CSC_Matrix calCSCMatrix(const Eigen::MatrixXd & mat)
+ {
+-  const size_t elem = static_cast<size_t>(mat.nonZeros());
+   const Eigen::Index rows = mat.rows();
+   const Eigen::Index cols = mat.cols();
++  const size_t elem = static_cast<size_t>(rows * cols);
+ 
+   std::vector<c_float> vals;
+   vals.reserve(elem);
+@@ -63,8 +63,8 @@ CSC_Matrix calCSCMatrix(const Eigen::MatrixXd & mat)
+ CSC_Matrix calCSCMatrixTrapezoidal(const Eigen::MatrixXd & mat)
+ {
+-  const size_t elem = static_cast<size_t>(mat.nonZeros());
+   const Eigen::Index rows = mat.rows();
+   const Eigen::Index cols = mat.cols();
++  const size_t elem = static_cast<size_t>(rows * (rows + 1) / 2);
+ 
+   if (rows != cols) {
+     throw std::invalid_argument("Matrix must be square (n, n)");

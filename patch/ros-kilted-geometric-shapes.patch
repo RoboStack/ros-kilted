@@ -1,11 +1,12 @@
 From d236b8e9172705076e1c0aba34940307a925d3e2 Mon Sep 17 00:00:00 2001
 From: Silvio Traversaro <silvio@traversaro.it>
 Date: Wed, 18 Dec 2024 13:50:38 +0100
-Subject: [PATCH] Drop apt-specific workaround on the octomap version
+Subject: [PATCH] Adjust octomap lookup and fix FCL assert include
 
 ---
  CMakeLists.txt | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ src/aabb.cpp   | 1 +
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/CMakeLists.txt b/CMakeLists.txt
 index 8c46189..277356c 100644
@@ -20,3 +21,14 @@ index 8c46189..277356c 100644
  find_package(QHULL REQUIRED)
  find_package(random_numbers REQUIRED)
  find_package(rclcpp REQUIRED)
+diff --git a/src/aabb.cpp b/src/aabb.cpp
+index 115028c..37f24cb 100644
+--- a/src/aabb.cpp
++++ b/src/aabb.cpp
+@@ -28,6 +28,7 @@
+ /* Author: Martin Pecka */
+ 
+ #include <geometric_shapes/aabb.h>
++#include <cassert>
+ 
+ #include <fcl/geometry/shape/utility.h>

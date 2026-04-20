@@ -23,12 +23,12 @@ urdfdom_headers:
   generate_dummy_package_with_run_deps:
     dep_name: urdfdom_headers
     max_pin: 'x.x'
+    override_version: '1.1.2'
 urdfdom:
   generate_dummy_package_with_run_deps:
     dep_name: urdfdom
     max_pin: 'x.x'
-    # kilted is on 5.0.0, but we are waiting for
-    #  https://github.com/ros/urdfdom/issues/220
+    # the version on ros is outdated w.r.t. to the conda-forge one
     override_version: '4.0.1'
 cartographer:
   generate_dummy_package_with_run_deps:
@@ -159,3 +159,14 @@ lanelet2_python:
   additional_cmake_args: "-DCMAKE_CXX_STANDARD=17 -DCMAKE_CXX_STANDARD_REQUIRED=ON -DCMAKE_CXX_EXTENSIONS=OFF"
 robot_state_publisher:
   additional_cmake_args: "-DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=ON"
+io_context:
+  additional_cmake_args: "-DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=ON"
+ublox_gps:
+  additional_cmake_args: "-DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=ON"
+rosx_introspection:
+  additional_cmake_args: "-DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=ON"
+# Remove all lines after this one on new full rebuild
+rosbridge_library:
+  build_number: 18
+tf_transformations:
+  build_number: 18

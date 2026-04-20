@@ -45,12 +45,13 @@ index f7f4762..42ec579 100644
 +  endif()
 +endif()
 +
-+include(FindPkgConfig)
-+if(NOT WIN32)
-+  pkg_search_module(CAIRO REQUIRED cairo>=1.12.16)
-+else()
-+  find_library(CAIRO_LIBRARIES cairo)
++find_path(CAIRO_INCLUDE_DIR NAMES cairo/cairo.h)
++find_library(CAIRO_LIBRARY NAMES cairo)
++if(NOT CAIRO_INCLUDE_DIR OR NOT CAIRO_LIBRARY)
++  message(FATAL_ERROR "Failed to locate cairo headers and library")
 +endif()
++set(CAIRO_INCLUDE_DIRS ${CAIRO_INCLUDE_DIR})
++set(CAIRO_LIBRARIES ${CAIRO_LIBRARY})
  
  # Library
 -add_library(${PROJECT_NAME}

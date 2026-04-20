@@ -1,0 +1,20 @@
+diff --git a/ouster-sdk/ouster_client/include/ouster/version.h b/ouster-sdk/ouster_client/include/ouster/version.h
+--- a/ouster-sdk/ouster_client/include/ouster/version.h
++++ b/ouster-sdk/ouster_client/include/ouster/version.h
+@@ -13,6 +13,15 @@
+ #include "ouster/deprecation.h"
+ #include "ouster/visibility.h"
+ 
++// glibc may expose major/minor macros through sys/types.h, which breaks
++// Version's field names when this header is included after libc headers.
++#ifdef major
++#undef major
++#endif
++
++#ifdef minor
++#undef minor
++#endif
++
+ namespace ouster {
+ namespace sdk {
+ namespace core {

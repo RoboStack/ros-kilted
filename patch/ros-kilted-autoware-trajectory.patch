@@ -27,3 +27,17 @@ index b2ce72b..35ba18f 100644
  namespace autoware::experimental::trajectory::interpolator
  {
  
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 6ca7cd4..8490283 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -42,6 +42,10 @@ ament_auto_add_library(autoware_trajectory SHARED
+   src/utils/velocity.cpp
+ )
+ 
++target_link_libraries(autoware_trajectory
++  fmt::fmt
++)
++
+ if(BUILD_TESTING)
+   ament_auto_find_test_dependencies()

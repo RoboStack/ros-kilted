@@ -1,0 +1,28 @@
+diff --git a/include/grid_map_core/eigen_plugins/FunctorsPlugin.hpp b/include/grid_map_core/eigen_plugins/FunctorsPlugin.hpp
+index 3d104a8..a2d2ad6 100644
+--- a/include/grid_map_core/eigen_plugins/FunctorsPlugin.hpp
++++ b/include/grid_map_core/eigen_plugins/FunctorsPlugin.hpp
+@@ -6,7 +6,6 @@
+ template<typename Scalar>
+ struct scalar_sum_of_finites_op
+ {
+-  EIGEN_EMPTY_STRUCT_CTOR(scalar_sum_of_finites_op)
+   EIGEN_STRONG_INLINE const Scalar operator()(const Scalar & a, const Scalar & b) const
+   {
+     using std::isfinite;
+@@ -29,7 +28,6 @@ struct functor_traits<scalar_sum_of_finites_op<Scalar>>
+ template<typename Scalar>
+ struct scalar_min_of_finites_op
+ {
+-  EIGEN_EMPTY_STRUCT_CTOR(scalar_min_of_finites_op)
+   EIGEN_STRONG_INLINE const Scalar operator()(const Scalar & a, const Scalar & b) const
+   {
+     using std::min;
+@@ -53,7 +51,6 @@ struct functor_traits<scalar_min_of_finites_op<Scalar>>
+ template<typename Scalar>
+ struct scalar_max_of_finites_op
+ {
+-  EIGEN_EMPTY_STRUCT_CTOR(scalar_max_of_finites_op)
+   EIGEN_STRONG_INLINE const Scalar operator()(const Scalar & a, const Scalar & b) const
+   {
+     using std::max;

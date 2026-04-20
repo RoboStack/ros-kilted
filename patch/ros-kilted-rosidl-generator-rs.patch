@@ -1,0 +1,19 @@
+diff --git a/cmake/rosidl_generator_rs_generate_interfaces.cmake b/cmake/rosidl_generator_rs_generate_interfaces.cmake
+index de2fe2f..4c8df1b 100644
+--- a/cmake/rosidl_generator_rs_generate_interfaces.cmake
++++ b/cmake/rosidl_generator_rs_generate_interfaces.cmake
+@@ -12,14 +12,6 @@
+ # See the License for the specific language governing permissions and
+ # limitations under the License.
+ 
+-if(NOT WIN32)
+-  if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+-    set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,--no-undefined")
+-  elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+-    set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,-undefined,error")
+-  endif()
+-endif()
+-
+ set(_output_path
+   "${CMAKE_CURRENT_BINARY_DIR}/rosidl_generator_rs/${PROJECT_NAME}")
+ set(_generated_common_rs_files "")

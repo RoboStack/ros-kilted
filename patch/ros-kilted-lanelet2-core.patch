@@ -29,3 +29,23 @@ index 080539ed..a37da11f 100644
  
  namespace lanelet {
  namespace geometry {
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -19,6 +19,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/custom.cmake")
+ endif()
+ 
+ find_package(AutoDeps REQUIRED COMPONENTS ${DEPENDEND_PACKAGES})
++find_package(Eigen3 REQUIRED CONFIG)
+ 
+ mrt_parse_package_xml()
+ 
+@@ -48,6 +49,8 @@ mrt_add_library(${PROJECT_NAME}
+     INCLUDES ${PROJECT_HEADER_FILES_INC} ${PROJECT_SOURCE_FILES_INC}
+     SOURCES ${PROJECT_SOURCE_FILES_SRC}
+     )
++
++target_link_libraries(${PROJECT_NAME} PUBLIC Eigen3::Eigen)
+ 
+ #############
+ ## Install ##
