@@ -816,6 +816,8 @@ python3-empy:
   robostack: [empy]
 python3-fastapi:
   robostack: [fastapi]
+python3-filelock:
+  robostack: [filelock]
 python3-flake8:
   robostack: [flake8]
 python3-flake8-comprehensions:
@@ -999,6 +1001,8 @@ python3-usb:
   robostack: [pyusb]
 python3-uvicorn:
   robostack: [uvicorn]
+python3-utm:
+  robostack: [utm]
 python3-vcstool:
   robostack: [vcs2l]
 python3-flake8-docstrings:
