@@ -28,25 +28,19 @@ tbb:
   - '2022'
 tbb_devel:
   - '2022'
-
 # Workaround for https://github.com/RoboStack/ros-jazzy/pull/40#issuecomment-2782226697
 cmake:
   - 3.*
-
 # as of early April 2026 key robotics packages like pinocchio still required eigen 3.4.0.*,
 # see https://github.com/conda-forge/eigenpy-feedstock/pull/184
 eigen_abi_devel:
   - '3.4.0'
-
-
 cdt_name: # [linux]
   - conda # [linux]
-
 python:
   - 3.12.* *_cpython
 python_impl:
   - cpython
-
 c_compiler:
   - gcc # [linux]
   - clang # [osx]
@@ -54,14 +48,15 @@ c_compiler:
 c_compiler_version: # [unix]
   - 14 # [linux]
   - 18 # [osx]
+  - 14 # [linux and not ppc64le and os.environ.get("CF_CUDA_ENABLED", "False") == "True"]
 c_stdlib:
   - sysroot # [linux]
   - macosx_deployment_target # [osx]
   - vs # [win]
 c_stdlib_version: # [unix]
   - 2.17 # [linux]
-  - 11.0 # [osx and x86_64]
-  - 11.0 # [osx and arm64]
+  - 2.17 # [linux and not ppc64le and os.environ.get("CF_CUDA_ENABLED", "False") == "True"]
+  - 11.0 # [osx]
 cxx_compiler:
   - gxx # [linux]
   - clangxx # [osx]
@@ -69,15 +64,13 @@ cxx_compiler:
 cxx_compiler_version: # [unix]
   - 14 # [linux]
   - 18 # [osx]
-
+  - 14 # [linux and not ppc64le and os.environ.get("CF_CUDA_ENABLED", "False") == "True"]
 libzenohc:
   - 1.7.2
 libzenohcxx:
   - 1.7.2
-
 libhwloc:
   - 2.12.2
-
 urdfdom:
   -  4.0.1
 urdfdom-headers:
