@@ -19,6 +19,7 @@ mutex_package:
     - gazebo 11.*
     - libprotobuf 6.33.5.*
     - vtk 9.6.0.*
+    - shaderc 2026.2.*
 
 packages_skip_by_deps:
   - if: not linux
