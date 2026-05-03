@@ -75,3 +75,5 @@ urdfdom:
   -  4.0.1
 urdfdom-headers:
   - 1.1.2
+shaderc:
+  - 2026.2
