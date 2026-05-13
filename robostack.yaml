@@ -328,6 +328,8 @@ libglu-dev:
     linux: [libglu]
     osx: []
     win64: []
+libgmock-dev:
+  robostack: [gmock]
 libgoogle-glog-dev:
   robostack: [glog]
 libgpgme-dev:
