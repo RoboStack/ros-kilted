@@ -17,6 +17,9 @@ rattler-build = "<0.58.0"
 cmake = "<4.0"
 setuptools = "<82.0"
 rattler-index = ">=0.27.16"
+curl = "*"
+go-yq = "*"
+colordiff = "*"
 
 [target.win-64.dependencies]
 # patch is required by rattler-build
@@ -53,3 +56,10 @@ cmd = "cp ./patch/{{ PACKAGE }}.*patch ./recipes/{{ PACKAGE }}/patch/; rattler-b
 args = [{ arg = "PACKAGE", default = "ros-kilted-ros-workspace" }]
 description = "Build a single package, from the ./recipes dir. Add the `ros-kilted-` prefix to the package name, e.g. `pixi build-one --package ros-kilted-ros-workspace`"
 
+[tasks.conda-build-config-upstream-diff]
+cmd = """
+curl -sLo .tmp.yaml https://github.com/conda-forge/conda-forge-pinning-feedstock/raw/refs/heads/main/recipe/conda_build_config.yaml && \
+yq eval 'with_entries(.value = (load(".tmp.yaml")[.key] // .value))' conda_build_config.yaml | colordiff -u conda_build_config.yaml - ;\
+rm .tmp.yaml
+"""
+description = "Check if there are differences between the local conda_build_config.yaml and the one in the conda-forge-pinning-feedstock."
