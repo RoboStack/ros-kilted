@@ -1,7 +1,7 @@
 numpy:
   - 2
 assimp:
-  - 5
+  - 6
 libprotobuf:
   - 6.33.5
 protobuf:
@@ -70,7 +70,7 @@ libzenohc:
 libzenohcxx:
   - 1.7.2
 libhwloc:
-  - 2.12.2
+  - 2.13.0
 urdfdom:
   - '4.0.1'
 urdfdom-headers:
