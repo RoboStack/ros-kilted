@@ -210,6 +210,7 @@ packages_select_by_deps:
       - apriltag_detector_mit
       - dual-laser-merger
       - pointcloud-to-laserscan
+      - point-cloud-transport-plugins
       - laser-segmentation
       - rqt_tf_tree
       - rviz_satellite
