@@ -44,6 +44,7 @@ packages_select_by_deps:
   - ament_cmake_core
   - ament_cmake_catch2
   - ament_cmake_mypy
+  - ament_cmake_clang_tidy
 
   - ros_base
   - ros_environment
