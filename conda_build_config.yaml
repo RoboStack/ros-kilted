@@ -1,33 +1,8 @@
 numpy:
   - 2
+
 assimp:
   - 6
-libprotobuf:
-  - 6.33.5
-protobuf:
-  - 6.33.5
-spdlog:
-  - '1.17'
-pugixml:
-  - '1.15'
-libopencv:
-  - 4.13.0
-libxml2:
-  - '2.14'
-graphviz:
-  - '14'
-# Mitigation for
-# https://github.com/RoboStack/ros-jazzy/pull/126#issuecomment-3515455380
-libcap:
-  - '2.77'
-fmt:
-  - '12.1'
-lua:
-  - 5.4
-tbb:
-  - '2022'
-tbb_devel:
-  - '2022'
 # Workaround for https://github.com/RoboStack/ros-jazzy/pull/40#issuecomment-2782226697
 cmake:
   - 3.*
@@ -35,6 +10,47 @@ cmake:
 # see https://github.com/conda-forge/eigenpy-feedstock/pull/184
 eigen_abi_devel:
   - '3.4.0'
+libprotobuf:
+  - 6.33.5
+protobuf:
+  - 6.33.5
+fmt:
+  - '12.1'
+graphviz:
+  - '14'
+jsoncpp:
+  - 1.9.7
+libopencv:
+  - 4.13.0
+# Mitigation for
+# https://github.com/RoboStack/ros-jazzy/pull/126#issuecomment-3515455380
+libcap:
+  - '2.77'
+libhwloc:
+  - 2.13.0
+libxml2:
+  - '2.14'
+libzenohc:
+  - 1.7.2
+libzenohcxx:
+  - 1.7.2
+lua:
+  - 5.4
+pugixml:
+  - '1.15'
+shaderc:
+  - '2026.2'
+spdlog:
+  - '1.17'
+tbb:
+  - '2022'
+tbb_devel:
+  - '2022'
+urdfdom:
+  - '4.0.1'
+urdfdom-headers:
+  - 1.1.2
+
 cdt_name: # [linux]
   - conda # [linux]
 python:
@@ -65,15 +81,3 @@ cxx_compiler_version: # [unix]
   - 14 # [linux]
   - 18 # [osx]
   - 14 # [linux and not ppc64le and os.environ.get("CF_CUDA_ENABLED", "False") == "True"]
-libzenohc:
-  - 1.7.2
-libzenohcxx:
-  - 1.7.2
-libhwloc:
-  - 2.13.0
-urdfdom:
-  - '4.0.1'
-urdfdom-headers:
-  - 1.1.2
-shaderc:
-  - '2026.2'
