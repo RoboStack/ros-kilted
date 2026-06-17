@@ -45,9 +45,9 @@ tbb:
 tbb_devel:
   - '2022'
 urdfdom:
-  - '4.0.1'
-urdfdom-headers:
-  - 1.1.2
+  - '5.1'
+vtk:
+  - 9.6.2
 
 cdt_name: # [linux]
   - conda # [linux]
