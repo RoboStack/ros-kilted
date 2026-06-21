@@ -51,6 +51,7 @@ eigenpy:
   generate_dummy_package_with_run_deps:
     dep_name: eigenpy
     max_pin: 'x.x.x'
+    override_version: '3.13.0'
 pinocchio:
   generate_dummy_package_with_run_deps:
     dep_name: pinocchio
