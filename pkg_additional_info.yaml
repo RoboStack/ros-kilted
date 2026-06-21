@@ -46,6 +46,7 @@ coal:
   generate_dummy_package_with_run_deps:
     dep_name: coal
     max_pin: 'x.x.x'
+    override_version: '3.0.3'
 eigenpy:
   generate_dummy_package_with_run_deps:
     dep_name: eigenpy
@@ -55,7 +56,7 @@ pinocchio:
     dep_name: pinocchio
     max_pin: 'x.x.x'
     # the version on ros is outdated w.r.t. to the conda-forge one
-    override_version: '3.9.0'
+    override_version: '4.0.0'
 gtsam:
   generate_dummy_package_with_run_deps:
     dep_name: gtsam
