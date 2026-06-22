@@ -101,7 +101,11 @@ jobs:
     - name: Delete specific outdated cache entries
       shell: bash -l {0}
       run: |
-        # rm -rf ${{ matrix.folder_cache }}/ros-kilted-rosx* 2>/dev/null || true
+        rm -rf ${{ matrix.folder_cache }}/ros-kilted-mrt-cmake-modules* 2>/dev/null || true
+        # chomp-motion-planner can end up as an incomplete package in the cache if a previous
+        # Windows run was cancelled mid-build; force a fresh rebuild to ensure cmake configs
+        # are properly installed
+        rm -rf ${{ matrix.folder_cache }}/ros-kilted-chomp-motion-planner* 2>/dev/null || true
         mkdir -p ${{ matrix.folder_cache }}
         pixi run rattler-index fs ${{ matrix.folder_cache }}/.. --force
 
