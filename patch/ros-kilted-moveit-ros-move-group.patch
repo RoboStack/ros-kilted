@@ -1,7 +1,7 @@
-diff --git a/moveit_ros/move_group/CMakeLists.txt b/moveit_ros/move_group/CMakeLists.txt
+diff --git a/CMakeLists.txt b/CMakeLists.txt
 index 7389985043..86bca8785d 100644
---- a/moveit_ros/move_group/CMakeLists.txt
-+++ b/moveit_ros/move_group/CMakeLists.txt
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
 @@ -74,7 +74,7 @@ add_executable(list_move_group_capabilities src/list_capabilities.cpp)
  ament_target_dependencies(list_move_group_capabilities
                            ${THIS_PACKAGE_INCLUDE_DEPENDS})
@@ -11,3 +11,14 @@ index 7389985043..86bca8785d 100644
  
  install(TARGETS move_group list_move_group_capabilities
          RUNTIME DESTINATION lib/moveit_ros_move_group)
+diff --git a/ConfigExtras.cmake b/ConfigExtras.cmake
+--- a/ConfigExtras.cmake
++++ b/ConfigExtras.cmake
+@@ -3,7 +3,6 @@ find_package(
+ find_package(
+   Boost
+   REQUIRED
+-  system
+   filesystem
+   date_time
+   program_options
