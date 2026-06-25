@@ -41,6 +41,16 @@ def parse_args() -> argparse.Namespace:
             "If omitted, all detected platform folders are inspected."
         ),
     )
+    parser.add_argument(
+        "--fail-on-extra",
+        action="store_true",
+        help="Exit with code 1 if built artifacts exist without a matching recipe directory.",
+    )
+    parser.add_argument(
+        "--fail-on-missing",
+        action="store_true",
+        help="Exit with code 1 if any generated recipe is missing a built artifact.",
+    )
     return parser.parse_args()
 
 
@@ -106,6 +116,16 @@ def recipe_directories(recipes_dir: Path) -> Set[str]:
     return {entry.name for entry in recipes_dir.iterdir() if entry.is_dir()}
 
 
+def gap_report_for_platform(
+    output_root: Path, recipes_dir: Path, platform: str
+) -> tuple[Set[str], Set[str], Set[str]]:
+    built = built_packages_for_platform(output_root, platform)
+    recipes = recipe_directories(recipes_dir)
+    extra = built - recipes
+    missing = recipes - built
+    return built, extra, missing
+
+
 def print_list(title: str, values: Iterable[str]) -> None:
     values = sorted(values)
     print(f"{title}: {len(values)}")
@@ -132,16 +152,17 @@ def main() -> int:
         )
         return 1
 
+    exit_code = 0
+
     for idx, platform in enumerate(selected_platforms):
-        built = built_packages_for_platform(output_root, platform)
+        built, extra, missing = gap_report_for_platform(output_root, recipes_dir, platform)
 
         print(f"Platform: {platform}")
         print_list(
             "Built package artifacts without matching recipe directory",
-            built - recipes,
+            extra,
         )
         print()
-        missing = recipes - built
         print(
             f"Recipe directories without built artifact on {platform} platform: "
             f"{len(missing)} out of {len(recipes)}"
@@ -150,10 +171,15 @@ def main() -> int:
             for recipe in sorted(missing):
                 print(f"  - {recipe}")
 
+        if args.fail_on_extra and extra:
+            exit_code = 1
+        if args.fail_on_missing and missing:
+            exit_code = 1
+
         if idx != len(selected_platforms) - 1:
             print("\n" + "-" * 72 + "\n")
 
-    return 0
+    return exit_code
 
 
 if __name__ == "__main__":
