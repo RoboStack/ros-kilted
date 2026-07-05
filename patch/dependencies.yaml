@@ -288,3 +288,6 @@ pinocchio:
   add_host: ["eigen-abi-devel"]
 eigenpy:
   add_host: ["eigen-abi-devel"]
+warehouse_ros_sqlite:
+  add_host: ["ros-kilted-sqlite3-vendor"]
+  add_run: ["ros-kilted-sqlite3-vendor"]
