@@ -163,6 +163,8 @@ packages_select_by_deps:
 
   - rtest
 
+  - urdf_launch
+
   # These packages are only built on Linux as they depend on Linux-specific API
   - if: linux
     then:
