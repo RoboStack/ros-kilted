@@ -168,6 +168,8 @@ ublox_gps:
 rosx_introspection:
   additional_cmake_args: "-DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=ON"
 
-# Remove on next rebuild
+# Remove everything after this line on a full rebuild
+ament_index_cpp:
+  build_number: 22
 camera_calibration:
   build_number: 22
