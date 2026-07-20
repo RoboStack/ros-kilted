@@ -173,3 +173,5 @@ ament_index_cpp:
   build_number: 22
 camera_calibration:
   build_number: 22
+nav2_smac_planner:
+  build_number: 22
