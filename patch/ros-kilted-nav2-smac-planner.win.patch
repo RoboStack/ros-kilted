@@ -93,6 +93,20 @@ index 824b43544..899ae11e4 100644
  
  private:
    float _cell_cost;
+diff --git a/include/nav2_smac_planner/thirdparty/robin_hood.h b/include/nav2_smac_planner/thirdparty/robin_hood.h
+index c6b0fd600..15df69e0c 100644
+--- a/include/nav2_smac_planner/thirdparty/robin_hood.h
++++ b/include/nav2_smac_planner/thirdparty/robin_hood.h
+@@ -147,7 +147,8 @@ static Counts& counts() {
+ #        pragma intrinsic(ROBIN_HOOD(BITSCANFORWARD))
+ #        define ROBIN_HOOD_COUNT_TRAILING_ZEROES(x)                                       \
+             [](size_t mask) noexcept -> int {                                             \
+-                unsigned long index;                                                      \  // NOLINT
++                /* NOLINTNEXTLINE(runtime/int) */                                        \
++                unsigned long index;                                                      \
+                 return ROBIN_HOOD(BITSCANFORWARD)(&index, mask) ? static_cast<int>(index) \
+                                                                 : ROBIN_HOOD(BITNESS);    \
+             }(x)
 diff --git a/CMakeLists.txt b/CMakeLists.txt
 index 4ae1a98ad..3a574800b 100644
 --- a/CMakeLists.txt
@@ -108,24 +122,3 @@ index 4ae1a98ad..3a574800b 100644
  nav2_package()
  
  if(MSVC)
-diff --git a/include/nav2_smac_planner/a_star.hpp b/include/nav2_smac_planner/a_star.hpp
-index 8b127960c..a5dbbc262 100644
---- a/include/nav2_smac_planner/a_star.hpp
-+++ b/include/nav2_smac_planner/a_star.hpp
-@@ -26,7 +26,6 @@
- #include "nav2_costmap_2d/costmap_2d.hpp"
- #include "nav2_core/planner_exceptions.hpp"
- 
--#include "nav2_smac_planner/thirdparty/robin_hood.h"
- #include "nav2_smac_planner/analytic_expansion.hpp"
- #include "nav2_smac_planner/node_2d.hpp"
- #include "nav2_smac_planner/node_hybrid.hpp"
-@@ -47,7 +46,7 @@ class AStarAlgorithm
- {
- public:
-   typedef NodeT * NodePtr;
--  typedef robin_hood::unordered_node_map<uint64_t, NodeT> Graph;
-+  typedef std::unordered_map<uint64_t, NodeT> Graph;
-   typedef std::vector<NodePtr> NodeVector;
-   typedef std::pair<float, NodeBasic<NodeT>> NodeElement;
-   typedef typename NodeT::Coordinates Coordinates;
