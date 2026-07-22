@@ -174,6 +174,9 @@ uncrustify_vendor:
   add_run: ["uncrustify"]
 mimick_vendor:
   add_build: ["vcstool"]
+gtest_vendor:
+  add_host: ["gtest"]
+  add_run: ["gtest"]
 gz_cmake_vendor:
   # https://github.com/gazebo-release/gz_cmake_vendor/blob/kilted/CMakeLists.txt#L6 for select the right major version
   # (this is true for all gz-* vendor packages) or https://github.com/gazebo-tooling/gazebodistro/blob/master/collection-harmonic.yaml
