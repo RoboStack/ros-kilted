@@ -29,7 +29,7 @@ git = "*"
 
 [pypi-dependencies]
 # This is typically the latest commit on main branch
-vinca = { git ="https://github.com/RoboStack/vinca.git", rev = "0e75b9673808de3917292341550aabe1d5bac85d" }
+vinca = { git ="https://github.com/RoboStack/vinca.git", rev = "96b8ec8c906350357a981723c0620db11ba323e5" }
 # Uncomment this line to work with a local vinca for faster iteration, but remember to comment it back
 # (and regenerate the pixi.lock) once you push the modified commit to the repo
 # vinca = { path = "../vinca", editable = true }
@@ -41,6 +41,7 @@ check-patches = { cmd = "python check_patches_clean_apply.py", depends-on = ["ge
 create_snapshot = { cmd = "vinca-snapshot -d kilted -o rosdistro_snapshot.yaml" }
 upload = "rattler-build upload anaconda -o robostack-kilted -a $ANACONDA_API_TOKEN"
 build_continue_on_failure = { cmd = "rattler-build build --recipe-dir ./recipes -m ./conda_build_config.yaml -c robostack-kilted -c https://repo.prefix.dev/conda-forge --continue-on-failure --skip-existing", depends-on = ["generate-recipes"] }
+sort = { cmd = "vinca-sort-vinca-lists {{ check }} vinca.yaml && vinca-sort-yaml-keys {{ check }} pkg_additional_info.yaml robostack.yaml rosdistro_additional_recipes.yaml", args = [{ arg = "check", default = "" }] }
 
 [tasks.build]
 cmd = "rattler-build build --recipe-dir ./recipes -m ./conda_build_config.yaml -c https://prefix.dev/robostack-kilted -c https://prefix.dev/conda-forge --skip-existing"
