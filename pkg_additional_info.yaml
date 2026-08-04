@@ -170,9 +170,9 @@ zenoh_cpp_vendor:
   additional_cmake_args: "-DAMENT_VENDOR_POLICY=NEVER_VENDOR_IGNORE_SATISFIED_CHECK"
 
 # Remove everything after this line on a full rebuild
-camera_calibration:
-  build_number: 22
 ament_index_cpp:
+  build_number: 22
+camera_calibration:
   build_number: 22
 nav2_smac_planner:
   build_number: 22
