@@ -610,6 +610,8 @@ lua5.2-dev:
   robostack: [lua]
 lz4:
   robostack: [lz4]
+magic_enum:
+  robostack: [magic_enum]
 maven:
   robostack: [maven]
 mongodb:

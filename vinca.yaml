@@ -152,8 +152,6 @@ packages_select_by_deps:
   - polygon_msgs
   - ros2_fmt_logger
 
-  - magic_enum
-
   - better_launch
   - cm_executors
   - py-trees
