@@ -35,6 +35,8 @@ else
     cross_compile=""
 fi
 
+skip_upload="${VINCA_SKIP_UPLOAD:-0}"
+
 
 for recipe in ${CURRENT_RECIPES[@]}; do
 	pixi run -v rattler-build build \
@@ -47,6 +49,11 @@ for recipe in ${CURRENT_RECIPES[@]}; do
 		# -m ${FEEDSTOCK_ROOT}/.ci_support/conda_forge_pinnings.yaml \
 
 done
+
+if [[ "$skip_upload" == "1" ]]; then
+    echo "VINCA_SKIP_UPLOAD=1, skipping immediate upload for $target"
+    exit 0
+fi
 
 # Check if it build something, this is a hotfix for the skips inside additional_recipes 
 if compgen -G "${CONDA_BLD_PATH}/${target}*/*.conda" > /dev/null; then
