@@ -2,9 +2,12 @@ on:
   pull_request:
   workflow_dispatch:
 
+permissions:
+  actions: read
+  contents: read
+
 env:
   ROS_VERSION: 2
-  PYTHONIOENCODING: utf-8
   # Change to 'true' to enable the cache upload as artifacts
   SAVE_CACHE_AS_ARTIFACT: 'true'
   # Change to 'true' to ignore cache and force a full rebuild, but please restore to 'false' before merging
@@ -40,9 +43,10 @@ jobs:
         persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal token
         fetch-depth: 0 # otherwise, you will failed to push refs to dest repo
 
-    - uses: prefix-dev/setup-pixi@v0.9.4
+    - uses: prefix-dev/setup-pixi@v0.10.0
       with:
         frozen: true
+        pixi-version: v0.75.0
 
     - name: Check sorting
       if: matrix.platform == 'linux-64'
@@ -70,7 +74,8 @@ jobs:
     # For some reason, the Strawberry perl's pkg-config is found
     # instead of the conda's one, so let's delete the /c/Strawberry directory
     # Furthermore, we also need to remove an older SDK that is used and can result in compilation problems
-    - name: Debug pkg-config problem
+    # And we also remove the vcpkg installed in the image, to avoid that projects pick it
+    - name: Remove problematic files of GitHub Actions images
       if: contains(matrix.os, 'windows')
       shell: bash -l {0}
       run: |
@@ -85,8 +90,20 @@ jobs:
     - name: Generate recipes
       shell: bash -l {0}
       run: |
-        mkdir -p recipes
-        pixi run -v vinca --platform ${{ matrix.platform }} -m -n
+        set -e
+        for attempt in 1 2 3; do
+          rm -rf recipes
+          mkdir -p recipes
+          if pixi run -v vinca --platform ${{ matrix.platform }} -m -n; then
+            break
+          fi
+          if [[ "${attempt}" == "3" ]]; then
+            echo "Recipe generation failed after ${attempt} attempts" >&2
+            exit 1
+          fi
+          echo "Recipe generation attempt ${attempt} failed; retrying..." >&2
+          sleep 15
+        done
 
     - name: Check patches
       shell: bash -l {0}
