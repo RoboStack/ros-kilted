@@ -10,10 +10,10 @@ Usage
 -----
 
     # From repository root
-    python .scripts/check_patches_clean_apply.py          # prepare + run
-    python .scripts/check_patches_clean_apply.py --dry    # prepare only
-    python .scripts/check_patches_clean_apply.py --dry --recipe ros-kilted-rviz2
-    python .scripts/check_patches_clean_apply.py --clean  # delete output
+    python check_patches_clean_apply.py          # prepare + run
+    python check_patches_clean_apply.py --dry    # prepare only
+    python check_patches_clean_apply.py --dry --recipe ros-kilted-rviz2
+    python check_patches_clean_apply.py --clean  # delete output
 
 The script creates (or refreshes) a sibling folder named
 *recipes_only_patch*.  Every recipe that declares *patches:* gets a
@@ -189,6 +189,12 @@ def run_rattler_build_individually(recipes: List[Path]) -> None:
         print("\n Running:", " ".join(cmd), "\n", flush=True)
         try:
             proc = subprocess.run(cmd, text=True, capture_output=True, errors="replace", encoding="utf-8")
+            # rattler-build's shared Git source cache can occasionally retain
+            # tag refs whose objects were not fetched. Retry from a clean Git
+            # cache rather than reporting a spurious patch failure.
+            if proc.returncode != 0 and "Git error: Git fetch failed" in proc.stderr:
+                shutil.rmtree(ROOT_DIR / "output" / "src_cache" / "git", ignore_errors=True)
+                proc = subprocess.run(cmd, text=True, capture_output=True, errors="replace", encoding="utf-8")
             success = proc.returncode == 0
             results.append(
                 {
