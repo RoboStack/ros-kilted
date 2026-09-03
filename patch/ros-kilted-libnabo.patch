@@ -1,0 +1,75 @@
+diff --git a/python/nabo.cpp b/python/nabo.cpp
+--- a/python/nabo.cpp
++++ b/python/nabo.cpp
+@@ -32,12 +32,12 @@
+ }
+ #endif
+ 
+-void matrixSizeFromPythonArray(const PyObject* cloudObj, int& rowCount, int& colCount)
++void matrixSizeFromPythonArray(PyArrayObject* cloudObj, int& rowCount, int& colCount)
+ {
+-	assert(PyArray_CHKFLAGS(cloudObj, NPY_C_CONTIGUOUS) || PyArray_CHKFLAGS(cloudObj, NPY_F_CONTIGUOUS));
++	assert(PyArray_IS_C_CONTIGUOUS(cloudObj) || PyArray_IS_F_CONTIGUOUS(cloudObj));
+ 	assert(PyArray_NDIM(cloudObj) == 2);
+ 	const npy_intp *shape = PyArray_DIMS(cloudObj);
+-	if (PyArray_CHKFLAGS(cloudObj, NPY_F_CONTIGUOUS))
++	if (PyArray_IS_F_CONTIGUOUS(cloudObj))
+ 	{
+ 		colCount = shape[1];
+ 		rowCount = shape[0];
+@@ -49,27 +49,27 @@
+ 	}
+ }
+ 
+-void checkPythonArray(const PyObject* cloudObj, const char *paramName)
++void checkPythonArray(PyArrayObject* cloudObj, const char *paramName)
+ {
+ 	std::string startMsg("Argument \"");
+ 	startMsg += paramName;
+ 	startMsg += "\" ";
+ 	
+-	if (!PyArray_Check(cloudObj))
++	if (!PyArray_Check((PyObject*)cloudObj))
+ 		throw std::runtime_error(startMsg + "must be a multi-dimensional array");
+ 	const int nDim = PyArray_NDIM(cloudObj);
+ 	if (nDim != 2)
+ 		throw std::runtime_error(startMsg + "must be a two-dimensional array");
+ 	if (PyArray_TYPE(cloudObj) != NPY_FLOAT64)
+ 		throw std::runtime_error(startMsg + "must hold doubles");
+-	if (!PyArray_CHKFLAGS(cloudObj, NPY_C_CONTIGUOUS) && !PyArray_CHKFLAGS(cloudObj, NPY_F_CONTIGUOUS))
++	if (!PyArray_IS_C_CONTIGUOUS(cloudObj) && !PyArray_IS_F_CONTIGUOUS(cloudObj))
+ 		throw std::runtime_error(startMsg + "must be a continuous array");
+ }
+ 
+ MappedEigenDoubleMatrix* eigenFromBoostPython(const object cloudIn, const char *paramName)
+ {
+ 	int dimCount, pointCount;
+-	const PyObject *cloudObj(cloudIn.ptr());
++	PyArrayObject *cloudObj(reinterpret_cast<PyArrayObject*>(cloudIn.ptr()));
+ 	
+ 	checkPythonArray(cloudObj, paramName);
+ 	
+@@ -82,7 +82,7 @@
+ void eigenFromBoostPython(NNSNabo::Matrix& cloudOut, const object cloudIn, const char *paramName)
+ {
+ 	int dimCount, pointCount;
+-	const PyObject *cloudObj(cloudIn.ptr());
++	PyArrayObject *cloudObj(reinterpret_cast<PyArrayObject*>(cloudIn.ptr()));
+ 	
+ 	checkPythonArray(cloudObj, paramName);
+ 	
+@@ -147,10 +147,10 @@
+ 		// build resulting python types
+ 		npy_intp retDims[2] = { mappedQuery->cols(), k };
+ 		const int dataCount(k * mappedQuery->cols());
+-		PyObject* dists2 = PyArray_EMPTY(2, retDims, PyArray_DOUBLE, PyArray_ISFORTRAN(query.ptr()));
+-		memcpy(PyArray_DATA(dists2), dists2Matrix.data(), dataCount*sizeof(double));
+-		PyObject* indices = PyArray_EMPTY(2, retDims, PyArray_INT, PyArray_ISFORTRAN(query.ptr()));
+-		memcpy(PyArray_DATA(indices), indexMatrix.data(), dataCount*sizeof(int));
++		PyObject* dists2 = PyArray_EMPTY(2, retDims, NPY_DOUBLE, PyArray_ISFORTRAN(reinterpret_cast<PyArrayObject*>(query.ptr())));
++		memcpy(PyArray_DATA(reinterpret_cast<PyArrayObject*>(dists2)), dists2Matrix.data(), dataCount*sizeof(double));
++		PyObject* indices = PyArray_EMPTY(2, retDims, NPY_INT, PyArray_ISFORTRAN(reinterpret_cast<PyArrayObject*>(query.ptr())));
++		memcpy(PyArray_DATA(reinterpret_cast<PyArrayObject*>(indices)), indexMatrix.data(), dataCount*sizeof(int));
+ 		delete mappedQuery;
+ 		
+ 		// return results

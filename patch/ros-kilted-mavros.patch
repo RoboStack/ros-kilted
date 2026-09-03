@@ -1,0 +1,21 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index fca2174a0..bce587fe9 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -36,10 +36,12 @@ find_package(eigen3_cmake_module REQUIRED)
+ find_package(Eigen3 REQUIRED)
+ 
+ ## Find GeographicLib
+-# Append to CMAKE_MODULE_PATH since debian/ubuntu installs
+-# FindGeographicLib.cmake in a nonstand location
+-set(CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH};/usr/share/cmake/geographiclib")
+-find_package(GeographicLib REQUIRED)
++# Use CONFIG mode to find GeographicLib from conda package
++find_package(GeographicLib REQUIRED CONFIG)
++
++if(APPLE)
++  add_compile_options(-include sys/endian.h)
++endif()
+ 
+ find_package(angles REQUIRED)
+ find_package(eigen_stl_containers REQUIRED)

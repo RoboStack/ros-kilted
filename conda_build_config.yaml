@@ -8,42 +8,49 @@ cmake:
   - 3.*
 eigen_abi_devel:
   - '5.0.1'
+icu:
+  - '78'
+# Apply conda-forge's 2026 Q2 Abseil/gRPC/Protobuf migration.
+libabseil:
+  - 20260526
+libgrpc:
+  - '1.82'
 libprotobuf:
-  - 6.33.5
+  - 7.35.1
 protobuf:
-  - 6.33.5
+  - 7.35.1
 fmt:
   - '12.1'
 graphviz:
   - '14'
 jsoncpp:
-  - 1.9.7
+  - 1.9.8
 libopencv:
   - 4.13.0
 # Mitigation for
 # https://github.com/RoboStack/ros-jazzy/pull/126#issuecomment-3515455380
 libcap:
-  - '2.77'
+  - 2.78
 libhwloc:
   - 2.13.0
 libxml2:
   - '2.14'
 libzenohc:
-  - 1.7.2
+  - 1.9.0
 libzenohcxx:
-  - 1.7.2
+  - 1.9.0
 lua:
   - 5.4
 pugixml:
   - '1.15'
 shaderc:
-  - '2026.2'
+  - '2026.3'
 spdlog:
   - '1.17'
 tbb:
-  - '2022'
+  - '2023'
 tbb_devel:
-  - '2022'
+  - '2023'
 urdfdom:
   - '6.0'
 urdfdom_headers:
@@ -65,22 +72,22 @@ c_compiler:
   - vs2022                     # [win]
 c_compiler_version:            # [unix]
   - 14                         # [linux]
-  - 18                         # [osx]
+  - 19                         # [osx]
 c_stdlib:
   - sysroot                    # [linux]
   - macosx_deployment_target   # [osx]
   - vs                         # [win]
 c_stdlib_version:              # [unix]
   - 2.17                       # [linux]
-  - 11.0                       # [osx and x86_64]
-  - 11.0                       # [osx and arm64]
+  - 12.0                       # [osx and x86_64]
+  - 12.0                       # [osx and arm64]
 cxx_compiler:
   - gxx                        # [linux]
   - clangxx                    # [osx]
   - vs2022                     # [win]
 cxx_compiler_version:          # [unix]
   - 14                         # [linux]
-  - 18                         # [osx]
+  - 19                         # [osx]
 
 lbr_fri_client_sdk:
   - '1.11'

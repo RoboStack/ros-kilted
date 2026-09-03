@@ -1,0 +1,303 @@
+diff --git a/deps/libmotioncapture/CMakeLists.txt b/deps/libmotioncapture/CMakeLists.txt
+index 69860c3..39fc163 100644
+--- a/deps/libmotioncapture/CMakeLists.txt
++++ b/deps/libmotioncapture/CMakeLists.txt
+@@ -18,7 +18,7 @@ set(CMAKE_CXX_STANDARD 14)
+ set(CMAKE_CXX_STANDARD_REQUIRED ON)
+ set(CMAKE_CXX_EXTENSIONS OFF)
+ 
+-find_package(Boost 1.5 COMPONENTS system REQUIRED) # for optitrack
++find_package(Boost 1.5 REQUIRED) # for optitrack (system component is header-only in Boost 1.70+)
+ add_definitions(
+   -DBOOST_DATE_TIME_NO_LIB
+   -DBOOST_REGEX_NO_LIB
+@@ -26,6 +26,9 @@ add_definitions(
+ )
+ 
+ find_package(Eigen3 REQUIRED)
++if(NOT EIGEN3_INCLUDE_DIRS AND TARGET Eigen3::Eigen)
++  get_target_property(EIGEN3_INCLUDE_DIRS Eigen3::Eigen INTERFACE_INCLUDE_DIRECTORIES)
++endif()
+ 
+ set(VICON_SDK_DIR ${CMAKE_CURRENT_SOURCE_DIR}/deps/vicon-datastream-sdk/)
+ set(QUALISYS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/deps/qualisys_cpp_sdk/)
+diff --git a/deps/libmotioncapture/deps/vicon-datastream-sdk/CMakeLists.txt b/deps/libmotioncapture/deps/vicon-datastream-sdk/CMakeLists.txt
+index 68fe194..131130f 100644
+--- a/deps/libmotioncapture/deps/vicon-datastream-sdk/CMakeLists.txt
++++ b/deps/libmotioncapture/deps/vicon-datastream-sdk/CMakeLists.txt
+@@ -3,7 +3,7 @@ project(vicon-datastream-sdk)
+ 
+ set (CMAKE_CXX_STANDARD 11)
+ 
+-find_package(Boost 1.5 COMPONENTS system thread REQUIRED)
++find_package(Boost 1.5 COMPONENTS thread REQUIRED)
+ set(THREADS_PREFER_PTHREAD_FLAG ON)
+ find_package(Threads REQUIRED)
+ 
+@@ -33,7 +33,6 @@ add_library(ViconDataStreamSDK_CPP STATIC
+ 
+ target_link_libraries(ViconDataStreamSDK_CPP
+   PRIVATE
+-    Boost::system
+     Boost::thread
+     Threads::Threads
+ )
+diff --git a/deps/libmotioncapture/deps/vicon-datastream-sdk/Vicon/CrossMarket/DataStream/ViconCGStreamClient/CGStreamPostalService.h b/deps/libmotioncapture/deps/vicon-datastream-sdk/Vicon/CrossMarket/DataStream/ViconCGStreamClient/CGStreamPostalService.h
+index 1e640ab..d3aeb6c 100644
+--- a/deps/libmotioncapture/deps/vicon-datastream-sdk/Vicon/CrossMarket/DataStream/ViconCGStreamClient/CGStreamPostalService.h
++++ b/deps/libmotioncapture/deps/vicon-datastream-sdk/Vicon/CrossMarket/DataStream/ViconCGStreamClient/CGStreamPostalService.h
+@@ -24,7 +24,9 @@
+ //////////////////////////////////////////////////////////////////////////////////
+ #pragma once
+ 
+-#include <boost/asio/io_service.hpp>
++#include <boost/asio/io_context.hpp>
++#include <boost/asio/executor_work_guard.hpp>
++#include <boost/asio/post.hpp>
+ #include <boost/thread/mutex.hpp>
+ #include <boost/thread/thread.hpp>
+ 
+@@ -35,7 +37,7 @@ class VCGStreamPostalService
+ public:
+   void Post( const std::function< void() >& i_rFunction ) const
+   {
+-    m_pService->post( i_rFunction );
++    boost::asio::post( *m_pService, i_rFunction );
+   }
+ 
+   bool StartService()
+@@ -43,12 +45,12 @@ public:
+     boost::mutex::scoped_lock Lock( m_Mutex );
+     if( !m_pService )
+     {
+-      m_pService = std::make_shared< boost::asio::io_service >();
++      m_pService = std::make_shared< boost::asio::io_context >();
+     }
+ 
+     if( !m_pWork )
+     {
+-      m_pWork = std::make_shared< boost::asio::io_service::work >( *m_pService );
++      m_pWork = std::make_shared< boost::asio::executor_work_guard<boost::asio::io_context::executor_type> >( boost::asio::make_work_guard(*m_pService) );
+       m_Thread = boost::thread( std::bind( &VCGStreamPostalService::ThreadFunction, this ) );
+     }
+ 
+@@ -62,7 +64,7 @@ public:
+     {
+       m_pWork.reset();
+       m_Thread.join();
+-      m_pService->reset();
++      m_pService->restart();
+       return true;
+     }
+     return false;
+@@ -75,7 +77,7 @@ public:
+ 
+ private:
+   mutable boost::mutex m_Mutex;
+-  std::shared_ptr< boost::asio::io_service > m_pService;
+-  std::shared_ptr< boost::asio::io_service::work > m_pWork;
++  std::shared_ptr< boost::asio::io_context > m_pService;
++  std::shared_ptr< boost::asio::executor_work_guard<boost::asio::io_context::executor_type> > m_pWork;
+   boost::thread m_Thread;
+ };
+diff --git a/deps/libmotioncapture/deps/vicon-datastream-sdk/Vicon/CrossMarket/DataStream/ViconCGStreamClient/ViconCGStreamClient.cpp b/deps/libmotioncapture/deps/vicon-datastream-sdk/Vicon/CrossMarket/DataStream/ViconCGStreamClient/ViconCGStreamClient.cpp
+index 7988ab2..747ca57 100644
+--- a/deps/libmotioncapture/deps/vicon-datastream-sdk/Vicon/CrossMarket/DataStream/ViconCGStreamClient/ViconCGStreamClient.cpp
++++ b/deps/libmotioncapture/deps/vicon-datastream-sdk/Vicon/CrossMarket/DataStream/ViconCGStreamClient/ViconCGStreamClient.cpp
+@@ -351,11 +351,9 @@ void VViconCGStreamClient::Connect( const std::string& i_rHost, unsigned short i
+   const std::string Adapter = AtPos == std::string::npos ? "" : i_rHost.substr( AtPos + 1 );
+ 
+   boost::asio::ip::tcp::resolver Resolver( m_Service );
+-  boost::asio::ip::tcp::resolver::query Query( Host, "" );
+-
++  
+   boost::system::error_code Error;
+-  boost::asio::ip::tcp::resolver::iterator It = Resolver.resolve( Query, Error );
+-  boost::asio::ip::tcp::resolver::iterator End;
++  auto Results = Resolver.resolve( Host, "", Error );
+ 
+   if( Error )
+   {
+@@ -364,10 +362,10 @@ void VViconCGStreamClient::Connect( const std::string& i_rHost, unsigned short i
+   }
+ 
+   bool bConnected = false;
+-  for( ; It != End; ++It )
++  for( const auto& Entry : Results )
+   {
+     Error = boost::system::error_code();
+-    boost::asio::ip::tcp::endpoint EndPoint( *It );
++    boost::asio::ip::tcp::endpoint EndPoint( Entry );
+ 
+     // Currently we only handle IPv4
+     // This has to be explicitly handled, otherwise the socket can bind to a v6 endpoint and then fail
+@@ -392,7 +390,7 @@ void VViconCGStreamClient::Connect( const std::string& i_rHost, unsigned short i
+     if( !Error && !Adapter.empty() )
+     {
+       boost::asio::ip::address_v4 AdapterAddress;
+-      AdapterAddress.from_string( Adapter, Error );
++      AdapterAddress = boost::asio::ip::make_address_v4( Adapter, Error );
+       if( !Error )
+       {
+         const boost::asio::ip::tcp::endpoint AdapterEndPoint( AdapterAddress, 0 );
+@@ -478,7 +476,7 @@ void VViconCGStreamClient::ReceiveMulticastData( std::string i_MulticastIPAddres
+     Disconnect();
+   }
+ 
+-  if( !MulticastAddress.is_multicast() && ( MulticastAddress.to_ulong() != 0xFFFFFFFF ) )
++  if( !MulticastAddress.is_multicast() && ( MulticastAddress.to_uint() != 0xFFFFFFFF ) )
+   {
+     OnDisconnect();
+     return;
+@@ -652,8 +650,8 @@ void VViconCGStreamClient::SetServerToTransmitMulticast( std::string i_Multicast
+     boost::asio::ip::address_v4 MulticastAddress = FirstV4AddressFromString( i_MulticastIPAddress );
+     boost::asio::ip::address_v4 ServerAddress = FirstV4AddressFromString( i_ServerIPAddress );
+ 
+-    RequestMulticast.m_MulticastIpAddress = static_cast< ViconCGStreamType::UInt32 >( MulticastAddress.to_ulong() );
+-    RequestMulticast.m_SourceIpAddress = static_cast< ViconCGStreamType::UInt32 >( ServerAddress.to_ulong() );
++    RequestMulticast.m_MulticastIpAddress = static_cast< ViconCGStreamType::UInt32 >( MulticastAddress.to_uint() );
++    RequestMulticast.m_SourceIpAddress = static_cast< ViconCGStreamType::UInt32 >( ServerAddress.to_uint() );
+     RequestMulticast.m_Port = i_Port;
+ 
+     Objects.Write( RequestMulticast );
+@@ -1603,24 +1601,21 @@ void VViconCGStreamClient::TimingLogFunction( const unsigned int i_FrameNumber,
+ boost::asio::ip::address_v4 VViconCGStreamClient::FirstV4AddressFromString( const std::string& i_rAddress )
+ {
+   boost::system::error_code Error;
+-  boost::asio::ip::address_v4 Address = boost::asio::ip::address_v4::from_string( i_rAddress, Error );
++  boost::asio::ip::address_v4 Address = boost::asio::ip::make_address_v4( i_rAddress, Error );
+   if( !Error )
+   {
+     return Address;
+   }
+ 
+   boost::asio::ip::tcp::resolver Resolver( m_Service );
+-  boost::asio::ip::tcp::resolver::query Query( i_rAddress, "" );
+-
+-  boost::asio::ip::tcp::resolver::iterator It = Resolver.resolve( Query, Error );
+-  boost::asio::ip::tcp::resolver::iterator End;
++  auto Results = Resolver.resolve( i_rAddress, "", Error );
+ 
+   if( !Error )
+   {
+-    for( ; It != End; ++It )
++    for( const auto& Entry : Results )
+     {
+       Error = boost::system::error_code();
+-      boost::asio::ip::tcp::endpoint EndPoint( *It );
++      boost::asio::ip::tcp::endpoint EndPoint( Entry );
+ 
+       // Currently we only handle IPv4
+       if( EndPoint.address().is_v4() )
+diff --git a/deps/libmotioncapture/deps/vicon-datastream-sdk/Vicon/CrossMarket/DataStream/ViconCGStreamClient/ViconCGStreamClient.h b/deps/libmotioncapture/deps/vicon-datastream-sdk/Vicon/CrossMarket/DataStream/ViconCGStreamClient/ViconCGStreamClient.h
+index ee71cca..47547b3 100644
+--- a/deps/libmotioncapture/deps/vicon-datastream-sdk/Vicon/CrossMarket/DataStream/ViconCGStreamClient/ViconCGStreamClient.h
++++ b/deps/libmotioncapture/deps/vicon-datastream-sdk/Vicon/CrossMarket/DataStream/ViconCGStreamClient/ViconCGStreamClient.h
+@@ -272,7 +272,7 @@ protected:
+ 
+   std::weak_ptr< IViconCGStreamClientCallback > m_pCallback;
+ 
+-  boost::asio::io_service m_Service;
++  boost::asio::io_context m_Service;
+   std::shared_ptr< boost::asio::ip::tcp::socket > m_pSocket;
+   std::shared_ptr< boost::asio::ip::udp::socket > m_pMulticastSocket;
+ 
+diff --git a/deps/libmotioncapture/deps/vicon-datastream-sdk/Vicon/CrossMarket/DataStream/ViconDataStreamSDKCoreUtils/ClientUtils.cpp b/deps/libmotioncapture/deps/vicon-datastream-sdk/Vicon/CrossMarket/DataStream/ViconDataStreamSDKCoreUtils/ClientUtils.cpp
+index dfb8a21..03561ff 100644
+--- a/deps/libmotioncapture/deps/vicon-datastream-sdk/Vicon/CrossMarket/DataStream/ViconDataStreamSDKCoreUtils/ClientUtils.cpp
++++ b/deps/libmotioncapture/deps/vicon-datastream-sdk/Vicon/CrossMarket/DataStream/ViconDataStreamSDKCoreUtils/ClientUtils.cpp
+@@ -166,23 +166,20 @@ namespace ClientUtils
+ 
+   bool IsValidMulticastIP( const std::string & i_MulticastIPAddress )
+   {
+-    boost::asio::io_service Service;
++    boost::asio::io_context Service;
+     boost::system::error_code Error;
+-    boost::asio::ip::address_v4 Address = boost::asio::ip::address_v4::from_string( i_MulticastIPAddress, Error );
++    boost::asio::ip::address_v4 Address = boost::asio::ip::make_address_v4( i_MulticastIPAddress, Error );
+     if( Error )
+     {
+       boost::asio::ip::tcp::resolver Resolver( Service );
+-      boost::asio::ip::tcp::resolver::query Query( i_MulticastIPAddress, "" );
+-      
+-      boost::asio::ip::tcp::resolver::iterator It = Resolver.resolve( Query, Error );
+-      boost::asio::ip::tcp::resolver::iterator End;
++      auto Results = Resolver.resolve( i_MulticastIPAddress, "", Error );
+       
+       if( ! Error )
+       {
+-        for( ; It != End; ++It )
++        for( const auto & Entry : Results )
+         {
+           Error = boost::system::error_code();
+-          boost::asio::ip::tcp::endpoint EndPoint( *It );
++          boost::asio::ip::tcp::endpoint EndPoint( Entry );
+ 
+           // Currently we only handle IPv4
+           if( EndPoint.address().is_v4() )
+@@ -198,7 +195,7 @@ namespace ClientUtils
+       }
+     }
+ 
+-    return( Address.is_multicast() || ( Address.to_ulong() == 0xFFFFFFFF ) );
++    return( Address.is_multicast() || ( Address.to_uint() == 0xFFFFFFFF ) );
+   }
+ 
+ 
+diff --git a/deps/libmotioncapture/include/libmotioncapture/fzmotion.h b/deps/libmotioncapture/include/libmotioncapture/fzmotion.h
+index 88a3b84..6071242 100644
+--- a/deps/libmotioncapture/include/libmotioncapture/fzmotion.h
++++ b/deps/libmotioncapture/include/libmotioncapture/fzmotion.h
+@@ -160,7 +160,7 @@ namespace libmotioncapture {
+ 		static MotionCaptureFZMotion* s_pInstance;
+ 		static recursive_mutex s_mutex;
+ 
+-		boost::asio::io_service m_IOService;
++		boost::asio::io_context m_IOService;
+ 		udp::socket m_TransmissionSocket;
+ 		udp::socket m_ConnectionSocket;
+ 		udp::resolver m_Resolver;
+diff --git a/deps/libmotioncapture/src/fzmotion.cpp b/deps/libmotioncapture/src/fzmotion.cpp
+index 27c6112..3d30ed5 100644
+--- a/deps/libmotioncapture/src/fzmotion.cpp
++++ b/deps/libmotioncapture/src/fzmotion.cpp
+@@ -55,11 +55,11 @@ namespace libmotioncapture {
+         this->m_iRemoteCPort = iRemotePort;
+         
+         cout << this->m_strLocalIP << this->m_iLocalCPort << endl;
+-        this->m_localCEndpoint = udp::endpoint(address_v4::from_string(this->m_strLocalIP), this->m_iLocalCPort);
++        this->m_localCEndpoint = udp::endpoint(make_address_v4(this->m_strLocalIP), this->m_iLocalCPort);
+ 
+         cout << this->m_strRemoteIP << this->m_iRemoteCPort << endl;
+-        udp::resolver::query query(udp::v4(), this->m_strRemoteIP, std::to_string(this->m_iRemoteCPort));
+-        this->m_remoteCEndpoint = *this->m_Resolver.resolve(query);
++        auto fzResults = this->m_Resolver.resolve(udp::v4(), this->m_strRemoteIP, std::to_string(this->m_iRemoteCPort));
++        this->m_remoteCEndpoint = *fzResults.begin();
+ 
+         s_mutex.unlock();
+     }
+@@ -164,13 +164,13 @@ namespace libmotioncapture {
+         ReleaseBuffer(pBuffer);
+ 
+         //joint multicast group
+-        this->m_localMEndpoint = udp::endpoint(address_v4::from_string(this->m_strMulticastGroup), this->m_iDataReceivePort);
++        this->m_localMEndpoint = udp::endpoint(make_address_v4(this->m_strMulticastGroup), this->m_iDataReceivePort);
+         if (this->m_TransmissionSocket.is_open() == false) {
+             this->m_TransmissionSocket.open(this->m_localMEndpoint.protocol());
+             this->m_TransmissionSocket.set_option(udp::socket::reuse_address(true));
+             this->m_TransmissionSocket.set_option(ip::multicast::hops(5));
+             this->m_TransmissionSocket.set_option(ip::multicast::enable_loopback(true));
+-            this->m_TransmissionSocket.set_option(ip::multicast::join_group(address_v4::from_string(this->m_strMulticastGroup), address_v4::from_string(this->m_strLocalIP)));
++            this->m_TransmissionSocket.set_option(ip::multicast::join_group(make_address_v4(this->m_strMulticastGroup), make_address_v4(this->m_strLocalIP)));
+             this->m_TransmissionSocket.bind(this->m_localMEndpoint);
+         }
+ 
+@@ -191,7 +191,7 @@ namespace libmotioncapture {
+         }
+ 
+         if (this->m_TransmissionSocket.is_open() == true) {
+-            this->m_TransmissionSocket.set_option(ip::multicast::leave_group(address_v4::from_string(this->m_strMulticastGroup), address_v4::from_string(this->m_strLocalIP)));
++            this->m_TransmissionSocket.set_option(ip::multicast::leave_group(make_address_v4(this->m_strMulticastGroup), make_address_v4(this->m_strLocalIP)));
+             this->m_TransmissionSocket.close();
+         }
+ 

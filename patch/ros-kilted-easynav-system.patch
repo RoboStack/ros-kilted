@@ -1,0 +1,20 @@
+diff --git a/src/system_main.cpp b/src/system_main.cpp
+--- a/src/system_main.cpp
++++ b/src/system_main.cpp
+@@ -117,11 +117,16 @@
+       [&, tf_node, tf_buffer, system_node, use_real_time]() {
+         if (use_real_time) {
+           RCLCPP_INFO(system_node->get_logger(), "Selected Real-Time");
++#ifdef __linux__
+           sched_param sch; sch.sched_priority = 80;
+           if (sched_setscheduler(0, SCHED_FIFO, &sch) == -1) {
+             RCLCPP_WARN(system_node->get_logger(),
+               "Failed to set Real Time. Running with normal priority.");
+           }
++#else
++          RCLCPP_WARN(system_node->get_logger(),
++            "Real-Time scheduling is not supported on this platform. Running with normal priority.");
++#endif
+         } else {
+           RCLCPP_INFO(system_node->get_logger(), "Selected NO Real-Time");
+         }
