@@ -1,0 +1,11 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -130,6 +130,7 @@ target_link_libraries(test_plugin_subscriber
+   cloudini_ros
+   ${PCL_COMMON_LIBRARIES}
+   ${point_cloud_interfaces_TARGETS}
++  pcl_conversions::pcl_conversions
+   point_cloud_transport::point_cloud_transport
+ )
+

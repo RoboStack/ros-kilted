@@ -1,0 +1,13 @@
+diff --git a/include/easynav_common/Singleton.hpp b/include/easynav_common/Singleton.hpp
+index bfe8ad90..57887076 100644
+--- a/include/easynav_common/Singleton.hpp
++++ b/include/easynav_common/Singleton.hpp
+@@ -44,7 +44,7 @@ public:
+   static void removeInstance()
+   {
+     instance_.reset();
+-    init_flag_ = std::once_flag();
++    new (&init_flag_) std::once_flag();
+   }
+
+   template<typename ... Args>

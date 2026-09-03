@@ -1,0 +1,50 @@
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -22,13 +22,15 @@
+     message(FATAL_ERROR "Unsupported Linux architecture: ${CMAKE_SYSTEM_PROCESSOR}")
+   endif()
+ elseif(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
+-  message(FATAL_ERROR "mujoco_vendor: macOS (Darwin) is not supported!.")
++  set(MUJOCO_MACOS_STUB TRUE)
++  message(STATUS "mujoco_vendor: macOS stub mode (no prebuilt binary available as archive)")
+ elseif(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+   set(MUJOCO_ASSET_NAME "mujoco-${MUJOCO_VERSION}-windows-x86_64.zip")
+ else()
+   message(FATAL_ERROR "Unsupported operating system: ${CMAKE_SYSTEM_NAME}")
+ endif()
+ 
++if(NOT MUJOCO_MACOS_STUB)
+ set(MUJOCO_ASSET_URL "${MUJOCO_DOWNLOAD_URL}/${MUJOCO_ASSET_NAME}")
+ 
+ message(STATUS "Downloading MuJoCo prebuilt binary: ${MUJOCO_ASSET_NAME}")
+@@ -112,18 +114,21 @@
+   endforeach()
+ ")
+ 
++endif()
+ add_library(mujoco INTERFACE)
+ # add alias mujoco::mujoco mujoco
+ add_library(mujoco::mujoco ALIAS mujoco)
+-add_dependencies(mujoco mujoco_binary)
+-target_include_directories(mujoco INTERFACE
+-  $<BUILD_INTERFACE:${MUJOCO_ROOT_DIR}/include>
+-  $<INSTALL_INTERFACE:opt/${PROJECT_NAME}/include>
+-)
+-target_link_libraries(mujoco INTERFACE
+-  $<BUILD_INTERFACE:${MUJOCO_ROOT_DIR}/lib/libmujoco.so>
+-  $<INSTALL_INTERFACE:opt/${PROJECT_NAME}/lib/libmujoco.so>
+-)
++if(NOT MUJOCO_MACOS_STUB)
++  add_dependencies(mujoco mujoco_binary)
++  target_include_directories(mujoco INTERFACE
++    $<BUILD_INTERFACE:${MUJOCO_ROOT_DIR}/include>
++    $<INSTALL_INTERFACE:opt/${PROJECT_NAME}/include>
++  )
++  target_link_libraries(mujoco INTERFACE
++    $<BUILD_INTERFACE:${MUJOCO_ROOT_DIR}/lib/libmujoco.so>
++    $<INSTALL_INTERFACE:opt/${PROJECT_NAME}/lib/libmujoco.so>
++  )
++endif()
+ 
+ install(TARGETS mujoco
+   EXPORT export_${PROJECT_NAME}

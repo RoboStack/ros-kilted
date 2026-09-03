@@ -1,0 +1,90 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 0f23106..093a7cd 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -1,5 +1,7 @@
+ cmake_minimum_required(VERSION 3.5)
+-project (popf) 
++project (popf)
++set(CMAKE_CXX_STANDARD 14)
++
+ 
+ find_package(ament_cmake REQUIRED)
+ set(dependencies
+@@ -91,7 +93,6 @@ add_library(VALGlobals SHARED ${val_SOURCE_DIR}/VALGlobals.cpp)
+ 
+ add_library(ParsePDDL SHARED ${libParsePDDL_SRCS})
+ target_link_libraries(ParsePDDL PRIVATE VALGlobals ${FLEX_LIBRARIES})
+-set_target_properties(ParsePDDL PROPERTIES LINK_FLAGS "-Wl,--no-undefined -Wl,-z,defs")
+ ## Val
+ 
+ set(libInst_SRCS
+@@ -108,7 +109,6 @@ set(libInst_SRCS
+ 
+ add_library(Inst SHARED ${libInst_SRCS})
+ target_link_libraries(Inst ParsePDDL)
+-set_target_properties(Inst PROPERTIES LINK_FLAGS "-Wl,--no-undefined -Wl,-z,defs")
+ 
+ set(validate_SRCS
+      ${val_SOURCE_DIR}/Action.cpp 
+@@ -182,7 +182,6 @@ target_link_libraries(popfCommon
+   ${CBC_LIBRARY} ${CGL_LIBRARIES} ${CLP_LIBRARIES} ${COINUTILS_LIBRARIES}
+   ${OSICLP_LIBRARIES} ${OSI_LIBRARIES} ${OSICBC_LIBRARY}
+ )
+-set_target_properties(popfCommon PROPERTIES LINK_FLAGS "-Wl,--no-undefined -Wl,-z,defs")
+ 
+ install(TARGETS popfCommon ParsePDDL Inst
+   ARCHIVE DESTINATION lib
+diff --git a/src/VALfiles/TimSupport.cpp b/src/VALfiles/TimSupport.cpp
+index 9c98715..45e7d57 100644
+--- a/src/VALfiles/TimSupport.cpp
++++ b/src/VALfiles/TimSupport.cpp
+@@ -1552,9 +1552,11 @@ set<PropertySpace *> TIMAnalyser::relevant(pddl_type * tp)
+ 
+ namespace std
+ {
++#if !defined(_LIBCPP_VERSION)
+   template<>
+   struct iterator_traits<TIM::getConditionally<std::_Rb_tree_const_iterator<TIM::Property*> > >
+   {
+     typedef TIM::Property value_type;
+   };
++#endif
+ }
+\ No newline at end of file
+diff --git a/src/popf/Popf.cpp b/src/popf/Popf.cpp
+index adf5b5c..b398858 100644
+--- a/src/popf/Popf.cpp
++++ b/src/popf/Popf.cpp
+@@ -38,6 +38,7 @@
+ #include <vector>
+ #include "ptree.h"
+ #include <assert.h>
++#include <unistd.h>
+ #include <FlexLexer.h>
+ #include "instantiation.h"
+ #include "SimpleEval.h"
+diff --git a/src/popf/RPGBuilder.h b/src/popf/RPGBuilder.h
+index 851ad9a..c51d627 100644
+--- a/src/popf/RPGBuilder.h
++++ b/src/popf/RPGBuilder.h
+@@ -46,7 +46,6 @@ using std::map;
+ #include "ptree.h"
+ 
+ #include <assert.h>
+-#include <values.h>
+ #include <math.h>
+ 
+ using namespace Inst;
+diff --git a/src/popf/minimalstate.h b/src/popf/minimalstate.h
+index 796b2a2..bfb8001 100644
+--- a/src/popf/minimalstate.h
++++ b/src/popf/minimalstate.h
+@@ -36,7 +36,6 @@
+ #include <cassert>
+ 
+ #include <float.h>  // Needed for DBL_MAX
+-#include <values.h>
+ 
+ using std::set;
+ using std::map;
