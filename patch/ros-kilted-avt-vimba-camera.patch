@@ -1,0 +1,17 @@
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -13,6 +13,14 @@
+ 
+ ament_auto_find_build_dependencies()
+ 
++# Vimba SDK does not provide macOS arm64 native libraries
++if(APPLE)
++  message(STATUS "avt_vimba_camera: macOS not supported (Vimba SDK has no macOS arm64 libs)")
++  install(FILES README.md DESTINATION share/${PROJECT_NAME}/)
++  ament_auto_package(INSTALL_TO_SHARE calibrations config launch)
++  return()
++endif()
++
+ # Get architecture
+ set(CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH};${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+ include(TargetArchitecture)

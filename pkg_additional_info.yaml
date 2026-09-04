@@ -176,3 +176,6 @@ camera_calibration:
   build_number: 22
 nav2_smac_planner:
   build_number: 22
+rosidl_generator_rs:
+  # Rebuild with the fixed Empy template; message packages execute this generator.
+  build_number: 22

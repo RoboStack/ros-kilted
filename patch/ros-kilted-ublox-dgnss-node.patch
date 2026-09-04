@@ -1,0 +1,67 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index d73f3ba2..d679ea15 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -47,9 +47,11 @@ target_compile_definitions(ublox_dgnss_components
+   PRIVATE "UBLOX_DGNSS_NODE_BUILDING_DLL"
+ )
+ 
+-target_link_options(ublox_dgnss_components PRIVATE
+-  "LINKER:--allow-multiple-definition"
+-)
++if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
++  target_link_options(ublox_dgnss_components PRIVATE
++    "LINKER:--allow-multiple-definition"
++  )
++endif()
+ 
+ target_link_libraries(ublox_dgnss_components PUBLIC
+   ${rtcm_msgs_TARGETS}
+diff --git a/include/ublox_dgnss_node/ubx/ubx.hpp b/include/ublox_dgnss_node/ubx/ubx.hpp
+index 1697343e..c842c3fb 100644
+--- a/include/ublox_dgnss_node/ubx/ubx.hpp
++++ b/include/ublox_dgnss_node/ubx/ubx.hpp
+@@ -112,7 +112,7 @@ using FramePoll = Frame;
+ using FramePolled = Frame;
+ using FrameValSet = Frame;
+ 
+-std::shared_ptr<FramePolled> get_polled_frame(
++inline std::shared_ptr<FramePolled> get_polled_frame(
+   std::shared_ptr<usb::Connection> usbc,
+   std::shared_ptr<FramePoll> poll_frame)
+ {
+diff --git a/include/ublox_dgnss_node/ubx/ubx_cfg_item.hpp b/include/ublox_dgnss_node/ubx/ubx_cfg_item.hpp
+index 8983dbb5..c5d3796e 100644
+--- a/include/ublox_dgnss_node/ubx/ubx_cfg_item.hpp
++++ b/include/ublox_dgnss_node/ubx/ubx_cfg_item.hpp
+@@ -24,7 +24,7 @@
+ 
+ namespace ubx::cfg
+ {
+-size_t storage_size_bytes(u8_t storage_size_id)
++inline size_t storage_size_bytes(u8_t storage_size_id)
+ {
+   size_t size = 0;
+   switch (storage_size_id) {
+diff --git a/include/ublox_dgnss_node/ubx/ubx_cfg_item_map.hpp b/include/ublox_dgnss_node/ubx/ubx_cfg_item_map.hpp
+index a7a4c891..91c78116 100644
+--- a/include/ublox_dgnss_node/ubx/ubx_cfg_item_map.hpp
++++ b/include/ublox_dgnss_node/ubx/ubx_cfg_item_map.hpp
+@@ -380,7 +380,7 @@ enum CFG_ITFM_ANTSETTING_ENUM
+ };
+ 
+ 
+-ubx_cfg_item_map_t ubxKeyCfgItemMap = {
++inline ubx_cfg_item_map_t ubxKeyCfgItemMap = {
+   {CFG_INFMSG_UBX_USB.ubx_key_id, CFG_INFMSG_UBX_USB},
+   {CFG_INFMSG_NMEA_USB.ubx_key_id, CFG_INFMSG_NMEA_USB},
+   {CFG_UART1INPROT_UBX.ubx_key_id, CFG_UART1INPROT_UBX},
+@@ -549,7 +549,7 @@ ubx_cfg_item_map_t ubxKeyCfgItemMap = {
+   // {CFG_ITFM_ENABLE_AUX.ubx_key_id, CFG_ITFM_ENABLE_AUX},
+ };
+ 
+-bool operator<(const ubx_key_id_t & fk1, const ubx_key_id_t & fk2)
++inline bool operator<(const ubx_key_id_t & fk1, const ubx_key_id_t & fk2)
+ {
+   return fk1.all < fk2.all;
+ }

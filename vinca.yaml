@@ -17,7 +17,7 @@ mutex_package:
     - libboost-devel 1.90.*
     - pcl 1.15.1.*
     - gazebo 11.*
-    - libprotobuf 6.33.5.*
+    - libprotobuf 7.35.1.*
     - vtk 9.6.2.*
 
 packages_skip_by_deps:
@@ -117,6 +117,7 @@ packages_select_by_deps:
   - ros2_fmt_logger
   - ros2_socketcan_msgs
   - ros_base
+  - ros_core
   - ros_environment
   - ros_gz
   - ros_workspace
@@ -157,10 +158,16 @@ packages_select_by_deps:
   # These packages are currently not build on Windows, but they be with some work
   - if: not win
     then:
+      - ament_cmake
+      - ament_cmake_vendor_package
+      - apex_test_tools
+      - apriltag
       - apriltag_detector_mit
       - apriltag_detector_umich
       - apriltag_draw
       - apriltag_tools
+      - automatika_embodied_agents
+      - automatika_ros_sugar
       - autoware_core
       - autoware_core_control
       - autoware_core_localization  # depends on autoware_ekf_localizer
@@ -171,38 +178,278 @@ packages_select_by_deps:
       - autoware_pose_initializer
       - autoware_qp_interface
       - autoware_trajectory  # depends on autoware_motion_utils
+      - avt_vimba_camera
+      - bno055
+      - bond_core
+      - cartographer_ros
+      - cascade_lifecycle_msgs
+      - cloudini_lib
+      - cloudini_ros
+      - color_util
+      - control_msgs
+      - control_toolbox
+      - demo_nodes_cpp
+      - demo_nodes_py
+      - diagnostic_remote_logging
+      - diff_drive_controller
       - dual-laser-merger
+      - easynav
+      - easynav_bonxai_maps_manager
+      - easynav_common
+      - easynav_controller
+      - easynav_core
+      - easynav_costmap_localizer
+      - easynav_costmap_maps_manager
+      - easynav_costmap_planner
+      - easynav_fusion_localizer
+      - easynav_gps_localizer
+      - easynav_interfaces
+  - if: not wasm32
+    then:
+      - easynav_localizer
+      - easynav_maps_manager
+      - easynav_mpc_controller
+      - easynav_mppi_controller
+      - easynav_navmap_localizer
+      - easynav_navmap_maps_manager
+      - easynav_navmap_planner
+      - easynav_octomap_maps_manager
+      - easynav_planner
+      - easynav_routes_maps_manager
+      - easynav_sensors
+      - easynav_serest_controller
+      - easynav_simple_common
+      - easynav_simple_controller
+      - easynav_simple_localizer
+      - easynav_simple_maps_manager
+      - easynav_simple_planner
+      - easynav_support_py
+      - easynav_system
+      - easynav_tools
+      - easynav_vff_controller
+      - event_camera_codecs
+      - event_camera_renderer
       - ffmpeg_image_transport  # TODO on windows: fix iconv link issue
       - foxglove_compressed_video_transport
+      - geodesy
+      - geographic_info
+      - geometry_tutorials
+      - graph_msgs
       - grid_map  # see https://github.com/RoboStack/ros-jazzy/pull/79#issuecomment-2993499990
+      - imu_tools
+      - imu_transformer
+      - io_context
+      - joint_state_publisher
+      - joy
+      - joy_linux
+      - kinematics_interface
+      - kinematics_interface_kdl
       - laser-segmentation
+      - libg2o
+      - librealsense2
+      - marker_msgs
+      - mavlink
+      - mavros
+      - mavros_extras
+      - microstrain_inertial_description
+      - microstrain_inertial_driver
+      - microstrain_inertial_examples
+      - microstrain_inertial_msgs
+      - microstrain_inertial_rqt
       - mocap4r2_control
       - mocap4r2_control_msgs
       - mocap4r2_dummy_driver
       - mocap4r2_marker_publisher
       - mocap4r2_marker_viz
       - mocap4r2_marker_viz_srvs
+      - mocap4r2_msgs
       - mocap4r2_robot_gt
       - mocap4r2_robot_gt_msgs
+      - motion_capture_tracking
       - moveit-hybrid-planning  # Windows error: error C3861: '__builtin_unreachable': identifier not found
       - moveit-py
       - moveit-ros-occupancy-map-monitor
       - moveit-ros-perception
       - moveit-runtime
+      - moveit_resources
+      - moveit_task_constructor_demo
+      - mujoco_ros2_control
+      - mujoco_ros2_control_demos
+      - navmap_core
+      - navmap_ros
+  - ament_flake8
+  - ament_lint
+  - ament_lint_common
+  - ament_pep257
+  - ament_pycodestyle
+  - autoware_adapi_v1_msgs
+  - autoware_adapi_version_msgs
+  - autoware_auto_msgs
+  - autoware_internal_debug_msgs
+  - autoware_internal_metric_msgs
+  - autoware_internal_perception_msgs
+  - autoware_internal_planning_msgs
+  - autoware_lanelet2_extension
+  - autoware_lanelet2_extension_python
+  - autoware_lint_common
+  - autoware_msgs
+  - bondcpp
+  - builtin_interfaces
+  - irobot_create_msgs
+  - joy_teleop
+  - key_teleop
+  - mavros_msgs
+  - mouse_teleop
+  - mujoco_ros2_control_msgs
+  - mujoco_vendor
+  - nav2_loopback_sim
+  - nav2_minimal_tb3_sim
+  - nav2_minimal_tb4_sim
+  - nmea_navsat_driver
+  - osrf_testing_tools_cpp
+  - persist_parameter_server
+  - pick_ik
+  - picknik_ament_copyright
+  - point_cloud_transport_py
+  - rclc
+  - rclcpp
+  - rclpy
+  - rclpy_cascade_lifecycle
+  - rcpputils
+  - rcutils
+  - rmw
+  - robot_localization
+  - rosidl_generator_dds_idl
+  - rosidl_runtime_c
+  - rosidl_runtime_cpp
+  - rosidl_typesupport_introspection_c
+  - rosidl_typesupport_introspection_cpp
+  - rqt_robot_monitor
+  - rqt_runtime_monitor
+  - rtabmap
+  - rviz_2d_overlay_msgs
+  - sick_scan_xd
+  - teleop_tools
+  - tracetools
+  - tracetools_launch
+  - tracetools_trace
+  - twist_stamper
+  - ur_client_library
+  - yaml_cpp_vendor
+  - if: not win
+    then:
+      - navmap_ros_interfaces
+      - nmea_msgs
       - odom_to_tf_ros2
+      - openvdb_vendor
       - ouster_ros  # TODO on windows: cannot open pcl_io.lib
+      - pal_statistics
+      - pilz_industrial_motion_planner
       - pinocchio
+      - plansys2_bringup
+      - plansys2_bt_actions
+      - plansys2_core
+      - plansys2_domain_expert
+  - if: linux
+    then:
+      - plansys2_executor
+      - plansys2_lifecycle_manager
+      - plansys2_msgs
+      - plansys2_pddl_parser
+      - plansys2_planner
+      - plansys2_popf_plan_solver
+      - plansys2_problem_expert
+      - plansys2_support_py
+      - plansys2_terminal
+      - plansys2_tests
+      - plansys2_tools
+      - plotjuggler
       - plotjuggler-ros
+      - plotjuggler_msgs
       - point-cloud-transport-plugins
       - pointcloud-to-laserscan
+      - polygon_utils
+      - popf
+      - py_trees_js
+      - py_trees_ros_tutorials
+      - quaternion_operation
+      - radar_msgs
+      - random_numbers
+      - rclc_examples
+      - rclc_lifecycle
+      - rclc_parameter
+      - rclcpp_cascade_lifecycle
+      - realsense2_camera
+      - realsense2_description
+      - realtime_tools
+      - rmf_demos
+      - rmw_stats_shim
+      - robot_localization
+      - robotiq_controllers
+      - robotiq_description
+      - ros2_control_cmake
+      - ros_gz_interfaces
+      - rosbag2_performance_benchmarking
+      - rosbag2_storage_mcap
+      - rosgraph_monitor_msgs
+      - rosidl_generator_dds_idl
+      - rot_conv
       - rplidar_ros
+      - rqt
+      - rqt_controller_manager
+      - rqt_gui
+      - rqt_image_overlay
       - rqt_mocap4r2_control
+      - rqt_moveit
+      - rqt_robot_dashboard
+      - rqt_robot_monitor
+      - rqt_robot_steering
       - rqt_tf_tree
       - rslidar_sdk
+      - rtcm_msgs
+      - rviz2
+      - rviz_2d_overlay_plugins
       - rviz_satellite
+      - sdl2_vendor
+      - septentrio_gnss_driver
       - serial_driver
+      - sick_safetyscanners2
+      - sick_safetyscanners2_interfaces
+      - sick_safetyscanners_base
+      - simulation_interfaces
+      - slider_publisher
+      - spacenav
+      - spatio_temporal_voxel_layer
       - swri_console  # Until sync of: https://github.com/ros/rosdistro/pull/49750
+      - system_modes
+      - teleop_tools
+      - tf_transformations
+      - topic_tools
+      - trac_ik
+  - if: not wasm32 and not win
+    then:
+      - turtle_tf2_cpp
+      - turtle_tf2_py
+      - turtlebot3_simulations
+      - twist_stamper
+      - ublox_dgnss
+      - ublox_dgnss_node
+      - ublox_ubx_interfaces
+      - udp_driver
+      - ur_calibration
+      - ur_robot_driver
+      - urdf_tutorial
+      - urg_node
       - velodyne
+      - vision_msgs
+      - vision_msgs_rviz_plugins
+      - vision_msgs_rviz_plugins
+      - visp
+      - web_video_server
+  - if: linux and not aarch64
+    then:
+      - webots_ros2
+      - zed_msgs
 
 patch_dir: patch
 rosdistro_snapshot: rosdistro_snapshot.yaml
