@@ -69,6 +69,14 @@ def is_conda_artifact(filename: str) -> bool:
     return filename.endswith(CONDA_SUFFIX) or filename.endswith(TARBZ2_SUFFIX)
 
 
+# check_patches_clean_apply.py builds throwaway "<pkg>-check-patches[-<platform>]"
+# packages into this same output/<platform> folder to verify patches apply (the
+# platform suffix was added later; older leftover artifacts may lack it). They
+# never have a matching recipes/ directory and would otherwise show up as false
+# "built but no recipe" gaps.
+_CHECK_PATCHES_RE = re.compile(r'-check-patches(?:-(?:linux|osx|win|emscripten|any))?$')
+
+
 def package_name_from_artifact(filename: str) -> str | None:
     stem = filename
     if stem.endswith(CONDA_SUFFIX):
@@ -81,7 +89,10 @@ def package_name_from_artifact(filename: str) -> str | None:
     parts = stem.rsplit("-", 2)
     if len(parts) != 3:
         return None
-    return parts[0]
+    name = parts[0]
+    if _CHECK_PATCHES_RE.search(name):
+        return None
+    return name
 
 
 def discover_platform_dirs(output_root: Path) -> list[str]:
