@@ -110,6 +110,7 @@ packages_select_by_deps:
   - py-trees-ros
   - py-trees-ros-interfaces
   - py-trees-ros-viewer
+  - rko_lio
   - rmw_zenoh_cpp  # requested in https://github.com/RoboStack/ros-humble/issues/252
   - robot
   - ros2_control
