@@ -103,7 +103,6 @@ packages_select_by_deps:
   - moveit-visual-tools
   - nav2_bringup
   - navigation2
-  - nonpersistent_voxel_layer
   - perception
   - polygon_msgs
   - proxsuite
@@ -190,6 +189,7 @@ packages_select_by_deps:
       - moveit-ros-occupancy-map-monitor
       - moveit-ros-perception
       - moveit-runtime
+      - nonpersistent_voxel_layer  # invalid preprocessor command 'warning'
       - odom_to_tf_ros2
       - ouster_ros  # TODO on windows: cannot open pcl_io.lib
       - pinocchio
