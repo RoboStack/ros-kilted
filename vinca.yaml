@@ -103,6 +103,7 @@ packages_select_by_deps:
   - moveit-visual-tools
   - nav2_bringup
   - navigation2
+  - nonpersistent_voxel_layer
   - perception
   - polygon_msgs
   - proxsuite
