@@ -77,6 +77,11 @@ jobs:
         rm -rf /c/Strawberry
         rm -rf "/c/Program Files (x86)/Windows Kits/10/Include/10.0.17763.0/"
 
+    - name: Disable git auto-maintenance in source caches
+      shell: bash -l {0}
+      run: |
+        git config --global maintenance.auto false
+
     - name: Generate recipes
       shell: bash -l {0}
       run: |
