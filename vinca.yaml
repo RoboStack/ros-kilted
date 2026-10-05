@@ -1,5 +1,7 @@
 ros_distro: kilted
 
+package_name_mode: both
+
 # mapping for package keys
 conda_index:
   - robostack.yaml
@@ -176,6 +178,7 @@ packages_select_by_deps:
       - foxglove_compressed_video_transport
       - grid_map  # see https://github.com/RoboStack/ros-jazzy/pull/79#issuecomment-2993499990
       - laser-segmentation
+      - mobile_robot_simulator
       - mocap4r2_control
       - mocap4r2_control_msgs
       - mocap4r2_dummy_driver
