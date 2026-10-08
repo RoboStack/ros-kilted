@@ -29,9 +29,9 @@ libhwloc:
 libxml2:
   - '2.14'
 libzenohc:
-  - 1.7.2
+  - 1.10.1
 libzenohcxx:
-  - 1.7.2
+  - 1.10.1
 lua:
   - 5.4
 pugixml:
