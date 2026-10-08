@@ -5436,9 +5436,9 @@ rtcm_msgs:
   url: https://github.com/ros2-gbp/rtcm_msgs-release.git
   version: 1.1.6
 rtest:
-  tag: release/kilted/rtest/0.2.1-1
+  tag: release/kilted/rtest/0.2.5-1
   url: https://github.com/ros2-gbp/rtest-release.git
-  version: 0.2.1
+  version: 0.2.5
 rti_connext_dds_cmake_module:
   tag: release/kilted/rti_connext_dds_cmake_module/1.1.1-1
   url: https://github.com/ros2-gbp/rmw_connextdds-release.git
