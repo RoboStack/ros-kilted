@@ -4676,9 +4676,9 @@ rmw_test_fixture_implementation:
   url: https://github.com/ros2-gbp/ament_cmake_ros-release.git
   version: 0.14.7
 rmw_zenoh_cpp:
-  tag: release/kilted/rmw_zenoh_cpp/0.6.6-1
+  tag: release/kilted/rmw_zenoh_cpp/0.6.9-1
   url: https://github.com/ros2-gbp/rmw_zenoh-release.git
-  version: 0.6.6
+  version: 0.6.9
 robot_calibration:
   tag: release/kilted/robot_calibration/0.10.1-1
   url: https://github.com/ros2-gbp/robot_calibration-release.git
@@ -6524,13 +6524,13 @@ zenoh_bridge_dds:
   url: https://github.com/ros2-gbp/zenoh_bridge_dds-release.git
   version: 0.5.0
 zenoh_cpp_vendor:
-  tag: release/kilted/zenoh_cpp_vendor/0.6.6-1
+  tag: release/kilted/zenoh_cpp_vendor/0.6.9-1
   url: https://github.com/ros2-gbp/rmw_zenoh-release.git
-  version: 0.6.6
+  version: 0.6.9
 zenoh_security_tools:
-  tag: release/kilted/zenoh_security_tools/0.6.6-1
+  tag: release/kilted/zenoh_security_tools/0.6.9-1
   url: https://github.com/ros2-gbp/rmw_zenoh-release.git
-  version: 0.6.6
+  version: 0.6.9
 zlib_point_cloud_transport:
   tag: release/kilted/zlib_point_cloud_transport/5.0.4-1
   url: https://github.com/ros2-gbp/point_cloud_transport_plugins-release.git
