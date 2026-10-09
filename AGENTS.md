@@ -206,8 +206,11 @@ pixi run build
 ```
 
 ## Full rebuilds
+
 For full rebuilds also remember:
 - refresh snapshot: `pixi run create_snapshot`
+- validate that the published channel is not in a mixed mutex state: `pixi run check-channel-mutex-consistency`
+- validate that local outputs are complete for the platform you are about to publish: `pixi run check-release-readiness --platform <platform>`
 - update `conda_build_config.yaml` for active migrations. You can use https://github.com/conda-forge/conda-forge-pinning-feedstock/blob/main/recipe/conda_build_config.yaml as a base, and then also apply migrations that are mostly done; you can check the status at https://conda-forge.org/status/.
 - bump `build_number`
 - bump mutex minor and update hardcoded mutex refs where needed

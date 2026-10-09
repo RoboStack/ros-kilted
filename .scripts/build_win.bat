@@ -8,6 +8,8 @@ rmdir /Q/S "C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\"
 
 set "FEEDSTOCK_ROOT=%cd%"
 
+if "%VINCA_SKIP_UPLOAD%"=="" set "VINCA_SKIP_UPLOAD=0"
+
 mkdir %CONDA_BLD_PATH%
 
 :: Enable long path names on Windows
@@ -23,6 +25,11 @@ for %%X in (%CURRENT_RECIPES%) do (
 
     if errorlevel 1 exit 1
     rem -m %FEEDSTOCK_ROOT%\.ci_support\conda_forge_pinnings.yaml
+)
+
+if "%VINCA_SKIP_UPLOAD%"=="1" (
+    echo VINCA_SKIP_UPLOAD=1, skipping immediate upload for win-64
+    exit /b 0
 )
 
 :: Check if .conda files exist in the win-64 directory
