@@ -381,6 +381,8 @@ libnlopt-dev:
   robostack: [nlopt]
 libnlopt0:
   robostack: [nlopt]
+liboctomap-dev:
+  robostack: [octomap]
 libogg:
   robostack: [libogg]
 libogre:
@@ -910,6 +912,8 @@ python3-pip:
   robostack: [pip]
 python3-pkg-resources:
   robostack: []
+python3-platformdirs:
+  robostack: [platformdirs]
 python3-prompt-toolkit:
   robostack: [prompt-toolkit]
 python3-protobuf:
@@ -954,6 +958,8 @@ python3-requests:
   robostack: [requests]
 python3-requests-oauthlib:
   robostack: [requests-oauthlib]
+python3-rich:
+  robostack: [rich]
 python3-rosdep:
   robostack: [rosdep]
 python3-rosdep-modules:
@@ -1006,6 +1012,8 @@ python3-twisted:
   robostack: [twisted]
 python3-typeguard:
   robostack: [typeguard]
+python3-typing-extensions:
+  robostack: [typing_extensions]
 python3-unidiff:
   robostack: [unidiff]
 python3-usb:
