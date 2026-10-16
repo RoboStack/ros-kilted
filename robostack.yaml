@@ -1043,6 +1043,8 @@ range-v3:
   robostack: [range-v3]
 rapidjson-dev:
   robostack: [rapidjson]
+robin-map-dev:
+  robostack: [tsl_robin_map]
 roboticstoolbox-python:
   robostack: [roboticstoolbox-python]
 rsync:
