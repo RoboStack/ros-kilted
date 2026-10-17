@@ -1,0 +1,14 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index a4a50fa..5034429 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -38,6 +38,9 @@ ament_target_dependencies(floorplan_visualizer
+ )
+ 
+ 
++# Eigen3_INCLUDE_DIRS is not populated by Eigen 5's CMake config, so link the imported target.
++target_link_libraries(floorplan_visualizer PUBLIC Eigen3::Eigen)
++
+ target_include_directories(floorplan_visualizer
+   PRIVATE
+     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
