@@ -65,10 +65,18 @@ index adf5b5c..b398858 100644
  #include "instantiation.h"
  #include "SimpleEval.h"
 diff --git a/src/popf/RPGBuilder.h b/src/popf/RPGBuilder.h
-index 851ad9a..c51d627 100644
+index 851ad9a..f993605 100644
 --- a/src/popf/RPGBuilder.h
 +++ b/src/popf/RPGBuilder.h
-@@ -46,7 +46,6 @@ using std::map;
+@@ -33,6 +33,7 @@
+ #include <set>
+ #include <map>
+ #include <limits>
++#include <climits>
+ 
+ using std::vector;
+ using std::list;
+@@ -46,7 +47,6 @@ using std::map;
  #include "ptree.h"
  
  #include <assert.h>
