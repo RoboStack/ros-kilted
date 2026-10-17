@@ -287,3 +287,10 @@ eigenpy:
 warehouse_ros_sqlite:
   add_host: ["ros-kilted-sqlite3-vendor"]
   add_run: ["ros-kilted-sqlite3-vendor"]
+mujoco_vendor:
+  # Use conda-forge libmujoco instead of downloading the prebuilt MuJoCo archive.
+  add_host: ["libmujoco"]
+mujoco_ros2_control_plugins:
+  add_host:
+    - if: linux
+      then: ["libegl-devel"]

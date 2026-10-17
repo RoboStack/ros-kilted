@@ -97,6 +97,8 @@ magic_enum:
   generate_dummy_package_with_run_deps:
     dep_name: magic_enum
     max_pin: 'x.x'
+mujoco_vendor:
+  additional_cmake_args: "-DAMENT_VENDOR_POLICY=NEVER_VENDOR_IGNORE_SATISFIED_CHECK"
 octomap:
   generate_dummy_package_with_run_deps:
     dep_name: octomap
