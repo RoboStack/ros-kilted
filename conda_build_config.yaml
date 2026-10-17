@@ -34,7 +34,7 @@ libcap:
 libhwloc:
   - 2.13.0
 libxml2:
-  - '2.14'
+  - '2.15'
 libzenohc:
   - 1.9.0
 libzenohcxx:
@@ -44,9 +44,14 @@ lua:
 pugixml:
   - '1.15'
 shaderc:
-  - '2026.3'
+  - '2026.4'
 spdlog:
   - '1.17'
+# conda-forge's sip 6.16.x regressed ABI targeting for PyQt5-based bindings
+# (qt_gui_cpp_sip fails with "ABI v12 is being targeted but the module doesn't
+# support it"). Pin to the last known-good line, as in ros-jazzy.
+sip:
+  - 6.15
 tbb:
   - '2023'
 tbb_devel:

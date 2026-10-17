@@ -5,12 +5,12 @@ conda_index:
   - robostack.yaml
   - packages-ignore.yaml
 
-# Reminder for next full rebuild, the next build number should be 23
-build_number: 21
+# Reminder for next full rebuild, the next build number should be 24
+build_number: 23
 
 mutex_package:
   name: "ros2-distro-mutex"
-  version: "0.17.0"
+  version: "0.18.0"
   upper_bound: "x.x"
   run_constraints:
     - libboost 1.90.*
@@ -104,6 +104,7 @@ packages_select_by_deps:
   - nav2_bringup
   - navigation2
   - perception
+  - pinocchio
   - polygon_msgs
   - proxsuite
   - py-trees
@@ -111,6 +112,21 @@ packages_select_by_deps:
   - py-trees-ros-interfaces
   - py-trees-ros-viewer
   - rmw_zenoh_cpp  # requested in https://github.com/RoboStack/ros-humble/issues/252
+  - roboplan  # RoboPlan, requested in https://github.com/RoboStack/ros-kilted/issues/91
+  - roboplan_cartesian_planning
+  - roboplan_common
+  - roboplan_core
+  - roboplan_example_models
+  - roboplan_examples
+  - roboplan_oink
+  - roboplan_ros_cpp
+  - roboplan_ros_examples
+  - roboplan_ros_franka
+  - roboplan_ros_py
+  - roboplan_ros_visualization
+  - roboplan_rrt
+  - roboplan_simple_ik
+  - roboplan_toppra
   - robot
   - ros2_control
   - ros2_controllers
@@ -128,6 +144,7 @@ packages_select_by_deps:
   - simulation
   - slam_toolbox
   - teleop
+  - toppra
   - turtlebot3
   - turtlebot3-gazebo
   - twist_mux  # requested in https://github.com/RoboStack/ros-humble/issues/249
@@ -202,7 +219,6 @@ packages_select_by_deps:
       - easynav_costmap_maps_manager
       - easynav_costmap_planner
       - easynav_fusion_localizer
-      - easynav_gps_localizer
       - easynav_interfaces
   - if: not wasm32
     then:
@@ -277,6 +293,7 @@ packages_select_by_deps:
       - mujoco_ros2_control_demos
       - navmap_core
       - navmap_ros
+      - navmap_ros_interfaces
   - ament_flake8
   - ament_lint
   - ament_lint_common
@@ -338,7 +355,6 @@ packages_select_by_deps:
   - yaml_cpp_vendor
   - if: not win
     then:
-      - navmap_ros_interfaces
       - nmea_msgs
       - nonpersistent_voxel_layer  # invalid preprocessor command 'warning'
       - odom_to_tf_ros2
@@ -346,14 +362,13 @@ packages_select_by_deps:
       - ouster_ros  # TODO on windows: cannot open pcl_io.lib
       - pal_statistics
       - pilz_industrial_motion_planner
-      - pinocchio
       - plansys2_bringup
       - plansys2_bt_actions
       - plansys2_core
       - plansys2_domain_expert
+      - plansys2_executor
   - if: linux
     then:
-      - plansys2_executor
       - plansys2_lifecycle_manager
       - plansys2_msgs
       - plansys2_pddl_parser

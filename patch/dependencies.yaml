@@ -275,13 +275,9 @@ grid_map_octomap:
   add_host: ["octomap"]
   add_run: ["octomap"]
 py_trees:
-  add_host: ["poetry-core"]
+  add_host: ["hatchling"]
 py_trees_js:
-  add_host: ["poetry-core"]
-py_trees_ros:
-  add_host: ["poetry-core"]
-py_trees_ros_viewer:
-  add_host: ["poetry-core"]
+  add_host: ["hatchling"]
 tf2_eigen_kdl:
   add_host: ["eigen-abi-devel"]
 pinocchio:

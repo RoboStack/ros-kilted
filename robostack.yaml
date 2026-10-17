@@ -381,6 +381,8 @@ libnlopt-dev:
   robostack: [nlopt]
 libnlopt0:
   robostack: [nlopt]
+liboctomap-dev:
+  robostack: [octomap]
 libogg:
   robostack: [libogg]
 libogre:
@@ -616,6 +618,8 @@ msgpack:
   robostack: [msgpack-python]
 muparser:
   robostack: [muparser]
+nanobind-dev:
+  robostack: [nanobind]
 netpbm:
   robostack:
     linux-aarch64: []
@@ -1006,6 +1010,8 @@ python3-twisted:
   robostack: [twisted]
 python3-typeguard:
   robostack: [typeguard]
+python3-typing-extensions:
+  robostack: [typing_extensions]
 python3-unidiff:
   robostack: [unidiff]
 python3-usb:
