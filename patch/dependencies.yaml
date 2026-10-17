@@ -1,3 +1,12 @@
+# Backport of ament/ament_cmake#622 (patch/ros-kilted-ament-cmake-gtest.patch and -gmock.patch):
+# ament_cmake_gtest/gmock use find_package(GTest) from conda-forge gtest instead of compiling
+# the vendored gtest_vendor sources, see https://github.com/RoboStack/ros-kilted/issues/59
+ament_cmake_gtest:
+  add_host: ["gtest"]
+  add_run: ["gtest"]
+ament_cmake_gmock:
+  add_host: ["gtest"]
+  add_run: ["gtest"]
 ament_package:
   add_host: ['importlib_resources']
 foxglove_bridge:
