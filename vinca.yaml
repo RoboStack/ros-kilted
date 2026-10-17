@@ -1,5 +1,7 @@
 ros_distro: kilted
 
+package_name_mode: both
+
 # mapping for package keys
 conda_index:
   - robostack.yaml
@@ -112,7 +114,7 @@ packages_select_by_deps:
   - py-trees-ros-interfaces
   - py-trees-ros-viewer
   - rmw_zenoh_cpp  # requested in https://github.com/RoboStack/ros-humble/issues/252
-  - roboplan  # RoboPlan, requested in https://github.com/RoboStack/ros-kilted/issues/91
+  - roboplan  # requested in https://github.com/RoboStack/ros-kilted/issues/91
   - roboplan_cartesian_planning
   - roboplan_common
   - roboplan_core

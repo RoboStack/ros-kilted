@@ -1,34 +1,20 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index b7d36de7..a46a6f1e 100644
+index 8b55e49..8f84226 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -1,5 +1,5 @@
+@@ -1,7 +1,10 @@
  # Top-Level CmakeLists.txt
 -cmake_minimum_required(VERSION 3.14)
 +cmake_minimum_required(VERSION 3.18)
+ 
  PROJECT( RTABMap )
++if(POLICY CMP0167)
++  cmake_policy(SET CMP0167 NEW)
++endif()
  SET(PROJECT_PREFIX rtabmap)
  
-@@ -84,12 +84,12 @@ IF(MINGW)
- ENDIF(MINGW)
- 
- # GCC 4 required
--IF(UNIX OR MINGW)
--    EXEC_PROGRAM( gcc ARGS "-dumpversion" OUTPUT_VARIABLE GCC_VERSION )
--    IF(GCC_VERSION VERSION_LESS "4.0.0")
--        MESSAGE(FATAL_ERROR "GCC ${GCC_VERSION} found, but version 4.x.x minimum is required")
--    ENDIF(GCC_VERSION VERSION_LESS "4.0.0")
--ENDIF(UNIX OR MINGW)
-+# IF(UNIX OR MINGW)
-+#     EXEC_PROGRAM( gcc ARGS "-dumpversion" OUTPUT_VARIABLE GCC_VERSION )
-+#     IF(GCC_VERSION VERSION_LESS "4.0.0")
-+#         MESSAGE(FATAL_ERROR "GCC ${GCC_VERSION} found, but version 4.x.x minimum is required")
-+#     ENDIF(GCC_VERSION VERSION_LESS "4.0.0")
-+# ENDIF(UNIX OR MINGW)
- 
- #The CDT Error Parser cannot handle error messages that span 
- #more than one line, which is the default gcc behavior. 
-@@ -494,7 +494,10 @@ IF(WITH_DC1394)
+ # Catkin doesn't support multiarch library path, 
+@@ -582,7 +585,10 @@ IF(WITH_DC1394)
  ENDIF(WITH_DC1394)
  
  IF(WITH_G2O)
@@ -37,9 +23,9 @@ index b7d36de7..a46a6f1e 100644
      FIND_PACKAGE(g2o NO_MODULE)
 +    SET(CMAKE_FIND_PACKAGE_PREFER_CONFIG ${_RTABMAP_CMAKE_FIND_PACKAGE_PREFER_CONFIG})
      IF(g2o_FOUND)
-        MESSAGE(STATUS "Found g2o (targets)")
-          SET(G2O_FOUND ${g2o_FOUND})
-@@ -531,7 +534,10 @@ ENDIF(WITH_G2O)
+         MESSAGE(STATUS "Found g2o (targets)")
+         SET(G2O_FOUND ${g2o_FOUND})
+@@ -618,7 +624,10 @@ ENDIF(WITH_G2O)
  
  IF(WITH_GTSAM)
      # Force config mode to ignore PCL's findGTSAM.cmake file
@@ -47,18 +33,36 @@ index b7d36de7..a46a6f1e 100644
 +    SET(CMAKE_FIND_PACKAGE_PREFER_CONFIG TRUE)
      FIND_PACKAGE(GTSAM CONFIG QUIET)
 +    SET(CMAKE_FIND_PACKAGE_PREFER_CONFIG ${_RTABMAP_CMAKE_FIND_PACKAGE_PREFER_CONFIG})
- ENDIF(WITH_GTSAM)
+     IF(GTSAM_FOUND)
+       INCLUDE(${CMAKE_CURRENT_SOURCE_DIR}/cmake_modules/CheckGTSAMFeatures.cmake)
+     ENDIF(GTSAM_FOUND)
+diff --git a/app/src/main.cpp b/app/src/main.cpp
+index ae43343..1a2559f 100644
+--- a/app/src/main.cpp
++++ b/app/src/main.cpp
+@@ -25,6 +25,10 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
  
- IF(WITH_MRPT)
-@@ -576,9 +582,9 @@ IF(WITH_POINTMATCHER)
- ENDIF(WITH_POINTMATCHER)
++#ifdef WIN32
++#include <objbase.h>
++#endif
++
+ #include <QApplication>
+ #include <QtCore/QDir>
+ #include "rtabmap/utilite/UEventsManager.h"
+diff --git a/tools/DatabaseViewer/main.cpp b/tools/DatabaseViewer/main.cpp
+index 5625f70..71a5722 100644
+--- a/tools/DatabaseViewer/main.cpp
++++ b/tools/DatabaseViewer/main.cpp
+@@ -25,6 +25,10 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
  
- IF(libpointmatcher_FOUND OR GTSAM_FOUND)
--    find_package(Boost COMPONENTS thread filesystem system program_options date_time REQUIRED)
-+    find_package(Boost COMPONENTS thread filesystem program_options date_time REQUIRED)
-     IF(Boost_MINOR_VERSION GREATER 47)
--        find_package(Boost COMPONENTS thread filesystem system program_options date_time chrono timer serialization REQUIRED)
-+        find_package(Boost COMPONENTS thread filesystem program_options date_time chrono timer serialization REQUIRED)
-     ENDIF(Boost_MINOR_VERSION GREATER 47)
-     IF(WIN32)
-         MESSAGE(STATUS "Boost_LIBRARY_DIRS=${Boost_LIBRARY_DIRS}")
++#ifdef WIN32
++#include <objbase.h>
++#endif
++
+ #include <QApplication>
+ #include "rtabmap/gui/DatabaseViewer.h"
+ #include "rtabmap/utilite/ULogger.h"
