@@ -43,7 +43,9 @@ git = "*"
 [tasks]
 generate-recipes = { cmd = "vinca -m", depends-on = ["remove-recipes"] }
 generate-gha-workflows = { cmd = "vinca-gha --trigger-branch dummy_build_branch_as_it_is_unused -d ./recipes", depends-on = ["generate-recipes"] }
-check-patches = { cmd = "python check_patches_clean_apply.py", depends-on = ["generate-recipes"] }
+check-orphaned-patches = { cmd = "python check_orphaned_platform_patches.py", description = "Detect patch/ files vinca's add_package_name_variants() will never wire into any recipe because a same-package patch exists under a different name-prefix variant (see script docstring)." }
+check-patches = { cmd = "python check_patches_clean_apply.py", depends-on = ["generate-recipes", "check-orphaned-patches"] }
+check-deps = { cmd = "python check_dependency_compat.py", depends-on = ["generate-recipes"], description = "Solve one fake package containing every non-ROS dependency plus the mutex constraints to find pin conflicts before building anything. Run `python check_dependency_compat.py --stale` to list already-built artifacts that conflict with the current pins." }
 create_snapshot = { cmd = "vinca-snapshot -d kilted -o rosdistro_snapshot.yaml" }
 upload = "rattler-build upload anaconda -o robostack-kilted -a $ANACONDA_API_TOKEN"
 build_continue_on_failure = { cmd = "rattler-build build --recipe-dir ./recipes -m ./conda_build_config.yaml -c robostack-kilted -c https://repo.prefix.dev/conda-forge --continue-on-failure --skip-existing", depends-on = ["generate-recipes"] }
@@ -62,6 +64,12 @@ description = "Remove all generated recipes, before regenerating them."
 cmd = "cp ./patch/{{ PACKAGE }}.*patch ./recipes/{{ PACKAGE }}/patch/; rattler-build build --recipe ./recipes/{{ PACKAGE }}/recipe.yaml -m ./conda_build_config.yaml -c https://prefix.dev/robostack-kilted -c https://prefix.dev/conda-forge"
 args = [{ arg = "PACKAGE", default = "ros-kilted-ros-workspace" }]
 description = "Build a single package, from the ./recipes dir. Add the `ros-kilted-` prefix to the package name, e.g. `pixi build-one --package ros-kilted-ros-workspace`"
+
+[tasks.build-up-to]
+cmd = "rattler-build build --recipe-dir ./recipes --up-to {{ PACKAGE }} -m ./conda_build_config.yaml -c https://prefix.dev/robostack-kilted -c https://prefix.dev/conda-forge --skip-existing"
+depends-on = ["generate-recipes"]
+args = [{ arg = "PACKAGE" }]
+description = "Build the dependency chain up to a package, from the ./recipes dir. Pass the package name as a positional argument with the `ros2-` prefix, e.g. `pixi run build-up-to ros2-nav2-smac-planner`."
 
 [tasks.conda-build-config-upstream-diff]
 cmd = """

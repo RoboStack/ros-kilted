@@ -152,6 +152,9 @@ jobs:
         # Rebuild mavlink with the macOS byte-order patch (patch/ros-kilted-mavlink.osx.patch); the cached macOS build predates it. Remove once this PR's caches are gone.
         rm -rf ${{ matrix.folder_cache }}/ros2-mavlink-* ${{ matrix.folder_cache }}/ros-kilted-mavlink-* 2>/dev/null || true
         mkdir -p ${{ matrix.folder_cache }}
+        # Drop restored artifacts that installed nothing although their recipe has a build script
+        # (a cancelled Windows job can cache such empty packages as successful builds).
+        pixi run python .github/scripts/prune_empty_packages.py ${{ matrix.folder_cache }}
         pixi run rattler-index fs ${{ matrix.folder_cache }}/.. --force
 
     - name: See packages restored by cache
@@ -163,6 +166,7 @@ jobs:
       id: build-recipes
       shell: bash -l {0}
       run: |
+        set +e
         EXTRA_BUILD_ARGS=""
         if [ "${{ matrix.platform }}" == "win-64" ]; then
           # Drop the timestamp suffix from the per-package build work dir
@@ -174,7 +178,35 @@ jobs:
           EXTRA_BUILD_ARGS="--no-build-id"
         fi
         # --channel-priority disabled: resolvo would otherwise refuse a just-built local package once any other-channel build of the same name exists.
-        pixi run rattler-build build --recipe-dir recipes --target-platform ${{ matrix.platform }} -m ./conda_build_config.yaml -c conda-forge -c robostack-kilted --skip-existing --channel-priority disabled $EXTRA_BUILD_ARGS
+        pixi run rattler-build build --recipe-dir recipes --target-platform ${{ matrix.platform }} -m ./conda_build_config.yaml -c conda-forge -c robostack-kilted --skip-existing --channel-priority disabled $EXTRA_BUILD_ARGS 2>&1 | tee rattler-build.log
+        build_status=${PIPESTATUS[0]}
+        echo "exit-code=${build_status}" >> "$GITHUB_OUTPUT"
+        exit "$build_status"
+
+    - name: Summarize build result
+      if: always()
+      shell: bash -l {0}
+      run: |
+        pixi run python .github/scripts/summarize_rattler_build.py \
+          --log rattler-build.log \
+          --platform "${{ matrix.platform }}" \
+          --outcome "${{ steps.build-recipes.outcome }}" \
+          >> "$GITHUB_STEP_SUMMARY"
+
+    - name: Upload build log
+      if: always()
+      uses: actions/upload-artifact@v6
+      with:
+        name: build-log-${{ matrix.platform }}-${{ github.run_id }}-${{ github.run_attempt }}
+        path: rattler-build.log
+        if-no-files-found: warn
+        retention-days: 7
+
+    - name: Drop empty packages before caching
+      shell: bash -l {0}
+      if: always()
+      run: |
+        pixi run python .github/scripts/prune_empty_packages.py ${{ matrix.folder_cache }} || true
 
     - name: See packages that will be saved in cache
       shell: bash -l {0}

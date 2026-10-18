@@ -98,6 +98,9 @@ libg2o:
   additional_cmake_args: "-DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=ON"
 liblz4_vendor:
   additional_cmake_args: "-DAMENT_VENDOR_POLICY=NEVER_VENDOR_IGNORE_SATISFIED_CHECK"
+libpointmatcher:
+  # pointmatcher.dll exports no symbols on MSVC, so no import .lib is produced and its tests/consumers fail to link (LNK1181).
+  additional_cmake_args: "-DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=ON"
 librealsense2:
   generate_dummy_package_with_run_deps:
     dep_name: librealsense
@@ -240,7 +243,7 @@ visp:
   generate_dummy_package_with_run_deps:
     dep_name: visp
     max_pin: 'x.x'
-    # the version on ros is outdated w.r.t. to the conda-forge one
-    override_version: '3.6.0'
+    # the version on ros is outdated w.r.t. to the conda-forge one; 3.6.0 only exists against OpenCV <= 4.12
+    override_version: '3.7.0'
 zenoh_cpp_vendor:
   additional_cmake_args: "-DAMENT_VENDOR_POLICY=NEVER_VENDOR_IGNORE_SATISFIED_CHECK -DUSE_SYSTEM_ZENOH=ON"
