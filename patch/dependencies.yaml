@@ -83,7 +83,7 @@ tvm_vendor:
 libphidget22:
   add_host: ["libusb"]
 libg2o:
-  # no bare "qt": the Qt 5 metapackage conflicts with the qt6-main that Boost-1.90 pcl builds need (breaks rtabmap); as in ros-jazzy
+  # no bare "qt": the Qt 5 metapackage conflicts with the qt6-main that Boost-1.90 pcl builds need (breaks rtabmap)
   add_host: ["${{ 'libglu' if linux }}", "${{ 'freeglut' if not osx }}"]
 fmilibrary_vendor:
   add_host: ["fmilib"]

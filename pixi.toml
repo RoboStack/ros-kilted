@@ -27,10 +27,10 @@ rattler-index = ">=0.27.16"
 curl = "*"
 go-yq = "*"
 colordiff = "*"
-# Pin vinca: an unpinned git source makes CI build whatever vinca main is at run time
-# (e.g. 3d552f4 on 2026-10-17), diverging from pixi.lock and the local env, which broke
-# the sort check. Bump deliberately together with pixi.lock.
-vinca = { git = "https://github.com/RoboStack/vinca.git", rev = "b4ff099aed2f43f535d255ce8a5d332f170d3532" }
+# Pin vinca: an unpinned git source makes CI build whatever vinca main is at run time,
+# diverging from pixi.lock and the local env. Bump deliberately together with pixi.lock;
+# revert to RoboStack/vinca.git once the snapshot format is reconciled.
+vinca = { git = "https://github.com/Tobias-Fischer/vinca.git", rev = "18fd85dc68d7303bce76aa34210b2da3aedeac94" }
 # For local development uncomment:
 # vinca.path = "../vinca"
 
