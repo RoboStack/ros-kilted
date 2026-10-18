@@ -97,8 +97,6 @@ packages_select_by_deps:
   - desktop_full
   - dev_tools
   - diagnostics
-  - event_camera_codecs
-  - event_camera_renderer
   - flex_sync
   - foxglove_bridge
   - foxglove_msgs
@@ -326,6 +324,8 @@ packages_select_by_deps:
       - cloudini_lib
       - cloudini_ros
       - dual-laser-merger
+      - event_camera_codecs
+      - event_camera_renderer
       - ffmpeg_image_transport  # TODO on windows: fix iconv link issue
       - foxglove_compressed_video_transport
       - grid_map  # see https://github.com/RoboStack/ros-jazzy/pull/79#issuecomment-2993499990
