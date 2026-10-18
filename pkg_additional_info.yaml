@@ -99,8 +99,11 @@ libg2o:
 liblz4_vendor:
   additional_cmake_args: "-DAMENT_VENDOR_POLICY=NEVER_VENDOR_IGNORE_SATISFIED_CHECK"
 libpointmatcher:
-  # pointmatcher.dll exports no symbols on MSVC, so no import .lib is produced and its tests/consumers fail to link (LNK1181).
-  additional_cmake_args: "-DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=ON"
+  # pointmatcher has no dllexport annotations: as a DLL it produces no import library (LNK1181 in consumers),
+  # and CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS overflows MSVC's 65535-export limit (LNK1189). Build it static on Windows.
+  additional_cmake_args:
+    if: win
+    then: "-DBUILD_SHARED_LIBS=OFF"
 librealsense2:
   generate_dummy_package_with_run_deps:
     dep_name: librealsense
