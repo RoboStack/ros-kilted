@@ -81,6 +81,7 @@ cuda_compiler:
 cuda_compiler_version:
   - None
   - 12.9                         # [((linux and (x86_64 or aarch64)) or win64) and os.environ.get("CF_CUDA_ENABLED", "False") == "True"]
+  # Workaround for https://github.com/RoboStack/ros-jazzy/pull/40#issuecomment-2782226697
 cuda_compiler_version_min:
   - None                       # [not ((linux and (x86_64 or aarch64)) or win64)]
   - 12.9                       # [((linux and (x86_64 or aarch64)) or win64)]
@@ -145,8 +146,8 @@ VERBOSE_CM:
 channel_sources:
 channel_targets:
 cdt_name:  # [linux]
-  - conda                        # [linux]
-  # Workaround for https://github.com/RoboStack/ros-jazzy/pull/40#issuecomment-2782226697
+  - conda  # [linux]
+
 docker_image:                                       # [os.environ.get("BUILD_PLATFORM", "").startswith("linux-")]
   # builds on CentOS 7
   - quay.io/condaforge/linux-anvil-x86_64:cos7      # [os.environ.get("BUILD_PLATFORM") == "linux-64" and os.environ.get("DEFAULT_LINUX_VERSION", "alma10") == "cos7"]
@@ -685,7 +686,7 @@ libopenimageio:
   - '3.1'
 libopencv:
   - 4.13.0
-  # conda-forge pins libprotobuf only; vinca.yaml's mutex also constrains protobuf.
+  # conda-forge pins libprotobuf only; keep the Python package on the same release.
 libopentelemetry_cpp:
   - '1.27'
 libosqp:
@@ -1069,7 +1070,7 @@ shaderc:
   - '2026.4'
   # conda-forge's sip 6.16.x regressed ABI targeting for PyQt5-based bindings
   # (qt_gui_cpp_sip fails with "ABI v12 is being targeted but the module doesn't
-  # support it"). Pin to the last known-good line, as in ros-jazzy.
+  # support it"). Pin to the last known-good line.
 sherpa:
   - '3.0'
 singular:
@@ -1188,9 +1189,3 @@ sip:
   # render '6' and no urdfdom_headers pin, changing every urdfdom consumer's build string).
 urdfdom_headers:
   - '3.0'
-lbr_fri_client_sdk:
-  - '1.11'
-  - '1.14'
-  - '1.15'
-  - '1.16'
-  - '1.17'
