@@ -14,3 +14,56 @@ index f295cd2..904a29c 100644
  endif ()
  
  #--------------------
+diff --git a/libpointmatcherConfig.cmake.in b/libpointmatcherConfig.cmake.in
+index 1feb400..2c135d1 100644
+--- a/libpointmatcherConfig.cmake.in
++++ b/libpointmatcherConfig.cmake.in
+@@ -6,9 +6,9 @@
+ 
+ include(CMakeFindDependencyMacro)
+ find_dependency(libnabo REQUIRED)
+-find_package(Boost COMPONENTS thread filesystem system program_options date_time REQUIRED)
++find_package(Boost COMPONENTS thread filesystem program_options date_time REQUIRED)
+ if (Boost_MINOR_VERSION GREATER 47)
+-  find_package(Boost COMPONENTS thread filesystem system program_options date_time chrono REQUIRED)
++  find_package(Boost COMPONENTS thread filesystem program_options date_time chrono REQUIRED)
+ endif ()
+ include(${CMAKE_CURRENT_LIST_DIR}/libpointmatcher-config.cmake)
+ 
+diff --git a/pointmatcher/IO.cpp b/pointmatcher/IO.cpp
+index c4288c9..66ec355 100644
+--- a/pointmatcher/IO.cpp
++++ b/pointmatcher/IO.cpp
+@@ -360,12 +360,12 @@ void PointMatcherSupport::validateFile(const std::string& fileName)
+ 	if (!ifs.good() || !boost::filesystem::is_regular_file(fullPath))
+ 	#if BOOST_FILESYSTEM_VERSION >= 3
+ 		#if BOOST_VERSION >= 105000
+-				throw runtime_error(string("Cannot open file ") + boost::filesystem::complete(fullPath).generic_string());
++				throw runtime_error(string("Cannot open file ") + boost::filesystem::absolute(fullPath).generic_string());
+ 		#else
+ 				throw runtime_error(string("Cannot open file ") + boost::filesystem3::complete(fullPath).generic_string());
+ 		#endif
+ 	#else
+-		throw runtime_error(string("Cannot open file ") + boost::filesystem::complete(fullPath).native_file_string());
++		throw runtime_error(string("Cannot open file ") + boost::filesystem::absolute(fullPath).native_file_string());
+     #endif
+ }
+ 
+@@ -375,7 +375,7 @@ template<typename T>
+ typename PointMatcher<T>::DataPoints PointMatcher<T>::DataPoints::load(const std::string& fileName)
+ {
+ 	const boost::filesystem::path path(fileName);
+-	const string& ext(boost::filesystem::extension(path));
++	const string ext(path.extension().string());
+ 	if (boost::iequals(ext, ".vtk"))
+ 		return PointMatcherIO<T>::loadVTK(fileName);
+ 	else if (boost::iequals(ext, ".csv"))
+@@ -809,7 +809,7 @@ template<typename T>
+ void PointMatcher<T>::DataPoints::save(const std::string& fileName, bool binary) const
+ {
+ 	const boost::filesystem::path path(fileName);
+-	const string& ext(boost::filesystem::extension(path));
++	const string ext(path.extension().string());
+ 	if (boost::iequals(ext, ".vtk"))
+ 		return PointMatcherIO<T>::saveVTK(*this, fileName, binary);
+ 

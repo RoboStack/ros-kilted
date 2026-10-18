@@ -21,6 +21,19 @@ index 69860c3..39fc163 100644
  
  set(VICON_SDK_DIR ${CMAKE_CURRENT_SOURCE_DIR}/deps/vicon-datastream-sdk/)
  set(QUALISYS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/deps/qualisys_cpp_sdk/)
+diff --git a/deps/libmotioncapture/deps/NatNetSDKCrossplatform/CMakeLists.txt b/deps/libmotioncapture/deps/NatNetSDKCrossplatform/CMakeLists.txt
+index 6bd4735..f58246a 100644
+--- a/deps/libmotioncapture/deps/NatNetSDKCrossplatform/CMakeLists.txt
++++ b/deps/libmotioncapture/deps/NatNetSDKCrossplatform/CMakeLists.txt
+@@ -1,7 +1,7 @@
+ cmake_minimum_required(VERSION 3.5)
+ project(NatNetSDKCrossplatform)
+ 
+-find_package(Boost 1.65 REQUIRED COMPONENTS system thread)
++find_package(Boost 1.65 REQUIRED COMPONENTS thread) # system is header-only since Boost 1.69
+ # Enable C++14 and warnings
+ set(CMAKE_CXX_STANDARD 14)
+ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 diff --git a/deps/libmotioncapture/deps/vicon-datastream-sdk/CMakeLists.txt b/deps/libmotioncapture/deps/vicon-datastream-sdk/CMakeLists.txt
 index 68fe194..131130f 100644
 --- a/deps/libmotioncapture/deps/vicon-datastream-sdk/CMakeLists.txt
@@ -301,3 +314,52 @@ index 27c6112..3d30ed5 100644
              this->m_TransmissionSocket.close();
          }
  
+diff --git a/deps/libmotioncapture/src/optitrack.cpp b/deps/libmotioncapture/src/optitrack.cpp
+index 2e8f87a..9de79af 100644
+--- a/deps/libmotioncapture/src/optitrack.cpp
++++ b/deps/libmotioncapture/src/optitrack.cpp
+@@ -45,8 +45,8 @@ namespace libmotioncapture {
+       : version()
+       , versionMajor(0)
+       , versionMinor(0)
+-      , io_service()
+-      , socket(io_service)
++      , io_context()
++      , socket(io_context)
+       , sender_endpoint()
+       , data(MAX_PACKETSIZE)
+     {
+@@ -226,7 +226,7 @@ namespace libmotioncapture {
+     int versionMinor;
+     uint64_t clockFrequency; // ticks/second for timestamps
+ 
+-    boost::asio::io_service io_service;
++    boost::asio::io_context io_context;
+     boost::asio::ip::udp::socket socket;
+     boost::asio::ip::udp::endpoint sender_endpoint;
+     std::vector<char> data;
+@@ -271,10 +271,9 @@ namespace libmotioncapture {
+     pImpl = new MotionCaptureOptitrackImpl;
+ 
+     // Connect to command port to query version
+-    boost::asio::io_service io_service_cmd;
+-    udp::socket socket_cmd(io_service_cmd, udp::endpoint(udp::v4(), 0));
+-    udp::resolver resolver_cmd(io_service_cmd);
+-    udp::endpoint endpoint_cmd = *resolver_cmd.resolve({udp::v4(), hostname, std::to_string(port_command)});
++    boost::asio::io_context io_context_cmd;
++    udp::socket socket_cmd(io_context_cmd, udp::endpoint(udp::v4(), 0));
++    udp::endpoint endpoint_cmd(boost::asio::ip::make_address(hostname), port_command);
+ 
+     typedef struct
+     {
+@@ -340,8 +339,8 @@ namespace libmotioncapture {
+     pImpl->parseModelDef(modelDef.data());
+ 
+     // connect to data port to receive mocap data
+-    auto listen_address_boost = boost::asio::ip::address_v4::from_string(interface_ip);
+-    auto multicast_address_boost = boost::asio::ip::address_v4::from_string(multicast_address);
++    auto listen_address_boost = boost::asio::ip::make_address_v4(interface_ip);
++    auto multicast_address_boost = boost::asio::ip::make_address_v4(multicast_address);
+ 
+     // Create the socket so that multiple may be bound to the same address.
+     boost::asio::ip::udp::endpoint listen_endpoint(

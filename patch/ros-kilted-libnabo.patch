@@ -1,7 +1,92 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 7ba5fb7..d48e32a 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -83,7 +83,9 @@ if (CMAKE_VERSION VERSION_LESS "3.1")
+ 		set (CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS}")
+ 	endif ()
+ else ()
+-	set (CMAKE_CXX_STANDARD 11)
++	# Modern Eigen (bundled by conda-forge) requires C++14 (std::enable_if_t,
++	# std::integer_sequence); C++11 no longer compiles against it.
++	set (CMAKE_CXX_STANDARD 14)
+ endif ()
+ 
+ #======================== External Dependencies ===============================
+@@ -168,6 +170,9 @@ if (USE_OPEN_MP)
+ 		if (CMAKE_COMPILER_IS_GNUCC)
+ 			target_link_libraries(${LIB_NAME} PUBLIC gomp)
+ 		endif()
++		# Clang (e.g. on macOS) needs the OpenMP runtime linked explicitly too;
++		# PUBLIC so it propagates to the tests/examples that link libnabo.
++		target_link_libraries(${LIB_NAME} PUBLIC OpenMP::OpenMP_CXX)
+ 	endif()
+ endif ()
+ 
+@@ -194,7 +199,10 @@ if(LIBNABO_BUILD_TESTS)
+   add_subdirectory(tests)
+ endif()
+ 
+-option(LIBNABO_BUILD_PYTHON "Build libnabo python" ON)
++# python/nabo.cpp uses the pre-NumPy-1.7 C API (PyArray_DOUBLE, PyArray_INT,
++# NPY_C_CONTIGUOUS, ...) which was removed outright in modern NumPy; the ROS
++# package only needs the C++ library, so leave these bindings off by default.
++option(LIBNABO_BUILD_PYTHON "Build libnabo python" OFF)
+ if(LIBNABO_BUILD_PYTHON)
+   add_subdirectory(python)
+ endif()
+diff --git a/libnaboConfig.cmake.in b/libnaboConfig.cmake.in
+index 65b4834..8d3ef99 100644
+--- a/libnaboConfig.cmake.in
++++ b/libnaboConfig.cmake.in
+@@ -4,6 +4,11 @@
+ #  libnabo_LIBRARIES    - libraries to link against
+ @PACKAGE_INIT@
+ 
++# libnabo-targets.cmake exports a PUBLIC link dependency on OpenMP::OpenMP_CXX
++# (see CMakeLists.txt); consumers need that imported target in scope too.
++include(CMakeFindDependencyMacro)
++find_dependency(OpenMP)
++
+ include(${CMAKE_CURRENT_LIST_DIR}/libnabo-targets.cmake)
+ 
+ # This causes catkin_simple to link against these libraries
+diff --git a/nabo/kdtree_cpu.cpp b/nabo/kdtree_cpu.cpp
+index cb1f8d1..a54b99f 100644
+--- a/nabo/kdtree_cpu.cpp
++++ b/nabo/kdtree_cpu.cpp
+@@ -31,6 +31,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ 
+ #include "nabo_private.h"
+ #include "index_heap.h"
++#include <cassert>
+ #include <iostream>
+ #include <stdexcept>
+ #include <limits>
+diff --git a/python/CMakeLists.txt b/python/CMakeLists.txt
+index 2219094..e9d262d 100644
+--- a/python/CMakeLists.txt
++++ b/python/CMakeLists.txt
+@@ -48,7 +48,13 @@ if (PYTHONLIBS_FOUND AND PYTHONINTERP_FOUND)
+ 	find_package_handle_standard_args(numpy DEFAULT_MSG PY_NUMPY)
+ 	if (Boost_FOUND AND NUMPY_FOUND)
+ 		message("numpy and boost::python found, generating python bindings")
+-		include_directories(${PYTHON_INCLUDE_DIRS} ${PY_NUMPY}/core/include)
++		# numpy >= 2.0 moved its C headers from core/include to _core/include
++		if (EXISTS "${PY_NUMPY}/_core/include")
++			set(NUMPY_INCLUDE_DIR "${PY_NUMPY}/_core/include")
++		else ()
++			set(NUMPY_INCLUDE_DIR "${PY_NUMPY}/core/include")
++		endif ()
++		include_directories(${PYTHON_INCLUDE_DIRS} ${NUMPY_INCLUDE_DIR})
+ 		if (SHARED_LIBS)
+ 			python_add_module(pynabo SHARED nabo.cpp)
+ 			target_link_libraries(pynabo ${LIB_NAME} ${Boost_LIBRARIES} ${PYTHON_LIBRARIES})
 diff --git a/python/nabo.cpp b/python/nabo.cpp
+index 4891b93..eca1e20 100644
 --- a/python/nabo.cpp
 +++ b/python/nabo.cpp
-@@ -32,12 +32,12 @@
+@@ -32,12 +32,12 @@ init_numpy()
  }
  #endif
  
@@ -17,7 +102,7 @@ diff --git a/python/nabo.cpp b/python/nabo.cpp
  	{
  		colCount = shape[1];
  		rowCount = shape[0];
-@@ -49,27 +49,27 @@
+@@ -49,27 +49,27 @@ void matrixSizeFromPythonArray(const PyObject* cloudObj, int& rowCount, int& col
  	}
  }
  
@@ -49,7 +134,7 @@ diff --git a/python/nabo.cpp b/python/nabo.cpp
  	
  	checkPythonArray(cloudObj, paramName);
  	
-@@ -82,7 +82,7 @@
+@@ -82,7 +82,7 @@ MappedEigenDoubleMatrix* eigenFromBoostPython(const object cloudIn, const char *
  void eigenFromBoostPython(NNSNabo::Matrix& cloudOut, const object cloudIn, const char *paramName)
  {
  	int dimCount, pointCount;
@@ -58,7 +143,7 @@ diff --git a/python/nabo.cpp b/python/nabo.cpp
  	
  	checkPythonArray(cloudObj, paramName);
  	
-@@ -147,10 +147,10 @@
+@@ -147,10 +147,10 @@ public:
  		// build resulting python types
  		npy_intp retDims[2] = { mappedQuery->cols(), k };
  		const int dataCount(k * mappedQuery->cols());
@@ -73,3 +158,15 @@ diff --git a/python/nabo.cpp b/python/nabo.cpp
  		delete mappedQuery;
  		
  		// return results
+diff --git a/tests/knnvalidate.cpp b/tests/knnvalidate.cpp
+index 2430249..2a7dcc4 100644
+--- a/tests/knnvalidate.cpp
++++ b/tests/knnvalidate.cpp
+@@ -32,6 +32,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ #include "nabo/nabo.h"
+ #include "helpers.h"
+ //#include "experimental/nabo_experimental.h"
++#include <cassert>
+ #include <iostream>
+ #include <fstream>
+ #include <stdexcept>
