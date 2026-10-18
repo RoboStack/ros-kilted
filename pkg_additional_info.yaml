@@ -101,9 +101,11 @@ liblz4_vendor:
 libpointmatcher:
   # pointmatcher has no dllexport annotations: as a DLL it produces no import library (LNK1181 in consumers),
   # and CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS overflows MSVC's 65535-export limit (LNK1189). Build it static on Windows.
+  # INSTALL_CMAKE_DIR defaults to CMake/ on Windows, where libpointmatcherConfig.cmake lands without the
+  # libpointmatcher-config.cmake targets file it includes; keep both in share/libpointmatcher/cmake.
   additional_cmake_args:
     if: win
-    then: "-DBUILD_SHARED_LIBS=OFF"
+    then: "-DBUILD_SHARED_LIBS=OFF -DINSTALL_CMAKE_DIR=share/libpointmatcher/cmake"
 librealsense2:
   generate_dummy_package_with_run_deps:
     dep_name: librealsense
@@ -208,7 +210,12 @@ rosx_introspection:
 
 rtabmap:
   # Tests are on by default, which downloads googletest during configure and installs libgtest/libgmock into the package.
-  additional_cmake_args: "-DBUILD_TESTING=OFF"
+  # On Windows, libpointmatcher is static and untested with rtabmap; jazzy/humble's win builds never had it
+  # (their win libpointmatcher packages are empty), so keep rtabmap's optional pointmatcher support off there.
+  additional_cmake_args:
+    if: win
+    then: "-DBUILD_TESTING=OFF -DWITH_POINTMATCHER=OFF"
+    else: "-DBUILD_TESTING=OFF"
 rviz_ogre_vendor:
   additional_cmake_args: "-DRVIZ_OGRE_VENDOR_MANGLE_NAME_OF_LIBRARIES_USED_BY_RVIZ=ON"
 sdformat_vendor:
