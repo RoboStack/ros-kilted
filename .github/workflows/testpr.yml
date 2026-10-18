@@ -149,8 +149,6 @@ jobs:
       run: |
         # Uncomment to force-rebuild a package with a corrupted cache entry.
         # rm -rf ${{ matrix.folder_cache }}/ros2-<package>* ${{ matrix.folder_cache }}/ros-kilted-<package>* 2>/dev/null || true
-        # Rebuild mavlink with the macOS byte-order patch (patch/ros-kilted-mavlink.osx.patch); the cached macOS build predates it. Remove once this PR's caches are gone.
-        rm -rf ${{ matrix.folder_cache }}/ros2-mavlink-* ${{ matrix.folder_cache }}/ros-kilted-mavlink-* 2>/dev/null || true
         mkdir -p ${{ matrix.folder_cache }}
         # Drop restored artifacts that installed nothing although their recipe has a build script
         # (a cancelled Windows job can cache such empty packages as successful builds).
