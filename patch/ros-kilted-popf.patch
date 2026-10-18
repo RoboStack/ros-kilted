@@ -4,8 +4,7 @@ index 0f23106..093a7cd 100644
 +++ b/CMakeLists.txt
 @@ -1,5 +1,7 @@
  cmake_minimum_required(VERSION 3.5)
--project (popf) 
-+project (popf)
+ project (popf) 
 +set(CMAKE_CXX_STANDARD 14)
 +
  

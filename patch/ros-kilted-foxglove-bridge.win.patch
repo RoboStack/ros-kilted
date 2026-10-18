@@ -1,8 +1,9 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
+index fed8c1e..51d43c0 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -62,7 +62,7 @@ endif()
-
+@@ -61,7 +61,7 @@ endif()
+ 
  macro(enable_strict_compiler_warnings target)
    if (MSVC)
 -    target_compile_options(${target} PRIVATE /WX /W4)

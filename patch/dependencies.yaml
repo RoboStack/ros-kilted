@@ -288,8 +288,6 @@ console_bridge_vendor:
 grid_map_octomap:
   add_host: ["octomap"]
   add_run: ["octomap"]
-py_trees:
-  add_host: ["hatchling"]
 py_trees_js:
   add_host: ["hatchling"]
 tf2_eigen_kdl:
@@ -319,8 +317,7 @@ openvdb_vendor:
 spatio_temporal_voxel_layer:
   add_host: [libgl-devel, libopengl-devel, openvdb]
 swri_console:
-  # 2.4.0 declares qt-base-dev (no rosdep mapping) and falls back to Qt6 when Qt5 is missing; as in ros-jazzy.
+  # 2.4.0 declares qt-base-dev (no rosdep mapping) and falls back to Qt6 when Qt5 is missing.
   add_build: ["${{ 'qt-main' if (build_platform != target_platform) }}"]
   add_host: ["libboost-devel", "qt-main", "${{ 'libgl-devel' if linux }}", "${{ 'libopengl-devel' if linux }}"]
   add_run: ["libboost", "qt-main"]
-

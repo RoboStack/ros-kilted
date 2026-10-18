@@ -196,15 +196,6 @@ index 99a823b..3dcd7b3 100644
        _endpoint->start_perpetual();
        websocketpp::lib::error_code ec;
  
-@@ -170,7 +170,7 @@ websocketpp::lib::error_code ClientWebSocketEndpoint::connect()
- 
-   _con->set_open_handler([this](websocketpp::connection_hdl hdl)
-     {
--      RCLCPP_INFO(_node->get_logger(), "Succesfully connected to %s",
-+      RCLCPP_INFO(_node->get_logger(), "Successfully connected to %s",
-       _uri.c_str());
-       _current_connection->on_open(_endpoint.get(), hdl);
-     });
 diff --git a/src/rmf_websocket/client/ClientWebSocketEndpoint.hpp b/src/rmf_websocket/client/ClientWebSocketEndpoint.hpp
 index 55f7105..e19d154 100644
 --- a/src/rmf_websocket/client/ClientWebSocketEndpoint.hpp

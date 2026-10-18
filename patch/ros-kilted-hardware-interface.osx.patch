@@ -1,8 +1,9 @@
 diff --git a/src/lexical_casts.cpp b/src/lexical_casts.cpp
+index 6de4c69..5d722e3 100644
 --- a/src/lexical_casts.cpp
 +++ b/src/lexical_casts.cpp
 @@ -64,7 +64,9 @@ std::optional<FloatingPointType> parse_floating_point_with_from_chars(const std:
-
+ 
  std::optional<double> stod(const std::string & s)
  {
 -#if __cplusplus < 202002L
@@ -13,7 +14,7 @@ diff --git a/src/lexical_casts.cpp b/src/lexical_casts.cpp
    // Impl with std::istringstream
    std::istringstream stream(s);
 @@ -84,7 +86,7 @@ std::optional<double> stod(const std::string & s)
-
+ 
  std::optional<float> stof(const std::string & s)
  {
 -#if __cplusplus < 202002L

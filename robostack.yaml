@@ -209,8 +209,6 @@ libabsl-dev:
   robostack: [libabseil]
 libblas-dev:
   robostack: [libblas, libcblas]
-libblosc-dev:
-  robostack: [blosc]
 libboost:
   robostack: [libboost]
 libboost-chrono-dev:
@@ -341,8 +339,6 @@ libgstreamer-plugins-base1.0-dev:
   robostack: [gst-plugins-base]
 libgstreamer1.0-dev:
   robostack: [gstreamer]
-libgtest-dev:
-  robostack: [gtest]
 libgts:
   robostack: [gts]
 libhdf5-dev:
@@ -385,8 +381,6 @@ libnlopt-dev:
   robostack: [nlopt]
 libnlopt0:
   robostack: [nlopt]
-liboctomap-dev:
-  robostack: [octomap]
 libogg:
   robostack: [libogg]
 libogre:
@@ -415,12 +409,8 @@ libopencv-imgproc-dev:
     linux: [py-opencv, libopencv, libopengl-devel, libgl-devel]
     osx: [py-opencv, libopencv]
     win64: [py-opencv, libopencv]
-libopenexr-dev:
-  robostack: [openexr]
 libopenni-dev:
   robostack: []
-libopenvdb-dev:
-  robostack: [openvdb]
 liborocos-kdl:
   robostack: [orocos-kdl]
 liborocos-kdl-dev:
@@ -626,8 +616,6 @@ msgpack:
   robostack: [msgpack-python]
 muparser:
   robostack: [muparser]
-nanobind-dev:
-  robostack: [nanobind]
 netpbm:
   robostack:
     linux-aarch64: []
@@ -1018,8 +1006,6 @@ python3-twisted:
   robostack: [twisted]
 python3-typeguard:
   robostack: [typeguard]
-python3-typing-extensions:
-  robostack: [typing_extensions]
 python3-unidiff:
   robostack: [unidiff]
 python3-usb:

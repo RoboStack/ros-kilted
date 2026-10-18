@@ -1,8 +1,10 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index b8b0dda..6407c56 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -6,6 +6,11 @@ find_package(ros2_control_cmake REQUIRED)
- # find dependencies
+@@ -8,6 +8,11 @@ find_package(ros2_control_cmake REQUIRED)
  find_package(ament_cmake REQUIRED)
+ find_package(ament_index_cpp REQUIRED)
  find_package(controller_manager REQUIRED)
 +if(APPLE)
 +  # mujoco_vendor is a no-op on macOS; skip the rest of the build.

@@ -1,6 +1,8 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 8b58277..8b2efa0 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -13,6 +13,14 @@
+@@ -13,6 +13,14 @@ find_package(ament_cmake_auto REQUIRED)
  
  ament_auto_find_build_dependencies()
  

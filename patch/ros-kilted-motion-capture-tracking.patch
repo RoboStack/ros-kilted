@@ -123,7 +123,7 @@ index 7988ab2..747ca57 100644
    boost::asio::ip::tcp::resolver Resolver( m_Service );
 -  boost::asio::ip::tcp::resolver::query Query( Host, "" );
 -
-+  
++
    boost::system::error_code Error;
 -  boost::asio::ip::tcp::resolver::iterator It = Resolver.resolve( Query, Error );
 -  boost::asio::ip::tcp::resolver::iterator End;

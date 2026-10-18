@@ -1,6 +1,8 @@
+diff --git a/include/bonxai/mask.hpp b/include/bonxai/mask.hpp
+index 09c5957..a5fbcd4 100644
 --- a/include/bonxai/mask.hpp
 +++ b/include/bonxai/mask.hpp
-@@ -31,6 +31,7 @@
+@@ -32,6 +32,7 @@ public:
  
    Mask(const Mask & other);
    Mask(Mask && other);
@@ -8,7 +10,7 @@
  
    ~Mask();
  
-@@ -319,6 +320,28 @@
+@@ -321,6 +322,28 @@ inline Mask::Mask(Mask && other)
    }
  }
  
