@@ -13,6 +13,8 @@ coal:
     dep_name: coal
     max_pin: 'x.x.x'
     override_version: '3.0.4'
+compressed_depth_image_transport:
+  additional_cmake_args: "-DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=ON"
 console_bridge_vendor:
   additional_cmake_args: "-DAMENT_VENDOR_POLICY=NEVER_VENDOR_IGNORE_SATISFIED_CHECK"
 data_tamer_cpp:
@@ -74,6 +76,10 @@ hpp_fcl:
     max_pin: 'x.x.x'
     # the version on ros is outdated w.r.t. to the conda-forge one
     override_version: '3.0.2'
+imu_complementary_filter:
+  additional_cmake_args: "-DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=ON"
+imu_tools:
+  additional_cmake_args: "-DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=ON"
 io_context:
   additional_cmake_args: "-DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=ON"
 lanelet2_projection:
@@ -87,6 +93,9 @@ libcamera:
     max_pin: 'x.x'
 libcurl_vendor:
   additional_cmake_args: "-DAMENT_VENDOR_POLICY=NEVER_VENDOR_IGNORE_SATISFIED_CHECK"
+libg2o:
+  # g2o_csparse_extension exports no symbols on MSVC, so no import .lib is produced and solver_csparse fails to link (LNK1181).
+  additional_cmake_args: "-DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=ON"
 liblz4_vendor:
   additional_cmake_args: "-DAMENT_VENDOR_POLICY=NEVER_VENDOR_IGNORE_SATISFIED_CHECK"
 librealsense2:
@@ -102,6 +111,8 @@ magic_enum:
   generate_dummy_package_with_run_deps:
     dep_name: magic_enum
     max_pin: 'x.x'
+moveit_ros_visualization:
+  additional_cmake_args: "-DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=ON"
 mujoco_vendor:
   additional_cmake_args: "-DAMENT_VENDOR_POLICY=NEVER_VENDOR_IGNORE_SATISFIED_CHECK"
 octomap:
@@ -189,10 +200,15 @@ rosbag2_performance_benchmarking_msgs:
 rosx_introspection:
   additional_cmake_args: "-DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=ON"
 
+rtabmap:
+  # Tests are on by default, which downloads googletest during configure and installs libgtest/libgmock into the package.
+  additional_cmake_args: "-DBUILD_TESTING=OFF"
 rviz_ogre_vendor:
   additional_cmake_args: "-DRVIZ_OGRE_VENDOR_MANGLE_NAME_OF_LIBRARIES_USED_BY_RVIZ=ON"
 sdformat_vendor:
   additional_cmake_args: "-DAMENT_VENDOR_POLICY=NEVER_VENDOR_IGNORE_SATISFIED_CHECK"
+sick_scan_xd:
+  additional_cmake_args: "-DBUILD_DEBUG_TARGET:BOOL=OFF -DROS_VERSION=2"
 spdlog_vendor:
   additional_cmake_args: "-DAMENT_VENDOR_POLICY=NEVER_VENDOR_IGNORE_SATISFIED_CHECK"
 sqlite3_vendor:
