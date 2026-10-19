@@ -150,8 +150,6 @@ jobs:
         # Uncomment to force-rebuild a package with a corrupted cache entry.
         # rm -rf ${{ matrix.folder_cache }}/ros2-<package>* ${{ matrix.folder_cache }}/ros-kilted-<package>* 2>/dev/null || true
         mkdir -p ${{ matrix.folder_cache }}
-        # TODO: remove once rebuilt; libpointmatcher on Windows installed its CMake config without the targets file.
-        if [ "$RUNNER_OS" = Windows ]; then rm -rf ${{ matrix.folder_cache }}/ros2-libpointmatcher* ${{ matrix.folder_cache }}/ros-kilted-libpointmatcher* 2>/dev/null || true; fi
         # Drop restored artifacts that installed nothing although their recipe has a build script
         # (a cancelled Windows job can cache such empty packages as successful builds).
         pixi run python .github/scripts/prune_empty_packages.py ${{ matrix.folder_cache }}
