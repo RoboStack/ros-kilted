@@ -1,0 +1,13 @@
+diff --git a/include/nav2_route/route_server.hpp b/include/nav2_route/route_server.hpp
+index a6b830c1b..966d62a69 100644
+--- a/include/nav2_route/route_server.hpp
++++ b/include/nav2_route/route_server.hpp
+@@ -130,7 +130,7 @@ protected:
+   template<typename GoalT>
+   Route findRoute(
+     const std::shared_ptr<const GoalT> goal,
+-    ReroutingState & rerouting_info = ReroutingState());
++    ReroutingState & rerouting_info);
+ 
+   /**
+    * @brief Main processing called by both action server callbacks to centralize
