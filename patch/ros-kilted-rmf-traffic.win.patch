@@ -1,0 +1,195 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index ad05ac1..45af2de 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -13,6 +13,12 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+   add_compile_options(-Wall -Wextra -Wpedantic)
+ endif()
+ 
++if(MSVC)
++  # M_PI et al. are non-standard extensions MSVC only defines when this
++  # is set (Spline.cpp uses M_PI unconditionally).
++  add_compile_definitions(_USE_MATH_DEFINES)
++endif()
++
+ if(NOT CMAKE_BUILD_TYPE)
+   # Use the Release build type by default if the user has not specified one
+   set(CMAKE_BUILD_TYPE Release)
+@@ -50,6 +56,17 @@ add_library(rmf_traffic SHARED
+   ${core_lib_srcs}
+ )
+ 
++if(WIN32)
++  # rmf_traffic has no dllexport annotations at all. As a shared library
++  # on Windows with nothing explicitly exported, link.exe does not
++  # produce an import .lib, so every consumer fails with LNK1181
++  # "cannot open input file 'rmf_traffic.lib'" even though
++  # rmf_traffic.dll itself builds fine. Auto-export everything, same
++  # fix used for every other Windows shared-library target this
++  # session (including rmf_utils earlier in this same package family).
++  set_target_properties(rmf_traffic PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON)
++endif()
++
+ find_package(ament_cmake_catch2 QUIET)
+ find_package(ament_cmake_uncrustify QUIET)
+ if(BUILD_TESTING AND ament_cmake_catch2_FOUND AND ament_cmake_uncrustify_FOUND)
+diff --git a/src/rmf_traffic/Trajectory.cpp b/src/rmf_traffic/Trajectory.cpp
+index 3f29c7d..be98311 100644
+--- a/src/rmf_traffic/Trajectory.cpp
++++ b/src/rmf_traffic/Trajectory.cpp
+@@ -798,7 +798,12 @@ bool Trajectory::base_iterator<SegT>::operator>=(
+ 
+ //==============================================================================
+ template<typename SegT>
+-Trajectory::base_iterator<SegT>::operator const_iterator() const
++// MSVC fails to resolve the unqualified "const_iterator" here (a member
++// alias of the enclosing Trajectory class, not of base_iterator itself)
++// in this out-of-line nested-class-template conversion operator (C2833).
++// GCC/Clang already resolve it via the enclosing scope; qualifying it
++// explicitly is equivalent and portable everywhere.
++Trajectory::base_iterator<SegT>::operator Trajectory::const_iterator() const
+ {
+   return _pimpl->make_iterator<const SegT>(_pimpl->raw_iterator);
+ }
+diff --git a/src/rmf_traffic/agv/SimpleNegotiator.cpp b/src/rmf_traffic/agv/SimpleNegotiator.cpp
+index 7657152..7aee6d8 100644
+--- a/src/rmf_traffic/agv/SimpleNegotiator.cpp
++++ b/src/rmf_traffic/agv/SimpleNegotiator.cpp
+@@ -26,9 +26,11 @@ namespace rmf_traffic {
+ namespace agv {
+ 
+ //==============================================================================
+-// This line tells the linker to take care of defining the value of this field
+-// inside of this translation unit.
+-const double SimpleNegotiator::Options::DefaultMaxCostLeeway;
++// C++17's static constexpr members are implicitly inline, so this
++// out-of-class definition (needed pre-C++17 for ODR-use) is redundant
++// now that this project targets C++17 -- and MSVC rejects it outright
++// (C2734: "'const' object must be initialized if not 'extern'"), even
++// though GCC/Clang tolerate the redundant redeclaration. Just remove it.
+ 
+ //==============================================================================
+ class SimpleNegotiator::Options::Implementation
+diff --git a/src/rmf_traffic/agv/Planner.cpp b/src/rmf_traffic/agv/Planner.cpp
+index 983f0c2..d9925b2 100644
+--- a/src/rmf_traffic/agv/Planner.cpp
++++ b/src/rmf_traffic/agv/Planner.cpp
+@@ -25,9 +25,11 @@ namespace rmf_traffic {
+ namespace agv {
+ 
+ //==============================================================================
+-// This line tells the linker to take care of defining the value of this field
+-// inside of this translation unit.
+-const Duration Planner::Options::DefaultMinHoldingTime;
++// C++17's static constexpr members are implicitly inline, so this
++// out-of-class definition (needed pre-C++17 for ODR-use) is redundant
++// now that this project targets C++17 -- and MSVC rejects it outright
++// (C2734: "'const' object must be initialized if not 'extern'"), even
++// though GCC/Clang tolerate the redundant redeclaration. Just remove it.
+ 
+ //==============================================================================
+ class Planner::Configuration::Implementation
+diff --git a/src/rmf_traffic/agv/planning/CacheManager.hpp b/src/rmf_traffic/agv/planning/CacheManager.hpp
+index 2bdce0e..879269d 100644
+--- a/src/rmf_traffic/agv/planning/CacheManager.hpp
++++ b/src/rmf_traffic/agv/planning/CacheManager.hpp
+@@ -188,7 +188,26 @@ private:
+ 
+   CacheManager(
+     std::shared_ptr<const Generator> generator,
+-    std::function<Storage()> storage_initializer = []() { return Storage(); });
++    // MSVC cannot compile a lambda used as a default argument value
++    // here when the lambda references this class template's dependent
++    // Storage member alias: unqualified "Storage" fails to resolve
++    // (C3861), fully qualifying as CacheManager<CacheArg>::Storage
++    // fails because CacheArg itself isn't found in that context
++    // (C2065), and the injected-class-name form CacheManager::Storage
++    // is rejected outright ("requires template argument list", C2955).
++    // Default to nullptr (no name lookup needed at all) and resolve
++    // the real default inside default_storage_initializer()'s body
++    // instead, where normal class/template scoping applies with none
++    // of these restrictions.
++    std::function<Storage()> storage_initializer = nullptr);
++
++  static std::function<Storage()> default_storage_initializer(
++    std::function<Storage()> storage_initializer)
++  {
++    if (storage_initializer)
++      return storage_initializer;
++    return []() { return Storage(); };
++  }
+ 
+   template<typename G> friend class Cache;
+   std::shared_ptr<Upstream_type> _upstream;
+@@ -214,7 +233,18 @@ public:
+ 
+   CacheManagerMap(
+     std::shared_ptr<const GeneratorFactory> factory,
+-    std::function<Storage()> storage_initializer = []() { return Storage(); });
++    // Same MSVC default-argument-lambda restriction as CacheManager's
++    // constructor above -- default to nullptr and resolve the real
++    // default inside default_storage_initializer()'s body instead.
++    std::function<Storage()> storage_initializer = nullptr);
++
++  static std::function<Storage()> default_storage_initializer(
++    std::function<Storage()> storage_initializer)
++  {
++    if (storage_initializer)
++      return storage_initializer;
++    return []() { return Storage(); };
++  }
+ 
+   CacheManagerPtr get(std::size_t goal_index) const;
+ 
+@@ -329,8 +359,10 @@ CacheManager<CacheArg>::CacheManager(
+   std::shared_ptr<const Generator> generator,
+   std::function<Storage()> storage_initializer)
+ : _upstream(
+-    std::make_shared<Upstream_type>(storage_initializer, std::move(generator))),
+-  _storage_initializer(std::move(storage_initializer))
++    std::make_shared<Upstream_type>(
++      default_storage_initializer(storage_initializer), std::move(generator))),
++  _storage_initializer(
++    default_storage_initializer(std::move(storage_initializer)))
+ {
+   // Do nothing
+ }
+@@ -356,7 +388,8 @@ CacheManagerMap<CacheArg>::CacheManagerMap(
+   std::shared_ptr<const GeneratorFactory> factory,
+   std::function<Storage()> storage_initializer)
+ : _generator_factory(std::move(factory)),
+-  _storage_initializer(std::move(storage_initializer))
++  _storage_initializer(
++    default_storage_initializer(std::move(storage_initializer)))
+ {
+   // Do nothing
+ }
+diff --git a/src/rmf_traffic/agv/planning/DifferentialDriveMap.hpp b/src/rmf_traffic/agv/planning/DifferentialDriveMap.hpp
+index 27e3df8..bca545d 100644
+--- a/src/rmf_traffic/agv/planning/DifferentialDriveMap.hpp
++++ b/src/rmf_traffic/agv/planning/DifferentialDriveMap.hpp
+@@ -213,6 +213,14 @@ struct DifferentialDriveMapTypes
+ 
+   struct KeyHash
+   {
++    // MSVC's <unordered_map>/<unordered_set> implementation instantiates
++    // code paths requiring the hasher to be default-constructible even
++    // though real usage always passes N_lanes explicitly (GCC/Clang's
++    // libstdc++/libc++ don't need this). The members are left
++    // uninitialized here since this constructor is never actually
++    // invoked in practice.
++    KeyHash() = default;
++
+     KeyHash(std::size_t N_lanes)
+     {
+       const std::size_t lane_shift = std::ceil(std::log2(N_lanes));
+@@ -245,6 +253,9 @@ struct DifferentialDriveMapTypes
+ 
+   struct EntryHash
+   {
++    // Same MSVC default-constructibility requirement as KeyHash above.
++    EntryHash() = default;
++
+     EntryHash(std::size_t N_lanes)
+     {
+       _orientation_shift = std::ceil(std::log2(N_lanes));

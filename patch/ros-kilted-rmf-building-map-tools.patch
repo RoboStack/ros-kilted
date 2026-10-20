@@ -1,0 +1,16 @@
+diff --git a/building_map/level.py b/building_map/level.py
+index 955b0a6..a203d20 100644
+--- a/building_map/level.py
++++ b/building_map/level.py
+@@ -429,7 +429,10 @@ class Level:
+             b.append(verts[i-1] - verts[i])
+         # cross products of the four pairs of vectors. If the four cross
+         # products have the same sign, then the point is inside the rectangle
+-        cross = np.cross(a, np.array(b))
++        # numpy >= 2 rejects 2-D vectors in np.cross; compute the four 2-D cross products row-wise
++        a = np.array(a)
++        b = np.array(b)
++        cross = a[:, 0] * b[:, 1] - a[:, 1] * b[:, 0]
+         if np.all(cross >= 0) or np.all(cross <= 0):
+             return True
+         else:

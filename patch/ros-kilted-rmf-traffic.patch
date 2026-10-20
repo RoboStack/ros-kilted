@@ -1,0 +1,320 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index ad05ac1..08822fa 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -28,6 +28,10 @@ if(fcl_FOUND)
+   message(STATUS "Using installed FCL version: ${FCL_VERSION}")
+ else()
+   message(STATUS "Using in-source FCL")
++  # RoboStack: rmf_traffic never uses FCL octrees, and leaving this ON lets a
++  # system-wide octomap (e.g. liboctomap-dev on Debian/Ubuntu) leak into the
++  # conda build, which then fails to find <octomap/octomap.h>.
++  set(FCL_WITH_OCTOMAP OFF CACHE BOOL "OctoMap library support" FORCE)
+   add_subdirectory(thirdparty/fcl)
+ endif()
+ # TODO(MXG): Remove everything related to maintaining compatibility with 0.5,
+@@ -97,6 +101,7 @@ endif()
+ target_link_libraries(rmf_traffic
+   PUBLIC
+     rmf_utils::rmf_utils
++    Eigen3::Eigen
+     Threads::Threads
+   PRIVATE
+     ${FCL_LIBRARIES}
+diff --git a/include/rmf_traffic/DetectConflict.hpp b/include/rmf_traffic/DetectConflict.hpp
+index e0aa706..64f0d61 100644
+--- a/include/rmf_traffic/DetectConflict.hpp
++++ b/include/rmf_traffic/DetectConflict.hpp
+@@ -18,6 +18,7 @@
+ #ifndef RMF_TRAFFIC__DETECTCONFLICT_HPP
+ #define RMF_TRAFFIC__DETECTCONFLICT_HPP
+ 
++#include <cstdint>
+ #include <rmf_traffic/Trajectory.hpp>
+ #include <rmf_traffic/Route.hpp>
+ #include <rmf_traffic/Profile.hpp>
+diff --git a/include/rmf_traffic/Route.hpp b/include/rmf_traffic/Route.hpp
+index c3825ed..840aa84 100644
+--- a/include/rmf_traffic/Route.hpp
++++ b/include/rmf_traffic/Route.hpp
+@@ -18,6 +18,7 @@
+ #ifndef RMF_TRAFFIC__ROUTE_HPP
+ #define RMF_TRAFFIC__ROUTE_HPP
+ 
++#include <cstdint>
+ #include <rmf_traffic/Trajectory.hpp>
+ 
+ #include <rmf_utils/impl_ptr.hpp>
+diff --git a/include/rmf_traffic/agv/VehicleTraits.hpp b/include/rmf_traffic/agv/VehicleTraits.hpp
+index 416ee30..325e902 100644
+--- a/include/rmf_traffic/agv/VehicleTraits.hpp
++++ b/include/rmf_traffic/agv/VehicleTraits.hpp
+@@ -18,6 +18,7 @@
+ #ifndef RMF_TRAFFIC__AGV__VEHICLETRAITS_HPP
+ #define RMF_TRAFFIC__AGV__VEHICLETRAITS_HPP
+ 
++#include <cstdint>
+ #include <rmf_traffic/Profile.hpp>
+ #include <rmf_traffic/Trajectory.hpp>
+ 
+diff --git a/include/rmf_traffic/schedule/Change.hpp b/include/rmf_traffic/schedule/Change.hpp
+index bca4c5d..2328183 100644
+--- a/include/rmf_traffic/schedule/Change.hpp
++++ b/include/rmf_traffic/schedule/Change.hpp
+@@ -18,6 +18,7 @@
+ #ifndef RMF_TRAFFIC__SCHEDULE__CHANGE_HPP
+ #define RMF_TRAFFIC__SCHEDULE__CHANGE_HPP
+ 
++#include <cstdint>
+ #include <rmf_traffic/schedule/Itinerary.hpp>
+ #include <rmf_traffic/schedule/Participant.hpp>
+ #include <rmf_traffic/schedule/Version.hpp>
+diff --git a/include/rmf_traffic/schedule/Itinerary.hpp b/include/rmf_traffic/schedule/Itinerary.hpp
+index eb6a0ab..fbf25e9 100644
+--- a/include/rmf_traffic/schedule/Itinerary.hpp
++++ b/include/rmf_traffic/schedule/Itinerary.hpp
+@@ -18,6 +18,7 @@
+ #ifndef RMF_TRAFFIC__SCHEDULE__ITINERARY_HPP
+ #define RMF_TRAFFIC__SCHEDULE__ITINERARY_HPP
+ 
++#include <cstdint>
+ #include <rmf_traffic/Route.hpp>
+ #include <rmf_traffic/schedule/Version.hpp>
+ 
+diff --git a/include/rmf_traffic/schedule/ParticipantDescription.hpp b/include/rmf_traffic/schedule/ParticipantDescription.hpp
+index 74d272c..3ce72cd 100644
+--- a/include/rmf_traffic/schedule/ParticipantDescription.hpp
++++ b/include/rmf_traffic/schedule/ParticipantDescription.hpp
+@@ -18,6 +18,7 @@
+ #ifndef RMF_TRAFFIC__SCHEDULE__PARTICIPANTDESCRIPTION_HPP
+ #define RMF_TRAFFIC__SCHEDULE__PARTICIPANTDESCRIPTION_HPP
+ 
++#include <cstdint>
+ #include <string>
+ #include <unordered_map>
+ 
+diff --git a/include/rmf_traffic/schedule/Query.hpp b/include/rmf_traffic/schedule/Query.hpp
+index aa6d3ab..bb3a924 100644
+--- a/include/rmf_traffic/schedule/Query.hpp
++++ b/include/rmf_traffic/schedule/Query.hpp
+@@ -18,6 +18,7 @@
+ #ifndef RMF_TRAFFIC__SCHEDULE__QUERY_HPP
+ #define RMF_TRAFFIC__SCHEDULE__QUERY_HPP
+ 
++#include <cstdint>
+ #include <rmf_traffic/detail/bidirectional_iterator.hpp>
+ 
+ #include <rmf_traffic/schedule/Version.hpp>
+diff --git a/include/rmf_traffic/schedule/Writer.hpp b/include/rmf_traffic/schedule/Writer.hpp
+index f536114..473b2db 100644
+--- a/include/rmf_traffic/schedule/Writer.hpp
++++ b/include/rmf_traffic/schedule/Writer.hpp
+@@ -18,6 +18,7 @@
+ #ifndef RMF_TRAFFIC__SCHEDULE__WRITER_HPP
+ #define RMF_TRAFFIC__SCHEDULE__WRITER_HPP
+ 
++#include <cstdint>
+ #include <rmf_traffic/schedule/Itinerary.hpp>
+ #include <rmf_traffic/schedule/ParticipantDescription.hpp>
+ 
+diff --git a/src/rmf_traffic/Route.cpp b/src/rmf_traffic/Route.cpp
+index debd648..de68354 100644
+--- a/src/rmf_traffic/Route.cpp
++++ b/src/rmf_traffic/Route.cpp
+@@ -15,6 +15,7 @@
+  *
+ */
+ 
++#include <cstdint>
+ #include "internal_Route.hpp"
+ 
+ #include <rmf_utils/Modular.hpp>
+diff --git a/src/rmf_traffic/blockade/geometry.cpp b/src/rmf_traffic/blockade/geometry.cpp
+index 049351e..d69a999 100644
+--- a/src/rmf_traffic/blockade/geometry.cpp
++++ b/src/rmf_traffic/blockade/geometry.cpp
+@@ -17,6 +17,7 @@
+ 
+ #include "geometry.hpp"
+ 
++#include <cassert>
+ #include <cmath>
+ 
+ namespace rmf_traffic {
+diff --git a/src/rmf_traffic/internal_Route.hpp b/src/rmf_traffic/internal_Route.hpp
+index 8bb220b..112ed34 100644
+--- a/src/rmf_traffic/internal_Route.hpp
++++ b/src/rmf_traffic/internal_Route.hpp
+@@ -18,6 +18,7 @@
+ #ifndef SRC__RMF_TRAFFIC__INTERNAL_ROUTE_HPP
+ #define SRC__RMF_TRAFFIC__INTERNAL_ROUTE_HPP
+ 
++#include <cstdint>
+ #include <rmf_traffic/Route.hpp>
+ 
+ namespace rmf_traffic {
+diff --git a/src/rmf_traffic/schedule/Timeline.hpp b/src/rmf_traffic/schedule/Timeline.hpp
+index b190242..94f9719 100644
+--- a/src/rmf_traffic/schedule/Timeline.hpp
++++ b/src/rmf_traffic/schedule/Timeline.hpp
+@@ -18,6 +18,7 @@
+ #ifndef SRC__RMF_TRAFFIC__SCHEDULE__TIMELINE_HPP
+ #define SRC__RMF_TRAFFIC__SCHEDULE__TIMELINE_HPP
+ 
++#include <cstdint>
+ #include "../DetectConflictInternal.hpp"
+ 
+ #include <rmf_traffic/schedule/Query.hpp>
+diff --git a/thirdparty/fcl/CMakeLists.txt b/thirdparty/fcl/CMakeLists.txt
+index 3d76235..5e49560 100644
+--- a/thirdparty/fcl/CMakeLists.txt
++++ b/thirdparty/fcl/CMakeLists.txt
+@@ -156,11 +156,14 @@ set(PKG_CONFIG_USE_CMAKE_PREFIX_PATH ON)
+ #
+ # If Eigen3 is not found, manually set the cache variable EIGEN3_INCLUDE_DIR
+ #===============================================================================
+-find_package(Eigen3 3.0.5 QUIET CONFIG)
++# RoboStack: do not pin a minimum version here. Eigen >= 5 ships a
++# SameMajorVersion config-version file, so requesting 3.0.5 rejects the conda
++# Eigen and silently falls back to a system-wide Eigen 3.x if one exists.
++find_package(Eigen3 QUIET CONFIG)
+ 
+ # If Eigen3Config.cmake is not found, use the FindEigen3.cmake module
+ if(NOT Eigen3_FOUND)
+-  find_package(Eigen3 3.0.5 QUIET MODULE)
++  find_package(Eigen3 QUIET MODULE)
+   set(Eigen3_FOUND ON)
+ endif()
+ 
+diff --git a/thirdparty/fcl/include/fcl/broadphase/default_broadphase_callbacks.h b/thirdparty/fcl/include/fcl/broadphase/default_broadphase_callbacks.h
+index 1c9b4fe..76f3bde 100644
+--- a/thirdparty/fcl/include/fcl/broadphase/default_broadphase_callbacks.h
++++ b/thirdparty/fcl/include/fcl/broadphase/default_broadphase_callbacks.h
+@@ -37,6 +37,7 @@
+ #ifndef FCL_BROADPHASE_DEFAULTBROADPHASECALLBACKS_H
+ #define FCL_BROADPHASE_DEFAULTBROADPHASECALLBACKS_H
+ 
++#include <cassert>
+ #include "fcl/narrowphase/collision.h"
+ #include "fcl/narrowphase/collision_request.h"
+ #include "fcl/narrowphase/collision_result.h"
+diff --git a/thirdparty/fcl/include/fcl/broadphase/detail/morton.h b/thirdparty/fcl/include/fcl/broadphase/detail/morton.h
+index 6b430c4..9a79cf0 100644
+--- a/thirdparty/fcl/include/fcl/broadphase/detail/morton.h
++++ b/thirdparty/fcl/include/fcl/broadphase/detail/morton.h
+@@ -39,6 +39,7 @@
+ #ifndef FCL_MORTON_H
+ #define FCL_MORTON_H
+ 
++#include <cassert>
+ #include "fcl/common/types.h"
+ #include "fcl/math/bv/AABB.h"
+ 
+diff --git a/thirdparty/fcl/include/fcl/geometry/octree/octree-inl.h b/thirdparty/fcl/include/fcl/geometry/octree/octree-inl.h
+index f50fe81..04781f8 100644
+--- a/thirdparty/fcl/include/fcl/geometry/octree/octree-inl.h
++++ b/thirdparty/fcl/include/fcl/geometry/octree/octree-inl.h
+@@ -38,6 +38,7 @@
+ #ifndef FCL_OCTREE_INL_H
+ #define FCL_OCTREE_INL_H
+ 
++#include <cassert>
+ #include "fcl/geometry/octree/octree.h"
+ 
+ #include "fcl/config.h"
+diff --git a/thirdparty/fcl/include/fcl/geometry/shape/convex-inl.h b/thirdparty/fcl/include/fcl/geometry/shape/convex-inl.h
+index 10adc69..c50b53f 100644
+--- a/thirdparty/fcl/include/fcl/geometry/shape/convex-inl.h
++++ b/thirdparty/fcl/include/fcl/geometry/shape/convex-inl.h
+@@ -39,6 +39,7 @@
+ #ifndef FCL_SHAPE_CONVEX_INL_H
+ #define FCL_SHAPE_CONVEX_INL_H
+ 
++#include <cassert>
+ #include <map>
+ #include <set>
+ #include <utility>
+diff --git a/thirdparty/fcl/include/fcl/math/bv/kDOP-inl.h b/thirdparty/fcl/include/fcl/math/bv/kDOP-inl.h
+index 371fdb6..15737b0 100644
+--- a/thirdparty/fcl/include/fcl/math/bv/kDOP-inl.h
++++ b/thirdparty/fcl/include/fcl/math/bv/kDOP-inl.h
+@@ -38,6 +38,7 @@
+ #ifndef FCL_BV_KDOP_INL_H
+ #define FCL_BV_KDOP_INL_H
+ 
++#include <cassert>
+ #include "fcl/math/bv/kDOP.h"
+ 
+ #include "fcl/common/unused.h"
+diff --git a/thirdparty/fcl/include/fcl/math/bv/utility-inl.h b/thirdparty/fcl/include/fcl/math/bv/utility-inl.h
+index 333ec15..ab9a6f5 100644
+--- a/thirdparty/fcl/include/fcl/math/bv/utility-inl.h
++++ b/thirdparty/fcl/include/fcl/math/bv/utility-inl.h
+@@ -38,6 +38,7 @@
+ #ifndef FCL_MATH_BV_UTILITY_INL_H
+ #define FCL_MATH_BV_UTILITY_INL_H
+ 
++#include <cassert>
+ #include "fcl/math/bv/utility.h"
+ 
+ #include "fcl/common/unused.h"
+diff --git a/thirdparty/fcl/include/fcl/math/constants.h b/thirdparty/fcl/include/fcl/math/constants.h
+index ba24176..dfdf569 100644
+--- a/thirdparty/fcl/include/fcl/math/constants.h
++++ b/thirdparty/fcl/include/fcl/math/constants.h
+@@ -37,6 +37,7 @@
+ #ifndef FCL_MATH_CONSTANTS_
+ #define FCL_MATH_CONSTANTS_
+ 
++#include <cassert>
+ #include "fcl/common/types.h"
+ 
+ #include <limits>
+diff --git a/thirdparty/fcl/include/fcl/math/motion/taylor_model/taylor_model-inl.h b/thirdparty/fcl/include/fcl/math/motion/taylor_model/taylor_model-inl.h
+index 861f72d..f304d5d 100644
+--- a/thirdparty/fcl/include/fcl/math/motion/taylor_model/taylor_model-inl.h
++++ b/thirdparty/fcl/include/fcl/math/motion/taylor_model/taylor_model-inl.h
+@@ -41,6 +41,7 @@
+ #ifndef FCL_CCD_TAYLOR_MODEL_INL_H
+ #define FCL_CCD_TAYLOR_MODEL_INL_H
+ 
++#include <cassert>
+ #include "fcl/math/motion/taylor_model/taylor_model.h"
+ 
+ namespace fcl
+diff --git a/thirdparty/fcl/include/fcl/math/rng-inl.h b/thirdparty/fcl/include/fcl/math/rng-inl.h
+index 1ba9da7..0e04dcd 100644
+--- a/thirdparty/fcl/include/fcl/math/rng-inl.h
++++ b/thirdparty/fcl/include/fcl/math/rng-inl.h
+@@ -38,6 +38,7 @@
+ #ifndef FCL_MATH_RNG_INL_H
+ #define FCL_MATH_RNG_INL_H
+ 
++#include <cassert>
+ #include "fcl/math/rng.h"
+ 
+ namespace fcl
+diff --git a/thirdparty/fcl/include/fcl/narrowphase/detail/convexity_based_algorithm/gjk_libccd-inl.h b/thirdparty/fcl/include/fcl/narrowphase/detail/convexity_based_algorithm/gjk_libccd-inl.h
+index 60fd0ad..0ddc589 100644
+--- a/thirdparty/fcl/include/fcl/narrowphase/detail/convexity_based_algorithm/gjk_libccd-inl.h
++++ b/thirdparty/fcl/include/fcl/narrowphase/detail/convexity_based_algorithm/gjk_libccd-inl.h
+@@ -38,6 +38,7 @@
+ #ifndef FCL_NARROWPHASE_DETAIL_GJKLIBCCD_INL_H
+ #define FCL_NARROWPHASE_DETAIL_GJKLIBCCD_INL_H
+ 
++#include <cassert>
+ #include "fcl/narrowphase/detail/convexity_based_algorithm/gjk_libccd.h"
+ #include "fcl/narrowphase/detail/failed_at_this_configuration.h"
+ 
+diff --git a/thirdparty/fcl/include/fcl/narrowphase/distance-inl.h b/thirdparty/fcl/include/fcl/narrowphase/distance-inl.h
+index 115b710..7011975 100644
+--- a/thirdparty/fcl/include/fcl/narrowphase/distance-inl.h
++++ b/thirdparty/fcl/include/fcl/narrowphase/distance-inl.h
+@@ -38,6 +38,7 @@
+ #ifndef FCL_DISTANCE_INL_H
+ #define FCL_DISTANCE_INL_H
+ 
++#include <cassert>
+ #include "fcl/narrowphase/distance.h"
+ 
+ #include "fcl/narrowphase/collision.h"

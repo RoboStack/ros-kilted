@@ -1,0 +1,52 @@
+diff --git a/include/nav2_smac_planner/analytic_expansion.hpp b/include/nav2_smac_planner/analytic_expansion.hpp
+index 0c5cded..24be185 100644
+--- a/include/nav2_smac_planner/analytic_expansion.hpp
++++ b/include/nav2_smac_planner/analytic_expansion.hpp
+@@ -18,6 +18,7 @@
+ #include <ompl/base/ScopedState.h>
+ #include <ompl/base/spaces/DubinsStateSpace.h>
+ #include <ompl/base/spaces/ReedsSheppStateSpace.h>
++#include <ompl/config.h>
+ 
+ #include <functional>
+ #include <list>
+@@ -171,7 +172,11 @@ public:
+     * @param path The Reeds-Shepp path to count direction changes in
+     * @return The number of direction changes in the path
+     */
++  #if OMPL_VERSION_VALUE >= 2000000  // 2.0.0
++  int countDirectionChanges(const ompl::base::ReedsSheppStateSpace::PathType & path);
++  #else
+   int countDirectionChanges(const ompl::base::ReedsSheppStateSpace::ReedsSheppPath & path);
++  #endif
+ 
+   /**
+    * @brief Takes an expanded nodes to clean up, if necessary, of any state
+diff --git a/src/analytic_expansion.cpp b/src/analytic_expansion.cpp
+index 13df5fe..7b20585 100644
+--- a/src/analytic_expansion.cpp
++++ b/src/analytic_expansion.cpp
+@@ -144,7 +144,11 @@ typename AnalyticExpansion<NodeT>::NodePtr AnalyticExpansion<NodeT>::tryAnalytic
+ 
+ template<typename NodeT>
+ int AnalyticExpansion<NodeT>::countDirectionChanges(
++#if OMPL_VERSION_VALUE >= 2000000  // 2.0.0
++  const ompl::base::ReedsSheppStateSpace::PathType & path)
++#else
+   const ompl::base::ReedsSheppStateSpace::ReedsSheppPath & path)
++#endif
+ {
+   const double * lengths = path.length_;
+   int changes = 0;
+@@ -184,7 +188,11 @@ typename AnalyticExpansion<NodeT>::AnalyticExpansionNodes AnalyticExpansion<Node
+   auto rs_state_space = dynamic_cast<ompl::base::ReedsSheppStateSpace *>(state_space.get());
+   int direction_changes = 0;
+   if (rs_state_space) {
++    #if OMPL_VERSION_VALUE >= 2000000  // 2.0.0
++    direction_changes = countDirectionChanges(rs_state_space->getPath(from.get(), to.get()));
++    #else
+     direction_changes = countDirectionChanges(rs_state_space->reedsShepp(from.get(), to.get()));
++    #endif
+   }
+ 
+   // A move of sqrt(2) is guaranteed to be in a new cell

@@ -1,0 +1,45 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 27156a0..44d4528 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -83,11 +83,20 @@ install(
+ 
+ # Generate python schemas mode whenever colcon is triggered
+ message(" Generating schema as py mods")
++# "eval" is a POSIX shell builtin, not a real command -- fails on Windows
++# with "'eval' is not recognized". Pass the command as plain CMake
++# arguments instead of a quoted shell string; portable everywhere.
++# conda-forge's Windows Python is "python.exe", not "python3.exe".
++if(WIN32)
++  set(PY_EXECUTABLE_NAME python)
++else()
++  set(PY_EXECUTABLE_NAME python3)
++endif()
+ ADD_CUSTOM_TARGET(
+   py_schemas_gen ALL
+-  COMMAND eval "python3 generate_py_schemas.py \
+-    --schemas_dir ${CMAKE_CURRENT_LIST_DIR}/schemas \
+-    --output_file ${CMAKE_CURRENT_LIST_DIR}/rmf_api_msgs/schemas.py"
++  COMMAND ${PY_EXECUTABLE_NAME} generate_py_schemas.py
++    --schemas_dir ${CMAKE_CURRENT_LIST_DIR}/schemas
++    --output_file ${CMAKE_CURRENT_LIST_DIR}/rmf_api_msgs/schemas.py
+   WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/scripts)
+ 
+ # Generate pydantic models according to schemas
+@@ -97,11 +106,11 @@ if(PY_MODELGEN_AVAIL)
+   message(" Generating py models with 'datamodel-codegen'")
+   ADD_CUSTOM_TARGET(
+     py_models_gen ALL
+-    COMMAND eval "datamodel-codegen \
+-      --disable-timestamp \
+-      --input-file-type jsonschema  \
+-      --input ${CMAKE_CURRENT_LIST_DIR}/schemas \
+-      --output ${CMAKE_CURRENT_LIST_DIR}/rmf_api_msgs/models"
++    COMMAND datamodel-codegen
++      --disable-timestamp
++      --input-file-type jsonschema
++      --input ${CMAKE_CURRENT_LIST_DIR}/schemas
++      --output ${CMAKE_CURRENT_LIST_DIR}/rmf_api_msgs/models
+     WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/scripts)
+ else()
+   message(

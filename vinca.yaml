@@ -1,23 +1,25 @@
 ros_distro: kilted
 
+package_name_mode: both
+
 # mapping for package keys
 conda_index:
   - robostack.yaml
   - packages-ignore.yaml
 
-# Reminder for next full rebuild, the next build number should be 23
-build_number: 21
+# Reminder for next full rebuild, the next build number should be 24
+build_number: 23
 
 mutex_package:
   name: "ros2-distro-mutex"
-  version: "0.17.0"
+  version: "0.18.0"
   upper_bound: "x.x"
   run_constraints:
     - libboost 1.90.*
     - libboost-devel 1.90.*
     - pcl 1.15.1.*
     - gazebo 11.*
-    - libprotobuf 6.33.5.*
+    - libprotobuf 7.35.1.*
     - vtk 9.6.2.*
 
 packages_skip_by_deps:
@@ -49,9 +51,13 @@ packages_select_by_deps:
   - ament_cmake_clang_tidy
   - ament_cmake_core
   - ament_cmake_mypy
+  - apex_test_tools
   - apriltag_detector
   - apriltag_ros
   - asio_cmake_module
+  - automatika_ros_sugar
+  - autoware_adapi_version_msgs
+  - autoware_auto_msgs
   - autoware_cmake
   - autoware_common_msgs
   - autoware_component_interface_specs
@@ -61,8 +67,10 @@ packages_select_by_deps:
   - autoware_internal_msgs
   - autoware_interpolation
   - autoware_kalman_filter
+  - autoware_lanelet2_extension_python
   - autoware_localization_msgs
   - autoware_map_msgs
+  - autoware_msgs
   - autoware_node
   - autoware_object_recognition_utils
   - autoware_perception_msgs
@@ -78,8 +86,12 @@ packages_select_by_deps:
   - battery_state_broadcaster
   - behaviortree_cpp
   - better_launch
+  - bno055
+  - bond_core
   - can_msgs
+  - cascade_lifecycle_msgs
   - cm_executors
+  - color_util
   - data_tamer_cpp  # Requested in https://github.com/RoboStack/ros-humble/issues/325
   - desktop
   - desktop_full
@@ -88,12 +100,27 @@ packages_select_by_deps:
   - flex_sync
   - foxglove_bridge
   - foxglove_msgs
+  - geodesy
+  - geographic_info
+  - geometry_tutorials
   - gripper_controllers
   - gtsam
   - gz_ros2_control
   - gz_ros2_control_demos
+  - imu_tools
+  - imu_transformer
+  - irobot_create_msgs
+  - joy_linux
+  - joy_teleop
+  - key_teleop
   - lanelet2
+  - librealsense2
   - magic_enum
+  - marker_msgs
+  - mavros_msgs
+  - microstrain_inertial_description
+  - mocap4r2_msgs
+  - mouse_teleop
   - moveit
   - moveit-chomp-optimizer-adapter  # Requested in https://www.linkedin.com/feed/update/urn:li:activity:7346559234177703938/
   - moveit-planners-chomp
@@ -101,17 +128,50 @@ packages_select_by_deps:
   - moveit-ros-trajectory-cache
   - moveit-servo
   - moveit-visual-tools
+  - mujoco_ros2_control_msgs
+  - mujoco_vendor
   - nav2_bringup
+  - nav2_loopback_sim
   - navigation2
+  - nmea_navsat_driver
   - perception
+  - persist_parameter_server
+  - pick_ik
+  - picknik_ament_copyright
+  - pinocchio
+  - point_cloud_transport_py
   - polygon_msgs
+  - polygon_utils
   - proxsuite
   - py-trees
   - py-trees-ros
   - py-trees-ros-interfaces
   - py-trees-ros-viewer
+  - py_trees_ros_tutorials
+  - radar_msgs
+  - rclc
+  - rclc_lifecycle
+  - rclc_parameter
+  - rclcpp_cascade_lifecycle
+  - rclpy_cascade_lifecycle
   - rmw_zenoh_cpp  # requested in https://github.com/RoboStack/ros-humble/issues/252
+  - roboplan  # requested in https://github.com/RoboStack/ros-kilted/issues/91
+  - roboplan_cartesian_planning
+  - roboplan_common
+  - roboplan_core
+  - roboplan_example_models
+  - roboplan_examples
+  - roboplan_oink
+  - roboplan_ros_cpp
+  - roboplan_ros_examples
+  - roboplan_ros_franka
+  - roboplan_ros_py
+  - roboplan_ros_visualization
+  - roboplan_rrt
+  - roboplan_simple_ik
+  - roboplan_toppra
   - robot
+  - robotiq_controllers
   - ros2_control
   - ros2_controllers
   - ros2_fmt_logger
@@ -121,37 +181,125 @@ packages_select_by_deps:
   - ros_gz
   - ros_workspace
   - rosbridge_suite
+  - rosidl_generator_dds_idl
+  - rqt
+  - rqt_controller_manager
+  - rqt_moveit
+  - rqt_robot_dashboard
+  - rqt_robot_monitor
+  - rqt_robot_steering
+  - rqt_runtime_monitor
+  - rtabmap
   - rtest
+  - rviz_2d_overlay_msgs
   - rviz_visual_tools
   - sbg_driver
+  - sick_safetyscanners_base
+  - sick_scan_xd
   - simulation
   - slam_toolbox
+  - system_modes
   - teleop
+  - teleop_tools
+  - toppra
+  - tracetools_launch
+  - tracetools_trace
+  - turtle_tf2_cpp
+  - turtle_tf2_py
   - turtlebot3
   - turtlebot3-gazebo
+  - turtlebot3_simulations
   - twist_mux  # requested in https://github.com/RoboStack/ros-humble/issues/249
+  - twist_stamper
   - ublox
   - ur
   - ur_simulation_gz
   - urdf_launch
+  - urdf_tutorial
+  - urg_node
+  - visp
 
-  # These packages are only built on Linux as they depend on Linux-specific API
-  - if: linux
-    then:
-      - libcamera  # Depends on v4l
-      - nobleo_socketcan_bridge  # Depends on socketcan
-      - ros2_socketcan  # Depends on socketcan
-      - rosgraph_monitor
-      - usb_cam  # Depends on v4l
-
-  # These packages are currently only build on Linux,
-  # as trying to build them in the past on macos or Windows resulted in errors
+  # Linux-only packages
   - if: linux
     then:
       - camera_ros  # Depends on libcamera that is only available on linux
+      - easynav
+      - easynav_bonxai_maps_manager
+      - easynav_common
+      - easynav_controller
+      - easynav_core
+      - easynav_costmap_localizer
+      - easynav_costmap_maps_manager
+      - easynav_costmap_planner
+      - easynav_fusion_localizer
+      - easynav_interfaces
+      - easynav_localizer
+      - easynav_maps_manager
+      - easynav_mpc_controller
+      - easynav_mppi_controller
+      - easynav_navmap_localizer
+      - easynav_navmap_maps_manager
+      - easynav_navmap_planner
+      - easynav_octomap_maps_manager
+      - easynav_planner
+      - easynav_routes_maps_manager
+      - easynav_sensors
+      - easynav_serest_controller
+      - easynav_simple_common
+      - easynav_simple_controller
+      - easynav_simple_localizer
+      - easynav_simple_maps_manager
+      - easynav_simple_planner
+      - easynav_support_py
+      - easynav_system
+      - easynav_tools
+      - easynav_vff_controller
+      - io_context
+      - libcamera  # Depends on v4l
       - livox_ros_driver2
+      - mavros_extras
+      - mujoco_ros2_control
+      - mujoco_ros2_control_demos
+      - navmap_core
+      - navmap_ros
+      - navmap_ros_interfaces
+      - nobleo_socketcan_bridge  # Depends on socketcan
+      - openvdb_vendor
+      - plansys2_bringup
+      - plansys2_bt_actions
+      - plansys2_core
+      - plansys2_domain_expert
+      - plansys2_executor
+      - plansys2_lifecycle_manager
+      - plansys2_msgs
+      - plansys2_pddl_parser
+      - plansys2_planner
+      - plansys2_popf_plan_solver
+      - plansys2_problem_expert
+      - plansys2_support_py
+      - plansys2_terminal
+      - plansys2_tests
+      - plansys2_tools
+      - popf
       - py_binding_tools
+      - quaternion_operation
+      - rclc_examples
+      - realsense2_camera
+      - realsense2_description
+      - rmf_demos
+      - robotiq_description
+      - ros2_socketcan  # Depends on socketcan
+      - rosgraph_monitor
+      - rot_conv
+      - rqt_image_overlay
+      - septentrio_gnss_driver
+      - sick_safetyscanners2
+      - sick_safetyscanners2_interfaces
+      - slider_publisher
+      - spatio_temporal_voxel_layer
       - swri_serial_util  # Serial communication only implemented for linux
+      - udp_driver
+      - usb_cam  # Depends on v4l
       - v4l2_camera  # Depends on v4l that is only available on linux
 
   # These packages are currently not build on Windows, but they be with some work
@@ -161,6 +309,7 @@ packages_select_by_deps:
       - apriltag_detector_umich
       - apriltag_draw
       - apriltag_tools
+      - automatika_embodied_agents
       - autoware_core
       - autoware_core_control
       - autoware_core_localization  # depends on autoware_ekf_localizer
@@ -171,11 +320,23 @@ packages_select_by_deps:
       - autoware_pose_initializer
       - autoware_qp_interface
       - autoware_trajectory  # depends on autoware_motion_utils
+      - avt_vimba_camera
+      - cloudini_lib
+      - cloudini_ros
       - dual-laser-merger
+      - event_camera_codecs
+      - event_camera_renderer
       - ffmpeg_image_transport  # TODO on windows: fix iconv link issue
       - foxglove_compressed_video_transport
       - grid_map  # see https://github.com/RoboStack/ros-jazzy/pull/79#issuecomment-2993499990
       - laser-segmentation
+      - libg2o
+      - mavlink
+      - mavros
+      - microstrain_inertial_driver
+      - microstrain_inertial_examples
+      - microstrain_inertial_msgs
+      - microstrain_inertial_rqt
       - mocap4r2_control
       - mocap4r2_control_msgs
       - mocap4r2_dummy_driver
@@ -184,26 +345,42 @@ packages_select_by_deps:
       - mocap4r2_marker_viz_srvs
       - mocap4r2_robot_gt
       - mocap4r2_robot_gt_msgs
+      - motion_capture_tracking
       - moveit-hybrid-planning  # Windows error: error C3861: '__builtin_unreachable': identifier not found
       - moveit-py
       - moveit-ros-occupancy-map-monitor
       - moveit-ros-perception
       - moveit-runtime
+      - moveit_task_constructor_demo
       - nonpersistent_voxel_layer  # invalid preprocessor command 'warning'
       - odom_to_tf_ros2
       - ouster_ros  # TODO on windows: cannot open pcl_io.lib
-      - pinocchio
       - plotjuggler-ros
       - point-cloud-transport-plugins
       - pointcloud-to-laserscan
+      - rosbag2_performance_benchmarking
       - rplidar_ros
       - rqt_mocap4r2_control
       - rqt_tf_tree
       - rslidar_sdk
+      - rviz_2d_overlay_plugins
       - rviz_satellite
       - serial_driver
+      - spacenav
       - swri_console  # Until sync of: https://github.com/ros/rosdistro/pull/49750
+      - trac_ik
+      - ublox_dgnss
+      - ublox_dgnss_node
+      - ublox_ubx_interfaces
       - velodyne
+      - vision_msgs_rviz_plugins
+      - web_video_server
+      - zed_msgs
+
+  # Linux x86_64-only packages
+  - if: linux and not aarch64
+    then:
+      - webots_ros2
 
 patch_dir: patch
 rosdistro_snapshot: rosdistro_snapshot.yaml

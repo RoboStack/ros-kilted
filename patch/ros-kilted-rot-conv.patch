@@ -1,0 +1,29 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index bbe97e2..342c0c9 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -3,8 +3,8 @@ cmake_minimum_required(VERSION 3.3)
+ project(rot_conv)
+ 
+ # Enable C++11
+-message(STATUS "Enabling C++11")
+-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
++message(STATUS "Enabling C++14 (required by Eigen >= 3.4 with modern compilers)")
++set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
+ add_compile_options(-Wall -Wextra -Wpedantic)
+ 
+ # Include directories
+@@ -101,9 +101,13 @@ install(TARGETS rotconvshared
+         RUNTIME DESTINATION bin)
+ 
+ # Link dependencies
++# Eigen3_INCLUDE_DIRS is not populated by Eigen 5's CMake config, so also link the imported target
+ ament_target_dependencies(rotconvstatic Eigen3)
++target_link_libraries(rotconvstatic Eigen3::Eigen)
+ ament_target_dependencies(rotconvshared Eigen3)
++target_link_libraries(rotconvshared Eigen3::Eigen)
+ ament_target_dependencies(rot_conv_sample_direct Eigen3)
++target_link_libraries(rot_conv_sample_direct Eigen3::Eigen)
+ 
+ ament_export_include_directories(include)
+ ament_export_libraries(rotconvshared)

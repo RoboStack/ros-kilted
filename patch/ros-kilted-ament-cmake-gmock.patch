@@ -1,0 +1,162 @@
+diff --git a/ament_cmake_gmock-extras.cmake b/ament_cmake_gmock-extras.cmake
+index d6125540..ff98620e 100644
+--- a/ament_cmake_gmock-extras.cmake
++++ b/ament_cmake_gmock-extras.cmake
+@@ -20,102 +20,13 @@ macro(_ament_cmake_gmock_find_gmock)
+     set(_AMENT_CMAKE_GMOCK_FIND_GMOCK TRUE)
+ 
+     find_package(ament_cmake_test QUIET REQUIRED)
+-    find_package(gmock_vendor QUIET)
+-
+-    # if gmock sources were not found in a previous run
+-    if(NOT GMOCK_FROM_SOURCE_FOUND)
+-      # search path for gmock includes and sources
+-      set(_search_path_include "")
+-      set(_search_path_src "")
+-
+-      # option() consider environment variable to find gmock
+-      if(NOT $ENV{GMOCK_DIR} STREQUAL "")
+-        list(APPEND _search_path_include "$ENV{GMOCK_DIR}/include/gmock")
+-        list(APPEND _search_path_src "$ENV{GMOCK_DIR}/src")
+-      endif()
+-
+-      # check to system installed path (i.e. on Ubuntu)
+-      set(_search_path_include "/usr/include/gmock")
+-      set(_search_path_src "/usr/src/gmock/src")
+-
+-      # check gmock_vendor path, prefer this version over a system installed
+-      if(gmock_vendor_FOUND AND gmock_vendor_BASE_DIR)
+-        list(INSERT _search_path_include 0 "${gmock_vendor_BASE_DIR}/include/gmock")
+-        list(INSERT _search_path_src 0 "${gmock_vendor_BASE_DIR}/src")
+-      endif()
+-
+-      find_file(_gmock_header_file "gmock.h"
+-        PATHS ${_search_path_include}
+-        NO_DEFAULT_PATH NO_CMAKE_FIND_ROOT_PATH
+-      )
+-      find_file(_gmock_src_file
+-        "gmock.cc"
+-        "gmock-all.cc"
+-        PATHS ${_search_path_src}
+-        NO_DEFAULT_PATH NO_CMAKE_FIND_ROOT_PATH
+-      )
+-
+-      if(_gmock_header_file AND _gmock_src_file)
+-        # set from-source variables
+-        set(GMOCK_FROM_SOURCE_FOUND TRUE CACHE INTERNAL "")
+-
+-        get_filename_component(_gmock_base_dir "${_gmock_src_file}" PATH)
+-        get_filename_component(_gmock_base_dir "${_gmock_base_dir}" PATH)
+-        set(GMOCK_FROM_SOURCE_BASE_DIR "${_gmock_base_dir}" CACHE INTERNAL "")
+-
+-        get_filename_component(_gmock_include_dir "${_gmock_header_file}" PATH)
+-        get_filename_component(_gmock_include_dir ${_gmock_include_dir} PATH)
+-        set(GMOCK_FROM_SOURCE_INCLUDE_DIRS "${_gmock_include_dir}" CACHE INTERNAL "")
+-
+-        set(GMOCK_FROM_SOURCE_LIBRARY_DIRS "${CMAKE_BINARY_DIR}/gmock" CACHE INTERNAL "")
+-
+-        set(GMOCK_FROM_SOURCE_LIBRARIES "gmock" CACHE INTERNAL "")
+-        set(GMOCK_FROM_SOURCE_MAIN_LIBRARIES "gmock_main" CACHE INTERNAL "")
+-      endif()
+-    endif()
+-
+-    if(GMOCK_FROM_SOURCE_FOUND)
+-      message(STATUS "Found gmock sources under '${GMOCK_FROM_SOURCE_BASE_DIR}': "
+-        "C++ tests using 'Google Mock' will be built")
+-
+-      # if gmock is already a target, do not add again
+-      # this can happen when ament_add_gmock() is called from a subdirectory
+-      if(NOT TARGET gmock)
+-        # add CMakeLists.txt from gmock dir
+-        add_subdirectory("${GMOCK_FROM_SOURCE_BASE_DIR}" "${CMAKE_BINARY_DIR}/gmock")
+-
+-        # mark gmock targets with EXCLUDE_FROM_ALL to only build
+-        # when tests are built which depend on them
+-        set_target_properties(gmock gmock_main PROPERTIES EXCLUDE_FROM_ALL 1)
+-      endif()
+-
+-      # set the same variables as find_package() would set
+-      # but do NOT set GMOCK_FOUND in the cache when using gmock from source
+-      # since the subdirectory must always be added to add the gmock targets
+-      set(GMOCK_FOUND ${GMOCK_FROM_SOURCE_FOUND})
+-      set(GMOCK_INCLUDE_DIRS ${GMOCK_FROM_SOURCE_INCLUDE_DIRS})
+-      set(GMOCK_LIBRARY_DIRS ${GMOCK_FROM_SOURCE_LIBRARY_DIRS})
+-      set(GMOCK_LIBRARIES ${GMOCK_FROM_SOURCE_LIBRARIES})
+-      set(GMOCK_MAIN_LIBRARIES ${GMOCK_FROM_SOURCE_MAIN_LIBRARIES})
+-
+-      if(GMOCK_FROM_SOURCE_BASE_DIR STREQUAL gmock_vendor_BASE_DIR)
+-        # the GMock headers require the GTest headers
+-        find_package(ament_cmake_gtest REQUIRED)
+-        ament_find_gtest()
+-        list(APPEND GMOCK_INCLUDE_DIRS ${GTEST_INCLUDE_DIRS})
+-      endif()
+-    endif()
+-
+-    if(NOT GMOCK_FOUND)
+-      message(WARNING
+-        "'gmock' not found, C++ tests using 'Google Mock' can not be built. "
+-        "Please install the 'Google Mock' headers globally in your system to "
+-        "enable these tests (e.g. on Ubuntu/Debian install the package "
+-          "'google-mock') or get the ament package 'gmock_vendor'")
+-    endif()
++    # Not a typo. GTest provides GMock
++    find_package(GTest REQUIRED)
++    ament_find_gmock()
+   endif()
+ endmacro()
+ 
++
+ include("${ament_cmake_gmock_DIR}/ament_add_gmock.cmake")
+ include("${ament_cmake_gmock_DIR}/ament_add_gmock_executable.cmake")
+ include("${ament_cmake_gmock_DIR}/ament_add_gmock_test.cmake")
+diff --git a/cmake/ament_add_gmock_executable.cmake b/cmake/ament_add_gmock_executable.cmake
+index a1fcaea4..5716654e 100644
+--- a/cmake/ament_add_gmock_executable.cmake
++++ b/cmake/ament_add_gmock_executable.cmake
+@@ -33,7 +33,8 @@
+ #
+ macro(ament_add_gmock_executable target)
+   _ament_cmake_gmock_find_gmock()
+-  if(GMOCK_FOUND)
++  # Not a typo. GTest provides GMock
++  if(GTest_FOUND)
+     _ament_add_gmock_executable("${target}" ${ARGN})
+   endif()
+ endmacro()
+diff --git a/cmake/ament_find_gmock.cmake b/cmake/ament_find_gmock.cmake
+index 58802b74..5e4d1fe9 100644
+--- a/cmake/ament_find_gmock.cmake
++++ b/cmake/ament_find_gmock.cmake
+@@ -22,6 +22,7 @@
+ # ``GMOCK_LIBRARIES`` or ``GMOCK_MAIN_LIBRARIES``
+ #
+ # @public
++# @deprecated
+ #
+ macro(ament_find_gmock)
+   set(_ARGN "${ARGN}")
+@@ -29,5 +30,9 @@ macro(ament_find_gmock)
+     message(FATAL_ERROR
+       "ament_find_gmock() called with unused arguments: ${_ARGN}")
+   endif()
+-  _ament_cmake_gmock_find_gmock()
++  # Not a typo. GMock is provided by GTest package
++  find_package(GTest REQUIRED)
++  set(GMOCK_FOUND ${GTest_FOUND})
++  set(GMOCK_LIBRARIES GTest::gmock GTest::gtest)
++  set(GMOCK_MAIN_LIBRARIES GTest::gmock_main)
+ endmacro()
+diff --git a/package.xml b/package.xml
+index 089f7641..ce9ecbd0 100644
+--- a/package.xml
++++ b/package.xml
+@@ -16,8 +16,7 @@
+ 
+   <buildtool_export_depend>ament_cmake_gtest</buildtool_export_depend>
+   <buildtool_export_depend>ament_cmake_test</buildtool_export_depend>
+-  <buildtool_export_depend>gmock_vendor</buildtool_export_depend>
+-  <buildtool_export_depend>google-mock</buildtool_export_depend>
++  <buildtool_export_depend>libgmock-dev</buildtool_export_depend>
+ 
+   <export>
+     <build_type>ament_cmake</build_type>

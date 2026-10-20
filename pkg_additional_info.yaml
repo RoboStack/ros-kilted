@@ -12,7 +12,9 @@ coal:
   generate_dummy_package_with_run_deps:
     dep_name: coal
     max_pin: 'x.x.x'
-    override_version: '3.0.3'
+    override_version: '3.0.4'
+compressed_depth_image_transport:
+  additional_cmake_args: "-DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=ON"
 console_bridge_vendor:
   additional_cmake_args: "-DAMENT_VENDOR_POLICY=NEVER_VENDOR_IGNORE_SATISFIED_CHECK"
 data_tamer_cpp:
@@ -74,6 +76,10 @@ hpp_fcl:
     max_pin: 'x.x.x'
     # the version on ros is outdated w.r.t. to the conda-forge one
     override_version: '3.0.2'
+imu_complementary_filter:
+  additional_cmake_args: "-DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=ON"
+imu_tools:
+  additional_cmake_args: "-DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=ON"
 io_context:
   additional_cmake_args: "-DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=ON"
 lanelet2_projection:
@@ -87,16 +93,36 @@ libcamera:
     max_pin: 'x.x'
 libcurl_vendor:
   additional_cmake_args: "-DAMENT_VENDOR_POLICY=NEVER_VENDOR_IGNORE_SATISFIED_CHECK"
+libg2o:
+  # g2o_csparse_extension exports no symbols on MSVC, so no import .lib is produced and solver_csparse fails to link (LNK1181).
+  additional_cmake_args: "-DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=ON"
 liblz4_vendor:
   additional_cmake_args: "-DAMENT_VENDOR_POLICY=NEVER_VENDOR_IGNORE_SATISFIED_CHECK"
+libpointmatcher:
+  # pointmatcher has no dllexport annotations: as a DLL it produces no import library (LNK1181 in consumers),
+  # and CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS overflows MSVC's 65535-export limit (LNK1189). Build it static on Windows.
+  # INSTALL_CMAKE_DIR defaults to CMake/ on Windows, where libpointmatcherConfig.cmake lands without the
+  # libpointmatcher-config.cmake targets file it includes; keep both in share/libpointmatcher/cmake.
+  additional_cmake_args:
+    if: win
+    then: "-DBUILD_SHARED_LIBS=OFF -DINSTALL_CMAKE_DIR=share/libpointmatcher/cmake"
 librealsense2:
   generate_dummy_package_with_run_deps:
     dep_name: librealsense
     max_pin: 'x.x'
+    # kilted released 2.59.1, but conda-forge's librealsense is still at 2.58.3
+    override_version: '2.58.3'
+lttngpy:
+  # conda-forge has no liblttng-ctl (lttng-tools)
+  additional_cmake_args: "-DLTTNGPY_DISABLED=ON"
 magic_enum:
   generate_dummy_package_with_run_deps:
     dep_name: magic_enum
     max_pin: 'x.x'
+moveit_ros_visualization:
+  additional_cmake_args: "-DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=ON"
+mujoco_vendor:
+  additional_cmake_args: "-DAMENT_VENDOR_POLICY=NEVER_VENDOR_IGNORE_SATISFIED_CHECK"
 octomap:
   generate_dummy_package_with_run_deps:
     dep_name: octomap
@@ -107,6 +133,8 @@ ompl:
   generate_dummy_package_with_run_deps:
     dep_name: ompl
     max_pin: 'x.x'
+    # OMPL 2.0.2 (build 2) is the conda-forge build linked against Boost 1.90; 1.7.0 only exists for Boost 1.88.
+    override_version: '2.0.2'
 openvdb_vendor:
   additional_cmake_args: "-DAMENT_VENDOR_POLICY=NEVER_VENDOR_IGNORE_SATISFIED_CHECK"
 orocos_kdl_vendor:
@@ -117,30 +145,91 @@ pinocchio:
   generate_dummy_package_with_run_deps:
     dep_name: pinocchio
     max_pin: 'x.x.x'
-    # the version on ros is outdated w.r.t. to the conda-forge one
-    override_version: '4.0.0'
+    override_version: '4.1.0'
 proxsuite:
   generate_dummy_package_with_run_deps:
     dep_name: proxsuite
     max_pin: 'x.x'
-    override_version: '0.7.2'
+    override_version: '0.7.3'
+py_trees:
+  generate_dummy_package_with_run_deps:
+    dep_name: py-trees
+    max_pin: 'x.x.x'
 pybind11_json_vendor:
   additional_cmake_args: "-DAMENT_VENDOR_POLICY=NEVER_VENDOR"
 pybind11_vendor:
   additional_cmake_args: "-DAMENT_VENDOR_POLICY=NEVER_VENDOR"
+rmf_demos_maps:
+  # The build would download Gazebo Fuel models (network access, and 'Pine Tree' by openrobotics no longer exists on Fuel).
+  additional_cmake_args: "-DNO_DOWNLOAD_MODELS=ON"
+roboplan:
+  generate_dummy_package_with_run_deps:
+    dep_name: roboplan-python
+    max_pin: 'x.x'
+roboplan_cartesian_planning:
+  generate_dummy_package_with_run_deps:
+    dep_name: roboplan-cartesian-planning-python
+    max_pin: 'x.x'
+roboplan_common:
+  generate_dummy_package_with_run_deps:
+    dep_name: roboplan-common
+    max_pin: 'x.x'
+roboplan_core:
+  generate_dummy_package_with_run_deps:
+    dep_name: roboplan-core-python
+    max_pin: 'x.x'
+roboplan_example_models:
+  generate_dummy_package_with_run_deps:
+    dep_name: roboplan-example-models-python
+    max_pin: 'x.x'
+roboplan_oink:
+  generate_dummy_package_with_run_deps:
+    dep_name: roboplan-oink-python
+    max_pin: 'x.x'
+roboplan_rrt:
+  generate_dummy_package_with_run_deps:
+    dep_name: roboplan-rrt-python
+    max_pin: 'x.x'
+roboplan_simple_ik:
+  generate_dummy_package_with_run_deps:
+    dep_name: roboplan-simple-ik-python
+    max_pin: 'x.x'
+roboplan_toppra:
+  generate_dummy_package_with_run_deps:
+    dep_name: roboplan-toppra-python
+    max_pin: 'x.x'
 robot_state_publisher:
   additional_cmake_args: "-DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=ON"
+rosbag2_performance_benchmarking:
+  # 0.32.x returns early from CMake (no install target) unless the benchmarks are enabled.
+  additional_cmake_args: "-DBUILD_ROSBAG2_BENCHMARKS=ON"
+rosbag2_performance_benchmarking_msgs:
+  additional_cmake_args: "-DBUILD_ROSBAG2_BENCHMARKS=ON"
 rosx_introspection:
   additional_cmake_args: "-DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=ON"
 
+rtabmap:
+  # Tests are on by default, which downloads googletest during configure and installs libgtest/libgmock into the package.
+  # On Windows, libpointmatcher is static and untested with rtabmap; jazzy/humble's win builds never had it
+  # (their win libpointmatcher packages are empty), so keep rtabmap's optional pointmatcher support off there.
+  additional_cmake_args:
+    if: win
+    then: "-DBUILD_TESTING=OFF -DWITH_POINTMATCHER=OFF"
+    else: "-DBUILD_TESTING=OFF"
 rviz_ogre_vendor:
   additional_cmake_args: "-DRVIZ_OGRE_VENDOR_MANGLE_NAME_OF_LIBRARIES_USED_BY_RVIZ=ON"
 sdformat_vendor:
   additional_cmake_args: "-DAMENT_VENDOR_POLICY=NEVER_VENDOR_IGNORE_SATISFIED_CHECK"
+sick_scan_xd:
+  additional_cmake_args: "-DBUILD_DEBUG_TARGET:BOOL=OFF -DROS_VERSION=2"
 spdlog_vendor:
   additional_cmake_args: "-DAMENT_VENDOR_POLICY=NEVER_VENDOR_IGNORE_SATISFIED_CHECK"
 sqlite3_vendor:
   additional_cmake_args: "-DAMENT_VENDOR_POLICY=NEVER_VENDOR_IGNORE_SATISFIED_CHECK"
+toppra:
+  generate_dummy_package_with_run_deps:
+    dep_name: toppra-python
+    max_pin: 'x.x'
 ublox_gps:
   additional_cmake_args: "-DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=ON"
 uncrustify_vendor:
@@ -164,21 +253,7 @@ visp:
   generate_dummy_package_with_run_deps:
     dep_name: visp
     max_pin: 'x.x'
-    # the version on ros is outdated w.r.t. to the conda-forge one
-    override_version: '3.6.0'
+    # the version on ros is outdated w.r.t. to the conda-forge one; 3.6.0 only exists against OpenCV <= 4.12
+    override_version: '3.7.0'
 zenoh_cpp_vendor:
-  additional_cmake_args: "-DAMENT_VENDOR_POLICY=NEVER_VENDOR_IGNORE_SATISFIED_CHECK"
-
-# Remove everything after this line on a full rebuild
-ament_index_cpp:
-  build_number: 22
-camera_calibration:
-  build_number: 22
-nav2_smac_planner:
-  build_number: 22
-ros2cli:
-  build_number: 22
-rosidl_cli:
-  build_number: 22
-rosidl_generator_rs:
-  build_number: 22
+  additional_cmake_args: "-DAMENT_VENDOR_POLICY=NEVER_VENDOR_IGNORE_SATISFIED_CHECK -DUSE_SYSTEM_ZENOH=ON"

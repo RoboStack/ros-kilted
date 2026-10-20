@@ -1,0 +1,26 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index bc12374..e6744ef 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -4,6 +4,8 @@ project(openvdb_vendor)
+ find_package(ament_cmake REQUIRED)
+ find_package(ament_cmake_vendor_package REQUIRED)
+ 
++# conda-forge openvdb ships FindOpenVDB.cmake under <prefix>/lib/cmake/OpenVDB
++list(APPEND CMAKE_MODULE_PATH "${CMAKE_INSTALL_PREFIX}/lib/cmake/OpenVDB")
+ list(APPEND CMAKE_MODULE_PATH "/usr/lib/x86_64-linux-gnu/cmake/OpenVDB")
+ list(APPEND CMAKE_MODULE_PATH "/usr/lib/aarch64-linux-gnu/cmake/OpenVDB")
+ find_package(OpenVDB 10 QUIET)
+diff --git a/openvdb_vendor-extras.cmake b/openvdb_vendor-extras.cmake
+index 6816794..420103b 100644
+--- a/openvdb_vendor-extras.cmake
++++ b/openvdb_vendor-extras.cmake
+@@ -4,6 +4,8 @@ if(NOT CMAKE_BUILD_TYPE OR CMAKE_BUILD_TYPE STREQUAL "")
+ endif()
+ message( STATUS "CMAKE_BUILD_TYPE: ${CMAKE_BUILD_TYPE}" )
+ list(APPEND CMAKE_MODULE_PATH "${openvdb_vendor_DIR}/../../../opt/openvdb_vendor/lib/cmake/OpenVDB")
++get_filename_component(_openvdb_prefix "${openvdb_vendor_DIR}/../../.." ABSOLUTE)
++list(APPEND CMAKE_MODULE_PATH "${_openvdb_prefix}/lib/cmake/OpenVDB")
+ list(APPEND CMAKE_MODULE_PATH "/usr/lib/x86_64-linux-gnu/cmake/OpenVDB")
+ list(APPEND CMAKE_MODULE_PATH "/usr/lib/aarch64-linux-gnu/cmake/OpenVDB")
+ find_package(OpenVDB REQUIRED)
