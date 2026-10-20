@@ -1,0 +1,48 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index fed8c1e..c405bf4 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -97,6 +97,18 @@ if (CMAKE_SYSTEM_NAME STREQUAL "Linux" AND CMAKE_SYSTEM_PROCESSOR STREQUAL "aarc
+ elseif(CMAKE_SYSTEM_NAME STREQUAL "Linux" AND CMAKE_SYSTEM_PROCESSOR STREQUAL "x86_64")
+   set(FOXGLOVE_SDK_PLATFORM "x86_64-unknown-linux-gnu")
+   set(FOXGLOVE_SDK_SHA "fcb725e24cf5af2f38de536f3d848788ac41956467c569d77f38a21a2a9a4e2e")
++elseif(CMAKE_SYSTEM_NAME STREQUAL "Darwin" AND CMAKE_SYSTEM_PROCESSOR STREQUAL "arm64")
++  set(FOXGLOVE_SDK_PLATFORM "aarch64-apple-darwin")
++  set(FOXGLOVE_SDK_SHA "088ed6110b93d749d87320f690cc9ef5d2df14a02d83bcf847cca4268a6297b9")
++elseif(CMAKE_SYSTEM_NAME STREQUAL "Darwin" AND CMAKE_SYSTEM_PROCESSOR STREQUAL "x86_64")
++  set(FOXGLOVE_SDK_PLATFORM "x86_64-apple-darwin")
++  set(FOXGLOVE_SDK_SHA "b8176129102308f8ed1474f2f2d6f9c17b49d6645d80ad1c0572756e6a6ae9ee")
++elseif(CMAKE_SYSTEM_NAME STREQUAL "Windows" AND CMAKE_SYSTEM_PROCESSOR STREQUAL "ARM64")
++  set(FOXGLOVE_SDK_PLATFORM "aarch64-pc-windows-msvc")
++  set(FOXGLOVE_SDK_SHA "cd03109b8514be5f98cb55d1adca5b721de2fe07b6dcc545da08ec97309a758c")
++elseif(CMAKE_SYSTEM_NAME STREQUAL "Windows" AND CMAKE_SYSTEM_PROCESSOR STREQUAL "AMD64")
++  set(FOXGLOVE_SDK_PLATFORM "x86_64-pc-windows-msvc")
++  set(FOXGLOVE_SDK_SHA "04652d7820690109b924b59a1542ec238a9891b430d829df5788432242d10062")
+ else()
+   message(FATAL_ERROR "Unsupported platform/architecture combination: ${CMAKE_SYSTEM_PROCESSOR}-${CMAKE_SYSTEM_NAME}")
+ endif()
+@@ -201,6 +213,12 @@ target_link_libraries(foxglove_bridge_component
+   rosx_introspection::rosx_introspection
+ )
+ 
++if(APPLE)
++  find_library(COREFOUNDATION_FRAMEWORK CoreFoundation REQUIRED)
++  find_library(SECURITY_FRAMEWORK Security REQUIRED)
++  target_link_libraries(foxglove_bridge_component ${COREFOUNDATION_FRAMEWORK} ${SECURITY_FRAMEWORK})
++endif()
++
+ rclcpp_components_register_nodes(foxglove_bridge_component "foxglove_bridge::FoxgloveBridge")
+ enable_strict_compiler_warnings(foxglove_bridge_component)
+ set_target_properties(foxglove_bridge_component PROPERTIES
+diff --git a/src/message_definition_cache.cpp b/src/message_definition_cache.cpp
+index cf2864e..9124c80 100644
+--- a/src/message_definition_cache.cpp
++++ b/src/message_definition_cache.cpp
+@@ -3,6 +3,7 @@
+ #include <filesystem>
+ #include <fstream>
+ #include <functional>
++#include <map>
+ #include <optional>
+ #include <regex>
+ #include <set>
