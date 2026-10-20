@@ -1,0 +1,17 @@
+diff --git a/src/cpp/utils/Host.cpp b/src/cpp/utils/Host.cpp
+index 4e7582b1..55801b85 100644
+--- a/src/cpp/utils/Host.cpp
++++ b/src/cpp/utils/Host.cpp
+@@ -46,7 +46,12 @@ fastcdr::string_255 Host::compute_machine_id()
+     }
+     return "";
+     #elif defined(__APPLE__)
++    #include <AvailabilityMacros.h>
++    #if (MAC_OS_X_VERSION_MIN_REQUIRED < 120000)
++    io_registry_entry_t ioRegistryRoot = IORegistryEntryFromPath(kIOMasterPortDefault, "IOService:/");
++    #else
+     io_registry_entry_t ioRegistryRoot = IORegistryEntryFromPath(kIOMainPortDefault, "IOService:/");
++    #endif
+     if (!ioRegistryRoot)
+     {
+         return "";

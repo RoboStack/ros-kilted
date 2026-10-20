@@ -1,0 +1,8 @@
+diff --git a/resource/templates/msg_rmw.rs.em b/resource/templates/msg_rmw.rs.em
+--- a/resource/templates/msg_rmw.rs.em
++++ b/resource/templates/msg_rmw.rs.em
+@@ -147,3 +147,3 @@ impl rosidl_runtime_rs::RmwMessage for @(type_name) where Self: Sized {
+ }
+ 
+-@[end for]
++@[end for]@

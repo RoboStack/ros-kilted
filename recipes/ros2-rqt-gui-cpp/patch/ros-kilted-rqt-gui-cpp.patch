@@ -1,0 +1,12 @@
+diff --git a/src/rqt_gui_cpp/nodelet_plugin_provider.cpp b/src/rqt_gui_cpp/nodelet_plugin_provider.cpp
+index 5ff0cc90..f89520bf 100644
+--- a/src/rqt_gui_cpp/nodelet_plugin_provider.cpp
++++ b/src/rqt_gui_cpp/nodelet_plugin_provider.cpp
+@@ -35,6 +35,7 @@
+ #include <memory>
+ #include <stdexcept>
+ #include <string>
++#include <unistd.h>
+ 
+ #include "roscpp_plugin_provider.hpp"
+ 
