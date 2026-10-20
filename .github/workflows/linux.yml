@@ -1,0 +1,2713 @@
+jobs:
+  stage_0_job_0:
+    name: ros2-parameter-traits ros2-realtime-tools ros2-message-filters ros2-pal-statistics
+      ros2-tf2-ros-py ros2-ros2param ros2-diagnostic-updater ros2-ros2lifecycle-test-fixtures
+      ros2-rosbag2-test-common ros2-sros2 ros2-topic-tools ros2-joint-state-publisher-gui
+      ros2-moveit-msgs ros2-geometric-shapes ros2-common-interfaces ros2-bondcpp ros2-autoware-internal-planning-msgs
+      ros2-laser-geometry ros2-plansys2-pddl-parser ros2-autoware-vehicle-msgs ros2-autoware-utils-visualization
+      ros2-logging-demo ros2-rtabmap ros2-autoware-qp-interface ros2-autoware-osqp-interface
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs: []
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v7
+    - name: Disable git auto-maintenance
+      run: git config --global maintenance.auto false && git config --global gc.auto
+        0
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0
+      with:
+        pixi-version: latest
+        cache: 'true'
+        log-level: v
+        frozen: 'true'
+    - name: Build ros2-parameter-traits ros2-realtime-tools ros2-message-filters ros2-pal-statistics
+        ros2-tf2-ros-py ros2-ros2param ros2-diagnostic-updater ros2-ros2lifecycle-test-fixtures
+        ros2-rosbag2-test-common ros2-sros2 ros2-topic-tools ros2-joint-state-publisher-gui
+        ros2-moveit-msgs ros2-geometric-shapes ros2-common-interfaces ros2-bondcpp
+        ros2-autoware-internal-planning-msgs ros2-laser-geometry ros2-plansys2-pddl-parser
+        ros2-autoware-vehicle-msgs ros2-autoware-utils-visualization ros2-logging-demo
+        ros2-rtabmap ros2-autoware-qp-interface ros2-autoware-osqp-interface
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros2-parameter-traits ros2-realtime-tools ros2-message-filters
+          ros2-pal-statistics ros2-tf2-ros-py ros2-ros2param ros2-diagnostic-updater
+          ros2-ros2lifecycle-test-fixtures ros2-rosbag2-test-common ros2-sros2 ros2-topic-tools
+          ros2-joint-state-publisher-gui ros2-moveit-msgs ros2-geometric-shapes ros2-common-interfaces
+          ros2-bondcpp ros2-autoware-internal-planning-msgs ros2-laser-geometry ros2-plansys2-pddl-parser
+          ros2-autoware-vehicle-msgs ros2-autoware-utils-visualization ros2-logging-demo
+          ros2-rtabmap ros2-autoware-qp-interface ros2-autoware-osqp-interface
+        BUILD_TARGET: ''
+      run: |
+        export CI=github
+        export GIT_BRANCH=${GITHUB_REF_NAME}
+        export FEEDSTOCK_NAME=${GITHUB_REPOSITORY##*/}
+        .scripts/build_unix.sh --target $BUILD_TARGET
+    permissions:
+      id-token: write
+      attestations: write
+  stage_0_job_1:
+    name: ros2-ros-gz-bridge ros2-grid-map-cv ros2-rmf-task-ros2 ros2-kinematics-interface
+      ros2-ur-msgs ros2-nav2-simple-commander ros2-rosbridge-library ros2-joy ros2-camera-info-manager
+      ros2-velodyne-laserscan ros2-rmf-visualization-schedule ros2-rmf-visualization-obstacles
+      ros2-rmf-visualization-navgraphs ros2-rmf-visualization-floorplans ros2-rmf-visualization-fleet-states
+      ros2-rclcpp-cascade-lifecycle ros2-rqt-srv ros2-rqt-action ros2-ros2-socketcan
+      ros2-rmf-demos-tasks ros2-rmf-demos-maps ros2-rclc ros2-data-tamer-cpp ros2-easynav-support-py
+      ros2-vision-opencv
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs: []
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v7
+    - name: Disable git auto-maintenance
+      run: git config --global maintenance.auto false && git config --global gc.auto
+        0
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0
+      with:
+        pixi-version: latest
+        cache: 'true'
+        log-level: v
+        frozen: 'true'
+    - name: Build ros2-ros-gz-bridge ros2-grid-map-cv ros2-rmf-task-ros2 ros2-kinematics-interface
+        ros2-ur-msgs ros2-nav2-simple-commander ros2-rosbridge-library ros2-joy ros2-camera-info-manager
+        ros2-velodyne-laserscan ros2-rmf-visualization-schedule ros2-rmf-visualization-obstacles
+        ros2-rmf-visualization-navgraphs ros2-rmf-visualization-floorplans ros2-rmf-visualization-fleet-states
+        ros2-rclcpp-cascade-lifecycle ros2-rqt-srv ros2-rqt-action ros2-ros2-socketcan
+        ros2-rmf-demos-tasks ros2-rmf-demos-maps ros2-rclc ros2-data-tamer-cpp ros2-easynav-support-py
+        ros2-vision-opencv
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros2-ros-gz-bridge ros2-grid-map-cv ros2-rmf-task-ros2 ros2-kinematics-interface
+          ros2-ur-msgs ros2-nav2-simple-commander ros2-rosbridge-library ros2-joy
+          ros2-camera-info-manager ros2-velodyne-laserscan ros2-rmf-visualization-schedule
+          ros2-rmf-visualization-obstacles ros2-rmf-visualization-navgraphs ros2-rmf-visualization-floorplans
+          ros2-rmf-visualization-fleet-states ros2-rclcpp-cascade-lifecycle ros2-rqt-srv
+          ros2-rqt-action ros2-ros2-socketcan ros2-rmf-demos-tasks ros2-rmf-demos-maps
+          ros2-rclc ros2-data-tamer-cpp ros2-easynav-support-py ros2-vision-opencv
+        BUILD_TARGET: ''
+      run: |
+        export CI=github
+        export GIT_BRANCH=${GITHUB_REF_NAME}
+        export FEEDSTOCK_NAME=${GITHUB_REPOSITORY##*/}
+        .scripts/build_unix.sh --target $BUILD_TARGET
+    permissions:
+      id-token: write
+      attestations: write
+  stage_0_job_2:
+    name: ros2-turtlesim ros2-quality-of-service-demo-cpp ros2-pendulum-control ros2-lifecycle
+      ros2-image-tools ros2-examples-rclcpp-minimal-subscriber ros2-examples-rclcpp-minimal-composition
+      ros2-examples-rclcpp-minimal-action-server ros2-examples-rclcpp-minimal-action-client
+      ros2-depthimage-to-laserscan ros2-demo-nodes-cpp-native ros2-demo-nodes-cpp
+      ros2-composition ros2-action-tutorials-cpp ros2-autoware-perception-objects-converter
+      ros2-autoware-twist2accel ros2-autoware-stop-filter ros2-laser-proc ros2-ublox-nav-sat-fix-hp-node
+      ros2-ublox-dgnss-node ros2-ntrip-client-node ros2-turtlebot3-example ros2-joy-teleop
+      ros2-system-modes ros2-mocap4r2-control
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs: []
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v7
+    - name: Disable git auto-maintenance
+      run: git config --global maintenance.auto false && git config --global gc.auto
+        0
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0
+      with:
+        pixi-version: latest
+        cache: 'true'
+        log-level: v
+        frozen: 'true'
+    - name: Build ros2-turtlesim ros2-quality-of-service-demo-cpp ros2-pendulum-control
+        ros2-lifecycle ros2-image-tools ros2-examples-rclcpp-minimal-subscriber ros2-examples-rclcpp-minimal-composition
+        ros2-examples-rclcpp-minimal-action-server ros2-examples-rclcpp-minimal-action-client
+        ros2-depthimage-to-laserscan ros2-demo-nodes-cpp-native ros2-demo-nodes-cpp
+        ros2-composition ros2-action-tutorials-cpp ros2-autoware-perception-objects-converter
+        ros2-autoware-twist2accel ros2-autoware-stop-filter ros2-laser-proc ros2-ublox-nav-sat-fix-hp-node
+        ros2-ublox-dgnss-node ros2-ntrip-client-node ros2-turtlebot3-example ros2-joy-teleop
+        ros2-system-modes ros2-mocap4r2-control
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros2-turtlesim ros2-quality-of-service-demo-cpp ros2-pendulum-control
+          ros2-lifecycle ros2-image-tools ros2-examples-rclcpp-minimal-subscriber
+          ros2-examples-rclcpp-minimal-composition ros2-examples-rclcpp-minimal-action-server
+          ros2-examples-rclcpp-minimal-action-client ros2-depthimage-to-laserscan
+          ros2-demo-nodes-cpp-native ros2-demo-nodes-cpp ros2-composition ros2-action-tutorials-cpp
+          ros2-autoware-perception-objects-converter ros2-autoware-twist2accel ros2-autoware-stop-filter
+          ros2-laser-proc ros2-ublox-nav-sat-fix-hp-node ros2-ublox-dgnss-node ros2-ntrip-client-node
+          ros2-turtlebot3-example ros2-joy-teleop ros2-system-modes ros2-mocap4r2-control
+        BUILD_TARGET: ''
+      run: |
+        export CI=github
+        export GIT_BRANCH=${GITHUB_REF_NAME}
+        export FEEDSTOCK_NAME=${GITHUB_REPOSITORY##*/}
+        .scripts/build_unix.sh --target $BUILD_TARGET
+    permissions:
+      id-token: write
+      attestations: write
+  stage_0_job_3:
+    name: ros2-ros-image-to-qimage ros2-roboplan-ros-examples ros2-plansys2-support-py
+      ros2-ffmpeg-encoder-decoder ros2-diagnostic-remote-logging ros2-udp-driver ros2-spacenav
+      ros2-serial-driver ros2-rtest ros2-rslidar-sdk ros2-rqt-robot-dashboard ros2-rqt-moveit
+      ros2-rqt ros2-rplidar-ros ros2-realsense2-description ros2-rclpy-cascade-lifecycle
+      ros2-py-trees-ros-viewer ros2-persist-parameter-server ros2-mocap4r2-marker-viz
+      ros2-mocap4r2-marker-publisher ros2-laser-segmentation ros2-geographic-info
+      ros2-flex-sync zed-msgs webots-ros2-msgs
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs: []
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v7
+    - name: Disable git auto-maintenance
+      run: git config --global maintenance.auto false && git config --global gc.auto
+        0
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0
+      with:
+        pixi-version: latest
+        cache: 'true'
+        log-level: v
+        frozen: 'true'
+    - name: Build ros2-ros-image-to-qimage ros2-roboplan-ros-examples ros2-plansys2-support-py
+        ros2-ffmpeg-encoder-decoder ros2-diagnostic-remote-logging ros2-udp-driver
+        ros2-spacenav ros2-serial-driver ros2-rtest ros2-rslidar-sdk ros2-rqt-robot-dashboard
+        ros2-rqt-moveit ros2-rqt ros2-rplidar-ros ros2-realsense2-description ros2-rclpy-cascade-lifecycle
+        ros2-py-trees-ros-viewer ros2-persist-parameter-server ros2-mocap4r2-marker-viz
+        ros2-mocap4r2-marker-publisher ros2-laser-segmentation ros2-geographic-info
+        ros2-flex-sync ros-kilted-zed-msgs ros-kilted-webots-ros2-msgs
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros2-ros-image-to-qimage ros2-roboplan-ros-examples ros2-plansys2-support-py
+          ros2-ffmpeg-encoder-decoder ros2-diagnostic-remote-logging ros2-udp-driver
+          ros2-spacenav ros2-serial-driver ros2-rtest ros2-rslidar-sdk ros2-rqt-robot-dashboard
+          ros2-rqt-moveit ros2-rqt ros2-rplidar-ros ros2-realsense2-description ros2-rclpy-cascade-lifecycle
+          ros2-py-trees-ros-viewer ros2-persist-parameter-server ros2-mocap4r2-marker-viz
+          ros2-mocap4r2-marker-publisher ros2-laser-segmentation ros2-geographic-info
+          ros2-flex-sync ros-kilted-zed-msgs ros-kilted-webots-ros2-msgs
+        BUILD_TARGET: ''
+      run: |
+        export CI=github
+        export GIT_BRANCH=${GITHUB_REF_NAME}
+        export FEEDSTOCK_NAME=${GITHUB_REPOSITORY##*/}
+        .scripts/build_unix.sh --target $BUILD_TARGET
+    permissions:
+      id-token: write
+      attestations: write
+  stage_1_job_4:
+    name: ros2-generate-parameter-library ros2-tf2-ros ros2-ros2lifecycle ros2-ros2component
+      ros2-rosbag2-storage ros2-point-cloud-transport ros2-image-transport ros2-plansys2-core
+      ros2-autoware-internal-msgs ros2-autoware-component-interface-specs ros2-pcl-conversions
+      ros2-autoware-utils-logging ros2-rmf-fleet-adapter ros2-kinematics-interface-kdl
+      ros2-sros2-cmake ros2-tf2-tools ros2-moveit-task-constructor-msgs ros2-rosapi
+      ros2-teleop-twist-joy ros2-joy-linux ros2-camera-calibration ros2-mujoco-ros2-control-plugins
+      ros2-autoware-vehicle-velocity-converter ros2-rqt-image-overlay-layer ros2-ublox-gps
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_0_job_0
+    - stage_0_job_1
+    - stage_0_job_2
+    - stage_0_job_3
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v7
+    - name: Disable git auto-maintenance
+      run: git config --global maintenance.auto false && git config --global gc.auto
+        0
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0
+      with:
+        pixi-version: latest
+        cache: 'true'
+        log-level: v
+        frozen: 'true'
+    - name: Build ros2-generate-parameter-library ros2-tf2-ros ros2-ros2lifecycle
+        ros2-ros2component ros2-rosbag2-storage ros2-point-cloud-transport ros2-image-transport
+        ros2-plansys2-core ros2-autoware-internal-msgs ros2-autoware-component-interface-specs
+        ros2-pcl-conversions ros2-autoware-utils-logging ros2-rmf-fleet-adapter ros2-kinematics-interface-kdl
+        ros2-sros2-cmake ros2-tf2-tools ros2-moveit-task-constructor-msgs ros2-rosapi
+        ros2-teleop-twist-joy ros2-joy-linux ros2-camera-calibration ros2-mujoco-ros2-control-plugins
+        ros2-autoware-vehicle-velocity-converter ros2-rqt-image-overlay-layer ros2-ublox-gps
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros2-generate-parameter-library ros2-tf2-ros ros2-ros2lifecycle
+          ros2-ros2component ros2-rosbag2-storage ros2-point-cloud-transport ros2-image-transport
+          ros2-plansys2-core ros2-autoware-internal-msgs ros2-autoware-component-interface-specs
+          ros2-pcl-conversions ros2-autoware-utils-logging ros2-rmf-fleet-adapter
+          ros2-kinematics-interface-kdl ros2-sros2-cmake ros2-tf2-tools ros2-moveit-task-constructor-msgs
+          ros2-rosapi ros2-teleop-twist-joy ros2-joy-linux ros2-camera-calibration
+          ros2-mujoco-ros2-control-plugins ros2-autoware-vehicle-velocity-converter
+          ros2-rqt-image-overlay-layer ros2-ublox-gps
+        BUILD_TARGET: ''
+      run: |
+        export CI=github
+        export GIT_BRANCH=${GITHUB_REF_NAME}
+        export FEEDSTOCK_NAME=${GITHUB_REPOSITORY##*/}
+        .scripts/build_unix.sh --target $BUILD_TARGET
+    permissions:
+      id-token: write
+      attestations: write
+  stage_1_job_5:
+    name: ros2-rclc-parameter ros2-rclc-lifecycle ros2-py-trees-ros ros2-plotjuggler
+      ros2-easynav-tools ros2-self-test ros2-diagnostic-common-diagnostics ros2-urg-node
+      ros2-ublox-dgnss ros2-twist-mux ros2-teleop-tools ros2-rqt-mocap4r2-control
+      ros2-nobleo-socketcan-bridge ros2-mocap4r2-dummy-driver ros2-bond-core ros2-autoware-msgs
+      vision-opencv velodyne-laserscan ur-msgs udp-driver ublox-nav-sat-fix-hp-node
+      ublox-dgnss-node turtlesim turtlebot3-example topic-tools
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_0_job_0
+    - stage_0_job_1
+    - stage_0_job_2
+    - stage_0_job_3
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v7
+    - name: Disable git auto-maintenance
+      run: git config --global maintenance.auto false && git config --global gc.auto
+        0
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0
+      with:
+        pixi-version: latest
+        cache: 'true'
+        log-level: v
+        frozen: 'true'
+    - name: Build ros2-rclc-parameter ros2-rclc-lifecycle ros2-py-trees-ros ros2-plotjuggler
+        ros2-easynav-tools ros2-self-test ros2-diagnostic-common-diagnostics ros2-urg-node
+        ros2-ublox-dgnss ros2-twist-mux ros2-teleop-tools ros2-rqt-mocap4r2-control
+        ros2-nobleo-socketcan-bridge ros2-mocap4r2-dummy-driver ros2-bond-core ros2-autoware-msgs
+        ros-kilted-vision-opencv ros-kilted-velodyne-laserscan ros-kilted-ur-msgs
+        ros-kilted-udp-driver ros-kilted-ublox-nav-sat-fix-hp-node ros-kilted-ublox-dgnss-node
+        ros-kilted-turtlesim ros-kilted-turtlebot3-example ros-kilted-topic-tools
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros2-rclc-parameter ros2-rclc-lifecycle ros2-py-trees-ros
+          ros2-plotjuggler ros2-easynav-tools ros2-self-test ros2-diagnostic-common-diagnostics
+          ros2-urg-node ros2-ublox-dgnss ros2-twist-mux ros2-teleop-tools ros2-rqt-mocap4r2-control
+          ros2-nobleo-socketcan-bridge ros2-mocap4r2-dummy-driver ros2-bond-core ros2-autoware-msgs
+          ros-kilted-vision-opencv ros-kilted-velodyne-laserscan ros-kilted-ur-msgs
+          ros-kilted-udp-driver ros-kilted-ublox-nav-sat-fix-hp-node ros-kilted-ublox-dgnss-node
+          ros-kilted-turtlesim ros-kilted-turtlebot3-example ros-kilted-topic-tools
+        BUILD_TARGET: ''
+      run: |
+        export CI=github
+        export GIT_BRANCH=${GITHUB_REF_NAME}
+        export FEEDSTOCK_NAME=${GITHUB_REPOSITORY##*/}
+        .scripts/build_unix.sh --target $BUILD_TARGET
+    permissions:
+      id-token: write
+      attestations: write
+  stage_1_job_6:
+    name: tf2-ros-py system-modes sros2 spacenav serial-driver rtest rtabmap rslidar-sdk
+      rqt-srv rqt-robot-dashboard rqt-moveit rqt-action rqt rplidar-ros rosbridge-library
+      rosbag2-test-common ros-image-to-qimage ros-gz-bridge ros2param ros2lifecycle-test-fixtures
+      ros2-socketcan roboplan-ros-examples rmf-visualization-schedule rmf-visualization-obstacles
+      rmf-visualization-navgraphs
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_0_job_0
+    - stage_0_job_1
+    - stage_0_job_2
+    - stage_0_job_3
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v7
+    - name: Disable git auto-maintenance
+      run: git config --global maintenance.auto false && git config --global gc.auto
+        0
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0
+      with:
+        pixi-version: latest
+        cache: 'true'
+        log-level: v
+        frozen: 'true'
+    - name: Build ros-kilted-tf2-ros-py ros-kilted-system-modes ros-kilted-sros2 ros-kilted-spacenav
+        ros-kilted-serial-driver ros-kilted-rtest ros-kilted-rtabmap ros-kilted-rslidar-sdk
+        ros-kilted-rqt-srv ros-kilted-rqt-robot-dashboard ros-kilted-rqt-moveit ros-kilted-rqt-action
+        ros-kilted-rqt ros-kilted-rplidar-ros ros-kilted-rosbridge-library ros-kilted-rosbag2-test-common
+        ros-kilted-ros-image-to-qimage ros-kilted-ros-gz-bridge ros-kilted-ros2param
+        ros-kilted-ros2lifecycle-test-fixtures ros-kilted-ros2-socketcan ros-kilted-roboplan-ros-examples
+        ros-kilted-rmf-visualization-schedule ros-kilted-rmf-visualization-obstacles
+        ros-kilted-rmf-visualization-navgraphs
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-tf2-ros-py ros-kilted-system-modes ros-kilted-sros2
+          ros-kilted-spacenav ros-kilted-serial-driver ros-kilted-rtest ros-kilted-rtabmap
+          ros-kilted-rslidar-sdk ros-kilted-rqt-srv ros-kilted-rqt-robot-dashboard
+          ros-kilted-rqt-moveit ros-kilted-rqt-action ros-kilted-rqt ros-kilted-rplidar-ros
+          ros-kilted-rosbridge-library ros-kilted-rosbag2-test-common ros-kilted-ros-image-to-qimage
+          ros-kilted-ros-gz-bridge ros-kilted-ros2param ros-kilted-ros2lifecycle-test-fixtures
+          ros-kilted-ros2-socketcan ros-kilted-roboplan-ros-examples ros-kilted-rmf-visualization-schedule
+          ros-kilted-rmf-visualization-obstacles ros-kilted-rmf-visualization-navgraphs
+        BUILD_TARGET: ''
+      run: |
+        export CI=github
+        export GIT_BRANCH=${GITHUB_REF_NAME}
+        export FEEDSTOCK_NAME=${GITHUB_REPOSITORY##*/}
+        .scripts/build_unix.sh --target $BUILD_TARGET
+    permissions:
+      id-token: write
+      attestations: write
+  stage_1_job_7:
+    name: rmf-visualization-floorplans rmf-visualization-fleet-states rmf-task-ros2
+      rmf-demos-tasks rmf-demos-maps realtime-tools realsense2-description rclpy-cascade-lifecycle
+      rclcpp-cascade-lifecycle rclc quality-of-service-demo-cpp py-trees-ros-viewer
+      plansys2-support-py plansys2-pddl-parser persist-parameter-server pendulum-control
+      parameter-traits pal-statistics ntrip-client-node nav2-simple-commander moveit-msgs
+      mocap4r2-marker-viz mocap4r2-marker-publisher mocap4r2-control message-filters
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_0_job_0
+    - stage_0_job_1
+    - stage_0_job_2
+    - stage_0_job_3
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v7
+    - name: Disable git auto-maintenance
+      run: git config --global maintenance.auto false && git config --global gc.auto
+        0
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0
+      with:
+        pixi-version: latest
+        cache: 'true'
+        log-level: v
+        frozen: 'true'
+    - name: Build ros-kilted-rmf-visualization-floorplans ros-kilted-rmf-visualization-fleet-states
+        ros-kilted-rmf-task-ros2 ros-kilted-rmf-demos-tasks ros-kilted-rmf-demos-maps
+        ros-kilted-realtime-tools ros-kilted-realsense2-description ros-kilted-rclpy-cascade-lifecycle
+        ros-kilted-rclcpp-cascade-lifecycle ros-kilted-rclc ros-kilted-quality-of-service-demo-cpp
+        ros-kilted-py-trees-ros-viewer ros-kilted-plansys2-support-py ros-kilted-plansys2-pddl-parser
+        ros-kilted-persist-parameter-server ros-kilted-pendulum-control ros-kilted-parameter-traits
+        ros-kilted-pal-statistics ros-kilted-ntrip-client-node ros-kilted-nav2-simple-commander
+        ros-kilted-moveit-msgs ros-kilted-mocap4r2-marker-viz ros-kilted-mocap4r2-marker-publisher
+        ros-kilted-mocap4r2-control ros-kilted-message-filters
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-rmf-visualization-floorplans ros-kilted-rmf-visualization-fleet-states
+          ros-kilted-rmf-task-ros2 ros-kilted-rmf-demos-tasks ros-kilted-rmf-demos-maps
+          ros-kilted-realtime-tools ros-kilted-realsense2-description ros-kilted-rclpy-cascade-lifecycle
+          ros-kilted-rclcpp-cascade-lifecycle ros-kilted-rclc ros-kilted-quality-of-service-demo-cpp
+          ros-kilted-py-trees-ros-viewer ros-kilted-plansys2-support-py ros-kilted-plansys2-pddl-parser
+          ros-kilted-persist-parameter-server ros-kilted-pendulum-control ros-kilted-parameter-traits
+          ros-kilted-pal-statistics ros-kilted-ntrip-client-node ros-kilted-nav2-simple-commander
+          ros-kilted-moveit-msgs ros-kilted-mocap4r2-marker-viz ros-kilted-mocap4r2-marker-publisher
+          ros-kilted-mocap4r2-control ros-kilted-message-filters
+        BUILD_TARGET: ''
+      run: |
+        export CI=github
+        export GIT_BRANCH=${GITHUB_REF_NAME}
+        export FEEDSTOCK_NAME=${GITHUB_REPOSITORY##*/}
+        .scripts/build_unix.sh --target $BUILD_TARGET
+    permissions:
+      id-token: write
+      attestations: write
+  stage_1_job_8:
+    name: logging-demo lifecycle laser-segmentation laser-proc laser-geometry kinematics-interface
+      joy-teleop joy joint-state-publisher-gui image-tools grid-map-cv geometric-shapes
+      geographic-info flex-sync ffmpeg-encoder-decoder examples-rclcpp-minimal-subscriber
+      examples-rclcpp-minimal-composition examples-rclcpp-minimal-action-server examples-rclcpp-minimal-action-client
+      easynav-support-py diagnostic-updater diagnostic-remote-logging depthimage-to-laserscan
+      demo-nodes-cpp-native demo-nodes-cpp
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_0_job_0
+    - stage_0_job_1
+    - stage_0_job_2
+    - stage_0_job_3
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v7
+    - name: Disable git auto-maintenance
+      run: git config --global maintenance.auto false && git config --global gc.auto
+        0
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0
+      with:
+        pixi-version: latest
+        cache: 'true'
+        log-level: v
+        frozen: 'true'
+    - name: Build ros-kilted-logging-demo ros-kilted-lifecycle ros-kilted-laser-segmentation
+        ros-kilted-laser-proc ros-kilted-laser-geometry ros-kilted-kinematics-interface
+        ros-kilted-joy-teleop ros-kilted-joy ros-kilted-joint-state-publisher-gui
+        ros-kilted-image-tools ros-kilted-grid-map-cv ros-kilted-geometric-shapes
+        ros-kilted-geographic-info ros-kilted-flex-sync ros-kilted-ffmpeg-encoder-decoder
+        ros-kilted-examples-rclcpp-minimal-subscriber ros-kilted-examples-rclcpp-minimal-composition
+        ros-kilted-examples-rclcpp-minimal-action-server ros-kilted-examples-rclcpp-minimal-action-client
+        ros-kilted-easynav-support-py ros-kilted-diagnostic-updater ros-kilted-diagnostic-remote-logging
+        ros-kilted-depthimage-to-laserscan ros-kilted-demo-nodes-cpp-native ros-kilted-demo-nodes-cpp
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-logging-demo ros-kilted-lifecycle ros-kilted-laser-segmentation
+          ros-kilted-laser-proc ros-kilted-laser-geometry ros-kilted-kinematics-interface
+          ros-kilted-joy-teleop ros-kilted-joy ros-kilted-joint-state-publisher-gui
+          ros-kilted-image-tools ros-kilted-grid-map-cv ros-kilted-geometric-shapes
+          ros-kilted-geographic-info ros-kilted-flex-sync ros-kilted-ffmpeg-encoder-decoder
+          ros-kilted-examples-rclcpp-minimal-subscriber ros-kilted-examples-rclcpp-minimal-composition
+          ros-kilted-examples-rclcpp-minimal-action-server ros-kilted-examples-rclcpp-minimal-action-client
+          ros-kilted-easynav-support-py ros-kilted-diagnostic-updater ros-kilted-diagnostic-remote-logging
+          ros-kilted-depthimage-to-laserscan ros-kilted-demo-nodes-cpp-native ros-kilted-demo-nodes-cpp
+        BUILD_TARGET: ''
+      run: |
+        export CI=github
+        export GIT_BRANCH=${GITHUB_REF_NAME}
+        export FEEDSTOCK_NAME=${GITHUB_REPOSITORY##*/}
+        .scripts/build_unix.sh --target $BUILD_TARGET
+    permissions:
+      id-token: write
+      attestations: write
+  stage_1_job_9:
+    name: data-tamer-cpp composition common-interfaces camera-info-manager bondcpp
+      autoware-vehicle-msgs autoware-utils-visualization autoware-twist2accel autoware-stop-filter
+      autoware-qp-interface autoware-perception-objects-converter autoware-osqp-interface
+      autoware-internal-planning-msgs action-tutorials-cpp
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_0_job_0
+    - stage_0_job_1
+    - stage_0_job_2
+    - stage_0_job_3
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v7
+    - name: Disable git auto-maintenance
+      run: git config --global maintenance.auto false && git config --global gc.auto
+        0
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0
+      with:
+        pixi-version: latest
+        cache: 'true'
+        log-level: v
+        frozen: 'true'
+    - name: Build ros-kilted-data-tamer-cpp ros-kilted-composition ros-kilted-common-interfaces
+        ros-kilted-camera-info-manager ros-kilted-bondcpp ros-kilted-autoware-vehicle-msgs
+        ros-kilted-autoware-utils-visualization ros-kilted-autoware-twist2accel ros-kilted-autoware-stop-filter
+        ros-kilted-autoware-qp-interface ros-kilted-autoware-perception-objects-converter
+        ros-kilted-autoware-osqp-interface ros-kilted-autoware-internal-planning-msgs
+        ros-kilted-action-tutorials-cpp
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-data-tamer-cpp ros-kilted-composition ros-kilted-common-interfaces
+          ros-kilted-camera-info-manager ros-kilted-bondcpp ros-kilted-autoware-vehicle-msgs
+          ros-kilted-autoware-utils-visualization ros-kilted-autoware-twist2accel
+          ros-kilted-autoware-stop-filter ros-kilted-autoware-qp-interface ros-kilted-autoware-perception-objects-converter
+          ros-kilted-autoware-osqp-interface ros-kilted-autoware-internal-planning-msgs
+          ros-kilted-action-tutorials-cpp
+        BUILD_TARGET: ''
+      run: |
+        export CI=github
+        export GIT_BRANCH=${GITHUB_REF_NAME}
+        export FEEDSTOCK_NAME=${GITHUB_REPOSITORY##*/}
+        .scripts/build_unix.sh --target $BUILD_TARGET
+    permissions:
+      id-token: write
+      attestations: write
+  stage_2_job_10:
+    name: ros2-joint-limits ros2-robot-state-publisher ros2-ros2cli-common-extensions
+      ros2-rosbag2-storage-sqlite3 ros2-rosbag2-storage-mcap ros2-tf2-kdl ros2-tf2-geometry-msgs
+      ros2-tf2-eigen ros2-rviz-common ros2-plansys2-popf-plan-solver ros2-easynav-common
+      ros2-autoware-utils-debug ros2-opennav-docking-core ros2-ros-gz-sim ros2-ros-gz-image
+      ros2-tf2-bullet ros2-velodyne-pointcloud ros2-velodyne-driver ros2-zstd-image-transport
+      ros2-theora-image-transport ros2-compressed-image-transport ros2-compressed-depth-image-transport
+      ros2-rmf-fleet-adapter-python ros2-navmap-ros ros2-image-view
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_1_job_4
+    - stage_1_job_5
+    - stage_1_job_6
+    - stage_1_job_7
+    - stage_1_job_8
+    - stage_1_job_9
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v7
+    - name: Disable git auto-maintenance
+      run: git config --global maintenance.auto false && git config --global gc.auto
+        0
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0
+      with:
+        pixi-version: latest
+        cache: 'true'
+        log-level: v
+        frozen: 'true'
+    - name: Build ros2-joint-limits ros2-robot-state-publisher ros2-ros2cli-common-extensions
+        ros2-rosbag2-storage-sqlite3 ros2-rosbag2-storage-mcap ros2-tf2-kdl ros2-tf2-geometry-msgs
+        ros2-tf2-eigen ros2-rviz-common ros2-plansys2-popf-plan-solver ros2-easynav-common
+        ros2-autoware-utils-debug ros2-opennav-docking-core ros2-ros-gz-sim ros2-ros-gz-image
+        ros2-tf2-bullet ros2-velodyne-pointcloud ros2-velodyne-driver ros2-zstd-image-transport
+        ros2-theora-image-transport ros2-compressed-image-transport ros2-compressed-depth-image-transport
+        ros2-rmf-fleet-adapter-python ros2-navmap-ros ros2-image-view
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros2-joint-limits ros2-robot-state-publisher ros2-ros2cli-common-extensions
+          ros2-rosbag2-storage-sqlite3 ros2-rosbag2-storage-mcap ros2-tf2-kdl ros2-tf2-geometry-msgs
+          ros2-tf2-eigen ros2-rviz-common ros2-plansys2-popf-plan-solver ros2-easynav-common
+          ros2-autoware-utils-debug ros2-opennav-docking-core ros2-ros-gz-sim ros2-ros-gz-image
+          ros2-tf2-bullet ros2-velodyne-pointcloud ros2-velodyne-driver ros2-zstd-image-transport
+          ros2-theora-image-transport ros2-compressed-image-transport ros2-compressed-depth-image-transport
+          ros2-rmf-fleet-adapter-python ros2-navmap-ros ros2-image-view
+        BUILD_TARGET: ''
+      run: |
+        export CI=github
+        export GIT_BRANCH=${GITHUB_REF_NAME}
+        export FEEDSTOCK_NAME=${GITHUB_REPOSITORY##*/}
+        .scripts/build_unix.sh --target $BUILD_TARGET
+    permissions:
+      id-token: write
+      attestations: write
+  stage_2_job_11:
+    name: ros2-image-publisher ros2-rqt-image-view ros2-turtlebot3-node ros2-zstd-point-cloud-transport
+      ros2-zlib-point-cloud-transport ros2-draco-point-cloud-transport ros2-web-video-server
+      ros2-rosbridge-server ros2-image-common ros2-automatika-ros-sugar ros2-imu-complementary-filter
+      ros2-autoware-core-sensing ros2-apriltag-draw ros2-apriltag-detector ros2-v4l2-camera
+      ros2-ublox ros2-turtle-tf2-py ros2-sick-scan-xd ros2-rqt-tf-tree ros2-rosgraph-monitor
+      ros2-rclc-examples ros2-quaternion-operation ros2-py-trees-ros-tutorials ros2-point-cloud-transport-py
+      ros2-nav2-loopback-sim
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_1_job_4
+    - stage_1_job_5
+    - stage_1_job_6
+    - stage_1_job_7
+    - stage_1_job_8
+    - stage_1_job_9
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v7
+    - name: Disable git auto-maintenance
+      run: git config --global maintenance.auto false && git config --global gc.auto
+        0
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0
+      with:
+        pixi-version: latest
+        cache: 'true'
+        log-level: v
+        frozen: 'true'
+    - name: Build ros2-image-publisher ros2-rqt-image-view ros2-turtlebot3-node ros2-zstd-point-cloud-transport
+        ros2-zlib-point-cloud-transport ros2-draco-point-cloud-transport ros2-web-video-server
+        ros2-rosbridge-server ros2-image-common ros2-automatika-ros-sugar ros2-imu-complementary-filter
+        ros2-autoware-core-sensing ros2-apriltag-draw ros2-apriltag-detector ros2-v4l2-camera
+        ros2-ublox ros2-turtle-tf2-py ros2-sick-scan-xd ros2-rqt-tf-tree ros2-rosgraph-monitor
+        ros2-rclc-examples ros2-quaternion-operation ros2-py-trees-ros-tutorials ros2-point-cloud-transport-py
+        ros2-nav2-loopback-sim
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros2-image-publisher ros2-rqt-image-view ros2-turtlebot3-node
+          ros2-zstd-point-cloud-transport ros2-zlib-point-cloud-transport ros2-draco-point-cloud-transport
+          ros2-web-video-server ros2-rosbridge-server ros2-image-common ros2-automatika-ros-sugar
+          ros2-imu-complementary-filter ros2-autoware-core-sensing ros2-apriltag-draw
+          ros2-apriltag-detector ros2-v4l2-camera ros2-ublox ros2-turtle-tf2-py ros2-sick-scan-xd
+          ros2-rqt-tf-tree ros2-rosgraph-monitor ros2-rclc-examples ros2-quaternion-operation
+          ros2-py-trees-ros-tutorials ros2-point-cloud-transport-py ros2-nav2-loopback-sim
+        BUILD_TARGET: ''
+      run: |
+        export CI=github
+        export GIT_BRANCH=${GITHUB_REF_NAME}
+        export FEEDSTOCK_NAME=${GITHUB_REPOSITORY##*/}
+        .scripts/build_unix.sh --target $BUILD_TARGET
+    permissions:
+      id-token: write
+      attestations: write
+  stage_2_job_12:
+    name: ros2-motion-capture-tracking ros2-foxglove-compressed-video-transport ros2-ffmpeg-image-transport
+      ros2-diagnostics ros2-apriltag-ros urg-node ublox-gps ublox-dgnss twist-mux
+      tf2-tools tf2-ros teleop-twist-joy teleop-tools sros2-cmake self-test rqt-mocap4r2-control
+      rqt-image-overlay-layer rosbag2-storage rosapi ros2lifecycle ros2component rmf-fleet-adapter
+      rclc-parameter rclc-lifecycle py-trees-ros
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_1_job_4
+    - stage_1_job_5
+    - stage_1_job_6
+    - stage_1_job_7
+    - stage_1_job_8
+    - stage_1_job_9
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v7
+    - name: Disable git auto-maintenance
+      run: git config --global maintenance.auto false && git config --global gc.auto
+        0
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0
+      with:
+        pixi-version: latest
+        cache: 'true'
+        log-level: v
+        frozen: 'true'
+    - name: Build ros2-motion-capture-tracking ros2-foxglove-compressed-video-transport
+        ros2-ffmpeg-image-transport ros2-diagnostics ros2-apriltag-ros ros-kilted-urg-node
+        ros-kilted-ublox-gps ros-kilted-ublox-dgnss ros-kilted-twist-mux ros-kilted-tf2-tools
+        ros-kilted-tf2-ros ros-kilted-teleop-twist-joy ros-kilted-teleop-tools ros-kilted-sros2-cmake
+        ros-kilted-self-test ros-kilted-rqt-mocap4r2-control ros-kilted-rqt-image-overlay-layer
+        ros-kilted-rosbag2-storage ros-kilted-rosapi ros-kilted-ros2lifecycle ros-kilted-ros2component
+        ros-kilted-rmf-fleet-adapter ros-kilted-rclc-parameter ros-kilted-rclc-lifecycle
+        ros-kilted-py-trees-ros
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros2-motion-capture-tracking ros2-foxglove-compressed-video-transport
+          ros2-ffmpeg-image-transport ros2-diagnostics ros2-apriltag-ros ros-kilted-urg-node
+          ros-kilted-ublox-gps ros-kilted-ublox-dgnss ros-kilted-twist-mux ros-kilted-tf2-tools
+          ros-kilted-tf2-ros ros-kilted-teleop-twist-joy ros-kilted-teleop-tools ros-kilted-sros2-cmake
+          ros-kilted-self-test ros-kilted-rqt-mocap4r2-control ros-kilted-rqt-image-overlay-layer
+          ros-kilted-rosbag2-storage ros-kilted-rosapi ros-kilted-ros2lifecycle ros-kilted-ros2component
+          ros-kilted-rmf-fleet-adapter ros-kilted-rclc-parameter ros-kilted-rclc-lifecycle
+          ros-kilted-py-trees-ros
+        BUILD_TARGET: ''
+      run: |
+        export CI=github
+        export GIT_BRANCH=${GITHUB_REF_NAME}
+        export FEEDSTOCK_NAME=${GITHUB_REPOSITORY##*/}
+        .scripts/build_unix.sh --target $BUILD_TARGET
+    permissions:
+      id-token: write
+      attestations: write
+  stage_2_job_13:
+    name: point-cloud-transport plotjuggler plansys2-core pcl-conversions nobleo-socketcan-bridge
+      mujoco-ros2-control-plugins moveit-task-constructor-msgs mocap4r2-dummy-driver
+      kinematics-interface-kdl joy-linux image-transport generate-parameter-library
+      easynav-tools diagnostic-common-diagnostics camera-calibration bond-core autoware-vehicle-velocity-converter
+      autoware-utils-logging autoware-msgs autoware-internal-msgs autoware-component-interface-specs
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_1_job_4
+    - stage_1_job_5
+    - stage_1_job_6
+    - stage_1_job_7
+    - stage_1_job_8
+    - stage_1_job_9
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v7
+    - name: Disable git auto-maintenance
+      run: git config --global maintenance.auto false && git config --global gc.auto
+        0
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0
+      with:
+        pixi-version: latest
+        cache: 'true'
+        log-level: v
+        frozen: 'true'
+    - name: Build ros-kilted-point-cloud-transport ros-kilted-plotjuggler ros-kilted-plansys2-core
+        ros-kilted-pcl-conversions ros-kilted-nobleo-socketcan-bridge ros-kilted-mujoco-ros2-control-plugins
+        ros-kilted-moveit-task-constructor-msgs ros-kilted-mocap4r2-dummy-driver ros-kilted-kinematics-interface-kdl
+        ros-kilted-joy-linux ros-kilted-image-transport ros-kilted-generate-parameter-library
+        ros-kilted-easynav-tools ros-kilted-diagnostic-common-diagnostics ros-kilted-camera-calibration
+        ros-kilted-bond-core ros-kilted-autoware-vehicle-velocity-converter ros-kilted-autoware-utils-logging
+        ros-kilted-autoware-msgs ros-kilted-autoware-internal-msgs ros-kilted-autoware-component-interface-specs
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-point-cloud-transport ros-kilted-plotjuggler ros-kilted-plansys2-core
+          ros-kilted-pcl-conversions ros-kilted-nobleo-socketcan-bridge ros-kilted-mujoco-ros2-control-plugins
+          ros-kilted-moveit-task-constructor-msgs ros-kilted-mocap4r2-dummy-driver
+          ros-kilted-kinematics-interface-kdl ros-kilted-joy-linux ros-kilted-image-transport
+          ros-kilted-generate-parameter-library ros-kilted-easynav-tools ros-kilted-diagnostic-common-diagnostics
+          ros-kilted-camera-calibration ros-kilted-bond-core ros-kilted-autoware-vehicle-velocity-converter
+          ros-kilted-autoware-utils-logging ros-kilted-autoware-msgs ros-kilted-autoware-internal-msgs
+          ros-kilted-autoware-component-interface-specs
+        BUILD_TARGET: ''
+      run: |
+        export CI=github
+        export GIT_BRANCH=${GITHUB_REF_NAME}
+        export FEEDSTOCK_NAME=${GITHUB_REPOSITORY##*/}
+        .scripts/build_unix.sh --target $BUILD_TARGET
+    permissions:
+      id-token: write
+      attestations: write
+  stage_3_job_14:
+    name: ros2-hardware-interface ros2-rosbag2-storage-default-plugins ros2-nav2-util
+      ros2-tf2-sensor-msgs ros2-rviz-visual-testing-framework ros2-interactive-markers
+      ros2-autoware-utils-geometry ros2-warehouse-ros ros2-autoware-lanelet2-extension
+      ros2-control-toolbox ros2-robot-localization ros2-plansys2-domain-expert ros2-easynav-sensors
+      ros2-webots-ros2-driver ros2-nav2-minimal-tb4-description ros2-image-proc ros2-laser-filters
+      ros2-nav2-minimal-tb3-sim ros2-rviz-marker-tools ros2-ros-core ros2-image-rotate
+      ros2-autoware-localization-util ros2-velodyne ros2-imu-filter-madgwick ros2-rviz-imu-plugin
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_2_job_10
+    - stage_2_job_11
+    - stage_2_job_12
+    - stage_2_job_13
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v7
+    - name: Disable git auto-maintenance
+      run: git config --global maintenance.auto false && git config --global gc.auto
+        0
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0
+      with:
+        pixi-version: latest
+        cache: 'true'
+        log-level: v
+        frozen: 'true'
+    - name: Build ros2-hardware-interface ros2-rosbag2-storage-default-plugins ros2-nav2-util
+        ros2-tf2-sensor-msgs ros2-rviz-visual-testing-framework ros2-interactive-markers
+        ros2-autoware-utils-geometry ros2-warehouse-ros ros2-autoware-lanelet2-extension
+        ros2-control-toolbox ros2-robot-localization ros2-plansys2-domain-expert ros2-easynav-sensors
+        ros2-webots-ros2-driver ros2-nav2-minimal-tb4-description ros2-image-proc
+        ros2-laser-filters ros2-nav2-minimal-tb3-sim ros2-rviz-marker-tools ros2-ros-core
+        ros2-image-rotate ros2-autoware-localization-util ros2-velodyne ros2-imu-filter-madgwick
+        ros2-rviz-imu-plugin
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros2-hardware-interface ros2-rosbag2-storage-default-plugins
+          ros2-nav2-util ros2-tf2-sensor-msgs ros2-rviz-visual-testing-framework ros2-interactive-markers
+          ros2-autoware-utils-geometry ros2-warehouse-ros ros2-autoware-lanelet2-extension
+          ros2-control-toolbox ros2-robot-localization ros2-plansys2-domain-expert
+          ros2-easynav-sensors ros2-webots-ros2-driver ros2-nav2-minimal-tb4-description
+          ros2-image-proc ros2-laser-filters ros2-nav2-minimal-tb3-sim ros2-rviz-marker-tools
+          ros2-ros-core ros2-image-rotate ros2-autoware-localization-util ros2-velodyne
+          ros2-imu-filter-madgwick ros2-rviz-imu-plugin
+        BUILD_TARGET: ''
+      run: |
+        export CI=github
+        export GIT_BRANCH=${GITHUB_REF_NAME}
+        export FEEDSTOCK_NAME=${GITHUB_REPOSITORY##*/}
+        .scripts/build_unix.sh --target $BUILD_TARGET
+    permissions:
+      id-token: write
+      attestations: write
+  stage_3_job_15:
+    name: ros2-image-transport-plugins ros2-roboplan-ros-cpp ros2-rmf-demos-fleet-adapter
+      ros2-easynav-costmap-common ros2-easynav-simple-common ros2-dummy-robot-bringup
+      ros2-turtlebot3-gazebo ros2-turtlebot3-fake-node ros2-point-cloud-transport-plugins
+      ros2-microstrain-inertial-driver ros2-mavros ros2-autoware-core-vehicle ros2-turtle-tf2-cpp
+      ros2-septentrio-gnss-driver ros2-sbg-driver ros2-rviz-2d-overlay-plugins ros2-rqt-image-overlay
+      ros2-rosbridge-suite ros2-ouster-ros ros2-odom-to-tf-ros2 ros2-mocap4r2-robot-gt
+      ros2-camera-ros ros2-automatika-embodied-agents ros2-apriltag-detector-umich
+      ros2-apriltag-detector-mit
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_2_job_10
+    - stage_2_job_11
+    - stage_2_job_12
+    - stage_2_job_13
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v7
+    - name: Disable git auto-maintenance
+      run: git config --global maintenance.auto false && git config --global gc.auto
+        0
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0
+      with:
+        pixi-version: latest
+        cache: 'true'
+        log-level: v
+        frozen: 'true'
+    - name: Build ros2-image-transport-plugins ros2-roboplan-ros-cpp ros2-rmf-demos-fleet-adapter
+        ros2-easynav-costmap-common ros2-easynav-simple-common ros2-dummy-robot-bringup
+        ros2-turtlebot3-gazebo ros2-turtlebot3-fake-node ros2-point-cloud-transport-plugins
+        ros2-microstrain-inertial-driver ros2-mavros ros2-autoware-core-vehicle ros2-turtle-tf2-cpp
+        ros2-septentrio-gnss-driver ros2-sbg-driver ros2-rviz-2d-overlay-plugins ros2-rqt-image-overlay
+        ros2-rosbridge-suite ros2-ouster-ros ros2-odom-to-tf-ros2 ros2-mocap4r2-robot-gt
+        ros2-camera-ros ros2-automatika-embodied-agents ros2-apriltag-detector-umich
+        ros2-apriltag-detector-mit
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros2-image-transport-plugins ros2-roboplan-ros-cpp ros2-rmf-demos-fleet-adapter
+          ros2-easynav-costmap-common ros2-easynav-simple-common ros2-dummy-robot-bringup
+          ros2-turtlebot3-gazebo ros2-turtlebot3-fake-node ros2-point-cloud-transport-plugins
+          ros2-microstrain-inertial-driver ros2-mavros ros2-autoware-core-vehicle
+          ros2-turtle-tf2-cpp ros2-septentrio-gnss-driver ros2-sbg-driver ros2-rviz-2d-overlay-plugins
+          ros2-rqt-image-overlay ros2-rosbridge-suite ros2-ouster-ros ros2-odom-to-tf-ros2
+          ros2-mocap4r2-robot-gt ros2-camera-ros ros2-automatika-embodied-agents ros2-apriltag-detector-umich
+          ros2-apriltag-detector-mit
+        BUILD_TARGET: ''
+      run: |
+        export CI=github
+        export GIT_BRANCH=${GITHUB_REF_NAME}
+        export FEEDSTOCK_NAME=${GITHUB_REPOSITORY##*/}
+        .scripts/build_unix.sh --target $BUILD_TARGET
+    permissions:
+      id-token: write
+      attestations: write
+  stage_3_job_16:
+    name: zstd-point-cloud-transport zstd-image-transport zlib-point-cloud-transport
+      web-video-server velodyne-pointcloud velodyne-driver v4l2-camera ublox turtlebot3-node
+      turtle-tf2-py theora-image-transport tf2-kdl tf2-geometry-msgs tf2-eigen tf2-bullet
+      sick-scan-xd rviz-common rqt-tf-tree rqt-image-view rosgraph-monitor rosbridge-server
+      rosbag2-storage-sqlite3 rosbag2-storage-mcap ros-gz-sim ros-gz-image
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_2_job_10
+    - stage_2_job_11
+    - stage_2_job_12
+    - stage_2_job_13
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v7
+    - name: Disable git auto-maintenance
+      run: git config --global maintenance.auto false && git config --global gc.auto
+        0
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0
+      with:
+        pixi-version: latest
+        cache: 'true'
+        log-level: v
+        frozen: 'true'
+    - name: Build ros-kilted-zstd-point-cloud-transport ros-kilted-zstd-image-transport
+        ros-kilted-zlib-point-cloud-transport ros-kilted-web-video-server ros-kilted-velodyne-pointcloud
+        ros-kilted-velodyne-driver ros-kilted-v4l2-camera ros-kilted-ublox ros-kilted-turtlebot3-node
+        ros-kilted-turtle-tf2-py ros-kilted-theora-image-transport ros-kilted-tf2-kdl
+        ros-kilted-tf2-geometry-msgs ros-kilted-tf2-eigen ros-kilted-tf2-bullet ros-kilted-sick-scan-xd
+        ros-kilted-rviz-common ros-kilted-rqt-tf-tree ros-kilted-rqt-image-view ros-kilted-rosgraph-monitor
+        ros-kilted-rosbridge-server ros-kilted-rosbag2-storage-sqlite3 ros-kilted-rosbag2-storage-mcap
+        ros-kilted-ros-gz-sim ros-kilted-ros-gz-image
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-zstd-point-cloud-transport ros-kilted-zstd-image-transport
+          ros-kilted-zlib-point-cloud-transport ros-kilted-web-video-server ros-kilted-velodyne-pointcloud
+          ros-kilted-velodyne-driver ros-kilted-v4l2-camera ros-kilted-ublox ros-kilted-turtlebot3-node
+          ros-kilted-turtle-tf2-py ros-kilted-theora-image-transport ros-kilted-tf2-kdl
+          ros-kilted-tf2-geometry-msgs ros-kilted-tf2-eigen ros-kilted-tf2-bullet
+          ros-kilted-sick-scan-xd ros-kilted-rviz-common ros-kilted-rqt-tf-tree ros-kilted-rqt-image-view
+          ros-kilted-rosgraph-monitor ros-kilted-rosbridge-server ros-kilted-rosbag2-storage-sqlite3
+          ros-kilted-rosbag2-storage-mcap ros-kilted-ros-gz-sim ros-kilted-ros-gz-image
+        BUILD_TARGET: ''
+      run: |
+        export CI=github
+        export GIT_BRANCH=${GITHUB_REF_NAME}
+        export FEEDSTOCK_NAME=${GITHUB_REPOSITORY##*/}
+        .scripts/build_unix.sh --target $BUILD_TARGET
+    permissions:
+      id-token: write
+      attestations: write
+  stage_3_job_17:
+    name: ros2cli-common-extensions robot-state-publisher rmf-fleet-adapter-python
+      rclc-examples quaternion-operation py-trees-ros-tutorials point-cloud-transport-py
+      plansys2-popf-plan-solver opennav-docking-core navmap-ros nav2-loopback-sim
+      motion-capture-tracking joint-limits imu-complementary-filter image-view image-publisher
+      image-common foxglove-compressed-video-transport ffmpeg-image-transport easynav-common
+      draco-point-cloud-transport diagnostics compressed-image-transport compressed-depth-image-transport
+      autoware-utils-debug
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_2_job_10
+    - stage_2_job_11
+    - stage_2_job_12
+    - stage_2_job_13
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v7
+    - name: Disable git auto-maintenance
+      run: git config --global maintenance.auto false && git config --global gc.auto
+        0
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0
+      with:
+        pixi-version: latest
+        cache: 'true'
+        log-level: v
+        frozen: 'true'
+    - name: Build ros-kilted-ros2cli-common-extensions ros-kilted-robot-state-publisher
+        ros-kilted-rmf-fleet-adapter-python ros-kilted-rclc-examples ros-kilted-quaternion-operation
+        ros-kilted-py-trees-ros-tutorials ros-kilted-point-cloud-transport-py ros-kilted-plansys2-popf-plan-solver
+        ros-kilted-opennav-docking-core ros-kilted-navmap-ros ros-kilted-nav2-loopback-sim
+        ros-kilted-motion-capture-tracking ros-kilted-joint-limits ros-kilted-imu-complementary-filter
+        ros-kilted-image-view ros-kilted-image-publisher ros-kilted-image-common ros-kilted-foxglove-compressed-video-transport
+        ros-kilted-ffmpeg-image-transport ros-kilted-easynav-common ros-kilted-draco-point-cloud-transport
+        ros-kilted-diagnostics ros-kilted-compressed-image-transport ros-kilted-compressed-depth-image-transport
+        ros-kilted-autoware-utils-debug
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-ros2cli-common-extensions ros-kilted-robot-state-publisher
+          ros-kilted-rmf-fleet-adapter-python ros-kilted-rclc-examples ros-kilted-quaternion-operation
+          ros-kilted-py-trees-ros-tutorials ros-kilted-point-cloud-transport-py ros-kilted-plansys2-popf-plan-solver
+          ros-kilted-opennav-docking-core ros-kilted-navmap-ros ros-kilted-nav2-loopback-sim
+          ros-kilted-motion-capture-tracking ros-kilted-joint-limits ros-kilted-imu-complementary-filter
+          ros-kilted-image-view ros-kilted-image-publisher ros-kilted-image-common
+          ros-kilted-foxglove-compressed-video-transport ros-kilted-ffmpeg-image-transport
+          ros-kilted-easynav-common ros-kilted-draco-point-cloud-transport ros-kilted-diagnostics
+          ros-kilted-compressed-image-transport ros-kilted-compressed-depth-image-transport
+          ros-kilted-autoware-utils-debug
+        BUILD_TARGET: ''
+      run: |
+        export CI=github
+        export GIT_BRANCH=${GITHUB_REF_NAME}
+        export FEEDSTOCK_NAME=${GITHUB_REPOSITORY##*/}
+        .scripts/build_unix.sh --target $BUILD_TARGET
+    permissions:
+      id-token: write
+      attestations: write
+  stage_3_job_18:
+    name: autoware-core-sensing automatika-ros-sugar apriltag-ros apriltag-draw apriltag-detector
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_2_job_10
+    - stage_2_job_11
+    - stage_2_job_12
+    - stage_2_job_13
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v7
+    - name: Disable git auto-maintenance
+      run: git config --global maintenance.auto false && git config --global gc.auto
+        0
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0
+      with:
+        pixi-version: latest
+        cache: 'true'
+        log-level: v
+        frozen: 'true'
+    - name: Build ros-kilted-autoware-core-sensing ros-kilted-automatika-ros-sugar
+        ros-kilted-apriltag-ros ros-kilted-apriltag-draw ros-kilted-apriltag-detector
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-autoware-core-sensing ros-kilted-automatika-ros-sugar
+          ros-kilted-apriltag-ros ros-kilted-apriltag-draw ros-kilted-apriltag-detector
+        BUILD_TARGET: ''
+      run: |
+        export CI=github
+        export GIT_BRANCH=${GITHUB_REF_NAME}
+        export FEEDSTOCK_NAME=${GITHUB_REPOSITORY##*/}
+        .scripts/build_unix.sh --target $BUILD_TARGET
+    permissions:
+      id-token: write
+      attestations: write
+  stage_4_job_19:
+    name: ros2-hardware-interface-testing ros2-controller-interface ros2-rosbag2-cpp
+      ros2-nav2-map-server ros2-nav2-lifecycle-manager ros2-nav2-behavior-tree ros2-rviz-default-plugins
+      ros2-autoware-interpolation ros2-nav-2d-utils ros2-autoware-test-utils ros2-autoware-vehicle-info-utils
+      ros2-autoware-objects-of-interest-marker-interface ros2-autoware-utils-tf ros2-nav2-velocity-smoother
+      ros2-nav2-amcl ros2-plansys2-problem-expert ros2-easynav-core ros2-autoware-geography-utils
+      ros2-nav2-minimal-tb4-sim ros2-transmission-interface ros2-geometry2 ros2-stereo-image-proc
+      ros2-depth-image-proc ros2-webots-ros2-tesla ros2-webots-ros2-mavic
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_3_job_14
+    - stage_3_job_15
+    - stage_3_job_16
+    - stage_3_job_17
+    - stage_3_job_18
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v7
+    - name: Disable git auto-maintenance
+      run: git config --global maintenance.auto false && git config --global gc.auto
+        0
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0
+      with:
+        pixi-version: latest
+        cache: 'true'
+        log-level: v
+        frozen: 'true'
+    - name: Build ros2-hardware-interface-testing ros2-controller-interface ros2-rosbag2-cpp
+        ros2-nav2-map-server ros2-nav2-lifecycle-manager ros2-nav2-behavior-tree ros2-rviz-default-plugins
+        ros2-autoware-interpolation ros2-nav-2d-utils ros2-autoware-test-utils ros2-autoware-vehicle-info-utils
+        ros2-autoware-objects-of-interest-marker-interface ros2-autoware-utils-tf
+        ros2-nav2-velocity-smoother ros2-nav2-amcl ros2-plansys2-problem-expert ros2-easynav-core
+        ros2-autoware-geography-utils ros2-nav2-minimal-tb4-sim ros2-transmission-interface
+        ros2-geometry2 ros2-stereo-image-proc ros2-depth-image-proc ros2-webots-ros2-tesla
+        ros2-webots-ros2-mavic
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros2-hardware-interface-testing ros2-controller-interface
+          ros2-rosbag2-cpp ros2-nav2-map-server ros2-nav2-lifecycle-manager ros2-nav2-behavior-tree
+          ros2-rviz-default-plugins ros2-autoware-interpolation ros2-nav-2d-utils
+          ros2-autoware-test-utils ros2-autoware-vehicle-info-utils ros2-autoware-objects-of-interest-marker-interface
+          ros2-autoware-utils-tf ros2-nav2-velocity-smoother ros2-nav2-amcl ros2-plansys2-problem-expert
+          ros2-easynav-core ros2-autoware-geography-utils ros2-nav2-minimal-tb4-sim
+          ros2-transmission-interface ros2-geometry2 ros2-stereo-image-proc ros2-depth-image-proc
+          ros2-webots-ros2-tesla ros2-webots-ros2-mavic
+        BUILD_TARGET: ''
+      run: |
+        export CI=github
+        export GIT_BRANCH=${GITHUB_REF_NAME}
+        export FEEDSTOCK_NAME=${GITHUB_REPOSITORY##*/}
+        .scripts/build_unix.sh --target $BUILD_TARGET
+    permissions:
+      id-token: write
+      attestations: write
+  stage_4_job_20:
+    name: ros2-warehouse-ros-sqlite ros2-autoware-map-projection-loader ros2-autoware-ekf-localizer
+      ros2-webots-ros2-crazyflie ros2-imu-transformer ros2-usb-cam ros2-turtlebot3-simulations
+      ros2-pointcloud-to-laserscan ros2-mavros-extras ros2-imu-tools ros2-autoware-lanelet2-extension-python
+      webots-ros2-driver warehouse-ros velodyne turtlebot3-gazebo turtlebot3-fake-node
+      turtle-tf2-cpp tf2-sensor-msgs septentrio-gnss-driver sbg-driver rviz-visual-testing-framework
+      rviz-marker-tools rviz-imu-plugin rviz-2d-overlay-plugins rqt-image-overlay
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_3_job_14
+    - stage_3_job_15
+    - stage_3_job_16
+    - stage_3_job_17
+    - stage_3_job_18
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v7
+    - name: Disable git auto-maintenance
+      run: git config --global maintenance.auto false && git config --global gc.auto
+        0
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0
+      with:
+        pixi-version: latest
+        cache: 'true'
+        log-level: v
+        frozen: 'true'
+    - name: Build ros2-warehouse-ros-sqlite ros2-autoware-map-projection-loader ros2-autoware-ekf-localizer
+        ros2-webots-ros2-crazyflie ros2-imu-transformer ros2-usb-cam ros2-turtlebot3-simulations
+        ros2-pointcloud-to-laserscan ros2-mavros-extras ros2-imu-tools ros2-autoware-lanelet2-extension-python
+        ros-kilted-webots-ros2-driver ros-kilted-warehouse-ros ros-kilted-velodyne
+        ros-kilted-turtlebot3-gazebo ros-kilted-turtlebot3-fake-node ros-kilted-turtle-tf2-cpp
+        ros-kilted-tf2-sensor-msgs ros-kilted-septentrio-gnss-driver ros-kilted-sbg-driver
+        ros-kilted-rviz-visual-testing-framework ros-kilted-rviz-marker-tools ros-kilted-rviz-imu-plugin
+        ros-kilted-rviz-2d-overlay-plugins ros-kilted-rqt-image-overlay
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros2-warehouse-ros-sqlite ros2-autoware-map-projection-loader
+          ros2-autoware-ekf-localizer ros2-webots-ros2-crazyflie ros2-imu-transformer
+          ros2-usb-cam ros2-turtlebot3-simulations ros2-pointcloud-to-laserscan ros2-mavros-extras
+          ros2-imu-tools ros2-autoware-lanelet2-extension-python ros-kilted-webots-ros2-driver
+          ros-kilted-warehouse-ros ros-kilted-velodyne ros-kilted-turtlebot3-gazebo
+          ros-kilted-turtlebot3-fake-node ros-kilted-turtle-tf2-cpp ros-kilted-tf2-sensor-msgs
+          ros-kilted-septentrio-gnss-driver ros-kilted-sbg-driver ros-kilted-rviz-visual-testing-framework
+          ros-kilted-rviz-marker-tools ros-kilted-rviz-imu-plugin ros-kilted-rviz-2d-overlay-plugins
+          ros-kilted-rqt-image-overlay
+        BUILD_TARGET: ''
+      run: |
+        export CI=github
+        export GIT_BRANCH=${GITHUB_REF_NAME}
+        export FEEDSTOCK_NAME=${GITHUB_REPOSITORY##*/}
+        .scripts/build_unix.sh --target $BUILD_TARGET
+    permissions:
+      id-token: write
+      attestations: write
+  stage_4_job_21:
+    name: rosbridge-suite rosbag2-storage-default-plugins ros-core robot-localization
+      roboplan-ros-cpp rmf-demos-fleet-adapter point-cloud-transport-plugins plansys2-domain-expert
+      ouster-ros odom-to-tf-ros2 nav2-util nav2-minimal-tb4-description nav2-minimal-tb3-sim
+      mocap4r2-robot-gt microstrain-inertial-driver mavros laser-filters interactive-markers
+      imu-filter-madgwick image-transport-plugins image-rotate image-proc hardware-interface
+      easynav-simple-common easynav-sensors
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_3_job_14
+    - stage_3_job_15
+    - stage_3_job_16
+    - stage_3_job_17
+    - stage_3_job_18
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v7
+    - name: Disable git auto-maintenance
+      run: git config --global maintenance.auto false && git config --global gc.auto
+        0
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0
+      with:
+        pixi-version: latest
+        cache: 'true'
+        log-level: v
+        frozen: 'true'
+    - name: Build ros-kilted-rosbridge-suite ros-kilted-rosbag2-storage-default-plugins
+        ros-kilted-ros-core ros-kilted-robot-localization ros-kilted-roboplan-ros-cpp
+        ros-kilted-rmf-demos-fleet-adapter ros-kilted-point-cloud-transport-plugins
+        ros-kilted-plansys2-domain-expert ros-kilted-ouster-ros ros-kilted-odom-to-tf-ros2
+        ros-kilted-nav2-util ros-kilted-nav2-minimal-tb4-description ros-kilted-nav2-minimal-tb3-sim
+        ros-kilted-mocap4r2-robot-gt ros-kilted-microstrain-inertial-driver ros-kilted-mavros
+        ros-kilted-laser-filters ros-kilted-interactive-markers ros-kilted-imu-filter-madgwick
+        ros-kilted-image-transport-plugins ros-kilted-image-rotate ros-kilted-image-proc
+        ros-kilted-hardware-interface ros-kilted-easynav-simple-common ros-kilted-easynav-sensors
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-rosbridge-suite ros-kilted-rosbag2-storage-default-plugins
+          ros-kilted-ros-core ros-kilted-robot-localization ros-kilted-roboplan-ros-cpp
+          ros-kilted-rmf-demos-fleet-adapter ros-kilted-point-cloud-transport-plugins
+          ros-kilted-plansys2-domain-expert ros-kilted-ouster-ros ros-kilted-odom-to-tf-ros2
+          ros-kilted-nav2-util ros-kilted-nav2-minimal-tb4-description ros-kilted-nav2-minimal-tb3-sim
+          ros-kilted-mocap4r2-robot-gt ros-kilted-microstrain-inertial-driver ros-kilted-mavros
+          ros-kilted-laser-filters ros-kilted-interactive-markers ros-kilted-imu-filter-madgwick
+          ros-kilted-image-transport-plugins ros-kilted-image-rotate ros-kilted-image-proc
+          ros-kilted-hardware-interface ros-kilted-easynav-simple-common ros-kilted-easynav-sensors
+        BUILD_TARGET: ''
+      run: |
+        export CI=github
+        export GIT_BRANCH=${GITHUB_REF_NAME}
+        export FEEDSTOCK_NAME=${GITHUB_REPOSITORY##*/}
+        .scripts/build_unix.sh --target $BUILD_TARGET
+    permissions:
+      id-token: write
+      attestations: write
+  stage_4_job_22:
+    name: easynav-costmap-common dummy-robot-bringup control-toolbox camera-ros autoware-utils-geometry
+      autoware-localization-util autoware-lanelet2-extension autoware-core-vehicle
+      automatika-embodied-agents apriltag-detector-umich apriltag-detector-mit
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_3_job_14
+    - stage_3_job_15
+    - stage_3_job_16
+    - stage_3_job_17
+    - stage_3_job_18
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v7
+    - name: Disable git auto-maintenance
+      run: git config --global maintenance.auto false && git config --global gc.auto
+        0
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0
+      with:
+        pixi-version: latest
+        cache: 'true'
+        log-level: v
+        frozen: 'true'
+    - name: Build ros-kilted-easynav-costmap-common ros-kilted-dummy-robot-bringup
+        ros-kilted-control-toolbox ros-kilted-camera-ros ros-kilted-autoware-utils-geometry
+        ros-kilted-autoware-localization-util ros-kilted-autoware-lanelet2-extension
+        ros-kilted-autoware-core-vehicle ros-kilted-automatika-embodied-agents ros-kilted-apriltag-detector-umich
+        ros-kilted-apriltag-detector-mit
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-easynav-costmap-common ros-kilted-dummy-robot-bringup
+          ros-kilted-control-toolbox ros-kilted-camera-ros ros-kilted-autoware-utils-geometry
+          ros-kilted-autoware-localization-util ros-kilted-autoware-lanelet2-extension
+          ros-kilted-autoware-core-vehicle ros-kilted-automatika-embodied-agents ros-kilted-apriltag-detector-umich
+          ros-kilted-apriltag-detector-mit
+        BUILD_TARGET: ''
+      run: |
+        export CI=github
+        export GIT_BRANCH=${GITHUB_REF_NAME}
+        export FEEDSTOCK_NAME=${GITHUB_REPOSITORY##*/}
+        .scripts/build_unix.sh --target $BUILD_TARGET
+    permissions:
+      id-token: write
+      attestations: write
+  stage_5_job_23:
+    name: ros2-controller-manager ros2-rosbag2-compression ros2-nav2-costmap-2d ros2-rviz2
+      ros2-autoware-motion-utils ros2-autoware-lanelet2-utils ros2-grid-map-ros ros2-slam-toolbox
+      ros2-rmf-visualization-rviz2-plugins ros2-plansys2-planner ros2-easynav-recovery
+      ros2-easynav-planner ros2-easynav-maps-manager ros2-easynav-localizer ros2-easynav-controller
+      ros2-autoware-global-parameter-loader ros2-cartographer-ros ros2-octomap-rviz-plugins
+      ros2-easynav-bonxai-maps-manager ros2-image-pipeline ros2-plansys2-tools ros2-rosx-introspection
+      ros2-event-camera-codecs ros2-rviz-satellite ros2-easynav-navmap-planner
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_4_job_19
+    - stage_4_job_20
+    - stage_4_job_21
+    - stage_4_job_22
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v7
+    - name: Disable git auto-maintenance
+      run: git config --global maintenance.auto false && git config --global gc.auto
+        0
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0
+      with:
+        pixi-version: latest
+        cache: 'true'
+        log-level: v
+        frozen: 'true'
+    - name: Build ros2-controller-manager ros2-rosbag2-compression ros2-nav2-costmap-2d
+        ros2-rviz2 ros2-autoware-motion-utils ros2-autoware-lanelet2-utils ros2-grid-map-ros
+        ros2-slam-toolbox ros2-rmf-visualization-rviz2-plugins ros2-plansys2-planner
+        ros2-easynav-recovery ros2-easynav-planner ros2-easynav-maps-manager ros2-easynav-localizer
+        ros2-easynav-controller ros2-autoware-global-parameter-loader ros2-cartographer-ros
+        ros2-octomap-rviz-plugins ros2-easynav-bonxai-maps-manager ros2-image-pipeline
+        ros2-plansys2-tools ros2-rosx-introspection ros2-event-camera-codecs ros2-rviz-satellite
+        ros2-easynav-navmap-planner
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros2-controller-manager ros2-rosbag2-compression ros2-nav2-costmap-2d
+          ros2-rviz2 ros2-autoware-motion-utils ros2-autoware-lanelet2-utils ros2-grid-map-ros
+          ros2-slam-toolbox ros2-rmf-visualization-rviz2-plugins ros2-plansys2-planner
+          ros2-easynav-recovery ros2-easynav-planner ros2-easynav-maps-manager ros2-easynav-localizer
+          ros2-easynav-controller ros2-autoware-global-parameter-loader ros2-cartographer-ros
+          ros2-octomap-rviz-plugins ros2-easynav-bonxai-maps-manager ros2-image-pipeline
+          ros2-plansys2-tools ros2-rosx-introspection ros2-event-camera-codecs ros2-rviz-satellite
+          ros2-easynav-navmap-planner
+        BUILD_TARGET: ''
+      run: |
+        export CI=github
+        export GIT_BRANCH=${GITHUB_REF_NAME}
+        export FEEDSTOCK_NAME=${GITHUB_REPOSITORY##*/}
+        .scripts/build_unix.sh --target $BUILD_TARGET
+    permissions:
+      id-token: write
+      attestations: write
+  stage_5_job_24:
+    name: ros2-easynav-navmap-maps-manager ros2-easynav-costmap-planner ros2-easynav-costmap-maps-manager
+      ros2-easynav-simple-planner ros2-easynav-simple-maps-manager ros2-easynav-routes-maps-manager
+      ros2-robotiq-controllers ros2-easynav-octomap-maps-manager ros2-cloudini-ros
+      ros2-avt-vimba-camera webots-ros2-tesla webots-ros2-mavic webots-ros2-crazyflie
+      warehouse-ros-sqlite usb-cam turtlebot3-simulations transmission-interface stereo-image-proc
+      rviz-default-plugins rosbag2-cpp pointcloud-to-laserscan plansys2-problem-expert
+      nav-2d-utils nav2-velocity-smoother nav2-minimal-tb4-sim
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_4_job_19
+    - stage_4_job_20
+    - stage_4_job_21
+    - stage_4_job_22
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v7
+    - name: Disable git auto-maintenance
+      run: git config --global maintenance.auto false && git config --global gc.auto
+        0
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0
+      with:
+        pixi-version: latest
+        cache: 'true'
+        log-level: v
+        frozen: 'true'
+    - name: Build ros2-easynav-navmap-maps-manager ros2-easynav-costmap-planner ros2-easynav-costmap-maps-manager
+        ros2-easynav-simple-planner ros2-easynav-simple-maps-manager ros2-easynav-routes-maps-manager
+        ros2-robotiq-controllers ros2-easynav-octomap-maps-manager ros2-cloudini-ros
+        ros2-avt-vimba-camera ros-kilted-webots-ros2-tesla ros-kilted-webots-ros2-mavic
+        ros-kilted-webots-ros2-crazyflie ros-kilted-warehouse-ros-sqlite ros-kilted-usb-cam
+        ros-kilted-turtlebot3-simulations ros-kilted-transmission-interface ros-kilted-stereo-image-proc
+        ros-kilted-rviz-default-plugins ros-kilted-rosbag2-cpp ros-kilted-pointcloud-to-laserscan
+        ros-kilted-plansys2-problem-expert ros-kilted-nav-2d-utils ros-kilted-nav2-velocity-smoother
+        ros-kilted-nav2-minimal-tb4-sim
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros2-easynav-navmap-maps-manager ros2-easynav-costmap-planner
+          ros2-easynav-costmap-maps-manager ros2-easynav-simple-planner ros2-easynav-simple-maps-manager
+          ros2-easynav-routes-maps-manager ros2-robotiq-controllers ros2-easynav-octomap-maps-manager
+          ros2-cloudini-ros ros2-avt-vimba-camera ros-kilted-webots-ros2-tesla ros-kilted-webots-ros2-mavic
+          ros-kilted-webots-ros2-crazyflie ros-kilted-warehouse-ros-sqlite ros-kilted-usb-cam
+          ros-kilted-turtlebot3-simulations ros-kilted-transmission-interface ros-kilted-stereo-image-proc
+          ros-kilted-rviz-default-plugins ros-kilted-rosbag2-cpp ros-kilted-pointcloud-to-laserscan
+          ros-kilted-plansys2-problem-expert ros-kilted-nav-2d-utils ros-kilted-nav2-velocity-smoother
+          ros-kilted-nav2-minimal-tb4-sim
+        BUILD_TARGET: ''
+      run: |
+        export CI=github
+        export GIT_BRANCH=${GITHUB_REF_NAME}
+        export FEEDSTOCK_NAME=${GITHUB_REPOSITORY##*/}
+        .scripts/build_unix.sh --target $BUILD_TARGET
+    permissions:
+      id-token: write
+      attestations: write
+  stage_5_job_25:
+    name: nav2-map-server nav2-lifecycle-manager nav2-behavior-tree nav2-amcl mavros-extras
+      imu-transformer imu-tools hardware-interface-testing geometry2 easynav-core
+      depth-image-proc controller-interface autoware-vehicle-info-utils autoware-utils-tf
+      autoware-test-utils autoware-objects-of-interest-marker-interface autoware-map-projection-loader
+      autoware-lanelet2-extension-python autoware-interpolation autoware-geography-utils
+      autoware-ekf-localizer
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_4_job_19
+    - stage_4_job_20
+    - stage_4_job_21
+    - stage_4_job_22
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v7
+    - name: Disable git auto-maintenance
+      run: git config --global maintenance.auto false && git config --global gc.auto
+        0
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0
+      with:
+        pixi-version: latest
+        cache: 'true'
+        log-level: v
+        frozen: 'true'
+    - name: Build ros-kilted-nav2-map-server ros-kilted-nav2-lifecycle-manager ros-kilted-nav2-behavior-tree
+        ros-kilted-nav2-amcl ros-kilted-mavros-extras ros-kilted-imu-transformer ros-kilted-imu-tools
+        ros-kilted-hardware-interface-testing ros-kilted-geometry2 ros-kilted-easynav-core
+        ros-kilted-depth-image-proc ros-kilted-controller-interface ros-kilted-autoware-vehicle-info-utils
+        ros-kilted-autoware-utils-tf ros-kilted-autoware-test-utils ros-kilted-autoware-objects-of-interest-marker-interface
+        ros-kilted-autoware-map-projection-loader ros-kilted-autoware-lanelet2-extension-python
+        ros-kilted-autoware-interpolation ros-kilted-autoware-geography-utils ros-kilted-autoware-ekf-localizer
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-nav2-map-server ros-kilted-nav2-lifecycle-manager
+          ros-kilted-nav2-behavior-tree ros-kilted-nav2-amcl ros-kilted-mavros-extras
+          ros-kilted-imu-transformer ros-kilted-imu-tools ros-kilted-hardware-interface-testing
+          ros-kilted-geometry2 ros-kilted-easynav-core ros-kilted-depth-image-proc
+          ros-kilted-controller-interface ros-kilted-autoware-vehicle-info-utils ros-kilted-autoware-utils-tf
+          ros-kilted-autoware-test-utils ros-kilted-autoware-objects-of-interest-marker-interface
+          ros-kilted-autoware-map-projection-loader ros-kilted-autoware-lanelet2-extension-python
+          ros-kilted-autoware-interpolation ros-kilted-autoware-geography-utils ros-kilted-autoware-ekf-localizer
+        BUILD_TARGET: ''
+      run: |
+        export CI=github
+        export GIT_BRANCH=${GITHUB_REF_NAME}
+        export FEEDSTOCK_NAME=${GITHUB_REPOSITORY##*/}
+        .scripts/build_unix.sh --target $BUILD_TARGET
+    permissions:
+      id-token: write
+      attestations: write
+  stage_6_job_26:
+    name: ros2-forward-command-controller ros2-rosbag2-compression-zstd ros2-nav2-core
+      ros2-costmap-queue ros2-autoware-planning-test-manager ros2-autoware-trajectory
+      ros2-autoware-route-handler ros2-autoware-planning-factor-interface ros2-joint-trajectory-controller
+      ros2-nav2-collision-monitor ros2-steering-controllers-library ros2-webots-ros2-control
+      ros2-joint-state-broadcaster ros2-diff-drive-controller ros2-pose-broadcaster
+      ros2-force-torque-sensor-broadcaster ros2-ur-description ros2-motion-primitives-controllers
+      ros2-tricycle-controller ros2-state-interfaces-broadcaster ros2-range-sensor-broadcaster
+      ros2-pid-controller ros2-parallel-gripper-controller ros2-omni-wheel-drive-controller
+      ros2-mecanum-drive-controller
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_5_job_23
+    - stage_5_job_24
+    - stage_5_job_25
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v7
+    - name: Disable git auto-maintenance
+      run: git config --global maintenance.auto false && git config --global gc.auto
+        0
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0
+      with:
+        pixi-version: latest
+        cache: 'true'
+        log-level: v
+        frozen: 'true'
+    - name: Build ros2-forward-command-controller ros2-rosbag2-compression-zstd ros2-nav2-core
+        ros2-costmap-queue ros2-autoware-planning-test-manager ros2-autoware-trajectory
+        ros2-autoware-route-handler ros2-autoware-planning-factor-interface ros2-joint-trajectory-controller
+        ros2-nav2-collision-monitor ros2-steering-controllers-library ros2-webots-ros2-control
+        ros2-joint-state-broadcaster ros2-diff-drive-controller ros2-pose-broadcaster
+        ros2-force-torque-sensor-broadcaster ros2-ur-description ros2-motion-primitives-controllers
+        ros2-tricycle-controller ros2-state-interfaces-broadcaster ros2-range-sensor-broadcaster
+        ros2-pid-controller ros2-parallel-gripper-controller ros2-omni-wheel-drive-controller
+        ros2-mecanum-drive-controller
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros2-forward-command-controller ros2-rosbag2-compression-zstd
+          ros2-nav2-core ros2-costmap-queue ros2-autoware-planning-test-manager ros2-autoware-trajectory
+          ros2-autoware-route-handler ros2-autoware-planning-factor-interface ros2-joint-trajectory-controller
+          ros2-nav2-collision-monitor ros2-steering-controllers-library ros2-webots-ros2-control
+          ros2-joint-state-broadcaster ros2-diff-drive-controller ros2-pose-broadcaster
+          ros2-force-torque-sensor-broadcaster ros2-ur-description ros2-motion-primitives-controllers
+          ros2-tricycle-controller ros2-state-interfaces-broadcaster ros2-range-sensor-broadcaster
+          ros2-pid-controller ros2-parallel-gripper-controller ros2-omni-wheel-drive-controller
+          ros2-mecanum-drive-controller
+        BUILD_TARGET: ''
+      run: |
+        export CI=github
+        export GIT_BRANCH=${GITHUB_REF_NAME}
+        export FEEDSTOCK_NAME=${GITHUB_REPOSITORY##*/}
+        .scripts/build_unix.sh --target $BUILD_TARGET
+    permissions:
+      id-token: write
+      attestations: write
+  stage_6_job_27:
+    name: ros2-magnetometer-broadcaster ros2-imu-sensor-broadcaster ros2-gps-sensor-broadcaster
+      ros2-gpio-controllers ros2-chained-filter-controller ros2-battery-state-broadcaster
+      ros2-admittance-controller ros2-ros2controlcli ros2-autoware-map-loader ros2-autoware-map-height-fitter
+      ros2-rmf-visualization ros2-plansys2-executor ros2-gz-ros2-control ros2-grid-map-visualization
+      ros2-grid-map-rviz-plugin ros2-grid-map-loader ros2-grid-map-filters ros2-easynav-system
+      ros2-easynav-diagnostic-recovery ros2-autoware-planning-topic-converter ros2-autoware-simple-pure-pursuit
+      ros2-autoware-default-adapi ros2-urdf-launch ros2-turtlebot3-cartographer ros2-turtlebot3-bringup
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_5_job_23
+    - stage_5_job_24
+    - stage_5_job_25
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v7
+    - name: Disable git auto-maintenance
+      run: git config --global maintenance.auto false && git config --global gc.auto
+        0
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0
+      with:
+        pixi-version: latest
+        cache: 'true'
+        log-level: v
+        frozen: 'true'
+    - name: Build ros2-magnetometer-broadcaster ros2-imu-sensor-broadcaster ros2-gps-sensor-broadcaster
+        ros2-gpio-controllers ros2-chained-filter-controller ros2-battery-state-broadcaster
+        ros2-admittance-controller ros2-ros2controlcli ros2-autoware-map-loader ros2-autoware-map-height-fitter
+        ros2-rmf-visualization ros2-plansys2-executor ros2-gz-ros2-control ros2-grid-map-visualization
+        ros2-grid-map-rviz-plugin ros2-grid-map-loader ros2-grid-map-filters ros2-easynav-system
+        ros2-easynav-diagnostic-recovery ros2-autoware-planning-topic-converter ros2-autoware-simple-pure-pursuit
+        ros2-autoware-default-adapi ros2-urdf-launch ros2-turtlebot3-cartographer
+        ros2-turtlebot3-bringup
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros2-magnetometer-broadcaster ros2-imu-sensor-broadcaster
+          ros2-gps-sensor-broadcaster ros2-gpio-controllers ros2-chained-filter-controller
+          ros2-battery-state-broadcaster ros2-admittance-controller ros2-ros2controlcli
+          ros2-autoware-map-loader ros2-autoware-map-height-fitter ros2-rmf-visualization
+          ros2-plansys2-executor ros2-gz-ros2-control ros2-grid-map-visualization
+          ros2-grid-map-rviz-plugin ros2-grid-map-loader ros2-grid-map-filters ros2-easynav-system
+          ros2-easynav-diagnostic-recovery ros2-autoware-planning-topic-converter
+          ros2-autoware-simple-pure-pursuit ros2-autoware-default-adapi ros2-urdf-launch
+          ros2-turtlebot3-cartographer ros2-turtlebot3-bringup
+        BUILD_TARGET: ''
+      run: |
+        export CI=github
+        export GIT_BRANCH=${GITHUB_REF_NAME}
+        export FEEDSTOCK_NAME=${GITHUB_REPOSITORY##*/}
+        .scripts/build_unix.sh --target $BUILD_TARGET
+    permissions:
+      id-token: write
+      attestations: write
+  stage_6_job_28:
+    name: ros2-ros-gz-sim-demos ros2-roboplan-ros-visualization ros2-mujoco-ros2-control
+      ros2-rviz-visual-tools ros2-grid-map-pcl ros2-grid-map-costmap-2d ros2-easynav-navmap-localizer
+      ros2-easynav-simple-controller ros2-easynav-serest-controller ros2-easynav-fusion-localizer
+      ros2-easynav-simple-localizer ros2-vision-msgs-rviz-plugins ros2-spatio-temporal-voxel-layer
+      ros2-sick-safetyscanners2 ros2-rqt-controller-manager ros2-robotiq-description
+      ros2-nonpersistent-voxel-layer ros2-microstrain-inertial-examples ros2-foxglove-bridge
+      ros2-event-camera-renderer ros2-easynav-vff-controller slam-toolbox rviz-satellite
+      rviz2 rosx-introspection
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_5_job_23
+    - stage_5_job_24
+    - stage_5_job_25
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v7
+    - name: Disable git auto-maintenance
+      run: git config --global maintenance.auto false && git config --global gc.auto
+        0
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0
+      with:
+        pixi-version: latest
+        cache: 'true'
+        log-level: v
+        frozen: 'true'
+    - name: Build ros2-ros-gz-sim-demos ros2-roboplan-ros-visualization ros2-mujoco-ros2-control
+        ros2-rviz-visual-tools ros2-grid-map-pcl ros2-grid-map-costmap-2d ros2-easynav-navmap-localizer
+        ros2-easynav-simple-controller ros2-easynav-serest-controller ros2-easynav-fusion-localizer
+        ros2-easynav-simple-localizer ros2-vision-msgs-rviz-plugins ros2-spatio-temporal-voxel-layer
+        ros2-sick-safetyscanners2 ros2-rqt-controller-manager ros2-robotiq-description
+        ros2-nonpersistent-voxel-layer ros2-microstrain-inertial-examples ros2-foxglove-bridge
+        ros2-event-camera-renderer ros2-easynav-vff-controller ros-kilted-slam-toolbox
+        ros-kilted-rviz-satellite ros-kilted-rviz2 ros-kilted-rosx-introspection
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros2-ros-gz-sim-demos ros2-roboplan-ros-visualization ros2-mujoco-ros2-control
+          ros2-rviz-visual-tools ros2-grid-map-pcl ros2-grid-map-costmap-2d ros2-easynav-navmap-localizer
+          ros2-easynav-simple-controller ros2-easynav-serest-controller ros2-easynav-fusion-localizer
+          ros2-easynav-simple-localizer ros2-vision-msgs-rviz-plugins ros2-spatio-temporal-voxel-layer
+          ros2-sick-safetyscanners2 ros2-rqt-controller-manager ros2-robotiq-description
+          ros2-nonpersistent-voxel-layer ros2-microstrain-inertial-examples ros2-foxglove-bridge
+          ros2-event-camera-renderer ros2-easynav-vff-controller ros-kilted-slam-toolbox
+          ros-kilted-rviz-satellite ros-kilted-rviz2 ros-kilted-rosx-introspection
+        BUILD_TARGET: ''
+      run: |
+        export CI=github
+        export GIT_BRANCH=${GITHUB_REF_NAME}
+        export FEEDSTOCK_NAME=${GITHUB_REPOSITORY##*/}
+        .scripts/build_unix.sh --target $BUILD_TARGET
+    permissions:
+      id-token: write
+      attestations: write
+  stage_6_job_29:
+    name: rosbag2-compression robotiq-controllers rmf-visualization-rviz2-plugins
+      plansys2-tools plansys2-planner octomap-rviz-plugins nav2-costmap-2d image-pipeline
+      grid-map-ros event-camera-codecs easynav-simple-planner easynav-simple-maps-manager
+      easynav-routes-maps-manager easynav-recovery easynav-planner easynav-octomap-maps-manager
+      easynav-navmap-planner easynav-navmap-maps-manager easynav-maps-manager easynav-localizer
+      easynav-costmap-planner easynav-costmap-maps-manager easynav-controller easynav-bonxai-maps-manager
+      controller-manager
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_5_job_23
+    - stage_5_job_24
+    - stage_5_job_25
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v7
+    - name: Disable git auto-maintenance
+      run: git config --global maintenance.auto false && git config --global gc.auto
+        0
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0
+      with:
+        pixi-version: latest
+        cache: 'true'
+        log-level: v
+        frozen: 'true'
+    - name: Build ros-kilted-rosbag2-compression ros-kilted-robotiq-controllers ros-kilted-rmf-visualization-rviz2-plugins
+        ros-kilted-plansys2-tools ros-kilted-plansys2-planner ros-kilted-octomap-rviz-plugins
+        ros-kilted-nav2-costmap-2d ros-kilted-image-pipeline ros-kilted-grid-map-ros
+        ros-kilted-event-camera-codecs ros-kilted-easynav-simple-planner ros-kilted-easynav-simple-maps-manager
+        ros-kilted-easynav-routes-maps-manager ros-kilted-easynav-recovery ros-kilted-easynav-planner
+        ros-kilted-easynav-octomap-maps-manager ros-kilted-easynav-navmap-planner
+        ros-kilted-easynav-navmap-maps-manager ros-kilted-easynav-maps-manager ros-kilted-easynav-localizer
+        ros-kilted-easynav-costmap-planner ros-kilted-easynav-costmap-maps-manager
+        ros-kilted-easynav-controller ros-kilted-easynav-bonxai-maps-manager ros-kilted-controller-manager
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-rosbag2-compression ros-kilted-robotiq-controllers
+          ros-kilted-rmf-visualization-rviz2-plugins ros-kilted-plansys2-tools ros-kilted-plansys2-planner
+          ros-kilted-octomap-rviz-plugins ros-kilted-nav2-costmap-2d ros-kilted-image-pipeline
+          ros-kilted-grid-map-ros ros-kilted-event-camera-codecs ros-kilted-easynav-simple-planner
+          ros-kilted-easynav-simple-maps-manager ros-kilted-easynav-routes-maps-manager
+          ros-kilted-easynav-recovery ros-kilted-easynav-planner ros-kilted-easynav-octomap-maps-manager
+          ros-kilted-easynav-navmap-planner ros-kilted-easynav-navmap-maps-manager
+          ros-kilted-easynav-maps-manager ros-kilted-easynav-localizer ros-kilted-easynav-costmap-planner
+          ros-kilted-easynav-costmap-maps-manager ros-kilted-easynav-controller ros-kilted-easynav-bonxai-maps-manager
+          ros-kilted-controller-manager
+        BUILD_TARGET: ''
+      run: |
+        export CI=github
+        export GIT_BRANCH=${GITHUB_REF_NAME}
+        export FEEDSTOCK_NAME=${GITHUB_REPOSITORY##*/}
+        .scripts/build_unix.sh --target $BUILD_TARGET
+    permissions:
+      id-token: write
+      attestations: write
+  stage_6_job_30:
+    name: cloudini-ros cartographer-ros avt-vimba-camera autoware-motion-utils autoware-lanelet2-utils
+      autoware-global-parameter-loader
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_5_job_23
+    - stage_5_job_24
+    - stage_5_job_25
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v7
+    - name: Disable git auto-maintenance
+      run: git config --global maintenance.auto false && git config --global gc.auto
+        0
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0
+      with:
+        pixi-version: latest
+        cache: 'true'
+        log-level: v
+        frozen: 'true'
+    - name: Build ros-kilted-cloudini-ros ros-kilted-cartographer-ros ros-kilted-avt-vimba-camera
+        ros-kilted-autoware-motion-utils ros-kilted-autoware-lanelet2-utils ros-kilted-autoware-global-parameter-loader
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-cloudini-ros ros-kilted-cartographer-ros ros-kilted-avt-vimba-camera
+          ros-kilted-autoware-motion-utils ros-kilted-autoware-lanelet2-utils ros-kilted-autoware-global-parameter-loader
+        BUILD_TARGET: ''
+      run: |
+        export CI=github
+        export GIT_BRANCH=${GITHUB_REF_NAME}
+        export FEEDSTOCK_NAME=${GITHUB_REPOSITORY##*/}
+        .scripts/build_unix.sh --target $BUILD_TARGET
+    permissions:
+      id-token: write
+      attestations: write
+  stage_7_job_31:
+    name: ros2-position-controllers ros2-rosbag2-transport ros2-nav2-controller ros2-dwb-core
+      ros2-nav2-route ros2-nav2-regulated-pure-pursuit-controller ros2-autoware-velocity-smoother
+      ros2-opennav-docking-bt ros2-nav2-waypoint-follower ros2-nav2-theta-star-planner
+      ros2-nav2-smoother ros2-nav2-smac-planner ros2-nav2-planner ros2-nav2-navfn-planner
+      ros2-nav2-mppi-controller ros2-nav2-constrained-smoother ros2-nav2-bt-navigator
+      ros2-nav2-behaviors ros2-velocity-controllers ros2-effort-controllers ros2-ur-controllers
+      ros2-tricycle-steering-controller ros2-bicycle-steering-controller ros2-ackermann-steering-controller
+      ros2-webots-ros2-universal-robot
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_6_job_26
+    - stage_6_job_27
+    - stage_6_job_28
+    - stage_6_job_29
+    - stage_6_job_30
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v7
+    - name: Disable git auto-maintenance
+      run: git config --global maintenance.auto false && git config --global gc.auto
+        0
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0
+      with:
+        pixi-version: latest
+        cache: 'true'
+        log-level: v
+        frozen: 'true'
+    - name: Build ros2-position-controllers ros2-rosbag2-transport ros2-nav2-controller
+        ros2-dwb-core ros2-nav2-route ros2-nav2-regulated-pure-pursuit-controller
+        ros2-autoware-velocity-smoother ros2-opennav-docking-bt ros2-nav2-waypoint-follower
+        ros2-nav2-theta-star-planner ros2-nav2-smoother ros2-nav2-smac-planner ros2-nav2-planner
+        ros2-nav2-navfn-planner ros2-nav2-mppi-controller ros2-nav2-constrained-smoother
+        ros2-nav2-bt-navigator ros2-nav2-behaviors ros2-velocity-controllers ros2-effort-controllers
+        ros2-ur-controllers ros2-tricycle-steering-controller ros2-bicycle-steering-controller
+        ros2-ackermann-steering-controller ros2-webots-ros2-universal-robot
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros2-position-controllers ros2-rosbag2-transport ros2-nav2-controller
+          ros2-dwb-core ros2-nav2-route ros2-nav2-regulated-pure-pursuit-controller
+          ros2-autoware-velocity-smoother ros2-opennav-docking-bt ros2-nav2-waypoint-follower
+          ros2-nav2-theta-star-planner ros2-nav2-smoother ros2-nav2-smac-planner ros2-nav2-planner
+          ros2-nav2-navfn-planner ros2-nav2-mppi-controller ros2-nav2-constrained-smoother
+          ros2-nav2-bt-navigator ros2-nav2-behaviors ros2-velocity-controllers ros2-effort-controllers
+          ros2-ur-controllers ros2-tricycle-steering-controller ros2-bicycle-steering-controller
+          ros2-ackermann-steering-controller ros2-webots-ros2-universal-robot
+        BUILD_TARGET: ''
+      run: |
+        export CI=github
+        export GIT_BRANCH=${GITHUB_REF_NAME}
+        export FEEDSTOCK_NAME=${GITHUB_REPOSITORY##*/}
+        .scripts/build_unix.sh --target $BUILD_TARGET
+    permissions:
+      id-token: write
+      attestations: write
+  stage_7_job_32:
+    name: ros2-webots-ros2-turtlebot ros2-webots-ros2-tiago ros2-webots-ros2-husarion
+      ros2-webots-ros2-epuck ros2-ros2-control ros2-autoware-path-generator ros2-autoware-mission-planner
+      ros2-autoware-lanelet2-map-visualizer ros2-autoware-pose-initializer ros2-autoware-adapi-adaptors
+      ros2-rmf-demos ros2-plansys2-terminal ros2-plansys2-bt-actions ros2-plansys2-bringup
+      ros2-easynav-costmap-localizer ros2-easynav-mppi-controller ros2-easynav-mpc-controller
+      ros2-autoware-core-control ros2-urdf-tutorial ros2-ros-gz ros2-roboplan-ros-py
+      ros2-roboplan-ros-franka ros2-plansys2-tests ros2-mujoco-ros2-control-demos
+      ros2-easynav
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_6_job_26
+    - stage_6_job_27
+    - stage_6_job_28
+    - stage_6_job_29
+    - stage_6_job_30
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v7
+    - name: Disable git auto-maintenance
+      run: git config --global maintenance.auto false && git config --global gc.auto
+        0
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0
+      with:
+        pixi-version: latest
+        cache: 'true'
+        log-level: v
+        frozen: 'true'
+    - name: Build ros2-webots-ros2-turtlebot ros2-webots-ros2-tiago ros2-webots-ros2-husarion
+        ros2-webots-ros2-epuck ros2-ros2-control ros2-autoware-path-generator ros2-autoware-mission-planner
+        ros2-autoware-lanelet2-map-visualizer ros2-autoware-pose-initializer ros2-autoware-adapi-adaptors
+        ros2-rmf-demos ros2-plansys2-terminal ros2-plansys2-bt-actions ros2-plansys2-bringup
+        ros2-easynav-costmap-localizer ros2-easynav-mppi-controller ros2-easynav-mpc-controller
+        ros2-autoware-core-control ros2-urdf-tutorial ros2-ros-gz ros2-roboplan-ros-py
+        ros2-roboplan-ros-franka ros2-plansys2-tests ros2-mujoco-ros2-control-demos
+        ros2-easynav
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros2-webots-ros2-turtlebot ros2-webots-ros2-tiago ros2-webots-ros2-husarion
+          ros2-webots-ros2-epuck ros2-ros2-control ros2-autoware-path-generator ros2-autoware-mission-planner
+          ros2-autoware-lanelet2-map-visualizer ros2-autoware-pose-initializer ros2-autoware-adapi-adaptors
+          ros2-rmf-demos ros2-plansys2-terminal ros2-plansys2-bt-actions ros2-plansys2-bringup
+          ros2-easynav-costmap-localizer ros2-easynav-mppi-controller ros2-easynav-mpc-controller
+          ros2-autoware-core-control ros2-urdf-tutorial ros2-ros-gz ros2-roboplan-ros-py
+          ros2-roboplan-ros-franka ros2-plansys2-tests ros2-mujoco-ros2-control-demos
+          ros2-easynav
+        BUILD_TARGET: ''
+      run: |
+        export CI=github
+        export GIT_BRANCH=${GITHUB_REF_NAME}
+        export FEEDSTOCK_NAME=${GITHUB_REPOSITORY##*/}
+        .scripts/build_unix.sh --target $BUILD_TARGET
+    permissions:
+      id-token: write
+      attestations: write
+  stage_7_job_33:
+    name: webots-ros2-control vision-msgs-rviz-plugins urdf-launch ur-description
+      turtlebot3-cartographer turtlebot3-bringup tricycle-controller steering-controllers-library
+      state-interfaces-broadcaster spatio-temporal-voxel-layer sick-safetyscanners2
+      rviz-visual-tools rqt-controller-manager rosbag2-compression-zstd ros-gz-sim-demos
+      ros2controlcli robotiq-description roboplan-ros-visualization rmf-visualization
+      range-sensor-broadcaster pose-broadcaster plansys2-executor pid-controller parallel-gripper-controller
+      omni-wheel-drive-controller
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_6_job_26
+    - stage_6_job_27
+    - stage_6_job_28
+    - stage_6_job_29
+    - stage_6_job_30
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v7
+    - name: Disable git auto-maintenance
+      run: git config --global maintenance.auto false && git config --global gc.auto
+        0
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0
+      with:
+        pixi-version: latest
+        cache: 'true'
+        log-level: v
+        frozen: 'true'
+    - name: Build ros-kilted-webots-ros2-control ros-kilted-vision-msgs-rviz-plugins
+        ros-kilted-urdf-launch ros-kilted-ur-description ros-kilted-turtlebot3-cartographer
+        ros-kilted-turtlebot3-bringup ros-kilted-tricycle-controller ros-kilted-steering-controllers-library
+        ros-kilted-state-interfaces-broadcaster ros-kilted-spatio-temporal-voxel-layer
+        ros-kilted-sick-safetyscanners2 ros-kilted-rviz-visual-tools ros-kilted-rqt-controller-manager
+        ros-kilted-rosbag2-compression-zstd ros-kilted-ros-gz-sim-demos ros-kilted-ros2controlcli
+        ros-kilted-robotiq-description ros-kilted-roboplan-ros-visualization ros-kilted-rmf-visualization
+        ros-kilted-range-sensor-broadcaster ros-kilted-pose-broadcaster ros-kilted-plansys2-executor
+        ros-kilted-pid-controller ros-kilted-parallel-gripper-controller ros-kilted-omni-wheel-drive-controller
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-webots-ros2-control ros-kilted-vision-msgs-rviz-plugins
+          ros-kilted-urdf-launch ros-kilted-ur-description ros-kilted-turtlebot3-cartographer
+          ros-kilted-turtlebot3-bringup ros-kilted-tricycle-controller ros-kilted-steering-controllers-library
+          ros-kilted-state-interfaces-broadcaster ros-kilted-spatio-temporal-voxel-layer
+          ros-kilted-sick-safetyscanners2 ros-kilted-rviz-visual-tools ros-kilted-rqt-controller-manager
+          ros-kilted-rosbag2-compression-zstd ros-kilted-ros-gz-sim-demos ros-kilted-ros2controlcli
+          ros-kilted-robotiq-description ros-kilted-roboplan-ros-visualization ros-kilted-rmf-visualization
+          ros-kilted-range-sensor-broadcaster ros-kilted-pose-broadcaster ros-kilted-plansys2-executor
+          ros-kilted-pid-controller ros-kilted-parallel-gripper-controller ros-kilted-omni-wheel-drive-controller
+        BUILD_TARGET: ''
+      run: |
+        export CI=github
+        export GIT_BRANCH=${GITHUB_REF_NAME}
+        export FEEDSTOCK_NAME=${GITHUB_REPOSITORY##*/}
+        .scripts/build_unix.sh --target $BUILD_TARGET
+    permissions:
+      id-token: write
+      attestations: write
+  stage_7_job_34:
+    name: nonpersistent-voxel-layer nav2-core nav2-collision-monitor mujoco-ros2-control
+      motion-primitives-controllers microstrain-inertial-examples mecanum-drive-controller
+      magnetometer-broadcaster joint-trajectory-controller joint-state-broadcaster
+      imu-sensor-broadcaster gz-ros2-control grid-map-visualization grid-map-rviz-plugin
+      grid-map-pcl grid-map-loader grid-map-filters grid-map-costmap-2d gps-sensor-broadcaster
+      gpio-controllers foxglove-bridge forward-command-controller force-torque-sensor-broadcaster
+      event-camera-renderer easynav-vff-controller
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_6_job_26
+    - stage_6_job_27
+    - stage_6_job_28
+    - stage_6_job_29
+    - stage_6_job_30
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v7
+    - name: Disable git auto-maintenance
+      run: git config --global maintenance.auto false && git config --global gc.auto
+        0
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0
+      with:
+        pixi-version: latest
+        cache: 'true'
+        log-level: v
+        frozen: 'true'
+    - name: Build ros-kilted-nonpersistent-voxel-layer ros-kilted-nav2-core ros-kilted-nav2-collision-monitor
+        ros-kilted-mujoco-ros2-control ros-kilted-motion-primitives-controllers ros-kilted-microstrain-inertial-examples
+        ros-kilted-mecanum-drive-controller ros-kilted-magnetometer-broadcaster ros-kilted-joint-trajectory-controller
+        ros-kilted-joint-state-broadcaster ros-kilted-imu-sensor-broadcaster ros-kilted-gz-ros2-control
+        ros-kilted-grid-map-visualization ros-kilted-grid-map-rviz-plugin ros-kilted-grid-map-pcl
+        ros-kilted-grid-map-loader ros-kilted-grid-map-filters ros-kilted-grid-map-costmap-2d
+        ros-kilted-gps-sensor-broadcaster ros-kilted-gpio-controllers ros-kilted-foxglove-bridge
+        ros-kilted-forward-command-controller ros-kilted-force-torque-sensor-broadcaster
+        ros-kilted-event-camera-renderer ros-kilted-easynav-vff-controller
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-nonpersistent-voxel-layer ros-kilted-nav2-core
+          ros-kilted-nav2-collision-monitor ros-kilted-mujoco-ros2-control ros-kilted-motion-primitives-controllers
+          ros-kilted-microstrain-inertial-examples ros-kilted-mecanum-drive-controller
+          ros-kilted-magnetometer-broadcaster ros-kilted-joint-trajectory-controller
+          ros-kilted-joint-state-broadcaster ros-kilted-imu-sensor-broadcaster ros-kilted-gz-ros2-control
+          ros-kilted-grid-map-visualization ros-kilted-grid-map-rviz-plugin ros-kilted-grid-map-pcl
+          ros-kilted-grid-map-loader ros-kilted-grid-map-filters ros-kilted-grid-map-costmap-2d
+          ros-kilted-gps-sensor-broadcaster ros-kilted-gpio-controllers ros-kilted-foxglove-bridge
+          ros-kilted-forward-command-controller ros-kilted-force-torque-sensor-broadcaster
+          ros-kilted-event-camera-renderer ros-kilted-easynav-vff-controller
+        BUILD_TARGET: ''
+      run: |
+        export CI=github
+        export GIT_BRANCH=${GITHUB_REF_NAME}
+        export FEEDSTOCK_NAME=${GITHUB_REPOSITORY##*/}
+        .scripts/build_unix.sh --target $BUILD_TARGET
+    permissions:
+      id-token: write
+      attestations: write
+  stage_7_job_35:
+    name: easynav-system easynav-simple-localizer easynav-simple-controller easynav-serest-controller
+      easynav-navmap-localizer easynav-fusion-localizer easynav-diagnostic-recovery
+      diff-drive-controller costmap-queue chained-filter-controller battery-state-broadcaster
+      autoware-trajectory autoware-simple-pure-pursuit autoware-route-handler autoware-planning-topic-converter
+      autoware-planning-test-manager autoware-planning-factor-interface autoware-map-loader
+      autoware-map-height-fitter autoware-default-adapi admittance-controller
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_6_job_26
+    - stage_6_job_27
+    - stage_6_job_28
+    - stage_6_job_29
+    - stage_6_job_30
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v7
+    - name: Disable git auto-maintenance
+      run: git config --global maintenance.auto false && git config --global gc.auto
+        0
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0
+      with:
+        pixi-version: latest
+        cache: 'true'
+        log-level: v
+        frozen: 'true'
+    - name: Build ros-kilted-easynav-system ros-kilted-easynav-simple-localizer ros-kilted-easynav-simple-controller
+        ros-kilted-easynav-serest-controller ros-kilted-easynav-navmap-localizer ros-kilted-easynav-fusion-localizer
+        ros-kilted-easynav-diagnostic-recovery ros-kilted-diff-drive-controller ros-kilted-costmap-queue
+        ros-kilted-chained-filter-controller ros-kilted-battery-state-broadcaster
+        ros-kilted-autoware-trajectory ros-kilted-autoware-simple-pure-pursuit ros-kilted-autoware-route-handler
+        ros-kilted-autoware-planning-topic-converter ros-kilted-autoware-planning-test-manager
+        ros-kilted-autoware-planning-factor-interface ros-kilted-autoware-map-loader
+        ros-kilted-autoware-map-height-fitter ros-kilted-autoware-default-adapi ros-kilted-admittance-controller
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-easynav-system ros-kilted-easynav-simple-localizer
+          ros-kilted-easynav-simple-controller ros-kilted-easynav-serest-controller
+          ros-kilted-easynav-navmap-localizer ros-kilted-easynav-fusion-localizer
+          ros-kilted-easynav-diagnostic-recovery ros-kilted-diff-drive-controller
+          ros-kilted-costmap-queue ros-kilted-chained-filter-controller ros-kilted-battery-state-broadcaster
+          ros-kilted-autoware-trajectory ros-kilted-autoware-simple-pure-pursuit ros-kilted-autoware-route-handler
+          ros-kilted-autoware-planning-topic-converter ros-kilted-autoware-planning-test-manager
+          ros-kilted-autoware-planning-factor-interface ros-kilted-autoware-map-loader
+          ros-kilted-autoware-map-height-fitter ros-kilted-autoware-default-adapi
+          ros-kilted-admittance-controller
+        BUILD_TARGET: ''
+      run: |
+        export CI=github
+        export GIT_BRANCH=${GITHUB_REF_NAME}
+        export FEEDSTOCK_NAME=${GITHUB_REPOSITORY##*/}
+        .scripts/build_unix.sh --target $BUILD_TARGET
+    permissions:
+      id-token: write
+      attestations: write
+  stage_8_job_36:
+    name: ros2-moveit-resources-panda-moveit-config ros2-moveit-resources-fanuc-moveit-config
+      ros2-rosbag2-py ros2-nav2-graceful-controller ros2-dwb-plugins ros2-dwb-critics
+      ros2-pcl-ros ros2-nav2-rviz-plugins ros2-nav2-rotation-shim-controller ros2-autoware-behavior-velocity-planner-common
+      ros2-ur-robot-driver ros2-ros2-controllers ros2-autoware-core-map ros2-autoware-core-api
+      ros2-swri-console ros2-plotjuggler-ros ros2-gz-ros2-control-demos ros2-apriltag-tools
+      webots-ros2-universal-robot webots-ros2-turtlebot webots-ros2-tiago webots-ros2-husarion
+      webots-ros2-epuck velocity-controllers urdf-tutorial
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_7_job_31
+    - stage_7_job_32
+    - stage_7_job_33
+    - stage_7_job_34
+    - stage_7_job_35
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v7
+    - name: Disable git auto-maintenance
+      run: git config --global maintenance.auto false && git config --global gc.auto
+        0
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0
+      with:
+        pixi-version: latest
+        cache: 'true'
+        log-level: v
+        frozen: 'true'
+    - name: Build ros2-moveit-resources-panda-moveit-config ros2-moveit-resources-fanuc-moveit-config
+        ros2-rosbag2-py ros2-nav2-graceful-controller ros2-dwb-plugins ros2-dwb-critics
+        ros2-pcl-ros ros2-nav2-rviz-plugins ros2-nav2-rotation-shim-controller ros2-autoware-behavior-velocity-planner-common
+        ros2-ur-robot-driver ros2-ros2-controllers ros2-autoware-core-map ros2-autoware-core-api
+        ros2-swri-console ros2-plotjuggler-ros ros2-gz-ros2-control-demos ros2-apriltag-tools
+        ros-kilted-webots-ros2-universal-robot ros-kilted-webots-ros2-turtlebot ros-kilted-webots-ros2-tiago
+        ros-kilted-webots-ros2-husarion ros-kilted-webots-ros2-epuck ros-kilted-velocity-controllers
+        ros-kilted-urdf-tutorial
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros2-moveit-resources-panda-moveit-config ros2-moveit-resources-fanuc-moveit-config
+          ros2-rosbag2-py ros2-nav2-graceful-controller ros2-dwb-plugins ros2-dwb-critics
+          ros2-pcl-ros ros2-nav2-rviz-plugins ros2-nav2-rotation-shim-controller ros2-autoware-behavior-velocity-planner-common
+          ros2-ur-robot-driver ros2-ros2-controllers ros2-autoware-core-map ros2-autoware-core-api
+          ros2-swri-console ros2-plotjuggler-ros ros2-gz-ros2-control-demos ros2-apriltag-tools
+          ros-kilted-webots-ros2-universal-robot ros-kilted-webots-ros2-turtlebot
+          ros-kilted-webots-ros2-tiago ros-kilted-webots-ros2-husarion ros-kilted-webots-ros2-epuck
+          ros-kilted-velocity-controllers ros-kilted-urdf-tutorial
+        BUILD_TARGET: ''
+      run: |
+        export CI=github
+        export GIT_BRANCH=${GITHUB_REF_NAME}
+        export FEEDSTOCK_NAME=${GITHUB_REPOSITORY##*/}
+        .scripts/build_unix.sh --target $BUILD_TARGET
+    permissions:
+      id-token: write
+      attestations: write
+  stage_8_job_37:
+    name: ur-controllers tricycle-steering-controller rosbag2-transport ros-gz ros2-control
+      roboplan-ros-py roboplan-ros-franka rmf-demos position-controllers plansys2-tests
+      plansys2-terminal plansys2-bt-actions plansys2-bringup opennav-docking-bt nav2-waypoint-follower
+      nav2-theta-star-planner nav2-smoother nav2-smac-planner nav2-route nav2-regulated-pure-pursuit-controller
+      nav2-planner nav2-navfn-planner nav2-mppi-controller nav2-controller nav2-constrained-smoother
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_7_job_31
+    - stage_7_job_32
+    - stage_7_job_33
+    - stage_7_job_34
+    - stage_7_job_35
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v7
+    - name: Disable git auto-maintenance
+      run: git config --global maintenance.auto false && git config --global gc.auto
+        0
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0
+      with:
+        pixi-version: latest
+        cache: 'true'
+        log-level: v
+        frozen: 'true'
+    - name: Build ros-kilted-ur-controllers ros-kilted-tricycle-steering-controller
+        ros-kilted-rosbag2-transport ros-kilted-ros-gz ros-kilted-ros2-control ros-kilted-roboplan-ros-py
+        ros-kilted-roboplan-ros-franka ros-kilted-rmf-demos ros-kilted-position-controllers
+        ros-kilted-plansys2-tests ros-kilted-plansys2-terminal ros-kilted-plansys2-bt-actions
+        ros-kilted-plansys2-bringup ros-kilted-opennav-docking-bt ros-kilted-nav2-waypoint-follower
+        ros-kilted-nav2-theta-star-planner ros-kilted-nav2-smoother ros-kilted-nav2-smac-planner
+        ros-kilted-nav2-route ros-kilted-nav2-regulated-pure-pursuit-controller ros-kilted-nav2-planner
+        ros-kilted-nav2-navfn-planner ros-kilted-nav2-mppi-controller ros-kilted-nav2-controller
+        ros-kilted-nav2-constrained-smoother
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-ur-controllers ros-kilted-tricycle-steering-controller
+          ros-kilted-rosbag2-transport ros-kilted-ros-gz ros-kilted-ros2-control ros-kilted-roboplan-ros-py
+          ros-kilted-roboplan-ros-franka ros-kilted-rmf-demos ros-kilted-position-controllers
+          ros-kilted-plansys2-tests ros-kilted-plansys2-terminal ros-kilted-plansys2-bt-actions
+          ros-kilted-plansys2-bringup ros-kilted-opennav-docking-bt ros-kilted-nav2-waypoint-follower
+          ros-kilted-nav2-theta-star-planner ros-kilted-nav2-smoother ros-kilted-nav2-smac-planner
+          ros-kilted-nav2-route ros-kilted-nav2-regulated-pure-pursuit-controller
+          ros-kilted-nav2-planner ros-kilted-nav2-navfn-planner ros-kilted-nav2-mppi-controller
+          ros-kilted-nav2-controller ros-kilted-nav2-constrained-smoother
+        BUILD_TARGET: ''
+      run: |
+        export CI=github
+        export GIT_BRANCH=${GITHUB_REF_NAME}
+        export FEEDSTOCK_NAME=${GITHUB_REPOSITORY##*/}
+        .scripts/build_unix.sh --target $BUILD_TARGET
+    permissions:
+      id-token: write
+      attestations: write
+  stage_8_job_38:
+    name: nav2-bt-navigator nav2-behaviors mujoco-ros2-control-demos effort-controllers
+      easynav-mppi-controller easynav-mpc-controller easynav-costmap-localizer easynav
+      dwb-core bicycle-steering-controller autoware-velocity-smoother autoware-pose-initializer
+      autoware-path-generator autoware-mission-planner autoware-lanelet2-map-visualizer
+      autoware-core-control autoware-adapi-adaptors ackermann-steering-controller
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_7_job_31
+    - stage_7_job_32
+    - stage_7_job_33
+    - stage_7_job_34
+    - stage_7_job_35
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v7
+    - name: Disable git auto-maintenance
+      run: git config --global maintenance.auto false && git config --global gc.auto
+        0
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0
+      with:
+        pixi-version: latest
+        cache: 'true'
+        log-level: v
+        frozen: 'true'
+    - name: Build ros-kilted-nav2-bt-navigator ros-kilted-nav2-behaviors ros-kilted-mujoco-ros2-control-demos
+        ros-kilted-effort-controllers ros-kilted-easynav-mppi-controller ros-kilted-easynav-mpc-controller
+        ros-kilted-easynav-costmap-localizer ros-kilted-easynav ros-kilted-dwb-core
+        ros-kilted-bicycle-steering-controller ros-kilted-autoware-velocity-smoother
+        ros-kilted-autoware-pose-initializer ros-kilted-autoware-path-generator ros-kilted-autoware-mission-planner
+        ros-kilted-autoware-lanelet2-map-visualizer ros-kilted-autoware-core-control
+        ros-kilted-autoware-adapi-adaptors ros-kilted-ackermann-steering-controller
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-nav2-bt-navigator ros-kilted-nav2-behaviors ros-kilted-mujoco-ros2-control-demos
+          ros-kilted-effort-controllers ros-kilted-easynav-mppi-controller ros-kilted-easynav-mpc-controller
+          ros-kilted-easynav-costmap-localizer ros-kilted-easynav ros-kilted-dwb-core
+          ros-kilted-bicycle-steering-controller ros-kilted-autoware-velocity-smoother
+          ros-kilted-autoware-pose-initializer ros-kilted-autoware-path-generator
+          ros-kilted-autoware-mission-planner ros-kilted-autoware-lanelet2-map-visualizer
+          ros-kilted-autoware-core-control ros-kilted-autoware-adapi-adaptors ros-kilted-ackermann-steering-controller
+        BUILD_TARGET: ''
+      run: |
+        export CI=github
+        export GIT_BRANCH=${GITHUB_REF_NAME}
+        export FEEDSTOCK_NAME=${GITHUB_REPOSITORY##*/}
+        .scripts/build_unix.sh --target $BUILD_TARGET
+    permissions:
+      id-token: write
+      attestations: write
+  stage_9_job_39:
+    name: ros2-moveit-core ros2-ros2bag ros2-opennav-docking ros2-nav2-dwb-controller
+      ros2-rqt-bag ros2-autoware-object-recognition-utils ros2-autoware-utils-pcl
+      ros2-autoware-point-types ros2-octomap-server ros2-perception-pcl ros2-ur-calibration
+      ros2-moveit-resources ros2-dual-laser-merger ur-robot-driver swri-console rosbag2-py
+      ros2-controllers plotjuggler-ros pcl-ros nav2-rviz-plugins nav2-rotation-shim-controller
+      nav2-graceful-controller moveit-resources-panda-moveit-config moveit-resources-fanuc-moveit-config
+      gz-ros2-control-demos
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_8_job_36
+    - stage_8_job_37
+    - stage_8_job_38
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v7
+    - name: Disable git auto-maintenance
+      run: git config --global maintenance.auto false && git config --global gc.auto
+        0
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0
+      with:
+        pixi-version: latest
+        cache: 'true'
+        log-level: v
+        frozen: 'true'
+    - name: Build ros2-moveit-core ros2-ros2bag ros2-opennav-docking ros2-nav2-dwb-controller
+        ros2-rqt-bag ros2-autoware-object-recognition-utils ros2-autoware-utils-pcl
+        ros2-autoware-point-types ros2-octomap-server ros2-perception-pcl ros2-ur-calibration
+        ros2-moveit-resources ros2-dual-laser-merger ros-kilted-ur-robot-driver ros-kilted-swri-console
+        ros-kilted-rosbag2-py ros-kilted-ros2-controllers ros-kilted-plotjuggler-ros
+        ros-kilted-pcl-ros ros-kilted-nav2-rviz-plugins ros-kilted-nav2-rotation-shim-controller
+        ros-kilted-nav2-graceful-controller ros-kilted-moveit-resources-panda-moveit-config
+        ros-kilted-moveit-resources-fanuc-moveit-config ros-kilted-gz-ros2-control-demos
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros2-moveit-core ros2-ros2bag ros2-opennav-docking ros2-nav2-dwb-controller
+          ros2-rqt-bag ros2-autoware-object-recognition-utils ros2-autoware-utils-pcl
+          ros2-autoware-point-types ros2-octomap-server ros2-perception-pcl ros2-ur-calibration
+          ros2-moveit-resources ros2-dual-laser-merger ros-kilted-ur-robot-driver
+          ros-kilted-swri-console ros-kilted-rosbag2-py ros-kilted-ros2-controllers
+          ros-kilted-plotjuggler-ros ros-kilted-pcl-ros ros-kilted-nav2-rviz-plugins
+          ros-kilted-nav2-rotation-shim-controller ros-kilted-nav2-graceful-controller
+          ros-kilted-moveit-resources-panda-moveit-config ros-kilted-moveit-resources-fanuc-moveit-config
+          ros-kilted-gz-ros2-control-demos
+        BUILD_TARGET: ''
+      run: |
+        export CI=github
+        export GIT_BRANCH=${GITHUB_REF_NAME}
+        export FEEDSTOCK_NAME=${GITHUB_REPOSITORY##*/}
+        .scripts/build_unix.sh --target $BUILD_TARGET
+    permissions:
+      id-token: write
+      attestations: write
+  stage_9_job_40:
+    name: dwb-plugins dwb-critics autoware-core-map autoware-core-api autoware-behavior-velocity-planner-common
+      apriltag-tools
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_8_job_36
+    - stage_8_job_37
+    - stage_8_job_38
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v7
+    - name: Disable git auto-maintenance
+      run: git config --global maintenance.auto false && git config --global gc.auto
+        0
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0
+      with:
+        pixi-version: latest
+        cache: 'true'
+        log-level: v
+        frozen: 'true'
+    - name: Build ros-kilted-dwb-plugins ros-kilted-dwb-critics ros-kilted-autoware-core-map
+        ros-kilted-autoware-core-api ros-kilted-autoware-behavior-velocity-planner-common
+        ros-kilted-apriltag-tools
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-dwb-plugins ros-kilted-dwb-critics ros-kilted-autoware-core-map
+          ros-kilted-autoware-core-api ros-kilted-autoware-behavior-velocity-planner-common
+          ros-kilted-apriltag-tools
+        BUILD_TARGET: ''
+      run: |
+        export CI=github
+        export GIT_BRANCH=${GITHUB_REF_NAME}
+        export FEEDSTOCK_NAME=${GITHUB_REPOSITORY##*/}
+        .scripts/build_unix.sh --target $BUILD_TARGET
+    permissions:
+      id-token: write
+      attestations: write
+  stage_10_job_41:
+    name: ros2-moveit-ros-occupancy-map-monitor ros2-moveit-simple-controller-manager
+      ros2-moveit-resources-prbt-ikfast-manipulator-plugin ros2-rosbag2-tests ros2-pilz-industrial-motion-planner-testutils
+      ros2-chomp-motion-planner ros2-moveit-planners-stomp ros2-navigation2 ros2-autoware-motion-velocity-planner-common
+      ros2-autoware-behavior-velocity-planner ros2-autoware-crop-box-filter ros2-realsense2-camera
+      ros2-autoware-ground-filter ros2-autoware-ndt-scan-matcher ros2-autoware-downsample-filters
+      ros2-webots-ros2-tests ros2-trac-ik-kinematics-plugin ros2-grid-map-demos ros2-rosbag2-performance-benchmarking
+      ros2-pick-ik ros2-autoware-utils ur-calibration rqt-bag ros2bag perception-pcl
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_9_job_39
+    - stage_9_job_40
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v7
+    - name: Disable git auto-maintenance
+      run: git config --global maintenance.auto false && git config --global gc.auto
+        0
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0
+      with:
+        pixi-version: latest
+        cache: 'true'
+        log-level: v
+        frozen: 'true'
+    - name: Build ros2-moveit-ros-occupancy-map-monitor ros2-moveit-simple-controller-manager
+        ros2-moveit-resources-prbt-ikfast-manipulator-plugin ros2-rosbag2-tests ros2-pilz-industrial-motion-planner-testutils
+        ros2-chomp-motion-planner ros2-moveit-planners-stomp ros2-navigation2 ros2-autoware-motion-velocity-planner-common
+        ros2-autoware-behavior-velocity-planner ros2-autoware-crop-box-filter ros2-realsense2-camera
+        ros2-autoware-ground-filter ros2-autoware-ndt-scan-matcher ros2-autoware-downsample-filters
+        ros2-webots-ros2-tests ros2-trac-ik-kinematics-plugin ros2-grid-map-demos
+        ros2-rosbag2-performance-benchmarking ros2-pick-ik ros2-autoware-utils ros-kilted-ur-calibration
+        ros-kilted-rqt-bag ros-kilted-ros2bag ros-kilted-perception-pcl
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros2-moveit-ros-occupancy-map-monitor ros2-moveit-simple-controller-manager
+          ros2-moveit-resources-prbt-ikfast-manipulator-plugin ros2-rosbag2-tests
+          ros2-pilz-industrial-motion-planner-testutils ros2-chomp-motion-planner
+          ros2-moveit-planners-stomp ros2-navigation2 ros2-autoware-motion-velocity-planner-common
+          ros2-autoware-behavior-velocity-planner ros2-autoware-crop-box-filter ros2-realsense2-camera
+          ros2-autoware-ground-filter ros2-autoware-ndt-scan-matcher ros2-autoware-downsample-filters
+          ros2-webots-ros2-tests ros2-trac-ik-kinematics-plugin ros2-grid-map-demos
+          ros2-rosbag2-performance-benchmarking ros2-pick-ik ros2-autoware-utils ros-kilted-ur-calibration
+          ros-kilted-rqt-bag ros-kilted-ros2bag ros-kilted-perception-pcl
+        BUILD_TARGET: ''
+      run: |
+        export CI=github
+        export GIT_BRANCH=${GITHUB_REF_NAME}
+        export FEEDSTOCK_NAME=${GITHUB_REPOSITORY##*/}
+        .scripts/build_unix.sh --target $BUILD_TARGET
+    permissions:
+      id-token: write
+      attestations: write
+  stage_10_job_42:
+    name: opennav-docking octomap-server nav2-dwb-controller moveit-resources moveit-core
+      dual-laser-merger autoware-utils-pcl autoware-point-types autoware-object-recognition-utils
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_9_job_39
+    - stage_9_job_40
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v7
+    - name: Disable git auto-maintenance
+      run: git config --global maintenance.auto false && git config --global gc.auto
+        0
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0
+      with:
+        pixi-version: latest
+        cache: 'true'
+        log-level: v
+        frozen: 'true'
+    - name: Build ros-kilted-opennav-docking ros-kilted-octomap-server ros-kilted-nav2-dwb-controller
+        ros-kilted-moveit-resources ros-kilted-moveit-core ros-kilted-dual-laser-merger
+        ros-kilted-autoware-utils-pcl ros-kilted-autoware-point-types ros-kilted-autoware-object-recognition-utils
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-opennav-docking ros-kilted-octomap-server ros-kilted-nav2-dwb-controller
+          ros-kilted-moveit-resources ros-kilted-moveit-core ros-kilted-dual-laser-merger
+          ros-kilted-autoware-utils-pcl ros-kilted-autoware-point-types ros-kilted-autoware-object-recognition-utils
+        BUILD_TARGET: ''
+      run: |
+        export CI=github
+        export GIT_BRANCH=${GITHUB_REF_NAME}
+        export FEEDSTOCK_NAME=${GITHUB_REPOSITORY##*/}
+        .scripts/build_unix.sh --target $BUILD_TARGET
+    permissions:
+      id-token: write
+      attestations: write
+  stage_11_job_43:
+    name: ros2-moveit-ros-planning ros2-rosbag2 ros2-moveit-planners-chomp ros2-nav2-bringup
+      ros2-autoware-motion-velocity-planner ros2-autoware-motion-velocity-obstacle-stop-module
+      ros2-autoware-behavior-velocity-stop-line-module ros2-autoware-euclidean-cluster-object-detector
+      ros2-moveit-plugins ros2-autoware-core-localization ros2-webots-ros2 ros2-trac-ik
+      ros2-moveit-ros-control-interface ros2-grid-map webots-ros2-tests trac-ik-kinematics-plugin
+      rosbag2-tests rosbag2-performance-benchmarking realsense2-camera pilz-industrial-motion-planner-testutils
+      pick-ik navigation2 moveit-simple-controller-manager moveit-ros-occupancy-map-monitor
+      moveit-resources-prbt-ikfast-manipulator-plugin
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_10_job_41
+    - stage_10_job_42
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v7
+    - name: Disable git auto-maintenance
+      run: git config --global maintenance.auto false && git config --global gc.auto
+        0
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0
+      with:
+        pixi-version: latest
+        cache: 'true'
+        log-level: v
+        frozen: 'true'
+    - name: Build ros2-moveit-ros-planning ros2-rosbag2 ros2-moveit-planners-chomp
+        ros2-nav2-bringup ros2-autoware-motion-velocity-planner ros2-autoware-motion-velocity-obstacle-stop-module
+        ros2-autoware-behavior-velocity-stop-line-module ros2-autoware-euclidean-cluster-object-detector
+        ros2-moveit-plugins ros2-autoware-core-localization ros2-webots-ros2 ros2-trac-ik
+        ros2-moveit-ros-control-interface ros2-grid-map ros-kilted-webots-ros2-tests
+        ros-kilted-trac-ik-kinematics-plugin ros-kilted-rosbag2-tests ros-kilted-rosbag2-performance-benchmarking
+        ros-kilted-realsense2-camera ros-kilted-pilz-industrial-motion-planner-testutils
+        ros-kilted-pick-ik ros-kilted-navigation2 ros-kilted-moveit-simple-controller-manager
+        ros-kilted-moveit-ros-occupancy-map-monitor ros-kilted-moveit-resources-prbt-ikfast-manipulator-plugin
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros2-moveit-ros-planning ros2-rosbag2 ros2-moveit-planners-chomp
+          ros2-nav2-bringup ros2-autoware-motion-velocity-planner ros2-autoware-motion-velocity-obstacle-stop-module
+          ros2-autoware-behavior-velocity-stop-line-module ros2-autoware-euclidean-cluster-object-detector
+          ros2-moveit-plugins ros2-autoware-core-localization ros2-webots-ros2 ros2-trac-ik
+          ros2-moveit-ros-control-interface ros2-grid-map ros-kilted-webots-ros2-tests
+          ros-kilted-trac-ik-kinematics-plugin ros-kilted-rosbag2-tests ros-kilted-rosbag2-performance-benchmarking
+          ros-kilted-realsense2-camera ros-kilted-pilz-industrial-motion-planner-testutils
+          ros-kilted-pick-ik ros-kilted-navigation2 ros-kilted-moveit-simple-controller-manager
+          ros-kilted-moveit-ros-occupancy-map-monitor ros-kilted-moveit-resources-prbt-ikfast-manipulator-plugin
+        BUILD_TARGET: ''
+      run: |
+        export CI=github
+        export GIT_BRANCH=${GITHUB_REF_NAME}
+        export FEEDSTOCK_NAME=${GITHUB_REPOSITORY##*/}
+        .scripts/build_unix.sh --target $BUILD_TARGET
+    permissions:
+      id-token: write
+      attestations: write
+  stage_11_job_44:
+    name: moveit-planners-stomp grid-map-demos chomp-motion-planner autoware-utils
+      autoware-ndt-scan-matcher autoware-motion-velocity-planner-common autoware-ground-filter
+      autoware-downsample-filters autoware-crop-box-filter autoware-behavior-velocity-planner
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_10_job_41
+    - stage_10_job_42
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v7
+    - name: Disable git auto-maintenance
+      run: git config --global maintenance.auto false && git config --global gc.auto
+        0
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0
+      with:
+        pixi-version: latest
+        cache: 'true'
+        log-level: v
+        frozen: 'true'
+    - name: Build ros-kilted-moveit-planners-stomp ros-kilted-grid-map-demos ros-kilted-chomp-motion-planner
+        ros-kilted-autoware-utils ros-kilted-autoware-ndt-scan-matcher ros-kilted-autoware-motion-velocity-planner-common
+        ros-kilted-autoware-ground-filter ros-kilted-autoware-downsample-filters ros-kilted-autoware-crop-box-filter
+        ros-kilted-autoware-behavior-velocity-planner
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-moveit-planners-stomp ros-kilted-grid-map-demos
+          ros-kilted-chomp-motion-planner ros-kilted-autoware-utils ros-kilted-autoware-ndt-scan-matcher
+          ros-kilted-autoware-motion-velocity-planner-common ros-kilted-autoware-ground-filter
+          ros-kilted-autoware-downsample-filters ros-kilted-autoware-crop-box-filter
+          ros-kilted-autoware-behavior-velocity-planner
+        BUILD_TARGET: ''
+      run: |
+        export CI=github
+        export GIT_BRANCH=${GITHUB_REF_NAME}
+        export FEEDSTOCK_NAME=${GITHUB_REPOSITORY##*/}
+        .scripts/build_unix.sh --target $BUILD_TARGET
+    permissions:
+      id-token: write
+      attestations: write
+  stage_12_job_45:
+    name: ros2-moveit-kinematics ros2-moveit-ros-warehouse ros2-moveit-ros-robot-interaction
+      ros2-moveit-planners-ompl ros2-rqt-bag-plugins ros2-ros-base ros2-turtlebot3-navigation2
+      ros2-moveit-ros-perception ros2-autoware-core-planning ros2-autoware-core-perception
+      ros2-moveit-visual-tools ros2-livox-ros-driver2 webots-ros2 trac-ik rosbag2
+      nav2-bringup moveit-ros-planning moveit-ros-control-interface moveit-plugins
+      moveit-planners-chomp grid-map autoware-motion-velocity-planner autoware-motion-velocity-obstacle-stop-module
+      autoware-euclidean-cluster-object-detector autoware-core-localization
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_11_job_43
+    - stage_11_job_44
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v7
+    - name: Disable git auto-maintenance
+      run: git config --global maintenance.auto false && git config --global gc.auto
+        0
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0
+      with:
+        pixi-version: latest
+        cache: 'true'
+        log-level: v
+        frozen: 'true'
+    - name: Build ros2-moveit-kinematics ros2-moveit-ros-warehouse ros2-moveit-ros-robot-interaction
+        ros2-moveit-planners-ompl ros2-rqt-bag-plugins ros2-ros-base ros2-turtlebot3-navigation2
+        ros2-moveit-ros-perception ros2-autoware-core-planning ros2-autoware-core-perception
+        ros2-moveit-visual-tools ros2-livox-ros-driver2 ros-kilted-webots-ros2 ros-kilted-trac-ik
+        ros-kilted-rosbag2 ros-kilted-nav2-bringup ros-kilted-moveit-ros-planning
+        ros-kilted-moveit-ros-control-interface ros-kilted-moveit-plugins ros-kilted-moveit-planners-chomp
+        ros-kilted-grid-map ros-kilted-autoware-motion-velocity-planner ros-kilted-autoware-motion-velocity-obstacle-stop-module
+        ros-kilted-autoware-euclidean-cluster-object-detector ros-kilted-autoware-core-localization
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros2-moveit-kinematics ros2-moveit-ros-warehouse ros2-moveit-ros-robot-interaction
+          ros2-moveit-planners-ompl ros2-rqt-bag-plugins ros2-ros-base ros2-turtlebot3-navigation2
+          ros2-moveit-ros-perception ros2-autoware-core-planning ros2-autoware-core-perception
+          ros2-moveit-visual-tools ros2-livox-ros-driver2 ros-kilted-webots-ros2 ros-kilted-trac-ik
+          ros-kilted-rosbag2 ros-kilted-nav2-bringup ros-kilted-moveit-ros-planning
+          ros-kilted-moveit-ros-control-interface ros-kilted-moveit-plugins ros-kilted-moveit-planners-chomp
+          ros-kilted-grid-map ros-kilted-autoware-motion-velocity-planner ros-kilted-autoware-motion-velocity-obstacle-stop-module
+          ros-kilted-autoware-euclidean-cluster-object-detector ros-kilted-autoware-core-localization
+        BUILD_TARGET: ''
+      run: |
+        export CI=github
+        export GIT_BRANCH=${GITHUB_REF_NAME}
+        export FEEDSTOCK_NAME=${GITHUB_REPOSITORY##*/}
+        .scripts/build_unix.sh --target $BUILD_TARGET
+    permissions:
+      id-token: write
+      attestations: write
+  stage_12_job_46:
+    name: autoware-behavior-velocity-stop-line-module
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_11_job_43
+    - stage_11_job_44
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v7
+    - name: Disable git auto-maintenance
+      run: git config --global maintenance.auto false && git config --global gc.auto
+        0
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0
+      with:
+        pixi-version: latest
+        cache: 'true'
+        log-level: v
+        frozen: 'true'
+    - name: Build ros-kilted-autoware-behavior-velocity-stop-line-module
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros-kilted-autoware-behavior-velocity-stop-line-module
+        BUILD_TARGET: ''
+      run: |
+        export CI=github
+        export GIT_BRANCH=${GITHUB_REF_NAME}
+        export FEEDSTOCK_NAME=${GITHUB_REPOSITORY##*/}
+        .scripts/build_unix.sh --target $BUILD_TARGET
+    permissions:
+      id-token: write
+      attestations: write
+  stage_13_job_47:
+    name: ros2-moveit-ros-move-group ros2-moveit-ros-benchmarks ros2-rqt-common-plugins
+      ros2-simulation ros2-perception ros2-turtlebot3 ros2-autoware-core turtlebot3-navigation2
+      rqt-bag-plugins ros-base moveit-visual-tools moveit-ros-warehouse moveit-ros-robot-interaction
+      moveit-ros-perception moveit-planners-ompl moveit-kinematics livox-ros-driver2
+      autoware-core-planning autoware-core-perception
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_12_job_45
+    - stage_12_job_46
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v7
+    - name: Disable git auto-maintenance
+      run: git config --global maintenance.auto false && git config --global gc.auto
+        0
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0
+      with:
+        pixi-version: latest
+        cache: 'true'
+        log-level: v
+        frozen: 'true'
+    - name: Build ros2-moveit-ros-move-group ros2-moveit-ros-benchmarks ros2-rqt-common-plugins
+        ros2-simulation ros2-perception ros2-turtlebot3 ros2-autoware-core ros-kilted-turtlebot3-navigation2
+        ros-kilted-rqt-bag-plugins ros-kilted-ros-base ros-kilted-moveit-visual-tools
+        ros-kilted-moveit-ros-warehouse ros-kilted-moveit-ros-robot-interaction ros-kilted-moveit-ros-perception
+        ros-kilted-moveit-planners-ompl ros-kilted-moveit-kinematics ros-kilted-livox-ros-driver2
+        ros-kilted-autoware-core-planning ros-kilted-autoware-core-perception
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros2-moveit-ros-move-group ros2-moveit-ros-benchmarks ros2-rqt-common-plugins
+          ros2-simulation ros2-perception ros2-turtlebot3 ros2-autoware-core ros-kilted-turtlebot3-navigation2
+          ros-kilted-rqt-bag-plugins ros-kilted-ros-base ros-kilted-moveit-visual-tools
+          ros-kilted-moveit-ros-warehouse ros-kilted-moveit-ros-robot-interaction
+          ros-kilted-moveit-ros-perception ros-kilted-moveit-planners-ompl ros-kilted-moveit-kinematics
+          ros-kilted-livox-ros-driver2 ros-kilted-autoware-core-planning ros-kilted-autoware-core-perception
+        BUILD_TARGET: ''
+      run: |
+        export CI=github
+        export GIT_BRANCH=${GITHUB_REF_NAME}
+        export FEEDSTOCK_NAME=${GITHUB_REPOSITORY##*/}
+        .scripts/build_unix.sh --target $BUILD_TARGET
+    permissions:
+      id-token: write
+      attestations: write
+  stage_14_job_48:
+    name: ros2-moveit-ros-planning-interface ros2-moveit-resources-prbt-moveit-config
+      ros2-desktop turtlebot3 simulation rqt-common-plugins perception moveit-ros-move-group
+      moveit-ros-benchmarks autoware-core ros2-moveit-ros-visualization ros2-moveit-resources-prbt-pg70-support
+      ros2-moveit-py ros2-moveit-hybrid-planning ros2-desktop-full moveit-ros-planning-interface
+      moveit-resources-prbt-moveit-config desktop
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_13_job_47
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v7
+    - name: Disable git auto-maintenance
+      run: git config --global maintenance.auto false && git config --global gc.auto
+        0
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0
+      with:
+        pixi-version: latest
+        cache: 'true'
+        log-level: v
+        frozen: 'true'
+    - name: Build ros2-moveit-ros-planning-interface ros2-moveit-resources-prbt-moveit-config
+        ros2-desktop ros-kilted-turtlebot3 ros-kilted-simulation ros-kilted-rqt-common-plugins
+        ros-kilted-perception ros-kilted-moveit-ros-move-group ros-kilted-moveit-ros-benchmarks
+        ros-kilted-autoware-core ros2-moveit-ros-visualization ros2-moveit-resources-prbt-pg70-support
+        ros2-moveit-py ros2-moveit-hybrid-planning ros2-desktop-full ros-kilted-moveit-ros-planning-interface
+        ros-kilted-moveit-resources-prbt-moveit-config ros-kilted-desktop
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros2-moveit-ros-planning-interface ros2-moveit-resources-prbt-moveit-config
+          ros2-desktop ros-kilted-turtlebot3 ros-kilted-simulation ros-kilted-rqt-common-plugins
+          ros-kilted-perception ros-kilted-moveit-ros-move-group ros-kilted-moveit-ros-benchmarks
+          ros-kilted-autoware-core ros2-moveit-ros-visualization ros2-moveit-resources-prbt-pg70-support
+          ros2-moveit-py ros2-moveit-hybrid-planning ros2-desktop-full ros-kilted-moveit-ros-planning-interface
+          ros-kilted-moveit-resources-prbt-moveit-config ros-kilted-desktop
+        BUILD_TARGET: ''
+      run: |
+        export CI=github
+        export GIT_BRANCH=${GITHUB_REF_NAME}
+        export FEEDSTOCK_NAME=${GITHUB_REPOSITORY##*/}
+        .scripts/build_unix.sh --target $BUILD_TARGET
+    permissions:
+      id-token: write
+      attestations: write
+  stage_15_job_49:
+    name: ros2-moveit-setup-framework ros2-pilz-industrial-motion-planner ros2-moveit-servo
+      ros2-moveit-task-constructor-core ros2-moveit-ros moveit-ros-visualization moveit-resources-prbt-pg70-support
+      moveit-py moveit-hybrid-planning desktop-full ros2-moveit-setup-core-plugins
+      ros2-moveit-setup-controllers ros2-moveit-setup-app-plugins ros2-moveit-setup-srdf-plugins
+      ros2-moveit-planners ros2-moveit-task-constructor-visualization ros2-moveit-task-constructor-capabilities
+      ros2-moveit-ros-trajectory-cache pilz-industrial-motion-planner moveit-task-constructor-core
+      moveit-setup-framework moveit-servo moveit-ros
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_14_job_48
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v7
+    - name: Disable git auto-maintenance
+      run: git config --global maintenance.auto false && git config --global gc.auto
+        0
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0
+      with:
+        pixi-version: latest
+        cache: 'true'
+        log-level: v
+        frozen: 'true'
+    - name: Build ros2-moveit-setup-framework ros2-pilz-industrial-motion-planner
+        ros2-moveit-servo ros2-moveit-task-constructor-core ros2-moveit-ros ros-kilted-moveit-ros-visualization
+        ros-kilted-moveit-resources-prbt-pg70-support ros-kilted-moveit-py ros-kilted-moveit-hybrid-planning
+        ros-kilted-desktop-full ros2-moveit-setup-core-plugins ros2-moveit-setup-controllers
+        ros2-moveit-setup-app-plugins ros2-moveit-setup-srdf-plugins ros2-moveit-planners
+        ros2-moveit-task-constructor-visualization ros2-moveit-task-constructor-capabilities
+        ros2-moveit-ros-trajectory-cache ros-kilted-pilz-industrial-motion-planner
+        ros-kilted-moveit-task-constructor-core ros-kilted-moveit-setup-framework
+        ros-kilted-moveit-servo ros-kilted-moveit-ros
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros2-moveit-setup-framework ros2-pilz-industrial-motion-planner
+          ros2-moveit-servo ros2-moveit-task-constructor-core ros2-moveit-ros ros-kilted-moveit-ros-visualization
+          ros-kilted-moveit-resources-prbt-pg70-support ros-kilted-moveit-py ros-kilted-moveit-hybrid-planning
+          ros-kilted-desktop-full ros2-moveit-setup-core-plugins ros2-moveit-setup-controllers
+          ros2-moveit-setup-app-plugins ros2-moveit-setup-srdf-plugins ros2-moveit-planners
+          ros2-moveit-task-constructor-visualization ros2-moveit-task-constructor-capabilities
+          ros2-moveit-ros-trajectory-cache ros-kilted-pilz-industrial-motion-planner
+          ros-kilted-moveit-task-constructor-core ros-kilted-moveit-setup-framework
+          ros-kilted-moveit-servo ros-kilted-moveit-ros
+        BUILD_TARGET: ''
+      run: |
+        export CI=github
+        export GIT_BRANCH=${GITHUB_REF_NAME}
+        export FEEDSTOCK_NAME=${GITHUB_REPOSITORY##*/}
+        .scripts/build_unix.sh --target $BUILD_TARGET
+    permissions:
+      id-token: write
+      attestations: write
+  stage_16_job_50:
+    name: ros2-moveit-setup-assistant ros2-ur-moveit-config ros2-moveit-task-constructor-demo
+      ros2-moveit-runtime moveit-task-constructor-visualization moveit-task-constructor-capabilities
+      moveit-setup-srdf-plugins moveit-setup-core-plugins moveit-setup-controllers
+      moveit-setup-app-plugins moveit-ros-trajectory-cache moveit-planners ros2-ur-simulation-gz
+      ros2-ur ros2-moveit ur-moveit-config moveit-task-constructor-demo moveit-setup-assistant
+      moveit-runtime ur-simulation-gz ur moveit
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    needs:
+    - stage_15_job_49
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v7
+    - name: Disable git auto-maintenance
+      run: git config --global maintenance.auto false && git config --global gc.auto
+        0
+    - name: Setup pixi
+      uses: prefix-dev/setup-pixi@v0
+      with:
+        pixi-version: latest
+        cache: 'true'
+        log-level: v
+        frozen: 'true'
+    - name: Build ros2-moveit-setup-assistant ros2-ur-moveit-config ros2-moveit-task-constructor-demo
+        ros2-moveit-runtime ros-kilted-moveit-task-constructor-visualization ros-kilted-moveit-task-constructor-capabilities
+        ros-kilted-moveit-setup-srdf-plugins ros-kilted-moveit-setup-core-plugins
+        ros-kilted-moveit-setup-controllers ros-kilted-moveit-setup-app-plugins ros-kilted-moveit-ros-trajectory-cache
+        ros-kilted-moveit-planners ros2-ur-simulation-gz ros2-ur ros2-moveit ros-kilted-ur-moveit-config
+        ros-kilted-moveit-task-constructor-demo ros-kilted-moveit-setup-assistant
+        ros-kilted-moveit-runtime ros-kilted-ur-simulation-gz ros-kilted-ur ros-kilted-moveit
+      env:
+        ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_API_TOKEN }}
+        CURRENT_RECIPES: ros2-moveit-setup-assistant ros2-ur-moveit-config ros2-moveit-task-constructor-demo
+          ros2-moveit-runtime ros-kilted-moveit-task-constructor-visualization ros-kilted-moveit-task-constructor-capabilities
+          ros-kilted-moveit-setup-srdf-plugins ros-kilted-moveit-setup-core-plugins
+          ros-kilted-moveit-setup-controllers ros-kilted-moveit-setup-app-plugins
+          ros-kilted-moveit-ros-trajectory-cache ros-kilted-moveit-planners ros2-ur-simulation-gz
+          ros2-ur ros2-moveit ros-kilted-ur-moveit-config ros-kilted-moveit-task-constructor-demo
+          ros-kilted-moveit-setup-assistant ros-kilted-moveit-runtime ros-kilted-ur-simulation-gz
+          ros-kilted-ur ros-kilted-moveit
+        BUILD_TARGET: ''
+      run: |
+        export CI=github
+        export GIT_BRANCH=${GITHUB_REF_NAME}
+        export FEEDSTOCK_NAME=${GITHUB_REPOSITORY##*/}
+        .scripts/build_unix.sh --target $BUILD_TARGET
+    permissions:
+      id-token: write
+      attestations: write
+name: build_linux64
+on:
+  push:
+    branches:
+    - buildbranch_linux

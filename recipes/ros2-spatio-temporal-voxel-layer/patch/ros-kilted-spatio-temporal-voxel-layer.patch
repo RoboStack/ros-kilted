@@ -1,0 +1,15 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 15bd193..994bd86 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -32,7 +32,9 @@ find_package(openvdb_vendor REQUIRED)
+ 
+ remove_definitions(-DDISABLE_LIBUSB-1.0)
+ find_package(Eigen3 REQUIRED)
+-find_package(Boost REQUIRED COMPONENTS system thread)
++# boost_system is header-only since Boost 1.88 and has no CMake component in Boost 1.90.
++find_package(Boost REQUIRED COMPONENTS thread)
++find_package(Boost QUIET OPTIONAL_COMPONENTS system)
+ 
+ find_package(PCL REQUIRED COMPONENTS filters common)
+ if(NOT "${PCL_LIBRARIES}" STREQUAL "")
