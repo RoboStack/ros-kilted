@@ -8,9 +8,7 @@ tests:
   # (https://github.com/RoboStack/ros-kilted/issues/76).
   # cxx-compiler (unlike compiler('cxx')) sets no LDFLAGS, like a user's
   # environment, so -Wl,--as-needed / -Wl,-dead_strip_dylibs can't hide it.
-  # TODO: back to unix once the osx rosidl_generator_py patch is replaced
-  # with the jazzy/rolling one (needs interface package rebuilds).
-  - if: linux
+  - if: unix
     then:
       script:
         - cmake -S cpp_consumer -B build -G Ninja -DCMAKE_PREFIX_PATH="$PREFIX"
